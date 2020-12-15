@@ -5,9 +5,9 @@ import {NavigationActions, StackActions} from 'react-navigation';
 class SplashScreen extends Component {
   componentDidMount() {
     console.log('123456 :>> ', 123456);
-    // setTimeout(() => {
-    //   this.resetStack();
-    // }, 3000);
+    setTimeout(() => {
+      this.resetStack();
+    }, 1000);
   }
 
   /**
