@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {SafeAreaView, ImageBackground, StatusBar, Text} from 'react-native';
+import {View, Image, StatusBar} from 'react-native';
 import {NavigationActions, StackActions} from 'react-navigation';
+import CommonStyles from '../../CommonStyles';
 
 class SplashScreen extends Component {
   componentDidMount() {
@@ -28,9 +29,18 @@ class SplashScreen extends Component {
   };
   render() {
     return (
-      <SafeAreaView >
-        <Text>Welcome to Connectbud</Text>
-      </SafeAreaView>
+      <View style={CommonStyles.splash}>
+        <StatusBar
+          backgroundColor="#0000"
+          barStyle="loght-content"
+          hidden={false}
+          translucent={true}
+        />
+        <Image
+          source={require('../assets/images/logoWhite.png')}
+          style={CommonStyles.splashImg}
+        />
+      </View>
     );
   }
 }
