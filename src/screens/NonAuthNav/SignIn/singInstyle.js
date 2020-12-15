@@ -1,9 +1,4 @@
 export default {
-  container: {
-    width: '100%',
-    paddingHorizontal: '5%',
-    marginTop:40,
-  },
     inputDiv: {
         flex: 1, 
         justifyContent: "center", 
@@ -19,7 +14,7 @@ export default {
       },
       logo:{
         justifyContent: 'center', 
-        marginBottom: 50, 
+        marginBottom: 80, 
         alignItems: 'center', 
         backgroundColor: '#71b85f'
       },
@@ -54,8 +49,19 @@ export default {
       signinText:{
         fontSize: 16
       },
+      iconDiv:{
+        display: 'flex', 
+        flexDirection: 'row'
+      },
+      iconImg:{
+        width:50,
+        height:50,
+        borderRadius:25,
+        marginTop:50,
+        margin:5
+      },
       signupAcnt:{
-        marginTop: 50,
+        marginTop: 20,
         color:'#fff' ,
         fontSize: 16
       },
@@ -78,15 +84,6 @@ export default {
       },
       formSubGroup2: {
         width: '90%',
-      },
-      formSubGroupNum: {
-        width: '25%',
-        justifyContent: 'center',
-        alignItems: 'center',
-     
-      },
-      formSubGroup2Num: {
-        width: '75%',
       },
       inputHead: {
         color: 'rgba(59,29,37,0.5)',
