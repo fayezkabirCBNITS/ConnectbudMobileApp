@@ -55,7 +55,7 @@ export default {
   },
   skillHead: {
     fontSize: 20,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-SemiBold',
     marginTop: 12,
     color: '#71b85f'
   },

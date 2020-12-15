@@ -11,11 +11,12 @@ import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import Overview from '../../../components/Overview';
-import Portfolio from '../../../components/Portfolio'
-import WorkHistory from '../../../components/WorkHistory'
+import Portfolio from '../../../components/Portfolio';
+import WorkHistory from '../../../components/WorkHistory';
 
 class ProfileScreen extends Component {
   constructor() {
@@ -23,9 +24,9 @@ class ProfileScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: "first", title: "Overview" },
-        { key: "second", title: "Portfolio" },
-        { key: "third", title: "Work History" },
+        {key: 'first', title: 'Overview'},
+        {key: 'second', title: 'Portfolio'},
+        {key: 'third', title: 'Work History'},
       ],
     };
   }
@@ -49,13 +50,19 @@ class ProfileScreen extends Component {
               <View style={styles.userImg}>
                 <Image
                   source={require('../../../assets/images/userPro.jpg')}
-                  style={CommonStyles.image}
+                  style={CommonStyles.usrImage}
                 />
+                <TouchableOpacity style={CommonStyles.userPhoto}>
+                  <FontAwesome name="camera" color="#71b85f" size={22} />
+                </TouchableOpacity>
               </View>
+              <TouchableOpacity style={styles.camPosition}>
+                <FontAwesome name="camera" color="#71b85f" size={22} />
+              </TouchableOpacity>
             </ImageBackground>
 
             <ScrollView
-              style={{flexDirection: 'row', marginTop: -80,}}
+              style={{flexDirection: 'row', marginTop: -80}}
               showsHorizontalScrollIndicator={false}
               horizontal>
               <View style={styles.details}>
@@ -75,33 +82,33 @@ class ProfileScreen extends Component {
             </ScrollView>
 
             <View style={styles.tabSec}>
-            <TabView
-              navigationState={this.state}
-              renderScene={SceneMap({
-                first: Overview,
-                second: Portfolio,
-                third: WorkHistory
-              })}
-              onIndexChange={(index) => this.setState({index})}
-              style={{ flex: 1, justifyContent: "center" }}
-              renderTabBar={(props) => {
-                return (
-                  <TabBar
-                    {...props}
-                    renderLabel={({ route, focused, color }) => (
-                      <Text style={focused ? styles.label : styles.label2}>
-                        {route.title}
-                      </Text>
-                    )}
-                    indicatorStyle={styles.indicator}
-                    style={styles.tab}
-                    inactiveColor={"#a5a5b4"}
-                    activeColor={"#6e83e3"}
-                  />
-                );
-              }}
-            />
-          </View>
+              <TabView
+                navigationState={this.state}
+                renderScene={SceneMap({
+                  first: Overview,
+                  second: Portfolio,
+                  third: WorkHistory,
+                })}
+                onIndexChange={(index) => this.setState({index})}
+                style={{flex: 1, justifyContent: 'center'}}
+                renderTabBar={(props) => {
+                  return (
+                    <TabBar
+                      {...props}
+                      renderLabel={({route, focused, color}) => (
+                        <Text style={focused ? styles.label : styles.label2}>
+                          {route.title}
+                        </Text>
+                      )}
+                      indicatorStyle={styles.indicator}
+                      style={styles.tab}
+                      inactiveColor={'#a5a5b4'}
+                      activeColor={'#6e83e3'}
+                    />
+                  );
+                }}
+              />
+            </View>
           </ScrollView>
         </View>
       </SafeAreaView>
