@@ -14,7 +14,7 @@ export default {
   },
   container: {
     width: '100%',
-    paddingHorizontal: '6%',
+    paddingHorizontal: '5%',
   },
   image: {
     width: '100%',
@@ -32,4 +32,15 @@ export default {
     alignItems: 'center',
     backgroundColor: '#fff',
   },
+  splash: {
+    width: deviceWidth,
+    height: deviceHeight,
+    justifyContent: 'center',
+    alignItems:  'center',
+    backgroundColor: '#71b85f'
+  },
+  splashImg: {
+    width: 250,
+    height: 63
+  }
 };
