@@ -6,7 +6,7 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
   main: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor:'#71b85f'
   },
   safeAreaView: {
     flex: 1,
