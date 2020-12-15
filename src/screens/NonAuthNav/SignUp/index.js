@@ -5,6 +5,7 @@ import CommonStatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
 
 
@@ -12,8 +13,11 @@ class SignUpScreen extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
-      password: ''
+      firstname: '',
+      lastname: '',
+      password:'',
+      number:'',
+      isSent:false
     };
   }
 
@@ -21,65 +25,153 @@ class SignUpScreen extends Component {
     headerShown: false,
   };
 
+  onSentOtp = () => {
+    this.setState({isSent: true});
+  };
+
+  handleInputName = (e) => {
+    this.setState({
+      firstname:e.target.value,
+      lastname:e.target.value,
+      number:e.target.value,
+      password:e.target.value
+    })
+} 
+
+  handleSubmit = (e) =>{
+    e.preventDefault();
+    console.warn(this.state.firstname)
+  }
+
   render() {
+    // console.warn(this.state.firstname);
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <StatusBar
-            barStyle="default"
+            barStyle="light-content"
             hidden={false}
-            backgroundColor="#009387"
+            backgroundColor="#0000"
+            translucent={true}
           />
-          <ImageBackground
+          {/* <ImageBackground
             source={require('../../../assets/images/bnr.jpg')}
             style={styles.coverImage}
-          >
-            <View style={[CommonStyles.container, styles.inputDiv]}>
-              <TextInput
-                placeholder="Enter your username"
-                style={styles.inputText}
-                value={this.state.username}
-                onChange={(e) => console.warn('userr')}
-              />
-              <TextInput
-                placeholder="Enter your password"
-                style={styles.inputText}
-                secureTextEntry
-                value={this.state.password}
-                onChange={(e) => console.warn('passord')}
-              />
-              <Pressable
-                style={styles.forgetDiv}
-              >
-                <Text style={styles.forgetText}>Forget Password?</Text>
-              </Pressable>
-              <Pressable
-                style={styles.signinBtn}
-              >
-                <Text style={styles.signinText}>Sign In</Text>
-              </Pressable>
-              <View style={styles.iconDiv}>
-                <Entypo name="facebook-with-circle" color="#71b85f" size={40}
-                  style={styles.Icon}
-                />
-                <AntDesign name="google" color="#71b85f" size={40}
-                  style={styles.Icon}
-                />
-                <MaterialIcons name="gmail" color="#71b85f" size={40}
-                  style={styles.Icon}
+          > */}
+
+          <View style={[styles.container, styles.inputDiv]}>
+            <View style={styles.logo}>
+              <Image source={require('../../../assets/images/logoWhite.png')} style={CommonStyles.splashImg} />
+            </View>
+            <View style={styles.formGroup1}>
+              <View style={styles.formSubGroup2}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Enter your first name"
+                  style={styles.inputGroup}
+                  keyboardType="default"
+                  value={this.state.firstname}
+                  onChange={this.handleInputName}
                 />
               </View>
-              <Text style={styles.signupAcnt}>Don't have an account?{" "}
-                <Text style={styles.signupText}
-                  onPress={() => console.warn('press')}
-                >
-                  Sign Up
-                </Text>
-              </Text>
+              <View style={styles.formSubGroup1}>
+                <AntDesign name="user" size={20} color="#fff" />
+              </View>
             </View>
-          </ImageBackground>
+
+            <View style={styles.formGroup1}>
+              <View style={styles.formSubGroup2}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Enter your last name"
+                  style={styles.inputGroup}
+                  keyboardType="default"
+                  value={this.state.lastname}
+                  onChange={this.handleInputName}
+                />
+              </View>
+              <View style={styles.formSubGroup1}>
+                <AntDesign name="user" size={20} color="#fff" />
+              </View>
+            </View>
+
+            <View style={styles.formGroup1}>
+              <View style={styles.formSubGroup2Num}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="+ 91"
+                  style={styles.inputGroup}
+                  keyboardType="number-pad"
+                  value={this.state.number}
+                  onChange={this.handleInputName}
+                />
+              </View>
+              <View style={styles.formSubGroupNum}>
+                <Pressable style={{ backgroundColor: '#595555', borderRadius: 40 }}>
+                  <Text
+                    style={{ paddingHorizontal: 10, paddingVertical: 5, color: '#fff' }}
+                    onPress={this.onSentOtp}
+                  >
+                    Send Otp
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+            
+            {this.state.isSent && <View style={styles.formGroup1}>
+              <View style={styles.formSubGroup2Num}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Enter OTP"
+                  style={styles.inputGroup}
+                  keyboardType="default"
+                  secureTextEntry
+                />
+              </View>
+              <View style={styles.formSubGroupNum}>
+                <Pressable style={{ backgroundColor: '#595555', borderRadius: 40 }}>
+                  <Text
+                    style={{ paddingHorizontal: 10, paddingVertical: 5, color: '#fff' }}
+                    // onPress={()=>this.onSentOtp()}
+                  >
+                    Verify
+                  </Text>
+                </Pressable>
+              </View>
+            </View>}
+
+            <View style={styles.formGroup1}>
+              <View style={styles.formSubGroup2}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Type Password"
+                  style={styles.inputGroup}
+                  keyboardType="default"
+                  secureTextEntry
+                  value={this.state.password}
+                  onChange={this.handleInputName}
+                />
+              </View>
+              <View style={styles.formSubGroup1}>
+                <AntDesign name="lock" size={20} color="#fff" />
+              </View>
+            </View>
+
+            <Pressable style={styles.signinBtn}>
+              <Text style={styles.signinText} onPress={this.handleSubmit}>Sign Up</Text>
+            </Pressable>
+
+            <Text style={styles.signupAcnt}>Already have an account?{" "}
+              <Text style={styles.signupText}
+                onPress={() => this.props.navigation.navigate('SigninScreen')}
+              >
+                Please Sign In
+                </Text>
+            </Text>
+          </View>
+          {/* </ImageBackground> */}
         </View>
-      </SafeAreaView>
+      </SafeAreaView >
     );
   }
 }
