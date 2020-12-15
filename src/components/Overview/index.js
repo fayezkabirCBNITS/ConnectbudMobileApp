@@ -11,8 +11,8 @@ class Overview extends Component {
     this.state = {
       overview: [
         {name: 'College', details: 'Techno'},
-        {name: 'Mejor', details: 'Computer Science'},
-        {name: 'Enrolment', details: ''},
+        {name: 'Major', details: 'Computer Science'},
+        {name: 'Enrollment', details: ''},
         {name: 'Type', details: 'Full timer'},
         {name: 'Duration', details: '28-10-2015 - 17-11-2020'},
         {name: 'City', details: 'Kolkata, India'},
@@ -20,11 +20,11 @@ class Overview extends Component {
       ],
       skill: [
         {name: 'Concentration'},
-        {name: 'Fost Typing Speed'},
+        {name: 'Fast Typing Speed'},
         {name: 'Microsoft Word'},
         {name: 'Microsoft Excel'},
-        {name: 'Blackchain'},
-        {name: 'Dta Science'},
+        {name: 'Blockchain'},
+        {name: 'Data Science'},
         {name: 'Mathematics'},
       ],
     };
@@ -38,7 +38,7 @@ class Overview extends Component {
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <TouchableOpacity style={styles.editBtn}>
+          <TouchableOpacity onPress={()=> this.props.navigation.navigate('EditProfileScreen')} style={styles.editBtn}>
             <MaterialIcons name="mode-edit" color="#fff" size={18} />
             <Text style={styles.editBtnText}>Edit</Text>
           </TouchableOpacity>
