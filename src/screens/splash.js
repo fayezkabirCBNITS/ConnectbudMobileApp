@@ -15,7 +15,7 @@ class SplashScreen extends Component {
    * Reset Navigation stack with a new route
    */
   //NonAuthStackNav
-  resetStack = (routeName = 'AuthStackNav') => {
+  resetStack = (routeName = 'NonAuthStackNav') => {
     this.props.navigation.dispatch(
       StackActions.reset({
         index: 0,
