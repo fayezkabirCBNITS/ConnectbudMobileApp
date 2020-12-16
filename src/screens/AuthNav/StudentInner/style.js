@@ -55,7 +55,7 @@ export default {
   },
   tabSec: {
     width: '100%',
-    height: deviceHeight - 85,
+    height: deviceHeight - 145,
   },
   tab: {
     backgroundColor: '#fff',
@@ -83,7 +83,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     letterSpacing: 1,
     width: 'auto',
-    color: '#f00',
+    color: '#71b85f',
     textAlign: 'center',
   },
   camPosition: {
@@ -96,5 +96,21 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+  },
+  filterSec: {
+    width: '100%',
+    height: 60,
+    borderTopColor: '#71b85f',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  filterText: {
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+    marginLeft: 20,
+    paddingTop: 5,
   },
 };

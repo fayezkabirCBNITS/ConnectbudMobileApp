@@ -96,7 +96,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     letterSpacing: 1,
     width: 'auto',
-    color: '#f00',
+    color: '#71b85f',
     textAlign: 'center',
   },
   camPosition: {

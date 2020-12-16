@@ -32,7 +32,7 @@ export const MainStack = createStackNavigator(
     },
     EmployeeInner: {
       screen: EmployeeInner
-    },
+    }
   },
   {
     initialRouteName: 'CategoryScreen',

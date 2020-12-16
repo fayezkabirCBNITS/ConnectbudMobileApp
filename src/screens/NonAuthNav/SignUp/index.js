@@ -190,7 +190,7 @@ class SignUpScreen extends Component {
               Already have an account?{' '}
               <Text
                 style={styles.signupText}
-                onPress={() => this.props.navigation.navigate('EmployeeInner')}
+                onPress={() => this.props.navigation.navigate('StudentInner')}
                 >
                 Please Sign In
               </Text>
