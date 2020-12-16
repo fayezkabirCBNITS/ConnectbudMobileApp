@@ -15,7 +15,7 @@ class SplashScreen extends Component {
    * Reset Navigation stack with a new route
    */
   //NonAuthStackNav
-  resetStack = (routeName = 'NonAuthStackNav') => {
+  resetStack = (routeName = 'AuthStackNav') => {
     this.props.navigation.dispatch(
       StackActions.reset({
         index: 0,
@@ -31,10 +31,10 @@ class SplashScreen extends Component {
     return (
       <View style={CommonStyles.splash}>
         <StatusBar
-          backgroundColor="#0000"
-          barStyle="loght-content"
+          backgroundColor="#71b85f"
+          barStyle="light-content"
           hidden={false}
-          translucent={true}
+          translucent={false}
         />
         <Image
           source={require('../assets/images/logoWhite.png')}

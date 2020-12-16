@@ -7,11 +7,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import styles from './style';
 
 class AppHeader extends Component {
+
   render() {
     return (
       <View style={styles.header}>
          <StatusBar
-        backgroundColor="#60a84e"
+        backgroundColor="#71b85f"
         barStyle="light-content"
         hidden={false}
         translucent={false}

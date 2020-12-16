@@ -21,7 +21,8 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import {Thumbnail, List, ListItem, Separator} from 'native-base';
-
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 class AddskillScreen extends Component {
   constructor(props) {
     super(props);
@@ -88,12 +89,22 @@ class AddskillScreen extends Component {
   };
 
   render() {
-    // console.warn(deviceWidth);
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <CommonStatusBar />
-          <Header />
+          <View style={styles.header}>
+        <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+          <Entypo name="menu" color="#71b85f" size={35} />
+        </TouchableOpacity>
+        <Image
+          source={require('../../../assets/images/logo.png')}
+          style={styles.image}
+        />
+        <TouchableOpacity>
+          <Feather name="bell" color="#71b85f" size={30} />
+        </TouchableOpacity>
+      </View>
           <View style={CommonStyles.container}>
             <View style={styles.selectSkill}>
               <Text style={styles.selectSkillText}>Select the skills</Text>
