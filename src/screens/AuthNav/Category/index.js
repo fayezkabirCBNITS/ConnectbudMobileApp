@@ -4,6 +4,7 @@ import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Header from '../../../components/Header';
 
 class CategoryScreen extends Component {
     constructor(props) {
@@ -77,6 +78,7 @@ class CategoryScreen extends Component {
             <SafeAreaView style={CommonStyles.safeAreaView}>
                 <View style={CommonStyles.main}>
                     <CommonStatusBar />
+                    <Header />
                     <View style={CommonStyles.container}>
                         <View style={styles.categoryHeader}>
                             <Text style={styles.categoryTitle}>Select the Category.</Text>

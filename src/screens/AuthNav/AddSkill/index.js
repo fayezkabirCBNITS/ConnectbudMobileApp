@@ -5,6 +5,7 @@ import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Header from '../../../components/Header'
 // import { List } from 'react-native-paper';
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
@@ -82,6 +83,7 @@ class AddskillScreen extends Component {
                 <View style={CommonStyles.main}>
 
                     <CommonStatusBar />
+                    <Header />
                     <View style={CommonStyles.container}>
                         <View style={styles.selectSkill}>
                             <Text style={styles.selectSkillText}>Select the skills</Text>
