@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
@@ -10,6 +10,7 @@ import StudentProject from '../../../components/StudentProject';
 import InternshipJobs from '../../../components/InternshipJobs';
 import QuestionAnswer from '../../../components/QuestionAnswer';
 import Header from '../../../components/Header';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 class StudentInner extends Component {
   constructor() {
@@ -68,6 +69,10 @@ class StudentInner extends Component {
               />
             </View>
           </ScrollView>
+          <TouchableOpacity style={styles.filterSec}>
+            <MaterialIcons name="filter-list" color="#71b85f" size={40} />
+            <Text style={styles.filterText}>Filter</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
