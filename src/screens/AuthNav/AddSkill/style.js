@@ -7,7 +7,8 @@ export default {
         justifyContent : "space-between",
         alignItems : "center",
         flexDirection : "row",
-        marginBottom : 25
+        marginBottom : 25,
+        marginTop: 10
     },
     selectSkillText : {
             fontSize : 22
@@ -49,7 +50,7 @@ export default {
 
     scroll : {
         width : "100%",
-        height : deviceHeight - 200,
+        height : deviceHeight - 245,
         // backgroundColor : "red"
     },
     separator : {
