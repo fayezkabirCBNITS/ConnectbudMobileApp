@@ -103,8 +103,8 @@ export default {
   },
   form: {
     margin: 20,
-    borderWidth: 1,
-    borderColor: 'green',
+    //borderWidth: 1,
+    //borderColor: 'green',
     padding: 10,
   },
   title: {
@@ -165,6 +165,34 @@ export default {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+  },
+  skillSec: {
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
+  },
+  skillTab: {
+    //width: '40%',
+    backgroundColor: '#E4E4E4',
+    paddingHorizontal: 10,
+    height: 40,
+    borderRadius: 40 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 5,
+    marginRight: 10,
+    flexDirection:'row',
+  },
+  marginRight3:{
+      margin:5,
+  },
+  skillText: {
+    fontSize: 11,
+    fontFamily: 'Poppins-Regular',
+    color: '#000',
+    marginLeft:3,
+    textAlign: "center"
   },
   logo: {
     width: 110,
