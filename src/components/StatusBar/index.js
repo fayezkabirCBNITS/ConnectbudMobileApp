@@ -5,7 +5,7 @@ class CommonStatusBar extends Component {
   render() {
     return (
       <StatusBar
-        backgroundColor="#60a84e"
+        backgroundColor="#71b85f"
         barStyle="light-content"
         hidden={false}
         translucent={false}

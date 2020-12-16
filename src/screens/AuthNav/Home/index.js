@@ -37,7 +37,7 @@ class HomeScreen extends Component {
             <View style={[CommonStyles.container, styles.themeColor]}>
               <View style={styles.searchBar}>
                 <TextInput
-                  placeholder="Try 'Coading Class Tutor'"
+                  placeholder="Try 'Coding Class Tutor'"
                   style={styles.searchInput}
                 />
                 <View style={styles.searchIcon}>
@@ -91,10 +91,10 @@ class HomeScreen extends Component {
               },
             }}>
             <View style={styles.btmSheet}>
-              <TouchableOpacity style={styles.loginBtn}>
+              <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignInScreen')} style={styles.loginBtn}>
                 <Text style={styles.loginBtnText2}>College Student Login</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.loginBtn2}>
+              <TouchableOpacity onPress={()=> this.props.navigation.navigate('SignInScreen')} style={styles.loginBtn2}>
                 <Text style={styles.loginBtnText2}>Hire a College Student</Text>
               </TouchableOpacity>
             </View>

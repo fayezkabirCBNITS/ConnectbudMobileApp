@@ -10,7 +10,7 @@ class PopularServies extends Component {
     this.state = {
       talent: [
         {smText: 'Connect with your', lgText: 'Online Tutor Classes', img: require('../../assets/images/tutorIcon.png')},
-        {smText: 'Be a Techie with your', lgText: 'Codding Classes', img: require('../../assets/images/codingIcon.png')},
+        {smText: 'Be a Techie with your', lgText: 'Coding Classes', img: require('../../assets/images/codingIcon.png')},
       ],
     };
   }
