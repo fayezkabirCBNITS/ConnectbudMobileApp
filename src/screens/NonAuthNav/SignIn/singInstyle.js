@@ -1,4 +1,8 @@
 export default {
+  main: {
+    flex: 1,
+    backgroundColor:'#71b85f'
+  },
     inputDiv: {
         flex: 1, 
         justifyContent: "center", 

@@ -47,7 +47,7 @@ class SignUpScreen extends Component {
     // console.warn(this.state.firstname);
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
-        <View style={CommonStyles.main}>
+        <View style={styles.main}>
           <StatusBar
             barStyle="light-content"
             hidden={false}
