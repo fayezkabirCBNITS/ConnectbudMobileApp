@@ -31,10 +31,10 @@ class SplashScreen extends Component {
     return (
       <View style={CommonStyles.splash}>
         <StatusBar
-          backgroundColor="#0000"
-          barStyle="loght-content"
+          backgroundColor="#60a84e"
+          barStyle="light-content"
           hidden={false}
-          translucent={true}
+          translucent={false}
         />
         <Image
           source={require('../assets/images/logoWhite.png')}
