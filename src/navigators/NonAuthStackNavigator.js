@@ -5,14 +5,14 @@ import SignInScreen from '../screens/NonAuthNav/SignIn';
 
 export const NonAuthStackNav = createStackNavigator(
   {
-    SigninScreen: {
+    SignInScreen: {
       screen: SignInScreen,
     },
-    SignupScreen: {
+    SignUpScreen: {
           screen: SignUpScreen,
     },
   },
   {
-    initialRouteName: 'SigninScreen',
+    initialRouteName: 'SignInScreen',
   },
 );

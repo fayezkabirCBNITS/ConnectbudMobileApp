@@ -38,7 +38,7 @@ class Overview extends Component {
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <TouchableOpacity onPress={()=> this.props.navigation.navigate('EditProfileScreen')} style={styles.editBtn}>
+          <TouchableOpacity style={styles.editBtn}>
             <MaterialIcons name="mode-edit" color="#fff" size={18} />
             <Text style={styles.editBtnText}>Edit</Text>
           </TouchableOpacity>
