@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity, StatusBar} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
@@ -10,6 +10,12 @@ class AppHeader extends Component {
   render() {
     return (
       <View style={styles.header}>
+         <StatusBar
+        backgroundColor="#60a84e"
+        barStyle="light-content"
+        hidden={false}
+        translucent={false}
+      />
         <TouchableOpacity>
           <Entypo name="menu" color="#71b85f" size={35} />
         </TouchableOpacity>
