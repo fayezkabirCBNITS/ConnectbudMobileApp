@@ -12,7 +12,7 @@ class AppHeader extends Component {
     return (
       <View style={styles.header}>
          <StatusBar
-        backgroundColor="#60a84e"
+        backgroundColor="#71b85f"
         barStyle="light-content"
         hidden={false}
         translucent={false}

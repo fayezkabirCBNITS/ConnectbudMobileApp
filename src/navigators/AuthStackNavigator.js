@@ -35,7 +35,7 @@ export const MainStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'CategoryScreen',
+    initialRouteName: 'HomeScreen',
   }
 );
 export const AuthStackNav = createDrawerNavigator(
