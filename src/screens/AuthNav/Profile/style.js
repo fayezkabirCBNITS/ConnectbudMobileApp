@@ -1,7 +1,7 @@
-const React = require("react-native");
-const { Dimensions } = React;
-const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
+const React = require('react-native');
+const {Dimensions} = React;
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 export default {
   coverImage: {
@@ -15,7 +15,7 @@ export default {
     width: 100,
     height: 100,
     borderRadius: 100 / 2,
-    overflow: 'hidden',
+    marginBottom: 40,
     borderColor: '#fff',
     borderWidth: 3,
     shadowColor: '#000',
@@ -47,42 +47,55 @@ export default {
     borderRadius: 7,
     marginTop: 10,
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.85)'
+    backgroundColor: 'rgba(255,255,255,0.85)',
   },
   indicator: {
-    backgroundColor: "#71b85f",
-    height: "100%",
+    backgroundColor: '#71b85f',
+    height: '100%',
   },
   tabSec: {
-    width: "100%",
+    width: '100%',
     height: deviceHeight - 290,
     marginTop: 20,
   },
   tab: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 10,
-    width: "90%",
+    width: '90%',
     height: 50,
-    marginLeft: "auto",
-    marginRight: "auto",
-    overflow: "hidden",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderWidth: 1,
+    borderColor: 'rgba(113, 184, 95, 0.15)',
+    overflow: 'hidden',
   },
   label: {
     fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "OpenSans-Bold",
+    fontWeight: '500',
+    fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
-    width: "auto",
-    color: "#fff",
-    textAlign: "center",
+    width: 'auto',
+    color: '#fff',
+    textAlign: 'center',
   },
   label2: {
     fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "OpenSans-Bold",
+    fontWeight: '500',
+    fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
-    width: "auto",
-    color: "#f00",
-    textAlign: "center",
+    width: 'auto',
+    color: '#f00',
+    textAlign: 'center',
+  },
+  camPosition: {
+    position: 'absolute',
+    top: 15,
+    right: '6%',
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
 };

@@ -6,7 +6,7 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
   main: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor:'#fff'
   },
   safeAreaView: {
     flex: 1,
@@ -36,11 +36,28 @@ export default {
     width: deviceWidth,
     height: deviceHeight,
     justifyContent: 'center',
-    alignItems:  'center',
-    backgroundColor: '#71b85f'
+    alignItems: 'center',
+    backgroundColor: '#71b85f',
   },
   splashImg: {
     width: 250,
-    height: 63
-  }
+    height: 63,
+  },
+  userPhoto: {
+    position: 'absolute',
+    bottom: -5,
+    right: -5,
+    width: 35,
+    height: 35,
+    borderRadius: 35 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  usrImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    borderRadius: 50,
+  },
 };

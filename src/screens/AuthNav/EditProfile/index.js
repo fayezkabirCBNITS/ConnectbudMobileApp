@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   TextInput,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+// import {Picker} from '@react-native-picker/picker';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -317,7 +317,7 @@ class EditProfileScreen extends Component {
                 <Text style={styles.inputHead}>Type *</Text>
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                  {/* <View style={[styles.formSubGroup2, {width: '100%'}]}>
                     <Picker
                       style={{width: '100%', height: 45}}
                       selectedValue={this.state.typeValue}
@@ -327,7 +327,7 @@ class EditProfileScreen extends Component {
                       <Picker.Item label="Full Timer" value="FT" />
                       <Picker.Item label="Part Timer" value="PT" />
                     </Picker>
-                  </View>
+                  </View> */}
                 </View>
 
                 <Text style={styles.inputHead}>Location *</Text>
@@ -436,6 +436,8 @@ class EditProfileScreen extends Component {
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
                     {/* <DatePicker
+                   <View style={styles.formSubGroup2}>
+                    <DatePicker
                       style={{width: '100%'}}
                       date={this.state.startDate}
                       mode="date"
@@ -450,8 +452,10 @@ class EditProfileScreen extends Component {
                       onDateChange={(date) =>
                         this.handleChange(date, 'startDate')
                       }
-                    /> */}
+                    /> 
                   </View>
+                    />*/}
+                  </View> 
                   <View style={styles.formSubGroup1}>
                     <FontAwesome name="calendar" size={25} color="#d7d7d8" />
                   </View>
@@ -462,6 +466,8 @@ class EditProfileScreen extends Component {
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
                     {/* <DatePicker
+                   <View style={styles.formSubGroup2}>
+                    <DatePicker
                       style={{width: '100%'}}
                       date={this.state.endDate}
                       mode="date"
@@ -476,8 +482,10 @@ class EditProfileScreen extends Component {
                       onDateChange={(date) =>
                         this.handleChange(date, 'endDate')
                       }
-                    /> */}
+                    /> 
                   </View>
+                    />*/}
+                  </View> 
                   <View style={styles.formSubGroup1}>
                     <FontAwesome name="calendar" size={25} color="#d7d7d8" />
                   </View>

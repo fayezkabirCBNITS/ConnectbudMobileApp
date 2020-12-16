@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
+import CommonStyles from '../../../CommonStyles';
+import styles from './style'
 
-class Portfolio extends Component {
+class WorkHistory extends Component {
   constructor() {
     super();
     this.state = {};
@@ -13,11 +15,19 @@ class Portfolio extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Work History</Text>
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={CommonStyles.container}>
+          <Text style={styles.portfolioHead}>Project Details</Text>
+        </View>
+
+        <View style={styles.noData}>
+          <Image source={require('../../assets/images/noData.png')} />
+          <Text style={styles.noDataText}>No Data Found</Text>
+        </View>
+
+      </ScrollView>
     );
   }
 }
 
-export default Portfolio;
+export default WorkHistory;
