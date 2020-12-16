@@ -8,6 +8,7 @@ import AddSkillScreen from "./../screens/AuthNav/AddSkill"
 import EditProfileScreen from '../screens/AuthNav/EditProfile';
 import StudentInner from '../screens/AuthNav/StudentInner';
 import EmployeeInner from '../screens/AuthNav/EmployeeInner';
+import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
 import Sidebar from '../components/Sidebar/index';
 
 export const MainStack = createStackNavigator(
@@ -32,7 +33,11 @@ export const MainStack = createStackNavigator(
     },
     EmployeeInner: {
       screen: EmployeeInner
+    },
+    PostedProjectByEmployee : {
+      screen:PostedProjectByEmployee
     }
+
   },
   {
     initialRouteName: 'HomeScreen',
