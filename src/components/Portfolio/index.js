@@ -1,22 +1,39 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Linking} from 'react-native';
+import {WebView} from 'react-native-webview';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
 import style from './style';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+
 
 class Portfolio extends Component {
   constructor() {
     super();
     this.state = {
       portfolio: [{hdng: 'Design and Editing'}, {hdng: 'Online Coding'}],
+      profiledataset: [],
     };
   }
 
   static navigationOptions = {
     headerShown: false,
+  };
+
+  componentDidMount = async () => {
+    await axios({
+      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      method: "GET",
+    })
+      .then((response) => {
+        this.setState({
+          profiledataset: response.data,
+        });
+      })
+      .catch(() => {});
   };
 
   render() {
@@ -32,21 +49,28 @@ class Portfolio extends Component {
         </View>
 
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.portfolio.map((item, i) => (
+          {this.state.profiledataset.map((item, i) => (
+            <>
+          {item.portfolio.map((value, i) => (
+            // <a href={value.link}>
             <View key={i} style={styles.portfolioSec}>
               <View style={styles.portImgSec}>
                 <Image
-                  source={require('../../assets/images/bnr.jpg')}
+                  source={{uri : value.image}}
                   style={CommonStyles.image}
                 />
                 <View style={styles.portSecName}>
-                  <Text style={styles.portSecNameText}>{item.hdng}</Text>
+                  <Text style={styles.portSecNameText}
+                  onPress={() => Linking.openURL(value.link)}
+                  >{value.title}</Text>
                 </View>
               </View>
               <View style={styles.portDetails}>
                 <View>
-                  <Text style={styles.portDetailsHead}>Test</Text>
-                  <Text style={styles.portDetailsSlo}>Test</Text>
+                  {/* <Text style={styles.portDetailsHead}>Test</Text> */}
+                  <Text style={styles.portDetailsSlo}>
+                    {value.category}
+                  </Text>
                 </View>
                 <TouchableOpacity style={styles.editBtn}>
                   <MaterialIcons name="mode-edit" color="#fff" size={18} />
@@ -54,6 +78,9 @@ class Portfolio extends Component {
                 </TouchableOpacity>
               </View>
             </View>
+            // </a>
+          ))}
+          </>
           ))}
         </ScrollView>
 
@@ -77,8 +104,13 @@ class Portfolio extends Component {
                 />
               </TouchableOpacity>
             </View>
+            
           ))}
         </ScrollView>
+
+        <WebView
+    source={{ uri: `https://api.connectbud.com/media/BIO%20DATA%20SUDEEP-converted-converted.pdf`}}
+    startInLoadingState={true} />
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>

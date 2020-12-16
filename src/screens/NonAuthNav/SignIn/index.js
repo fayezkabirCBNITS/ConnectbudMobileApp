@@ -86,7 +86,9 @@ class SignInScreen extends Component {
                         <Pressable
                             style={styles.signinBtn}
                         >
-                            <Text style={styles.signinText}>Sign In</Text>
+                            <Text style={styles.signinText}
+                                onPress={() => this.props.navigation.navigate('ProfileScreen')}
+                                >Sign In</Text>
                         </Pressable>
                         <View style={styles.iconDiv}>
                             <Image source={require('../../../assets/images/fb.png')} style={styles.iconImg} />

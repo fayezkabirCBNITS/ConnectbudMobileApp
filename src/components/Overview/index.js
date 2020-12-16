@@ -4,20 +4,14 @@ import CommonStyles from '../../../CommonStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
+import axios from 'axios';
 
 class Overview extends Component {
   constructor() {
     super();
     this.state = {
-      overview: [
-        {name: 'College', details: 'Techno'},
-        {name: 'Major', details: 'Computer Science'},
-        {name: 'Enrollment', details: ''},
-        {name: 'Type', details: 'Full timer'},
-        {name: 'Duration', details: '28-10-2015 - 17-11-2020'},
-        {name: 'City', details: 'Kolkata, India'},
-        {name: 'Categories', details: 'Data Entry, Sale and Marketing,'},
-      ],
+      profiledataset: [],
+
       skill: [
         {name: 'Concentration'},
         {name: 'Fast Typing Speed'},
@@ -34,6 +28,19 @@ class Overview extends Component {
     headerShown: false,
   };
 
+  componentDidMount = async () => {
+    await axios({
+      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      method: "GET",
+    })
+      .then((response) => {
+        this.setState({
+          profiledataset: response.data,
+        });
+      })
+      .catch(() => {});
+  };
+
   render() {
     return (
       <View style={CommonStyles.container}>
@@ -43,19 +50,69 @@ class Overview extends Component {
             <Text style={styles.editBtnText}>Edit</Text>
           </TouchableOpacity>
 
-          {this.state.overview.map((item, i) => (
+          {this.state.profiledataset.map((item, i) => (
             <View key={i} style={styles.details}>
-              <Text style={styles.userInfoHead}>{item.name}</Text>
-              <Text style={styles.userInfoDetails}>{item.details}</Text>
+              <Text style={styles.userInfoHead}>College</Text>
+              <Text style={styles.userInfoDetails}>{item.college}</Text>
+            </View>
+          ))}
+
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i} style={styles.details}>
+              <Text style={styles.userInfoHead}>Major</Text>
+              <Text style={styles.userInfoDetails}>{item.department}</Text>
+            </View>
+          ))}
+
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i} style={styles.details}>
+              <Text style={styles.userInfoHead}>Enrollment</Text>
+              <Text style={styles.userInfoDetails}>{item.title}</Text>
+            </View>
+          ))}
+
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i} style={styles.details}>
+              <Text style={styles.userInfoHead}>Type</Text>
+              <Text style={styles.userInfoDetails}>{item.type}</Text>
+            </View>
+          ))}
+
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i} style={styles.details}>
+              <Text style={styles.userInfoHead}>Duration</Text>
+              <Text style={styles.userInfoDetails}>
+                {item.startDateFormat} - {item.endDateFormat}
+              </Text>
+            </View>
+          ))}
+
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i} style={styles.details}>
+              <Text style={styles.userInfoHead}>City</Text>
+              <Text style={styles.userInfoDetails}>{item.location}</Text>
+            </View>
+          ))}
+
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i} style={styles.details}>
+              <Text style={styles.userInfoHead}>Categories</Text>
+              {item.category.map((item) => (
+                <Text style={styles.userInfoDetails}>{item.label}</Text>
+              ))}
             </View>
           ))}
 
           <Text style={styles.skillHead}>Skills</Text>
           <View style={styles.skillSec}>
-            {this.state.skill.map((item, i) => (
-              <View key={i} style={styles.skillTab}>
-                <Text style={styles.skillText}>{item.name}</Text>
-              </View>
+            {this.state.profiledataset.map((item, i) => (
+              <>
+                {item.skills.map((value, i) => (
+                  <View key={i} style={styles.skillTab}>
+                    <Text style={styles.skillText}>{value.label}</Text>
+                  </View>
+                ))}
+              </>
             ))}
           </View>
         </ScrollView>
