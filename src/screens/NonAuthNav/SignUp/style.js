@@ -102,4 +102,8 @@ export default {
         height: 45,
         fontSize: 15,
       },
+      errorText: {
+        width: '100%',
+        color: '#fc0303',
+      },
 }

@@ -28,7 +28,7 @@ class SignInScreen extends Component {
     this.state = {
       username: '',
       password: '',
-      errors: [],
+      errors: {},
       type: true,
     };
     this.showHide = this.showHide.bind(this);
@@ -69,7 +69,7 @@ class SignInScreen extends Component {
 
     if (!this.state.username) {
       formIsValid = false;
-      errors["username"] = "*Please enter your email address";
+      errors["username"] = "*Please enter your email address.";
     }
     else if (typeof this.state.username !== "undefined") {
       var pattern = new RegExp(
@@ -77,12 +77,12 @@ class SignInScreen extends Component {
       );
       if (!pattern.test(this.state.username)) {
         formIsValid = false;
-        errors["username"] = "*Please enter your valid email address";
+        errors["username"] = "*Please enter your valid email address.";
       }
     }
     if (!this.state.password) {
       formIsValid = false;
-      errors["password"] = "*Please enter your password";
+      errors["password"] = "*Please enter your password.";
     }
     this.setState({
       errors: errors,
@@ -177,7 +177,7 @@ class SignInScreen extends Component {
               <View style={styles.formSubGroup2}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="Enter your Email"
+                  placeholder="Enter your email address"
                   style={styles.inputGroup}
                   keyboardType='email-address'
                   value={this.state.username}
@@ -196,9 +196,9 @@ class SignInScreen extends Component {
               <View style={styles.formSubGroup2}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="Enter your Password"
+                  placeholder="Enter your password"
                   style={styles.inputGroup}
-                  keyboardType="password"
+                  keyboardType="default"
                   secureTextEntry={this.state.type}
                   value={this.state.password}
                   onChangeText={this.handlePassword}
