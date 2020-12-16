@@ -21,6 +21,6 @@ export const AuthStackNav = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'EditProfileScreen',
+    initialRouteName: 'CategoryScreen',
   }
 )
