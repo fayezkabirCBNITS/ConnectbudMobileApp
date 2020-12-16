@@ -9,16 +9,16 @@ import {
   ActivityIndicator,
   TextInput,
 } from 'react-native';
-// import {Picker} from '@react-native-picker/picker';
+import {Picker} from '@react-native-community/picker';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-simple-toast';
-// import ImagePicker from 'react-native-image-picker';
+//import ImagePicker from 'react-native-image-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 class EditProfileScreen extends Component {
   static navigationOptions = {
@@ -42,13 +42,37 @@ class EditProfileScreen extends Component {
       coverImageSource: '',
       profileImageToUpload: {},
       coverImageToUpload: {},
+      showStartDatePicker: false,
+      showEndDatePicker: false,
       showLoader: false,
       showSkills: false,
+      showCategories: false,
       skillsData: [
         {title: 'C'},
         {title: 'JAVA'},
         {title: 'C++'},
         {title: 'C#'},
+      ],
+      categoriesData: [
+        {title: 'Data Entry'},
+        {title: 'Software Development'},
+        {title: 'Sales and Marketing'},
+        {title: 'Music and Arts'},
+      ],
+      skill: [
+        {name: 'Concentration'},
+        {name: 'Fast Typing Speed'},
+        {name: 'Microsoft Word'},
+        {name: 'Microsoft Excel'},
+        {name: 'Blockchain'},
+        {name: 'Data Science'},
+        {name: 'Mathematics'},
+      ],
+      categories: [
+        {name: 'Data Entry'},
+        {name: 'Software Development'},
+        {name: 'Sales and Marketing'},
+        {name: 'Music and Arts'},
       ],
     };
   }
@@ -112,11 +136,22 @@ class EditProfileScreen extends Component {
   handleSkills = async () => {
     this.setState({showSkills: !this.state.showSkills});
   };
+  handleCategories = async () => {
+    this.setState({showCategories: !this.state.showCategories});
+  };
   handleSubmit = async () => {
     this.setState({showLoader: true});
     Toast.show('submit action', Toast.LONG);
   };
-
+  FlatListItemSeparator = () => (
+    <View
+      style={{
+        height: 1.5,
+        width: '100%',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+      }}
+    />
+  );
   render() {
     const renderSkillItems = ({item}) => (
       <TouchableOpacity style={styles.headSec}>
@@ -147,8 +182,7 @@ class EditProfileScreen extends Component {
           </View>
 
           <ScrollView
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled">
+            showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <View style={styles.uploadSec}>
                 <View style={styles.cover}>
@@ -285,7 +319,7 @@ class EditProfileScreen extends Component {
                 <Text style={styles.inputHead}>Type *</Text>
 
                 <View style={styles.formGroup1}>
-                  {/* <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
                     <Picker
                       style={{width: '100%', height: 45}}
                       selectedValue={this.state.typeValue}
@@ -295,7 +329,7 @@ class EditProfileScreen extends Component {
                       <Picker.Item label="Full Timer" value="FT" />
                       <Picker.Item label="Part Timer" value="PT" />
                     </Picker>
-                  </View> */}
+                  </View>
                 </View>
 
                 <Text style={styles.inputHead}>Location *</Text>
@@ -314,16 +348,67 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
 
+                <Text style={styles.inputHead}>Categories *</Text>
+
+                <View style={[styles.formGroup1]}>
+                  <View
+                    style={[
+                      styles.formSubGroup2,
+                      {flexWrap: 'wrap', flexDirection: 'row'},
+                    ]}>
+                    {this.state.categories.map((item, i) => (
+                      <View key={i} style={styles.skillTab}>
+                        <Text style={styles.skillText}>{item.name}</Text>
+                        <FontAwesome
+                          name="times-circle"
+                          size={20}
+                          color="black"
+                          style={styles.marginRight3}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <FontAwesome
+                      name="angle-down"
+                      size={28}
+                      color="#d7d7d8"
+                      onPress={() => this.handleCategories()}
+                    />
+                  </View>
+                </View>
+                {this.state.showCategories === true ? (
+                  <View style={[styles.formGroup1, {marginTop: -15}]}>
+                    <FlatList
+                      data={this.state.categoriesData}
+                      ItemSeparatorComponent={this.FlatListItemSeparator}
+                      renderItem={renderSkillItems}
+                      showsHorizontalScrollIndicator={false}
+                      //keyExtractor={(item) => item.id}
+                    />
+                  </View>
+                ) : (
+                  <></>
+                )}
                 <Text style={styles.inputHead}>Skills *</Text>
 
                 <View style={[styles.formGroup1]}>
-                  <View style={[styles.formSubGroup2,{flexWrap:'wrap'}]}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="Java"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                    />
+                  <View
+                    style={[
+                      styles.formSubGroup2,
+                      {flexWrap: 'wrap', flexDirection: 'row'},
+                    ]}>
+                    {this.state.skill.map((item, i) => (
+                      <View key={i} style={styles.skillTab}>
+                        <Text style={styles.skillText}>{item.name}</Text>
+                        <FontAwesome
+                          name="times-circle"
+                          size={20}
+                          color="black"
+                          style={styles.marginRight3}
+                        />
+                      </View>
+                    ))}
                   </View>
                   <View style={styles.formSubGroup1}>
                     <FontAwesome
@@ -349,54 +434,62 @@ class EditProfileScreen extends Component {
                 )}
 
                 <Text style={styles.inputHead}>Start Date *</Text>
-
+                {this.state.showStartDatePicker === true ? (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    placeholder="Select Start Date"
+                    mode={'date'}
+                    is24Hour={true}
+                    display="default"
+                  />
+                ) : (
+                  <></>
+                )}
                 <View style={styles.formGroup1}>
-                  {/* <View style={styles.formSubGroup2}>
-                    <DatePicker
-                      style={{width: '100%'}}
-                      date={this.state.startDate}
-                      mode="date"
-                      placeholder="01-01-2021"
-                      format="YYYY-MM-DD"
-                      minDate="1900-05-01"
-                      maxDate={moment().subtract(10, 'years')}
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      showIcon={false}
-                      customStyles={styles.datePickerStyle}
-                      onDateChange={(date) =>
-                        this.handleChange(date, 'startDate')
-                      }
-                    />
-                  </View> */}
+                  <View style={[styles.formSubGroup2, {height: 45}]}>
+                    <Text style={styles.inputHead2}>
+                      {this.state.startDate}
+                    </Text>
+                  </View>
                   <View style={styles.formSubGroup1}>
-                    <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.setState({
+                          showStartDatePicker: !this.state.showStartDatePicker,
+                        })
+                      }>
+                      <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                    </TouchableOpacity>
                   </View>
                 </View>
 
                 <Text style={styles.inputHead}>End Date *</Text>
-
+                {this.state.showEndDatePicker === true ? (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={new Date()}
+                    placeholder="Select End Date"
+                    mode={'date'}
+                    is24Hour={true}
+                    display="default"
+                  />
+                ) : (
+                  <></>
+                )}
                 <View style={styles.formGroup1}>
-                  {/* <View style={styles.formSubGroup2}>
-                    <DatePicker
-                      style={{width: '100%'}}
-                      date={this.state.endDate}
-                      mode="date"
-                      placeholder="10-01-2021"
-                      format="YYYY-MM-DD"
-                      minDate="1900-05-01"
-                      maxDate={moment().subtract(10, 'years')}
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      showIcon={false}
-                      customStyles={styles.datePickerStyle}
-                      onDateChange={(date) =>
-                        this.handleChange(date, 'endDate')
-                      }
-                    />
-                  </View> */}
+                  <View style={[styles.formSubGroup2, {height: 45}]}>
+                    <Text style={styles.inputHead2}>{this.state.endDate}</Text>
+                  </View>
                   <View style={styles.formSubGroup1}>
-                    <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.setState({
+                          showEndDatePicker: !this.state.showEndDatePicker,
+                        })
+                      }>
+                      <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                    </TouchableOpacity>
                   </View>
                 </View>
                 <Text style={styles.inputHead}>Community *</Text>
