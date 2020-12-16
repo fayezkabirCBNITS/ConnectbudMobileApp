@@ -14,7 +14,6 @@ import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-simple-toast';
@@ -44,11 +43,33 @@ class EditProfileScreen extends Component {
       coverImageToUpload: {},
       showLoader: false,
       showSkills: false,
+      showCategories:false,
       skillsData: [
         {title: 'C'},
         {title: 'JAVA'},
         {title: 'C++'},
         {title: 'C#'},
+      ],
+      categoriesData: [
+        {title: 'Data Entry'},
+        {title: 'Software Development'},
+        {title: 'Sales and Marketing'},
+        {title: 'Music and Arts'},
+      ],
+      skill: [
+        {name: 'Concentration'},
+        {name: 'Fast Typing Speed'},
+        {name: 'Microsoft Word'},
+        {name: 'Microsoft Excel'},
+        {name: 'Blockchain'},
+        {name: 'Data Science'},
+        {name: 'Mathematics'},
+      ],
+      categories: [
+        {name: 'Data Entry'},
+        {name: 'Software Development'},
+        {name: 'Sales and Marketing'},
+        {name: 'Music and Arts'},
       ],
     };
   }
@@ -112,11 +133,22 @@ class EditProfileScreen extends Component {
   handleSkills = async () => {
     this.setState({showSkills: !this.state.showSkills});
   };
+  handleCategories = async () => {
+    this.setState({showCategories: !this.state.showCategories});
+  };
   handleSubmit = async () => {
     this.setState({showLoader: true});
     Toast.show('submit action', Toast.LONG);
   };
-
+  FlatListItemSeparator = () => (
+    <View
+      style={{
+        height: 1.5,
+        width: '100%',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+      }}
+    />
+  );
   render() {
     const renderSkillItems = ({item}) => (
       <TouchableOpacity style={styles.headSec}>
@@ -314,16 +346,67 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
 
+                <Text style={styles.inputHead}>Categories *</Text>
+
+                <View style={[styles.formGroup1]}>
+                  <View
+                    style={[
+                      styles.formSubGroup2,
+                      {flexWrap: 'wrap', flexDirection: 'row'},
+                    ]}>
+                    {this.state.categories.map((item, i) => (
+                      <View key={i} style={styles.skillTab}>
+                        <Text style={styles.skillText}>{item.name}</Text>
+                        <FontAwesome
+                          name="times-circle"
+                          size={20}
+                          color="black"
+                          style={styles.marginRight3}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <FontAwesome
+                      name="angle-down"
+                      size={28}
+                      color="#d7d7d8"
+                      onPress={() => this.handleCategories()}
+                    />
+                  </View>
+                </View>
+                {this.state.showCategories === true ? (
+                  <View style={[styles.formGroup1, {marginTop: -15}]}>
+                    <FlatList
+                      data={this.state.categoriesData}
+                      ItemSeparatorComponent={this.FlatListItemSeparator}
+                      renderItem={renderSkillItems}
+                      showsHorizontalScrollIndicator={false}
+                      //keyExtractor={(item) => item.id}
+                    />
+                  </View>
+                ) : (
+                  <></>
+                )}
                 <Text style={styles.inputHead}>Skills *</Text>
 
                 <View style={[styles.formGroup1]}>
-                  <View style={[styles.formSubGroup2,{flexWrap:'wrap'}]}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="Java"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                    />
+                  <View
+                    style={[
+                      styles.formSubGroup2,
+                      {flexWrap: 'wrap', flexDirection: 'row'},
+                    ]}>
+                    {this.state.skill.map((item, i) => (
+                      <View key={i} style={styles.skillTab}>
+                        <Text style={styles.skillText}>{item.name}</Text>
+                        <FontAwesome
+                          name="times-circle"
+                          size={20}
+                          color="black"
+                          style={styles.marginRight3}
+                        />
+                      </View>
+                    ))}
                   </View>
                   <View style={styles.formSubGroup1}>
                     <FontAwesome
@@ -352,7 +435,7 @@ class EditProfileScreen extends Component {
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
-                    <DatePicker
+                    {/* <DatePicker
                       style={{width: '100%'}}
                       date={this.state.startDate}
                       mode="date"
@@ -367,7 +450,7 @@ class EditProfileScreen extends Component {
                       onDateChange={(date) =>
                         this.handleChange(date, 'startDate')
                       }
-                    />
+                    /> */}
                   </View>
                   <View style={styles.formSubGroup1}>
                     <FontAwesome name="calendar" size={25} color="#d7d7d8" />
@@ -378,7 +461,7 @@ class EditProfileScreen extends Component {
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
-                    <DatePicker
+                    {/* <DatePicker
                       style={{width: '100%'}}
                       date={this.state.endDate}
                       mode="date"
@@ -393,7 +476,7 @@ class EditProfileScreen extends Component {
                       onDateChange={(date) =>
                         this.handleChange(date, 'endDate')
                       }
-                    />
+                    /> */}
                   </View>
                   <View style={styles.formSubGroup1}>
                     <FontAwesome name="calendar" size={25} color="#d7d7d8" />
