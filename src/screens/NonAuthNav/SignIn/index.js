@@ -1,5 +1,15 @@
-import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, TextInput, Pressable, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import React, {Component} from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign'
