@@ -1,4 +1,8 @@
 export default {
+  main: {
+    flex: 1,
+    backgroundColor:'#71b85f'
+  },
   container: {
     width: '100%',
     paddingHorizontal: '5%',
