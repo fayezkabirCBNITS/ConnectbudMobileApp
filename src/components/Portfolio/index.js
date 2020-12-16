@@ -13,7 +13,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
-import Video from 'react-native-video';
 import {WebView} from 'react-native-webview';
 
 class Portfolio extends Component {
