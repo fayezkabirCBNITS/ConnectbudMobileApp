@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView , TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from "react-native-vector-icons/Entypo";
-
+import Entypo from 'react-native-vector-icons/Entypo';
 
 class QuestionAnswer extends Component {
   constructor() {
@@ -19,77 +18,66 @@ class QuestionAnswer extends Component {
 
   render() {
     return (
-      <SafeAreaView style={CommonStyles.safeAreaView}>
-        <View style={CommonStyles.main}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {
-              new Array(2).fill({ hi: "hi" }).map((data, idx) => (
+      <View style={CommonStyles.main}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={CommonStyles.container}>
+            <View style={styles.post}>
+              <Text style={styles.hdng}>Post your questions</Text>
+              <TextInput
+                placeholder="Type your questions"
+                style={styles.questionInput}
+              />
+              <TouchableOpacity style={styles.sendBtn}>
+                <Text style={styles.sendBtnText}>Send</Text>
+              </TouchableOpacity>
+            </View>
 
-                <TouchableOpacity key={idx}>
-                  <View style={CommonStyles.container}>
-                    <View style={styles.subjectWrapper}>
-                      <View style={styles.leftSection}>
-                        <FontAwesome
-                          name="tv"
-                          color="#000"
-                          size={25}
-                        />
-                      </View>
-                      <View style={styles.rightSection}>
-                        <Text style={styles.boxTitle}>Introduction to java</Text>
-                        <Text style={styles.boxTexts}>this is an introductory-level course where students will learn the basic of
-                            java programming to build software.then will learn to use.
-                        </Text>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+            <TouchableOpacity style={styles.qPost}>
+              <Text style={styles.hdng}>
+                What are the different students club you participated in USA?
+              </Text>
 
-                          <Entypo
-                            name="time-slot"
-                            color="#000"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>13 hrs ago</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+              <View style={styles.qSec}>
+                <View style={styles.imgSec}>
+                  <Image
+                    source={require('../../assets/images/userPro.jpg')}
+                    style={CommonStyles.image}
+                  />
+                </View>
+                <View style={{width: '80%'}}>
+                  <Text style={styles.name}>Nisha Games</Text>
+                  <Text style={styles.details}>
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever.
+                  </Text>
 
-                          <FontAwesome
-                            name="tag"
-                            color="#000"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>Java</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+                  <View style={styles.update}>
+                    <FontAwesome
+                      name="calendar"
+                      color="rgba(0,0,0,0.5)"
+                      size={17}
+                    />
+                    <Text style={styles.updateText}>Updated 5 days ago</Text>
+                  </View>
 
-                          <FontAwesome
-                            name="user"
-                            color="#000"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>1 out of 1 skillset matches</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
-
-                          <FontAwesome
-                            name="search-plus"
-                            color="#000"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>0 applied</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.moneyContainer]}>
-                          <Text style={styles.usdText}>20 USD</Text>
-                          <Text style={styles.inrtxt}>(1500 INR)</Text>
-                        </View>
-                      </View>
+                  <View style={styles.countSec}>
+                    <View style={[styles.width30, styles.bdrRight]}>
+                      <Text style={styles.count}>0 Likes</Text>
+                    </View>
+                    <View style={[styles.width30, styles.bdrRight]}>
+                      <Text style={styles.count}>0 Answer</Text>
+                    </View>
+                    <View style={styles.width30}>
+                      <Text style={styles.count}>0 Views</Text>
                     </View>
                   </View>
-                </TouchableOpacity>
-
-              ))
-            }
-          </ScrollView>
-        </View>
-      </SafeAreaView>
+                </View>
+              </View>
+            </TouchableOpacity>            
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
