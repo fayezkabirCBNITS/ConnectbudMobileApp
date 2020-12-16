@@ -6,6 +6,7 @@ import AddSkillScreen from "./../screens/AuthNav/AddSkill"
 import EditProfileScreen from '../screens/AuthNav/EditProfile';
 import StudentInner from '../screens/AuthNav/StudentInner';
 import EmployeeInner from '../screens/AuthNav/EmployeeInner';
+import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
 
 export const AuthStackNav = createStackNavigator(
   {
@@ -29,7 +30,11 @@ export const AuthStackNav = createStackNavigator(
     },
     EmployeeInner: {
       screen: EmployeeInner
+    },
+    PostedProjectByEmployee : {
+      screen:PostedProjectByEmployee
     }
+
   },
   {
     initialRouteName: 'CategoryScreen',
