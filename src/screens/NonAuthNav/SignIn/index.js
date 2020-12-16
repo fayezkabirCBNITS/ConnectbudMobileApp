@@ -96,7 +96,7 @@ class SignInScreen extends Component {
               <Text style={styles.forgetText}>Forget Password?</Text>
             </Pressable>
             <Pressable style={styles.signinBtn}>
-              <Text style={styles.signinText}>Sign In</Text>
+              <Text style={styles.signinText} onPress={() => this.props.navigation.navigate('EmployeeInner')}>Sign In</Text>
             </Pressable>
             <View style={styles.iconDiv}>
               <Image
@@ -116,7 +116,7 @@ class SignInScreen extends Component {
               Don't have an account?{' '}
               <Text
                 style={styles.signupText}
-                onPress={() => this.props.navigation.navigate('SignUpScreen')}>
+                onPress={() => this.props.navigation.navigate('StudentInner')}>
                 Sign Up
               </Text>
             </Text>

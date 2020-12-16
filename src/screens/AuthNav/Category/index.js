@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
+  Image,
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
@@ -12,6 +13,8 @@ import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 
 class CategoryScreen extends Component {
   constructor(props) {
@@ -73,7 +76,6 @@ class CategoryScreen extends Component {
   };
   gotoNextScreen = (_) => {
     this.props.navigation.navigate('AddSkillScreen');
-    // console.warn(this.props.navigation , "---")
   };
 
   static navigationOptions = {
@@ -85,7 +87,18 @@ class CategoryScreen extends Component {
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <CommonStatusBar />
-          <Header />
+          <View style={styles.header}>
+        <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+          <Entypo name="menu" color="#71b85f" size={35} />
+        </TouchableOpacity>
+        <Image
+          source={require('../../../assets/images/logo.png')}
+          style={styles.image}
+        />
+        <TouchableOpacity>
+          <Feather name="bell" color="#71b85f" size={30} />
+        </TouchableOpacity>
+      </View>
           <View style={CommonStyles.container}>
             <View style={styles.categoryHeader}>
               <Text style={styles.categoryTitle}>Select the Category.</Text>

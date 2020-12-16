@@ -7,6 +7,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import styles from './style';
 
 class AppHeader extends Component {
+
   render() {
     return (
       <View style={styles.header}>
