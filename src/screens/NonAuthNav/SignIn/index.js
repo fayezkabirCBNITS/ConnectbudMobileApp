@@ -95,7 +95,7 @@ class SignInScreen extends Component {
                         </View>
                         <Text style={styles.signupAcnt}>Don't have an account?{" "}
                             <Text style={styles.signupText}
-                                onPress={() => this.props.navigation.navigate('SignupScreen')}
+                                onPress={() => this.props.navigation.navigate('SignUpScreen')}
                             >
                                 Sign Up
                             </Text>

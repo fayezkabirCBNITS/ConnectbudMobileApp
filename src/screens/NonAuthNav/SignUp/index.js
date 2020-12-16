@@ -157,13 +157,14 @@ class SignUpScreen extends Component {
               </View>
             </View>
 
-            <Pressable style={styles.signinBtn}>
-              <Text style={styles.signinText} onPress={this.handleSubmit}>Sign Up</Text>
+            <Pressable style={styles.signinBtn} 
+                onPress={() => this.props.navigation.navigate('CategoryScreen')}>
+              <Text style={styles.signinText} >Sign Up</Text>
             </Pressable>
 
             <Text style={styles.signupAcnt}>Already have an account?{" "}
               <Text style={styles.signupText}
-                onPress={() => this.props.navigation.navigate('SigninScreen')}
+                onPress={() => this.props.navigation.navigate('SignInScreen')}
               >
                 Please Sign In
                 </Text>
