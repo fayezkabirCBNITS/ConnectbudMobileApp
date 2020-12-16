@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image, Linking, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Linking,
+  StyleSheet,
+} from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -126,16 +133,18 @@ class Portfolio extends Component {
 
         {/* {this.state.profiledataset.map((item, i) => (
           <> */}
-            <View>
-        <WebView
-                       originWhitelist={['*']}
-                       source={{ html: 'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx' }}
-                       style={{ marginTop: 20 }}
-                    />
-                    </View>
-    
-                   
-          {/* </>
+        <View>
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html:
+                'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx',
+            }}
+            style={{marginTop: 20}}
+          />
+        </View>
+
+        {/* </>
         ))} */}
       </ScrollView>
     );

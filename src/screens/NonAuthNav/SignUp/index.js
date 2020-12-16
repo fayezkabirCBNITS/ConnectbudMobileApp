@@ -10,8 +10,10 @@ import {
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
 import axios from 'axios';
+import { API_URL } from "../../../config/url";
 
 class SignUpScreen extends Component {
   constructor() {
@@ -24,12 +26,20 @@ class SignUpScreen extends Component {
       number: '',
       isSent: false,
       errors: {},
+      type: true,
     };
+    this.showHide = this.showHide.bind(this);
   }
 
   static navigationOptions = {
     headerShown: false,
   };
+
+  showHide() {
+    this.setState({
+      type: this.state.type === false ? true : false,
+    });
+  }
 
   onSentOtp = () => {
     this.setState({isSent: true});
@@ -93,7 +103,7 @@ class SignUpScreen extends Component {
 
     if (!this.state.email) {
       formIsValid = false;
-      errors['email'] = '*Please enter your email-ID.';
+      errors['email'] = '*Please enter your email address.';
     }
 
     if (typeof this.state.email !== 'undefined') {
@@ -103,10 +113,9 @@ class SignUpScreen extends Component {
       );
       if (!pattern.test(this.state.email)) {
         formIsValid = false;
-        errors['email'] = '*Please enter valid email-ID.';
+        errors['email'] = '*Please enter valid email address.';
       }
     }
-
     if (!this.state.password) {
       formIsValid = false;
       errors['password'] = '*Please enter your password.';
@@ -120,7 +129,7 @@ class SignUpScreen extends Component {
       ) {
         formIsValid = false;
         errors['password'] =
-          '*Please enter minimum one upper case, one special symbol, one number & one lower case ';
+          '*Please enter minimum one upper case, one special symbol, one number & one lower case.';
       }
     }
 
@@ -143,7 +152,7 @@ class SignUpScreen extends Component {
     body.append('first_name', this.state.firstname);
     body.append('last_name', this.state.lastname);
     axios
-      .post(`https://api.connectbud.com/auth/register_recruiter`, body)
+      .post(API_URL + "auth/register_recruiter", body)
       .then((res) => {
         alert('Please verify your email & login');
 
@@ -163,10 +172,6 @@ class SignUpScreen extends Component {
     let dataSet = this.validateForm();
     if (dataSet === true) {
       this.handleSubmit();
-      this.state.firstname = '';
-      this.state.lastname = '';
-      this.state.email = '';
-      this.state.password = '';
     }
   };
 
@@ -210,10 +215,7 @@ class SignUpScreen extends Component {
               </View>
             </View>
             <Text
-              style={{
-                marginRight: '50%',
-                color: '#fc0303',
-              }}>
+              style={styles.errorText}>
               {this.state.errors.firstname}
             </Text>
 
@@ -233,10 +235,7 @@ class SignUpScreen extends Component {
               </View>
             </View>
             <Text
-              style={{
-                marginRight: '50%',
-                color: '#fc0303',
-              }}>
+              style={styles.errorText}>
               {this.state.errors.lastname}
             </Text>
 
@@ -244,9 +243,9 @@ class SignUpScreen extends Component {
               <View style={styles.formSubGroup2}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="Enter your emailId"
+                  placeholder="Enter your email address"
                   style={styles.inputGroup}
-                  keyboardType="default"
+                  keyboardType='email-address'
                   value={this.state.email}
                   onChangeText={this.handleInputEmail}
                 />
@@ -256,10 +255,7 @@ class SignUpScreen extends Component {
               </View>
             </View>
             <Text
-              style={{
-                marginRight: '50%',
-                color: '#fc0303',
-              }}>
+              style={styles.errorText}>
               {this.state.errors.email}
             </Text>
 
@@ -326,20 +322,21 @@ class SignUpScreen extends Component {
                   placeholder="Type Password"
                   style={styles.inputGroup}
                   keyboardType="default"
-                  secureTextEntry
+                  secureTextEntry={this.state.type}
                   value={this.state.password}
                   onChangeText={this.handleInputPassword}
                 />
               </View>
               <View style={styles.formSubGroup1}>
-                <AntDesign name="lock" size={20} color="#fff" />
+              {this.state.type === false ? (
+                  <FontAwesome name="eye-slash" size={20} color="#fff" onPress={this.showHide} />
+                ) : (
+                    <FontAwesome name="eye" size={20} color="#fff" onPress={this.showHide} />
+                  )}
               </View>
             </View>
             <Text
-              style={{
-                marginRight: '50%',
-                color: '#fc0303',
-              }}>
+              style={styles.errorText}>
               {this.state.errors.password}
             </Text>
 
