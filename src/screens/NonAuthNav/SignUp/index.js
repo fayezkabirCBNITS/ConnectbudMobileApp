@@ -1,13 +1,22 @@
-import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, TextInput, Pressable, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import React, {Component} from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
-
 
 class SignUpScreen extends Component {
   constructor() {
@@ -15,9 +24,9 @@ class SignUpScreen extends Component {
     this.state = {
       firstname: '',
       lastname: '',
-      password:'',
-      number:'',
-      isSent:false
+      password: '',
+      number: '',
+      isSent: false,
     };
   }
 
@@ -31,17 +40,17 @@ class SignUpScreen extends Component {
 
   handleInputName = (e) => {
     this.setState({
-      firstname:e.target.value,
-      lastname:e.target.value,
-      number:e.target.value,
-      password:e.target.value
-    })
-} 
+      firstname: e.target.value,
+      lastname: e.target.value,
+      number: e.target.value,
+      password: e.target.value,
+    });
+  };
 
-  handleSubmit = (e) =>{
+  handleSubmit = (e) => {
     e.preventDefault();
-    console.warn(this.state.firstname)
-  }
+    console.warn(this.state.firstname);
+  };
 
   render() {
     // console.warn(this.state.firstname);
@@ -61,7 +70,10 @@ class SignUpScreen extends Component {
 
           <View style={[styles.container, styles.inputDiv]}>
             <View style={styles.logo}>
-              <Image source={require('../../../assets/images/logoWhite.png')} style={CommonStyles.splashImg} />
+              <Image
+                source={require('../../../assets/images/logoWhite.png')}
+                style={CommonStyles.splashImg}
+              />
             </View>
             <View style={styles.formGroup1}>
               <View style={styles.formSubGroup2}>
@@ -107,38 +119,49 @@ class SignUpScreen extends Component {
                 />
               </View>
               <View style={styles.formSubGroupNum}>
-                <Pressable style={{ backgroundColor: '#595555', borderRadius: 40 }}>
+                <Pressable
+                  style={{backgroundColor: '#595555', borderRadius: 40}}>
                   <Text
-                    style={{ paddingHorizontal: 10, paddingVertical: 5, color: '#fff' }}
-                    onPress={this.onSentOtp}
-                  >
+                    style={{
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      color: '#fff',
+                    }}
+                    onPress={this.onSentOtp}>
                     Send Otp
                   </Text>
                 </Pressable>
               </View>
             </View>
-            
-            {this.state.isSent && <View style={styles.formGroup1}>
-              <View style={styles.formSubGroup2Num}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Enter OTP"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                  secureTextEntry
-                />
+
+            {this.state.isSent && (
+              <View style={styles.formGroup1}>
+                <View style={styles.formSubGroup2Num}>
+                  <TextInput
+                    returnKeyType="done"
+                    placeholder="Enter OTP"
+                    style={styles.inputGroup}
+                    keyboardType="default"
+                    secureTextEntry
+                  />
+                </View>
+                <View style={styles.formSubGroupNum}>
+                  <Pressable
+                    style={{backgroundColor: '#595555', borderRadius: 40}}>
+                    <Text
+                      style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        color: '#fff',
+                      }}
+                      // onPress={()=>this.onSentOtp()}
+                    >
+                      Verify
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
-              <View style={styles.formSubGroupNum}>
-                <Pressable style={{ backgroundColor: '#595555', borderRadius: 40 }}>
-                  <Text
-                    style={{ paddingHorizontal: 10, paddingVertical: 5, color: '#fff' }}
-                    // onPress={()=>this.onSentOtp()}
-                  >
-                    Verify
-                  </Text>
-                </Pressable>
-              </View>
-            </View>}
+            )}
 
             <View style={styles.formGroup1}>
               <View style={styles.formSubGroup2}>
@@ -157,22 +180,24 @@ class SignUpScreen extends Component {
               </View>
             </View>
 
-            <Pressable style={styles.signinBtn} 
-                onPress={() => this.props.navigation.navigate('CategoryScreen')}>
-              <Text style={styles.signinText} >Sign Up</Text>
+            <Pressable
+              style={styles.signinBtn}
+              onPress={() => this.props.navigation.navigate('CategoryScreen')}>
+              <Text style={styles.signinText}>Sign Up</Text>
             </Pressable>
 
-            <Text style={styles.signupAcnt}>Already have an account?{" "}
-              <Text style={styles.signupText}
-                onPress={() => this.props.navigation.navigate('SignInScreen')}
-              >
+            <Text style={styles.signupAcnt}>
+              Already have an account?{' '}
+              <Text
+                style={styles.signupText}
+                onPress={() => this.props.navigation.navigate('SignInScreen')}>
                 Please Sign In
-                </Text>
+              </Text>
             </Text>
           </View>
           {/* </ImageBackground> */}
         </View>
-      </SafeAreaView >
+      </SafeAreaView>
     );
   }
 }

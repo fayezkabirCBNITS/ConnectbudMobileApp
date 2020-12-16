@@ -1,83 +1,25 @@
 import React, {Component} from 'react';
 
-import {
-  Text,
-  View,
-  SafeAreaView,
-  ScrollView,
-  ImageBackground,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  StatusBar,
-} from 'react-native';
-import style from './../../../CommonStyles';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
+
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 import styles from './style';
 
 class AppHeader extends Component {
-  static navigationOptions = {
-    headerShown: false,
-  };
-
   render() {
     return (
-      <View>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="#e30021"
-          translucent
+      <View style={styles.header}>
+        <TouchableOpacity>
+          <Entypo name="menu" color="#71b85f" size={35} />
+        </TouchableOpacity>
+        <Image
+          source={require('../../assets/images/logo.png')}
+          style={styles.image}
         />
-        <ImageBackground
-          source={require('./../../assets/images/headerbg.png')}
-          style={style.toptabs}>
-          <View style={[style.tabstop, style.rowjustify]}>
-            <TouchableOpacity
-              style={style.cattabs}
-              onPress={() => this.props.navigation.navigate('DashboardScreen')}>
-              <Image
-                source={require('./../../assets/images/him.png')}
-                style={style.tabimg}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.cattabs}
-              onPress={() =>
-                this.props.navigation.navigate('SubscriptionScreen')
-              }>
-              <Image
-                source={require('./../../assets/images/people.png')}
-                style={style.tabimg}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.cattabs}
-              onPress={() =>
-                this.props.navigation.navigate('ConnectionScreen')
-              }>
-              <Image
-                source={require('./../../assets/images/chat.png')}
-                style={style.tabimg}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={style.cattabs}
-              onPress={() => this.props.navigation.navigate('SettingsScreen')}>
-              <Image
-                source={require('./../../assets/images/filter.png')}
-                style={style.tabimg}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.cattabs}
-              onPress={() => this.props.navigation.navigate('ProfileScreen')}>
-              <Image
-                source={require('./../../assets/images/user.png')}
-                style={style.tabimg}
-              />
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
+        <TouchableOpacity>
+          <Feather name="bell" color="#71b85f" size={30} />
+        </TouchableOpacity>
       </View>
     );
   }

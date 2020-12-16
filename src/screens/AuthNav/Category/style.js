@@ -52,7 +52,7 @@ export default {
 
     scroll : {
         width : "100%",
-        height : deviceHeight - 108,
+        height : deviceHeight - 165,
     },
     categorySelected : {
         backgroundColor : "#c6e3bf"
