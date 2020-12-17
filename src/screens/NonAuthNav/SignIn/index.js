@@ -9,6 +9,8 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
+
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -26,6 +28,7 @@ class SignInScreen extends Component {
   constructor() {
     super();
     this.state = {
+      showLoader: false,
       username: '',
       password: '',
       errors: {},
@@ -36,6 +39,10 @@ class SignInScreen extends Component {
 
   static navigationOptions = {
     headerShown: false,
+  };
+
+  handleSkills = async () => {
+    this.setState({showSkills: !this.state.showSkills});
   };
 
   showHide() {
@@ -60,6 +67,8 @@ class SignInScreen extends Component {
     let dataSet = this.validateForm();
     if (dataSet === true) {
       this.userLogin();
+      this.setState({showLoader: true});
+      // Toast.show('submit action', Toast.LONG);
     }
   };
 
@@ -106,7 +115,7 @@ class SignInScreen extends Component {
       })
       .then((response) => {
         console.log(response);
-        this.props.navigation.navigate('ProfileScreen')
+        this.props.navigation.navigate('EmployeeInner')
         // localStorage.setItem("username", base64.decode(response.data[0].name));
         // localStorage.setItem("slugname", base64.decode(response.data[0].slug));
         // localStorage.setItem(
@@ -224,7 +233,21 @@ class SignInScreen extends Component {
               onPress={this.submitLogin}
             >
               <Text style={styles.signinText}>Sign In</Text>
+              {/* {this.state.showLoader && (
+                <ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  // style={CommonStyles.loader}
+                />
+              )} */}
             </Pressable>
+            {this.state.showLoader && (
+                <ActivityIndicator
+                  size="large"
+                  color="#fff"
+                  // style={CommonStyles.loader}
+                />
+              )}
             <View style={styles.iconDiv}>
               <Image source={require('../../../assets/images/fb.png')} style={styles.iconImg} />
               <Image source={require('../../../assets/images/g.png')} style={styles.iconImg} />

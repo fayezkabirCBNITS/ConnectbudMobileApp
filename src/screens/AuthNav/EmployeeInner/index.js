@@ -18,10 +18,10 @@ class EmployeeInner extends Component {
     this.state = {
       index: 0,
       routes: [
-        {key: 'first', title: 'Hire a Tutor'},
-        {key: 'second', title: 'Post a Project'},
-        {key: 'third', title: 'Post an Interships / Jobs'},
-        {key: 'forth', title: 'Search for College Students'},
+        // {key: 'first', title: 'Hire a Tutor'},
+        {key: 'first', title: 'Post a Project'},
+        {key: 'second', title: 'Post an Interships / Jobs'},
+        {key: 'third', title: 'Search for College Students'},
       ],
     };
   }
@@ -30,7 +30,11 @@ class EmployeeInner extends Component {
     headerShown: false,
   };
 
-  render() {
+  NavtoPostedpage = () => {
+    this.props.navigation.navigate('PostedProjectByEmployee');
+  }
+
+  render() {    
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -52,10 +56,10 @@ class EmployeeInner extends Component {
               <TabView
                 navigationState={this.state}
                 renderScene={SceneMap({
-                  first: HireTutor,
-                  second: PostProject,
-                  third: PostInternship,
-                  forth: SearchClgStu,
+                  // first: HireTutor,
+                  first: PostProject,
+                  second: PostInternship,
+                  third: SearchClgStu,
                 })}
                 onIndexChange={(index) => this.setState({index})}
                 style={{flex: 1, justifyContent: 'center'}}
