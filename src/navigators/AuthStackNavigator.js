@@ -12,6 +12,9 @@ import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/
 import Sidebar from '../components/Sidebar/index';
 import ProjectDetailsFreelancer from "./../screens/AuthNav/ProjectDetailsFreelancer";
 import ProposalFromFreelancer from "./../screens/AuthNav/ProposalFromFreelancer"
+import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
+import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
+import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 
 export const MainStack = createStackNavigator(
   {
@@ -44,8 +47,17 @@ export const MainStack = createStackNavigator(
     },
     ProposalFromFreelancer : {
       screen : ProposalFromFreelancer
-    }
+    },
+    AddPortfolioScreen :{
+      screen : AddPortfolioScreen
+    },
 
+    EmployeeProfileScreen : {
+      screen: EmployeeProfileScreen
+    },
+    AddExperienceScreen:{
+      screen:AddExperienceScreen
+    },
   },
   {
     initialRouteName: 'HomeScreen',

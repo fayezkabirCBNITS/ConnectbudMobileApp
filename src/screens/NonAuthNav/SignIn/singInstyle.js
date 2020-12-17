@@ -17,10 +17,10 @@ export default {
         
       },
       logo:{
+        marginTop:80,
         justifyContent: 'center', 
-        marginBottom: 80, 
-        alignItems: 'center', 
-        backgroundColor: '#71b85f'
+        marginBottom: 50, 
+        alignItems: 'center'
       },
       inputText:{
         height: 40, 
@@ -40,10 +40,11 @@ export default {
       },
       forgetText:{
         color: '#f7ec1e',
-        fontSize: 16
+        fontSize: 15,
+        fontFamily: 'Poppins-SemiBold',
       },
       signinBtn:{
-        width: '100%',
+        width: '70%',
         backgroundColor: '#f7ec1e', 
         padding: 15, 
         alignItems: 'center', 
@@ -51,7 +52,8 @@ export default {
         borderRadius: 40
       },
       signinText:{
-        fontSize: 16
+        fontSize: 15,
+        fontFamily: 'Poppins-SemiBold',
       },
       iconDiv:{
         display: 'flex', 
@@ -65,13 +67,15 @@ export default {
         margin:5
       },
       signupAcnt:{
-        marginTop: 20,
+        marginTop: 30,
         color:'#fff' ,
-        fontSize: 16
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
       },
       signupText:{
         color: '#f7ec1e',
-        fontSize: 16 
+        fontSize: 14,
+        fontFamily: 'Poppins-SemiBold',
       },
       formGroup1: {
         width: '100%',
@@ -97,6 +101,7 @@ export default {
       inputGroup: {
         color: '#fff',
         height: 45,
-        fontSize: 15,
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
       },
 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity,ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {Picker} from '@react-native-community/picker';
 import styles from "./styles";
 
 class PostProject extends Component {
@@ -11,36 +12,19 @@ class PostProject extends Component {
     super();
     this.state = {
       showLoader: false,
-      showSkills: false,
-      skillsData: [
-        { title: 'C' },
-        { title: 'JAVA' },
-        { title: 'C++' },
-        { title: 'C#' },
-      ],
     };
   }
-  handleSkills = async () => {
-    this.setState({ showSkills: !this.state.showSkills });
-  };
 
   static navigationOptions = {
     headerShown: false,
   };
 
   handleSubmit = async () => {
-    this.setState({showLoader: true});
+    this.setState({ showLoader: true });
     Toast.show('submit action', Toast.LONG);
   };
 
   render() {
-    const renderSkillItems = ({ item }) => (
-      <TouchableOpacity style={styles.headSec}>
-        <View style={styles.details}>
-          <Text style={styles.flastListHead}>{item.title}</Text>
-        </View>
-      </TouchableOpacity>
-    )
     return (
       <SafeAreaView style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -78,39 +62,22 @@ class PostProject extends Component {
             <Text style={styles.inputHead}>Skills *</Text>
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
-                <View style={[styles.formSubGroup2, { flexWrap: 'wrap' }]}>
-                  <TextInput
-                    returnKeyType="done"
-                    placeholder="Java"
-                    style={styles.inputGroup}
-                    keyboardType="default"
-                  />
-                </View>
-                <View style={styles.formSubGroup1}>
-                  <FontAwesome
-                    name="angle-down"
-                    size={28}
-                    color="#d7d7d8"
-                    onPress={() => this.handleSkills()}
-                  />
-                </View>
+                <Picker
+                  style={{ width: '100%', height: 45,color:'#3B1D25' }}
+                  selectedValue={this.state.typeValue}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ typeValue: itemValue })
+                  }>
+                  <Picker.Item label="Java" value="Java" />
+                  <Picker.Item label="Python" value="Python" />
+                  <Picker.Item label="React" value="React" />
+                </Picker>
                 <View style={{ justifyContent: 'center', marginBottom: 0 }}>
-                  <AntDesign name="plussquare" size={50} color="#000" />
+                  <AntDesign name="plussquare" size={50} color="#60a84e" style={{ marginLeft: 10 }} />
                 </View>
               </View>
             </View>
-            {this.state.showSkills === true ? (
-              <View style={[styles.flatList, { marginTop: -15 }]}>
-                <FlatList
-                  data={this.state.skillsData}
-                  ItemSeparatorComponent={this.FlatListItemSeparator}
-                  renderItem={renderSkillItems}
-                  showsHorizontalScrollIndicator={false}
-                />
-              </View>
-            ) : (
-                <></>
-              )}
+            
             <Text style={styles.inputHead}>Project Budget *</Text>
             <View style={styles.projectView}>
               <View style={[styles.formGroup, { width: '45%', flexWrap: 'wrap' }]}>
@@ -155,7 +122,7 @@ class PostProject extends Component {
                 <ActivityIndicator
                   size="large"
                   color="#fff"
-                  // style={CommonStyles.loader}
+                // style={CommonStyles.loader}
                 />
               )}
             </TouchableOpacity>
