@@ -6,6 +6,7 @@ import style from './style';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import PortfolioExperience from '../../components/PortfolioExperience'
 
 class Portfolio extends Component {
   constructor() {
@@ -56,6 +57,8 @@ class Portfolio extends Component {
             </View>
           ))}
         </ScrollView>
+
+        <PortfolioExperience />
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
