@@ -106,7 +106,7 @@ class SignInScreen extends Component {
       })
       .then((response) => {
         console.log(response);
-        this.props.navigation.navigate('ProfileScreen')
+        this.props.navigation.navigate('EmployeeInner')
         // localStorage.setItem("username", base64.decode(response.data[0].name));
         // localStorage.setItem("slugname", base64.decode(response.data[0].slug));
         // localStorage.setItem(
