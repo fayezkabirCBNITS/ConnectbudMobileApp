@@ -94,6 +94,7 @@ class ProfileScreen extends Component {
                 renderTabBar={(props) => {
                   return (
                     <TabBar
+                    scrollEnabled
                       {...props}
                       renderLabel={({route, focused, color}) => (
                         <Text style={focused ? styles.label : styles.label2}>
