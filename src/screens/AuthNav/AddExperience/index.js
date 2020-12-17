@@ -121,7 +121,6 @@ class AddExperienceScreen extends Component {
     this.setState({disabled: false});
   };
   add_New_View = () => {
-    console.log('gggggggggggggggggggg');
     this.addNewElement = true;
     const newlyAddedValue = {id: 'id_' + this.index, text: this.index + 1};
 
@@ -234,18 +233,21 @@ class AddExperienceScreen extends Component {
                 </View>
               </View>
 
-              <Text style={styles.inputHead}>Additional Url(s) *</Text>
+              <Text style={styles.inputHead}>* Additional Url(s):</Text>
 
-              <View style={styles.formGroup1}>
-                <View style={styles.formSubGroup2}>
-                  <TextInput
-                    returnKeyType="done"
-                    placeholder="http://facebook.com/..."
-                    style={styles.inputGroup}
-                    keyboardType="default"
-                  />
+              <View style={styles.formGroup11}>
+                <View style={[styles.formGroup1, {width: '85%'}]}>
+                  <View style={styles.formSubGroup2}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="http://facebook.com/..."
+                      style={styles.inputGroup}
+                      keyboardType="default"
+                    />
+                  </View>
                 </View>
-                <View style={styles.formSubGroup1}>
+
+                <View style={[styles.formSubGroup11]}>
                   <TouchableOpacity onPress={() => this.add_New_View()}>
                     <FontAwesome name="plus" size={25} color="#d7d7d8" />
                   </TouchableOpacity>

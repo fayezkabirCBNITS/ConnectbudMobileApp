@@ -54,10 +54,9 @@ export default {
     width: '80%',
   },
   inputHead: {
-    //color: 'rgba(59,29,37,0.5)',
     color:'black',
     fontSize: 14,
-    fontWeight:'bold',
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 5,
   },
   inputHead2: {
@@ -140,6 +139,7 @@ export default {
     color: '#fff',
     fontSize: 14,
     letterSpacing: 1,
+    fontFamily: 'Poppins-SemiBold',
   },
   flexRow: {
     width: '100%',
@@ -199,7 +199,6 @@ export default {
     color: '#000',
     marginLeft:3,
     textAlign: "center",
-    fontWeight:'bold',
   },
   logo: {
     width: 110,

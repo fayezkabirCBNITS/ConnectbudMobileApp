@@ -223,7 +223,6 @@ class EditProfileScreen extends Component {
               </View>
 
               <View style={styles.form}>
-                <Text style={styles.title}>Edit Profile</Text>
 
                 <Text style={styles.inputHead}>First Name *</Text>
 
@@ -507,7 +506,8 @@ class EditProfileScreen extends Component {
 
                 <Text style={styles.inputHead}>Social Url(s) *</Text>
 
-                <View style={styles.formGroup1}>
+                <View style={styles.formGroup11}>
+                <View style={[styles.formGroup1,{width:'85%'}]}>
                   <View style={styles.formSubGroup2}>
                     <TextInput
                       returnKeyType="done"
@@ -516,8 +516,10 @@ class EditProfileScreen extends Component {
                       keyboardType="default"
                     />
                   </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome name="plus" size={25} color="#d7d7d8" />
+                </View>
+
+                  <View style={[styles.formSubGroup1,{marginLeft:3,borderRadius:5,height:55,backgroundColor:'#71b85f',width:'15%',elevation:4}]}>
+                    <FontAwesome name="plus" size={25} color="#fff" />
                   </View>
                 </View>
                 <Text style={styles.inputHead}>Info *</Text>
