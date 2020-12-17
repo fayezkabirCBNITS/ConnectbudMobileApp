@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  AsyncStorage
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -17,7 +18,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import ViewOverview from '../../../components/ViewOverview';
 import ViewPortfolio from '../../../components/ViewPortfolio';
-import WorkHistory from '../../../components/WorkHistory';
+import ViewWorkHistory from '../../../components/ViewWorkHistory';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
 
@@ -27,6 +28,11 @@ class ViewProfileScreen extends Component {
     super();
     this.state = {
       index: 0,
+      routes: [
+        {key: 'first', title: 'ViewOverview'},
+        {key: 'second', title: 'ViewPortfolio'},
+        {key: 'third', title: 'ViewWork History'},
+      ],
       profiledataset: [],
     };
   }
@@ -37,7 +43,7 @@ class ViewProfileScreen extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: API_URL + "expertProfile" + this.props.match.params.name,
+      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
       method: "GET",
     })
       .then((response) => {
@@ -53,11 +59,12 @@ class ViewProfileScreen extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-          {localStorage.getItem("user_id") !== null && localStorage.getItem("user_id") !== "undefined" && localStorage.getItem("status") !== null ? (
+        <CommonStatusBar />
+          {/* {localStorage.getItem("user_id") !== null && localStorage.getItem("user_id") !== "undefined" && localStorage.getItem("status") !== null ? (
             <CommonStatusBar />
           ) : (
               <Header />
-            )}
+            )} */}
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             {this.state.profiledataset.map((item, i) => (
               <ImageBackground
@@ -103,7 +110,7 @@ class ViewProfileScreen extends Component {
                 renderScene={SceneMap({
                   first: ViewOverview,
                   second: ViewPortfolio,
-                  third: WorkHistory,
+                  third: ViewWorkHistory,
                 })}
                 onIndexChange={(index) => this.setState({ index })}
                 style={{ flex: 1, justifyContent: 'center' }}

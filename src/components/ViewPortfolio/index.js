@@ -6,6 +6,7 @@ import {
   Image,
   Linking,
   StyleSheet,
+  AsyncStorage
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
@@ -13,13 +14,14 @@ import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import { API_URL } from "../../config/url";
 import {WebView} from 'react-native-webview';
+import ViewPortfolioExperience from '../../components/ViewPortfolioExperience'
 
-class Portfolio extends Component {
+class ViewPortfolio extends Component {
   constructor() {
     super();
     this.state = {
-      portfolio: [{hdng: 'Design and Editing'}, {hdng: 'Online Coding'}],
       profiledataset: [],
     };
   }
@@ -30,7 +32,7 @@ class Portfolio extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
       method: 'GET',
     })
       .then((response) => {
@@ -47,9 +49,6 @@ class Portfolio extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading}>
             <Text style={styles.portfolioHead}>Portfolio</Text>
-            <TouchableOpacity>
-              <Text style={styles.addPortfolio}>+ Add Portfolio</Text>
-            </TouchableOpacity>
           </View>
         </View>
 
@@ -57,7 +56,6 @@ class Portfolio extends Component {
           {this.state.profiledataset.map((item, i) => (
             <>
               {item.portfolio.map((value, i) => (
-                // <a href={value.link}>
                 <View key={i} style={styles.portfolioSec}>
                   <View style={styles.portImgSec}>
                     <Image
@@ -79,24 +77,18 @@ class Portfolio extends Component {
                         {value.category}
                       </Text>
                     </View>
-                    <TouchableOpacity style={styles.editBtn}>
-                      <MaterialIcons name="mode-edit" color="#fff" size={18} />
-                      <Text style={styles.editBtnText}>Edit</Text>
-                    </TouchableOpacity>
                   </View>
                 </View>
-                // </a>
               ))}
             </>
           ))}
         </ScrollView>
 
+        <ViewPortfolioExperience />
+
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
-            <Text style={styles.portfolioHead}>Uploaded Document</Text>
-            <TouchableOpacity>
-              <Text style={styles.addPortfolio}>+ Add Document</Text>
-            </TouchableOpacity>
+            <Text style={styles.portfolioHead}>Uploaded Documents</Text>
           </View>
         </View>
         {this.state.profiledataset.map((item, i) => (
@@ -123,10 +115,7 @@ class Portfolio extends Component {
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
-            <Text style={styles.portfolioHead}>Uploaded Video</Text>
-            <TouchableOpacity>
-              <Text style={styles.addPortfolio}>+ Add Video</Text>
-            </TouchableOpacity>
+            <Text style={styles.portfolioHead}>Uploaded Videos</Text>
           </View>
         </View>
 
@@ -150,4 +139,4 @@ class Portfolio extends Component {
   }
 }
 
-export default Portfolio;
+export default ViewPortfolio;

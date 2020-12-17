@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 class Overview extends Component {
@@ -13,13 +13,13 @@ class Overview extends Component {
       profiledataset: [],
 
       skill: [
-        {name: 'Concentration'},
-        {name: 'Fast Typing Speed'},
-        {name: 'Microsoft Word'},
-        {name: 'Microsoft Excel'},
-        {name: 'Blockchain'},
-        {name: 'Data Science'},
-        {name: 'Mathematics'},
+        { name: 'Concentration' },
+        { name: 'Fast Typing Speed' },
+        { name: 'Microsoft Word' },
+        { name: 'Microsoft Excel' },
+        { name: 'Blockchain' },
+        { name: 'Data Science' },
+        { name: 'Mathematics' },
       ],
     };
   }
@@ -38,7 +38,7 @@ class Overview extends Component {
           profiledataset: response.data,
         });
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   render() {
@@ -102,19 +102,26 @@ class Overview extends Component {
               ))}
             </View>
           ))}
+          {this.state.profiledataset.map((item, i) => (
+            <>
+              <Text style={styles.skillHead}>Skills</Text>
+              <View style={styles.skillSec}>
 
-          <Text style={styles.skillHead}>Skills</Text>
-          <View style={styles.skillSec}>
-            {this.state.profiledataset.map((item, i) => (
-              <>
                 {item.skills.map((value, i) => (
                   <View key={i} style={styles.skillTab}>
                     <Text style={styles.skillText}>{value.label}</Text>
                   </View>
                 ))}
-              </>
-            ))}
-          </View>
+
+              </View>
+            </>
+          ))}
+          {this.state.profiledataset.map((item, i) => (
+            <View key={i}>
+              <Text style={styles.skillHead}>Info</Text>
+              <Text style={styles.skillText}>{item.about}</Text>
+            </View>
+          ))}
         </ScrollView>
       </View>
     );

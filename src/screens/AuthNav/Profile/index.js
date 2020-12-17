@@ -18,6 +18,7 @@ import Overview from '../../../components/Overview';
 import Portfolio from '../../../components/Portfolio';
 import WorkHistory from '../../../components/WorkHistory';
 import axios from 'axios';
+import { API_URL } from "../../../config/url";
 
 
 class ProfileScreen extends Component {
@@ -40,7 +41,7 @@ class ProfileScreen extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      url: API_URL + "expertProfile/Utkarsh-Sarkar-15",
       method: "GET",
     })
       .then((response) => {
@@ -115,6 +116,7 @@ class ProfileScreen extends Component {
                 renderTabBar={(props) => {
                   return (
                     <TabBar
+                    scrollEnabled
                       {...props}
                       renderLabel={({route, focused, color}) => (
                         <Text style={focused ? styles.label : styles.label2}>

@@ -13,7 +13,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import { API_URL } from "../../config/url";
 import {WebView} from 'react-native-webview';
+import PortfolioExperience from '../../components/PortfolioExperience'
 
 class Portfolio extends Component {
   constructor() {
@@ -30,7 +32,7 @@ class Portfolio extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      url: API_URL + "expertProfile/Utkarsh-Sarkar-15",
       method: 'GET',
     })
       .then((response) => {
@@ -90,6 +92,8 @@ class Portfolio extends Component {
             </>
           ))}
         </ScrollView>
+
+        <PortfolioExperience />
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>

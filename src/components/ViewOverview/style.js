@@ -5,14 +5,14 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
   editBtn: {
-    width: 85,
-    height: 30,
-    backgroundColor: '#71b85f',
-    borderRadius: 30 / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginLeft: 'auto',
+    // width: 85,
+    // height: 30,
+    // backgroundColor: '#71b85f',
+    // borderRadius: 30 / 2,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexDirection: 'row',
+    // marginLeft: 'auto',
     marginTop: 20,
   },
   editBtnText: {

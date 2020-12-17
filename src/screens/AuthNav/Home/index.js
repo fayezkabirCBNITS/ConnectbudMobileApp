@@ -27,6 +27,10 @@ class HomeScreen extends Component {
     headerShown: false,
   };
 
+  navigateToviewProfile = async () => {
+    this.props.navigation.navigate('ViewProfileScreen')
+  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -66,7 +70,7 @@ class HomeScreen extends Component {
                 <Text style={styles.hdng}>Recently Joined College Students</Text>
               </View>
 
-              <QualityTalent />
+              <QualityTalent navigateToviewProfile={this.navigateToviewProfile}/>
             </View>
 
             <View style={styles.marVer15}>
