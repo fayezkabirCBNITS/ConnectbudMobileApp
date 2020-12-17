@@ -30,6 +30,21 @@ class EmployeeInner extends Component {
     headerShown: false,
   };
 
+  renderScene = ({ route }) => {
+    switch (route.title) {
+      case 'Hire a Tutor':
+        return <HireTutor  />; // passing data as data prop
+      case 'Post a Project':
+        return <PostProject />;
+      case 'Post an Interships / Jobs':
+        return <PostInternship />;
+      case 'Search for College Students':
+        return <SearchClgStu />;
+      default:
+        return null;
+    }
+  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -51,12 +66,13 @@ class EmployeeInner extends Component {
             <View style={styles.tabSec}>
               <TabView
                 navigationState={this.state}
-                renderScene={SceneMap({
-                  first: HireTutor,
-                  second: PostProject,
-                  third: PostInternship,
-                  forth: SearchClgStu,
-                })}
+                // renderScene={SceneMap({
+                //   first: HireTutor,
+                //   second: PostProject,
+                //   third: PostInternship,
+                //   forth: SearchClgStu,
+                // })}
+                renderScene={this.renderScene}
                 onIndexChange={(index) => this.setState({index})}
                 style={{flex: 1, justifyContent: 'center'}}
                 renderTabBar={(props) => {

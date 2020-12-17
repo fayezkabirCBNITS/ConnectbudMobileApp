@@ -182,7 +182,7 @@ class SignUpScreen extends Component {
 
             <Pressable
               style={styles.signinBtn}
-              onPress={() => this.props.navigation.navigate('PostedProjectByEmployee')}>
+              onPress={() => this.props.navigation.navigate('ProposalFromFreelancer')}>
               <Text style={styles.signinText}>Sign Up</Text>
             </Pressable>
 
