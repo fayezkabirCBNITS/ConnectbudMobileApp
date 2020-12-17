@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image, Linking, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Linking,
+  StyleSheet,
+} from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
-import Video from 'react-native-video';
 import {WebView} from 'react-native-webview';
 
 class Portfolio extends Component {
@@ -126,16 +132,18 @@ class Portfolio extends Component {
 
         {/* {this.state.profiledataset.map((item, i) => (
           <> */}
-            <View>
-        <WebView
-                       originWhitelist={['*']}
-                       source={{ html: 'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx' }}
-                       style={{ marginTop: 20 }}
-                    />
-                    </View>
-    
-                   
-          {/* </>
+        <View>
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html:
+                'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx',
+            }}
+            style={{marginTop: 20}}
+          />
+        </View>
+
+        {/* </>
         ))} */}
       </ScrollView>
     );
