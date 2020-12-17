@@ -27,7 +27,8 @@ class Portfolio extends Component {
           <View style={styles.portHeading}>
             <Text style={styles.portfolioHead}>Portfolio</Text>
             <TouchableOpacity>
-              <Text style={styles.addPortfolio}>+ Add Portfolio</Text>
+              <Text style={styles.addPortfolio}
+              onPress={() => this.props.navigation.navigate('AddPortfolioScreen')}>+ Add Portfolio</Text>
             </TouchableOpacity>
           </View>
         </View>

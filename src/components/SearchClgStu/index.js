@@ -1,78 +1,121 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Entypo from "react-native-vector-icons/Entypo";
+import SearchableDropdown from 'react-native-searchable-dropdown';
 import styles from './styles'
+
+var items = [
+  {
+    id: 1,
+    name: 'JavaScript',
+  },
+  {
+    id: 2,
+    name: 'Java',
+  },
+  {
+    id: 3,
+    name: 'Ruby',
+  },
+  {
+    id: 4,
+    name: 'React Native',
+  },
+  {
+    id: 5,
+    name: 'PHP',
+  },
+  {
+    id: 6,
+    name: 'Python',
+  },
+  {
+    id: 7,
+    name: 'Go',
+  },
+  {
+    id: 8,
+    name: 'Swift',
+  },
+];
 
 class SearchClgStu extends Component {
   constructor() {
     super();
     this.state = {
-      showSkills: false,
-      skillsData: [
-        { title: 'C' },
-        { title: 'JAVA' },
-        { title: 'C++' },
-        { title: 'C#' },
-      ],
+      selectedItems: [
+        {
+          id: 7,
+          name: 'Go',
+        },
+        {
+          id: 8,
+          name: 'Swift',
+        }
+      ]
     };
   }
 
-  handleSkills = async () => {
-    this.setState({ showSkills: !this.state.showSkills });
-  };
 
   static navigationOptions = {
     headerShown: false,
   };
 
   render() {
-    const renderSkillItems = ({ item }) => (
-      <TouchableOpacity style={styles.headSec}>
-        <View style={styles.details}>
-          <Text style={styles.flastListHead}>{item.title}</Text>
-        </View>
-      </TouchableOpacity>
-    )
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
 
           <Text style={styles.title}>Search</Text>
-          <View style={styles.skillView}>
-            <View style={[styles.formGroup1]}>
-              <View style={[styles.formSubGroup2, { flexWrap: 'wrap' }]}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Java"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                />
-              </View>
-              <View style={{ marginTop: 10 }}>
-                <FontAwesome
-                  name="angle-down"
-                  size={28}
-                  color="#d7d7d8"
-                  onPress={() => this.handleSkills()}
-                />
-              </View>
-            </View>
+          <View>
+            <SearchableDropdown
+              onItemSelect={(item) => {
+                alert(item)
+                const items = this.state.selectedItems;
+                items.push(item)
+                this.setState({ selectedItems: items });
+              }}
+              containerStyle={{ padding: 5, marginVertical: 15, width: "90%", marginHorizontal: "5%" }}
+              // onRemoveItem={(item, index) => {
+              //   const items = this.state.selectedItems.filter((sitem) => sitem.id !== item.id);
+              //   this.setState({ selectedItems: items });
+              // }}
+              itemStyle={{
+                padding: 10,
+                marginTop: 2,
+                backgroundColor: '#ddd',
+                borderColor: '#bbb',
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
+              itemTextStyle={{ color: '#222' }}
+              itemsContainerStyle={{ maxHeight: 140 }}
+              items={items}
+              defaultIndex={2}
+              resetValue={false}
+              textInputProps={
+                {
+                  placeholder: "Search your project",
+                  underlineColorAndroid: "transparent",
+                  style: {
+                    padding: 12,
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                    borderRadius: 5,
+                  },
+                  // onTextChange: text => alert(text)
+                }
+              }
+              listProps={
+                {
+                  nestedScrollEnabled: true,
+                }
+              }
+            />
           </View>
-          {this.state.showSkills === true ? (
-            <View style={[styles.flatList, { marginTop: -15 }]}>
-              <FlatList
-                data={this.state.skillsData}
-                ItemSeparatorComponent={this.FlatListItemSeparator}
-                renderItem={renderSkillItems}
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-          ) : (
-              <></>
-            )}
+
           <Text style={styles.title}>College Student List</Text>
           <TouchableOpacity style={{ marginTop: -5 }}>
             <View style={CommonStyles.container}>
@@ -92,7 +135,10 @@ class SearchClgStu extends Component {
                       color="#71b85f"
                       size={15}
                     />
-                    <Text style={styles.iconText}>Institute :<Text> San Jose</Text></Text>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Text style={styles.iconText}>Institute :</Text><Text style={{ fontSize: 12, fontFamily: 'Poppins-SemiBold' }}> San Jose</Text>
+                    </View>
+
                   </View>
                   <View style={[styles.flexstyle, styles.timeAgo]}>
 
@@ -101,7 +147,9 @@ class SearchClgStu extends Component {
                       color="#71b85f"
                       size={15}
                     />
-                    <Text style={styles.iconText}>Prefered :<Text> Data Science</Text></Text>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Text style={styles.iconText}>Prefered :</Text><Text style={{ fontSize: 12, fontFamily: 'Poppins-SemiBold' }}> Data Science</Text>
+                    </View>
                   </View>
                   <View style={[styles.flexstyle, styles.timeAgo, { marginLeft: -5, }]}>
                     <Entypo
@@ -109,7 +157,9 @@ class SearchClgStu extends Component {
                       color="#71b85f"
                       size={25}
                     />
-                    <Text style={styles.iconText}>Location :<Text> Kolkata, India</Text></Text>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Text style={styles.iconText}>Location :</Text><Text style={{ fontSize: 12, fontFamily: 'Poppins-SemiBold' }}> Kolkata, India</Text>
+                    </View>
                   </View>
                   <View style={styles.btnGrp}>
                     <TouchableOpacity style={styles.subBtn}>
