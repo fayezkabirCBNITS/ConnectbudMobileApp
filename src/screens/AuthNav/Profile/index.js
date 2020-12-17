@@ -19,8 +19,8 @@ import Portfolio from '../../../components/Portfolio';
 import WorkHistory from '../../../components/WorkHistory';
 
 class ProfileScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       index: 0,
       routes: [
@@ -44,7 +44,8 @@ class ProfileScreen extends Component {
             <ImageBackground
               source={require('../../../assets/images/bnr.jpg')}
               style={styles.coverImage}>
-              <TouchableOpacity style={CommonStyles.hanPosition}>
+              <TouchableOpacity style={CommonStyles.hanPosition}
+              onPress={()=>this.props.navigation.openDrawer()}>
                 <Entypo name="menu" color="#71b85f" size={35} />
               </TouchableOpacity>
               <View style={styles.userImg}>
