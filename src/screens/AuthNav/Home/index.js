@@ -10,9 +10,10 @@ import {
 import CommonStyles from '../../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import StatusBar from '../../../components/StatusBar';
-import Header from '../../../components/Header';
 import styles from './styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 import QualityTalent from '../../../components/QualityTalent';
 import PopularServies from '../../../components/PopularServies';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -44,12 +45,35 @@ class HomeScreen extends Component {
     this.setState({showSearchBar: true});
   };
 
+  studentLogin = () => {
+    this.RBSheet.close(),
+    this.props.navigation.navigate('SignInScreen')
+  }
+  hireStudent = () => {
+    this.RBSheet.close(),
+    this.props.navigation.navigate('SignInScreen')
+  }
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <StatusBar />
-          <Header />
+        {/* header section */}
+          <View style={CommonStyles.header}>         
+            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+              <Entypo name="menu" color="#71b85f" size={35} />
+            </TouchableOpacity>
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={CommonStyles.imageHdr}
+            />
+            {/* <TouchableOpacity style={CommonStyles.bellIcon}>
+              <Feather name="bell" color="#71b85f" size={30} />
+            </TouchableOpacity> */}
+          </View>
+          {/* header section end */}
+
           <ScrollView showsVerticalScrollIndicator={false}>
             
             <TouchableOpacity activeOpacity={1} style={styles.width100}>
@@ -156,12 +180,12 @@ class HomeScreen extends Component {
             }}>
             <View style={styles.btmSheet}>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('SignInScreen')}
+                onPress={this.studentLogin}
                 style={styles.loginBtn}>
                 <Text style={styles.loginBtnText2}>College Student Login</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('SignInScreen')}
+                onPress={this.hireStudent}
                 style={styles.loginBtn2}>
                 <Text style={styles.loginBtnText2}>Hire a College Student</Text>
               </TouchableOpacity>
