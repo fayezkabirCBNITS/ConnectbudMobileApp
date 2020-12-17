@@ -10,10 +10,11 @@ import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {withNavigation} from 'react-navigation';
 
 class PortfolioExperience extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       experience: [{link: 'facebook'}, {link: 'facebook'}],
     };
@@ -29,7 +30,7 @@ class PortfolioExperience extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
             <Text style={styles.portfolioHead}>Experience</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddExperienceScreen')}>
               <Text style={styles.addPortfolio}>+ Add Experience</Text>
             </TouchableOpacity>
           </View>
@@ -76,4 +77,4 @@ class PortfolioExperience extends Component {
   }
 }
 
-export default PortfolioExperience;
+export default withNavigation(PortfolioExperience);
