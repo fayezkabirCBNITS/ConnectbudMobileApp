@@ -109,9 +109,9 @@ class HireTutor extends Component {
               </View>
             </View>
 
-            <Text style={styles.inputHead}>When is it</Text>
+            <Text style={styles.inputHead}>When is it :</Text>
 
-            <Text style={styles.inputHead2}>Date</Text>
+            <Text style={styles.inputHead}>Date</Text>
             {this.state.showDatePicker === true ? (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -136,7 +136,7 @@ class HireTutor extends Component {
               </View>
             </View>
 
-            <Text style={styles.inputHead2}>Time</Text>
+            <Text style={styles.inputHead}>Time</Text>
 
             <View style={styles.formGroup1}>
               <View style={[styles.formSubGroup2, {width: '100%'}]}>
@@ -164,7 +164,7 @@ class HireTutor extends Component {
                 </Picker>
               </View>
             </View>
-            <Text style={styles.inputHead2}>Total Cost</Text>
+            <Text style={styles.inputHead}>Total Cost</Text>
 
             <View style={styles.formGroup1}>
               <View style={styles.formSubGroup2}>

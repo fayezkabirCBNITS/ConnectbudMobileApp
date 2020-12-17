@@ -45,6 +45,13 @@ export default {
     shadowRadius: 2.62,
     elevation: 4,
   },
+  
+  formGroup11: {
+    width: '100%',
+    flexDirection: 'row',
+    padding: 5,
+    marginBottom: 15,
+  },
   formSubGroup1: {
     width: '20%',
     justifyContent: 'center',
@@ -53,8 +60,23 @@ export default {
   formSubGroup2: {
     width: '80%',
   },
+  formSubGroup22: {
+    width: '80%',
+    borderRadius:5,
+    fontSize: 16,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.23,
+    // shadowRadius: 2.62,
+    // elevation: 4
+  },
   inputHead: {
-    color: 'rgba(59,29,37,0.5)',
+    color:'#000000',
+    fontFamily: 'Poppins-Regular',
+    //color: 'rgba(59,29,37,0.5)',
     fontSize: 14,
     marginBottom: 5,
   },
@@ -132,7 +154,8 @@ export default {
   },
   authBtnText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 15,
+    fontFamily: 'Poppins-SemiBold',
     letterSpacing: 1,
   },
   flexRow: {

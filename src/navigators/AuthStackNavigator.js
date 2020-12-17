@@ -11,6 +11,8 @@ import EmployeeInner from '../screens/AuthNav/EmployeeInner';
 import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
 import Sidebar from '../components/Sidebar/index';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
+import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
+import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 
 export const MainStack = createStackNavigator(
   {
@@ -40,8 +42,14 @@ export const MainStack = createStackNavigator(
     },
     AddPortfolioScreen :{
       screen : AddPortfolioScreen
-    }
+    },
 
+    EmployeeProfileScreen : {
+      screen: EmployeeProfileScreen
+    },
+    AddExperienceScreen:{
+      screen:AddExperienceScreen
+    },
   },
   {
     initialRouteName: 'HomeScreen',

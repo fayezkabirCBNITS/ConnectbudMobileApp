@@ -1,94 +1,50 @@
 export default {
-  sidebar: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
-  sidewrap: {
-    backgroundColor: '#fff',
-    flex: 1,
-    paddingbottom: 20,
-  },
-  profiletop: {
-    marginBottom: 20,
-    paddingTop: 30,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 20,
-    alignItems: 'center',
-    height: 180,
-    resizeMode: 'contain',
-  },
-  profileround: {
-    height: 90,
+  imgSec: {
     width: 90,
+    height: 90,
+    marginTop: 20,
     borderRadius: 90 / 2,
-    flexDirection: 'row',
-    position: 'relative',
-    marginBottom: 5,
-    borderWidth: 6,
-    borderColor: '#fff',
-  },
-  profileimg: {
-    width: 80,
-    height: 80,
-    borderRadius: 80 / 2,
-  },
-  namepro: {
-    fontSize: 20,
-    color: '#fff',
-    fontFamily: 'Montserrat-Bold',
-    marginBottom: 10,
-  },
-  profilebadge: {
-    width: 26,
-    height: 26,
-    borderRadius: 26 / 2,
     overflow: 'hidden',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#ddd',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.9,
-    shadowRadius: 1,
-    elevation: 4,
-    backgroundColor: '#fff',
-    position: 'absolute',
-    bottom: 5,
-    right: 5,
   },
-  menulink: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+  topSec: {
     alignItems: 'center',
-    paddingBottom: 15,
-    paddingTop: 15,
-    paddingRight: 28,
-    paddingLeft: 15,
-    position: 'relative',
+    padding: 20,
+    borderBottomColor: 'rgba(255,255,255,0.3)',
+    borderBottomWidth: 1,
   },
-  linktext: {
-    color: '#e8e8e8',
+  userDetails: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  name: {
+    fontFamily: 'Poppins-SemiBold',
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  slogan: {
+    fontFamily: 'Poppins-Regular',
+    color: '#fff',
     fontSize: 18,
-    fontFamily: 'Lato-Ragular',
+    textAlign: 'center',
+    marginTop: -7,
   },
-  activetext: {
-    color: '#e7e7e7',
-  },
-  micon: {
-    resizeMode: 'contain',
-    height: 22,
-    width: 28,
-  },
-  imgbx: {
+  menuOptn: {
+    width: '100%',
+    height: 60,
+    paddingHorizontal: '10%',
+    alignItems: 'center',
+    borderBottomColor: 'rgba(255,255,255,0.2)',
+    borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    width: 26,
-    marginRight: 10,
+    justifyContent: 'space-between'
   },
-  angleicon: {
-    position: 'absolute',
-    right: 8,
-    top: 18,
-  },
+  menuOptnText: {
+      width: '80%',
+    fontFamily: 'Poppins-Regular',
+    color: '#fff',
+    fontSize: 20,
+    marginLeft: 10,
+    marginTop: 5
+  }
 };

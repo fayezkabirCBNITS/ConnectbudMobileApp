@@ -7,10 +7,12 @@ import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PortfolioExperience from '../../components/PortfolioExperience'
+import {withNavigation} from 'react-navigation';
+
 
 class Portfolio extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       portfolio: [{hdng: 'Design and Editing'}, {hdng: 'Online Coding'}],
     };
@@ -26,9 +28,8 @@ class Portfolio extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading}>
             <Text style={styles.portfolioHead}>Portfolio</Text>
-            <TouchableOpacity>
-              <Text style={styles.addPortfolio}
-              onPress={() => this.props.navigation.navigate('AddPortfolioScreen')}>+ Add Portfolio</Text>
+            <TouchableOpacity >
+              <Text style={styles.addPortfolio}>+ Add Portfolio</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -59,7 +60,7 @@ class Portfolio extends Component {
           ))}
         </ScrollView>
 
-        <PortfolioExperience />
+        <PortfolioExperience/>
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
@@ -111,4 +112,4 @@ class Portfolio extends Component {
   }
 }
 
-export default Portfolio;
+export default withNavigation(Portfolio);
