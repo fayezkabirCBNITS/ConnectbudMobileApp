@@ -19,7 +19,6 @@ import Portfolio from '../../../components/Portfolio';
 import WorkHistory from '../../../components/WorkHistory';
 import axios from 'axios';
 
-
 class ProfileScreen extends Component {
   constructor() {
     super();
@@ -41,7 +40,7 @@ class ProfileScreen extends Component {
   componentDidMount = async () => {
     await axios({
       url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
-      method: "GET",
+      method: 'GET',
     })
       .then((response) => {
         this.setState({
@@ -57,49 +56,51 @@ class ProfileScreen extends Component {
         <View style={CommonStyles.main}>
           <CommonStatusBar />
           <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-          {this.state.profiledataset.map((item, i) => (
-            <ImageBackground
-              // source={require('../../../assets/images/bnr.jpg')}
-              source={{uri : item.cover_image}}
-              style={styles.coverImage}>
-              <TouchableOpacity style={CommonStyles.hanPosition}>
-                <Entypo name="menu" color="#71b85f" size={35} />
-              </TouchableOpacity>
-              <View style={styles.userImg}>
-                <Image
-                  source={{uri : item.user_image}}
-                  style={CommonStyles.usrImage}
-                />
-                {/* <TouchableOpacity style={CommonStyles.userPhoto}>
+            {this.state.profiledataset.map((item, i) => (
+              <ImageBackground
+                // source={require('../../../assets/images/bnr.jpg')}
+                source={{uri: item.cover_image}}
+                style={styles.coverImage}>
+                <TouchableOpacity style={CommonStyles.hanPosition}>
+                  <Entypo name="menu" color="#71b85f" size={35} />
+                </TouchableOpacity>
+                <View style={styles.userImg}>
+                  <Image
+                    source={{uri: item.user_image}}
+                    style={CommonStyles.usrImage}
+                  />
+                  {/* <TouchableOpacity style={CommonStyles.userPhoto}>
                   <FontAwesome name="camera" color="#71b85f" size={22} />
                 </TouchableOpacity> */}
-              </View>
-              {/* <TouchableOpacity style={styles.camPosition}>
+                </View>
+                {/* <TouchableOpacity style={styles.camPosition}>
                 <FontAwesome name="camera" color="#71b85f" size={22} />
               </TouchableOpacity> */}
-            </ImageBackground>
-          ))}
+              </ImageBackground>
+            ))}
 
             {this.state.profiledataset.map((item, i) => (
-            <ScrollView
-              style={{flexDirection: 'row', marginTop: -80}}
-              showsHorizontalScrollIndicator={false}
-              horizontal>
-              <View style={styles.details}>
-                <Text style={styles.userInfoHead}>Name</Text>
-                <Text style={styles.userInfoDetails}>{item.first_name}{" "}{item.last_name}</Text>
-              </View>
+              <ScrollView
+                style={{flexDirection: 'row', marginTop: -80}}
+                showsHorizontalScrollIndicator={false}
+                horizontal>
+                <View style={styles.details}>
+                  <Text style={styles.userInfoHead}>Name</Text>
+                  <Text style={styles.userInfoDetails}>
+                    {item.first_name} {item.last_name}
+                  </Text>
+                </View>
 
-              <View style={styles.details}>
-                <Text style={styles.userInfoHead}>College</Text>
-                <Text style={styles.userInfoDetails}>{item.college}</Text>
-              </View>
+                <View style={styles.details}>
+                  <Text style={styles.userInfoHead}>College</Text>
+                  <Text style={styles.userInfoDetails}>{item.college}</Text>
+                </View>
 
-              <View style={styles.details}>
-                <Text style={styles.userInfoHead}>Department</Text>
-                <Text style={styles.userInfoDetails}>{item.department}</Text>
-              </View>
-            </ScrollView>
+                <View style={styles.details}>
+                  <Text style={styles.userInfoHead}>Department</Text>
+                  <Text style={styles.userInfoDetails}>{item.department}</Text>
+                </View>
+              </ScrollView>
             ))}
 
             <View style={styles.tabSec}>
