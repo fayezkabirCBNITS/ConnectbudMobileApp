@@ -60,10 +60,21 @@ export default {
         shadowRadius: 2.62,
         elevation: 4,
       },
+      formGroup11: {
+        width: '100%',
+        flexDirection: 'row',
+        padding: 5,
+        marginBottom: 10,
+      },
       formSubGroup1: {
         width: '20%',
         justifyContent: 'center',
         alignItems: 'center',
+      },
+
+      formSubGroup11: {
+        justifyContent: 'center',
+        alignItems: 'center', marginLeft:3,borderRadius:5,height:55,backgroundColor:'#71b85f',width:'15%',elevation:4,
       },
       formSubGroup2: {
         width: '80%',
@@ -72,13 +83,15 @@ export default {
         //color: 'rgba(59,29,37,0.5)',
         fontSize: 14,
         marginBottom: 5,
-        fontWeight:'bold',
+        fontFamily: 'Poppins-SemiBold',
         color:'#000000'
       },
       inputGroup: {
         color: '#3B1D25',
+        fontFamily: 'Poppins-Regular',
         height: 45,
-        fontSize: 15,
+        fontSize: 14,
+        paddingHorizontal:10
       },
       authBtn: {
         width: '50%',
@@ -93,7 +106,8 @@ export default {
       },
       authBtnText: {
         color: '#fff',
-        fontSize: 14,
+        fontSize: 15,
+        fontFamily: 'Poppins-SemiBold',
         letterSpacing: 1,
       },
 

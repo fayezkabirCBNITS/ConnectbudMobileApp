@@ -2,14 +2,21 @@ const React = require('react-native');
 const {Dimensions} = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
+
 export default {
   main: {
     flex: 1,
     backgroundColor:'#71b85f'
   },
+  formrow: {
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    alignSelf:'flex-start',
+    justifyContent:'flex-start'
+},
   container: {
     width: '100%',
-    height:'100%',
     paddingHorizontal: '5%',
     marginTop:40,
   },
@@ -30,7 +37,7 @@ export default {
         justifyContent: 'center', 
         marginBottom: 50, 
         alignItems: 'center', 
-        //backgroundColor: '#71b85f'
+        opacity:0.9
       },
       inputText:{
         height: 40, 
@@ -57,24 +64,25 @@ export default {
         backgroundColor: '#f7ec1e', 
         padding: 15, 
         alignItems: 'center', 
-        marginTop: 30, 
-        borderRadius: 40
+        alignSelf:'center',
+        marginTop: 20, 
+        borderRadius: 40,
       },
       signinText:{
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: 'Poppins-SemiBold',
       },
       signupAcnt:{
-        marginTop: 30,
-        color:'#fff' ,
-        fontSize: 14,
+        marginTop: 20,
+        marginBottom:50,
         fontFamily: 'Poppins-Regular',
-        
+        color:'#fff' ,
+        fontSize: 14
       },
       signupText:{
         color: '#f7ec1e',
-        fontSize: 16,
         fontFamily: 'Poppins-SemiBold',
+        fontSize: 14
       },
       formGroup1: {
         width: '100%',
@@ -102,14 +110,22 @@ export default {
         width: '75%',
       },
       inputHead: {
-        color: 'rgba(59,29,37,0.5)',
+        color: '#fff',
+        fontFamily: 'Poppins-SemiBold',
         fontSize: 14,
         marginBottom: 5,
+        alignSelf:'flex-start',
       },
       inputGroup: {
         color: '#fff',
-        height: 45,
         fontFamily: 'Poppins-Regular',
+        height: 45,
         fontSize: 14,
       },
-}
+  radio: {
+    backgroundColor:'transparent',         
+    borderWidth:0,
+    paddingLeft:0,
+  
+},
+};

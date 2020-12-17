@@ -4,6 +4,7 @@ import {
   StatusBar,
   View,
   Text,
+  ScrollView,
   TextInput,
   Pressable,
   ImageBackground,
@@ -57,146 +58,150 @@ class SignUpScreen extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={styles.main}>
-          <StatusBar
-            barStyle="light-content"
-            hidden={false}
-            backgroundColor="#0000"
-            translucent={true}
-          />
-          {/* <ImageBackground
-            source={require('../../../assets/images/bnr.jpg')}
-            style={styles.coverImage}
-          > */}
-
-          <View style={[styles.container, styles.inputDiv]}>
-            <View style={styles.logo}>
-              <Image
-                source={require('../../../assets/images/logoWhite.png')}
-                style={CommonStyles.splashImg}
-              />
-            </View>
-            <View style={styles.formGroup1}>
-              <View style={styles.formSubGroup2}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Enter your first name"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                  value={this.state.firstname}
-                  onChange={this.handleInputName}
-                />
-              </View>
-              <View style={styles.formSubGroup1}>
-                <AntDesign name="user" size={20} color="#fff" />
-              </View>
-            </View>
-
-            <View style={styles.formGroup1}>
-              <View style={styles.formSubGroup2}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Enter your last name"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                  value={this.state.lastname}
-                  onChange={this.handleInputName}
-                />
-              </View>
-              <View style={styles.formSubGroup1}>
-                <AntDesign name="user" size={20} color="#fff" />
-              </View>
-            </View>
-
-            <View style={styles.formGroup1}>
-              <View style={styles.formSubGroup2Num}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="+ 91"
-                  style={styles.inputGroup}
-                  keyboardType="number-pad"
-                  value={this.state.number}
-                  onChange={this.handleInputName}
-                />
-              </View>
-              <View style={styles.formSubGroupNum}>
-                <Pressable
-                  style={{backgroundColor: '#595555', borderRadius: 40}}>
-                  <Text
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingVertical: 5,
-                      color: '#fff',
-                    }}
-                    onPress={this.onSentOtp}>
-                    Send Otp
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-
-            {this.state.isSent && (
-              <View style={styles.formGroup1}>
-                <View style={styles.formSubGroup2Num}>
-                  <TextInput
-                    returnKeyType="done"
-                    placeholder="Enter OTP"
-                    style={styles.inputGroup}
-                    keyboardType="default"
-                    secureTextEntry
+          <CommonStatusBar />
+          <ImageBackground
+            style={{width:'100%', height:'100%'}}
+            source={require('../../../assets/images/authBg.jpg')}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={[styles.container, styles.inputDiv]}>
+                <View style={styles.logo}>
+                  <Image
+                    source={require('../../../assets/images/logoWhite.png')}
+                    style={CommonStyles.splashImg}
                   />
                 </View>
-                <View style={styles.formSubGroupNum}>
-                  <Pressable
-                    style={{backgroundColor: '#595555', borderRadius: 40}}>
-                    <Text
-                      style={{
-                        paddingHorizontal: 10,
-                        paddingVertical: 5,
-                        color: '#fff',
-                      }}
-                      // onPress={()=>this.onSentOtp()}
-                    >
-                      Verify
-                    </Text>
-                  </Pressable>
+                <View style={styles.formGroup1}>
+                  <View style={styles.formSubGroup2}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="Enter your first name"
+                      style={styles.inputGroup}
+                      keyboardType="default"
+                      placeholderTextColor={'#fff'}
+                      value={this.state.firstname}
+                      onChange={this.handleInputName}
+                    />
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <AntDesign name="user" size={20} color="#fff" />
+                  </View>
                 </View>
-              </View>
-            )}
 
-            <View style={styles.formGroup1}>
-              <View style={styles.formSubGroup2}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Type Password"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                  secureTextEntry
-                  value={this.state.password}
-                  onChange={this.handleInputName}
-                />
-              </View>
-              <View style={styles.formSubGroup1}>
-                <AntDesign name="lock" size={20} color="#fff" />
-              </View>
-            </View>
+                <View style={styles.formGroup1}>
+                  <View style={styles.formSubGroup2}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="Enter your last name"
+                      style={styles.inputGroup}
+                      keyboardType="default"
+                      placeholderTextColor={'#fff'}
+                      value={this.state.lastname}
+                      onChange={this.handleInputName}
+                    />
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <AntDesign name="user" size={20} color="#fff" />
+                  </View>
+                </View>
 
-            <Pressable
-              style={styles.signinBtn}
-              onPress={() => this.props.navigation.navigate('PostedProjectByEmployee')}>
-              <Text style={styles.signinText}>Sign Up</Text>
-            </Pressable>
+                <View style={styles.formGroup1}>
+                  <View style={styles.formSubGroup2Num}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="+ 91"
+                      style={styles.inputGroup}
+                      placeholderTextColor={'#fff'}
+                      keyboardType="number-pad"
+                      value={this.state.number}
+                      onChange={this.handleInputName}
+                    />
+                  </View>
+                  <View style={styles.formSubGroupNum}>
+                    <Pressable
+                      style={{backgroundColor: '#595555', borderRadius: 40}}>
+                      <Text
+                        style={{
+                          paddingHorizontal: 10,
+                          paddingVertical: 5,fontSize:12,
+                          fontFamily: 'Poppins-Regular',
+                          color: '#fff',
+                        }}
+                        onPress={this.onSentOtp}>
+                        Send Otp
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
 
-            <Text style={styles.signupAcnt}>
-              Already have an account?{' '}
-              <Text
-                style={styles.signupText}
-                onPress={() => this.props.navigation.navigate('ProfileScreen')}
-                >
-                Please Sign In
-              </Text>
-            </Text>
-          </View>
-          {/* </ImageBackground> */}
+                {this.state.isSent && (
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2Num}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="Enter OTP"
+                        style={styles.inputGroup}
+                        placeholderTextColor={'#fff'}
+                        keyboardType="default"
+                        secureTextEntry
+                      />
+                    </View>
+                    <View style={styles.formSubGroupNum}>
+                      <Pressable
+                        style={{backgroundColor: '#595555', borderRadius: 40}}>
+                        <Text
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 5,
+                            color: '#fff',
+                          }}
+                          // onPress={()=>this.onSentOtp()}
+                        >
+                          Verify
+                        </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                )}
+
+                <View style={styles.formGroup1}>
+                  <View style={styles.formSubGroup2}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="Type Password"
+                      style={styles.inputGroup}
+                      keyboardType="default"
+                      secureTextEntry
+                      placeholderTextColor={'#fff'}
+                      value={this.state.password}
+                      onChange={this.handleInputName}
+                    />
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <AntDesign name="lock" size={20} color="#fff" />
+                  </View>
+                </View>
+
+                <Pressable
+                  style={styles.signinBtn}
+                  onPress={() =>
+                    this.props.navigation.navigate('PostedProjectByEmployee')
+                  }>
+                  <Text style={styles.signinText}>Sign Up</Text>
+                </Pressable>
+
+                <Text style={styles.signupAcnt}>
+                  Already have an account?{' '}
+                  <Text
+                    style={styles.signupText}
+                    onPress={() =>
+                      this.props.navigation.navigate('FreelancerSignUpScreen')
+                    }>
+                    Please Sign In
+                  </Text>
+                </Text>
+              </View>
+            </ScrollView>
+          </ImageBackground>
         </View>
       </SafeAreaView>
     );
