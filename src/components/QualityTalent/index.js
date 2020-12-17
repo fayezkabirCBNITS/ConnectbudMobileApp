@@ -1,17 +1,16 @@
-import React, {Component} from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, Image, ScrollView, AsyncStorage } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
+import axios from "axios";
+import { API_URL } from "../../config/url";
 
 class QualityTalent extends Component {
   constructor() {
     super();
     this.state = {
-      talent: [
-        {name: 'Jagdeep Basu', desig: 'Finance Expert'},
-        {name: 'Jagdeep Basu', desig: 'Software Developer'},
-        {name: 'A. Smith', desig: 'Data Entry Operator'},
-      ],
+      expertset: [],
     };
   }
 
@@ -19,23 +18,47 @@ class QualityTalent extends Component {
     headerShown: false,
   };
 
+  componentDidMount = async () => {
+
+    let body = new FormData();
+    body.append("user_id", "");
+
+    await axios({
+      url: API_URL + "feedexpertlist",
+      method: "POST",
+      data: body,
+    })
+      .then((response) => {
+        this.setState({
+          expertset: response.data,
+        });
+      })
+      .catch((error) => { });
+  };
+
+  viewProfile = async (slug) => {
+    AsyncStorage.setItem("slugname", slug)
+    this.props.navigateToviewProfile();
+  };
+
+
   render() {
     return (
       <View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.talent.map((item, i) => (
-            <View key={i} style={styles.main}>
+          {this.state.expertset.map((value, i) => (
+            <TouchableOpacity key={i} style={styles.main} onPress={() => this.viewProfile(value.slug)}>
               <View style={styles.image}>
                 <Image
-                  source={require('../../assets/images/profileImg.jpg')}
+                  source={{ uri: value.user_image }}
                   style={CommonStyles.image}
                 />
               </View>
               <View style={styles.des}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.designation}>{item.desig}</Text>
+                <Text style={styles.name}>{value.expert_Name}</Text>
+                <Text style={styles.designation}>{value.collegeName}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       </View>

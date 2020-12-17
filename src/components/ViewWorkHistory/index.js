@@ -16,7 +16,7 @@ import { Picker } from '@react-native-community/picker';
 import axios from 'axios';
 import { API_URL } from "../../config/url";
 
-class WorkHistory extends Component {
+class ViewWorkHistory extends Component {
   constructor(props) {
     super();
     this.state = {
@@ -30,6 +30,7 @@ class WorkHistory extends Component {
   };
 
   componentDidMount = async () => {
+    //console.log(await AsyncStorage.getItem("user_id"));
     let body = new FormData();
     body.append("hirer_id", "");
     body.append("freelancer_id", "");
@@ -217,4 +218,4 @@ class WorkHistory extends Component {
   }
 }
 
-export default WorkHistory;
+export default ViewWorkHistory;

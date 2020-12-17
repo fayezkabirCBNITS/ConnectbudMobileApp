@@ -60,8 +60,8 @@ export default {
   },
   tab: {
     backgroundColor: '#fff',
-    // borderRadius: 10,
-    width: '100%',
+    borderRadius: 10,
+    width: '90%',
     height: 50,
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -70,7 +70,7 @@ export default {
     overflow: 'hidden',
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
@@ -79,12 +79,12 @@ export default {
     textAlign: 'center',
   },
   label2: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
     width: 'auto',
-    color: '#71b85f',
+    color: '#f00',
     textAlign: 'center',
   },
   camPosition: {

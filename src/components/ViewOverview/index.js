@@ -1,26 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
+import { API_URL } from "../../config/url";
 
-class Overview extends Component {
+class ViewOverview extends Component {
   constructor() {
     super();
     this.state = {
       profiledataset: [],
-
-      skill: [
-        { name: 'Concentration' },
-        { name: 'Fast Typing Speed' },
-        { name: 'Microsoft Word' },
-        { name: 'Microsoft Excel' },
-        { name: 'Blockchain' },
-        { name: 'Data Science' },
-        { name: 'Mathematics' },
-      ],
     };
   }
 
@@ -30,7 +21,7 @@ class Overview extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
       method: "GET",
     })
       .then((response) => {
@@ -45,10 +36,7 @@ class Overview extends Component {
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <TouchableOpacity style={styles.editBtn}>
-            <MaterialIcons name="mode-edit" color="#fff" size={18} />
-            <Text style={styles.editBtnText}>Edit</Text>
-          </TouchableOpacity>
+          <View style={styles.editBtn} />
 
           {this.state.profiledataset.map((item, i) => (
             <View key={i} style={styles.details}>
@@ -102,11 +90,11 @@ class Overview extends Component {
               ))}
             </View>
           ))}
+
           {this.state.profiledataset.map((item, i) => (
             <>
               <Text style={styles.skillHead}>Skills</Text>
               <View style={styles.skillSec}>
-
                 {item.skills.map((value, i) => (
                   <View key={i} style={styles.skillTab}>
                     <Text style={styles.skillText}>{value.label}</Text>
@@ -116,16 +104,18 @@ class Overview extends Component {
               </View>
             </>
           ))}
+
           {this.state.profiledataset.map((item, i) => (
             <View key={i}>
               <Text style={styles.skillHead}>Info</Text>
               <Text style={styles.skillText}>{item.about}</Text>
             </View>
           ))}
+
         </ScrollView>
       </View>
     );
   }
 }
 
-export default Overview;
+export default ViewOverview;
