@@ -6,11 +6,11 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
   main: {
     flex: 1,
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
   },
   safeAreaView: {
     flex: 1,
-    backgroundColor: '#60a84e',
+    backgroundColor: '#71b85f',
   },
   container: {
     width: '100%',
@@ -20,6 +20,27 @@ export default {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+  },
+  header: {
+    // flexDirection: 'row',
+    paddingHorizontal: '5%',
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomColor: '#71b85f',
+    borderBottomWidth: 1,
+  },
+  imageHdr: {
+    width: 140,
+    height: 35,
+  },
+  hambarIcon: {
+    position: 'absolute',
+    left: '5%',
+  },
+  bellIcon: {
+    position: 'absolute',
+    right: '5%',
   },
   hanPosition: {
     position: 'absolute',
