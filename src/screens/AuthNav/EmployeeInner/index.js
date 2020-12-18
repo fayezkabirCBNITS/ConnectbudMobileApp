@@ -12,6 +12,11 @@ import SearchClgStu from '../../../components/SearchClgStu';
 import Header from '../../../components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+//
+import { connect } from "react-redux";
+//import {updateUserDetails} from "../../../redux/actions/user-data";
+import { showLoader } from "../../../redux/actions/loader-data";
+
 class EmployeeInner extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +40,11 @@ class EmployeeInner extends Component {
   }
 
   render() {    
+    const { userDeatailResponse } = this.props;
+    console.log('all props details==========',this.props);
+
+    console.log('user details==========',userDeatailResponse);
+
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -90,4 +100,21 @@ class EmployeeInner extends Component {
   }
 }
 
-export default EmployeeInner;
+
+const mapStateToProps = (state) => {
+
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //fetchCartData: () => dispatch(fetchCartData()),
+    //updateStoreId: (id) => dispatch(updateStoreId(id)),
+    //showLoader: (text) => dispatch(showLoader(text)),
+    // hideLoader: () => dispatch(hideLoader()),
+  };
+};
+
+export default connect(mapStateToProps, null)(EmployeeInner);
