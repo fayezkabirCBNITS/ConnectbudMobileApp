@@ -43,7 +43,7 @@ export const MainStack = createStackNavigator(
     PostedProjectByEmployee : {
       screen:PostedProjectByEmployee
     },
-    PostedDetailsFreelancer : {
+    ProjectDetailsFreelancer : {
       screen : ProjectDetailsFreelancer
     },
     ProposalFromFreelancer : {

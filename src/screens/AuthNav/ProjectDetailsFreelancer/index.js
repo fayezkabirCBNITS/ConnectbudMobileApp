@@ -19,6 +19,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from "react-redux";
 
 class ProjectDetailsFreelancer extends Component {
     constructor(props) {
@@ -32,6 +33,8 @@ class ProjectDetailsFreelancer extends Component {
         headerShown: false,
     };
     render() {
+        const { userDeatailResponse } = this.props;
+        console.log('user details==========',userDeatailResponse.userData.jobid);
         return (
             <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
                 <View style={[CommonStyles.main, styles.bgColorWhite]}>
@@ -94,5 +97,11 @@ class ProjectDetailsFreelancer extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
 
-export default ProjectDetailsFreelancer;
+    return {
+      userDeatailResponse: state,
+    };
+  };
+
+export default connect(mapStateToProps, null)(ProjectDetailsFreelancer);;

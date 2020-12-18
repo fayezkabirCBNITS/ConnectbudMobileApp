@@ -7,6 +7,7 @@ import {
   // UPDATE_USER_PAYMENT_METHOD,
   // CHANGE_APP_OPEN_STATUS,
   UPDATE_USER_DETAILS,
+  UPDATE_JOB_ID,
   LOGOUT,
 } from '../actions/action-types';
 
@@ -34,16 +35,17 @@ const initialState = {
   slug: '',
   user_id: '',
   userDetails: [],
+  jobid: ""
 };
 
 export const userDataReducer = (state = initialState, action) => {
   let newState = {...state};
 
   switch (action.type) {
-    // case UPDATE_CARD_TOKEN: {
-    //   newState.cardToken = action.payload.token;
-    //   break;
-    // }
+    case UPDATE_JOB_ID: {
+      newState.jobid = action.payload.id;
+      break;
+    }
     // case UPDATE_USER_VERIFICATION_STATUS: {
     //   newState.isUserVerified = action.payload.isUserVerified;
     //   break;

@@ -1,4 +1,5 @@
 export const UPDATE_USER_DATA = "UPDATE_USER_DATA";
+export const UPDATE_JOB_ID = "UPDATE_JOB_ID";
 
 // loader data actions
 export const SHOW_LOADER = "SHOW_LOADER";

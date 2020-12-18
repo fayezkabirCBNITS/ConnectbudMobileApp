@@ -1,6 +1,7 @@
 import {
   UPDATE_USER_DETAILS,
   LOGOUT,
+  UPDATE_JOB_ID
 
   // UPDATE_CARD_TOKEN,
   // UPDATE_USER_VERIFICATION_STATUS,
@@ -9,14 +10,14 @@ import {
   // CHANGE_APP_OPEN_STATUS,
 } from "./action-types";
 
-// export const updateCardToken = (cardToken) => {
-//   return {
-//     type: UPDATE_CARD_TOKEN,
-//     payload: {
-//       cardToken,
-//     },
-//   };
-// };
+export const updateJobId = (id) => {
+  return {
+    type: UPDATE_JOB_ID,
+    payload: {
+      id,
+    },
+  };
+};
 
 // export const updateUserStatus = (isUserVerified) => {
 //   return {

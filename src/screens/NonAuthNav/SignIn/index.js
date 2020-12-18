@@ -110,7 +110,6 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
-    console.log("user login hit");
     const obj = {
       username: base64.encode(this.state.username),
       password: base64.encode(this.state.password),
@@ -124,7 +123,7 @@ class SignInScreen extends Component {
         },
       })
       .then((response) => {
-        console.log('login res==============',response);
+        console.log('login res==============', response);
         this.props.updateUserDetails(response.data);
 
         this.props.navigation.navigate('EmployeeInner')
@@ -170,12 +169,11 @@ class SignInScreen extends Component {
         } else {
           alert("The email or password you have entered is invalid!");
         }
-        // this.setState({ isLoading: false });
+        this.setState({ showLoader: false });
       });
   };
 
   render() {
-    // console.warn(this.state.username)
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={styles.main}>
@@ -240,23 +238,18 @@ class SignInScreen extends Component {
                 <Pressable
                   style={styles.signinBtn}
                   onPress={this.submitLogin}
+                  disabled={this.state.showLoader}
                 >
-                  <Text style={styles.signinText}>Sign In</Text>
-                  {/* {this.state.showLoader && (
-                <ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  // style={CommonStyles.loader}
-                />
-              )} */}
+                  {this.state.showLoader === true ? (
+                      <ActivityIndicator
+                        size="small"
+                        color="#fff"
+                      // style={CommonStyles.loader}
+                      />
+                  ) : (
+                      <Text style={styles.signinText}>Sign In </Text>
+                    )}
                 </Pressable>
-                {this.state.showLoader && (
-                  <ActivityIndicator
-                    size="large"
-                    color="#fff"
-                  // style={CommonStyles.loader}
-                  />
-                )}
                 <View style={styles.iconDiv}>
                   <Image source={require('../../../assets/images/fb.png')} style={styles.iconImg} />
                   <Image source={require('../../../assets/images/g.png')} style={styles.iconImg} />
