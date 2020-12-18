@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Entypo from "react-native-vector-icons/Entypo";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import styles from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
 import SearchableDropdown from 'react-native-searchable-dropdown';
-import styles from './styles'
+
+
+import axios from 'axios';
+import { API_URL } from '../../config/url';
+import { Value } from 'react-native-reanimated';
 
 var items = [
   {
@@ -63,11 +77,74 @@ class SearchClgStu extends Component {
     headerShown: false,
   };
 
+  componentDidMount = () => {
+    this.AllEmployee();
+    //this.SkillSearch();
+  };
+
+  AllEmployee = async () => {
+    let body = new FormData();
+    body.append('user_id', '');
+    body.append('job_id', '');
+    body.append('skillset', '');
+    body.append('status', '');
+    body.append('search_type', 'all');
+    body.append('experience', '');
+    body.append('relocate', '');
+    body.append('job_type', '');
+    body.append('job_location', '');
+    body.append('key_skill', '');
+    body.append('offset', '0');
+    body.append('type', 'freelancer');
+
+    await axios({
+      url: API_URL + 'recruiter_feedpage',
+      method: 'POST',
+      data: body,
+    })
+      .then((response) => {
+        this.setState({
+          // lodarStatus: false,
+          FreelancerSet: response.data.sort(function (a, b) {
+            if (a.avg_rating > b.avg_rating) return -1;
+            else if (a.avg_rating > b.avg_rating) return 1;
+            return 0;
+          }),
+        });
+        console.log(this.state.FreelancerSet);
+        // this.setState({
+        //   uniqueSkill: [
+        //     ...new Set(
+        //       this.state.uniqueSkill.concat(
+        //         ...new Set(
+        //           this.state.expertSet.map((obj) =>
+        //             obj.string_skills.split(",")
+        //           )
+        //         )
+        //       )
+        //     ),
+        //   ],
+        //   uniqueLocation: [
+        //     ...new Set(this.state.expertSet.map((obj) => obj.location)),
+        //   ],
+        // });
+      })
+      .catch((error) => {
+        console.log('errors');
+      });
+  };
+
   render() {
+    const renderSkillItems = ({ item }) => (
+      <TouchableOpacity style={styles.headSec}>
+        <View style={styles.details}>
+          <Text style={styles.flastListHead}>{item.title}</Text>
+        </View>
+      </TouchableOpacity>
+    );
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-
           <Text style={styles.title}>Search</Text>
           <View>
             <SearchableDropdown
@@ -176,7 +253,6 @@ class SearchClgStu extends Component {
               </View>
             </View>
           </TouchableOpacity>
-
         </View>
       </SafeAreaView>
     );

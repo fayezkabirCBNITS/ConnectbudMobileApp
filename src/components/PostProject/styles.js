@@ -113,6 +113,9 @@ export default {
         alignContent: 'center', 
         display: 'flex', 
         flexDirection: 'row'
-      }
-
+      },
+      errorText: {
+        width: '100%',
+        color: '#fc0303',
+      },
 }

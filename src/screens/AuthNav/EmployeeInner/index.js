@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {View, Text, SafeAreaView,TouchableOpacity,Image} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import { ScrollView } from 'react-native-gesture-handler';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import HireTutor from '../../../components/HireTutor';
 import PostProject from '../../../components/PostProject';
 import PostInternship from '../../../components/PostInternship';
@@ -18,10 +18,10 @@ class EmployeeInner extends Component {
     this.state = {
       index: 0,
       routes: [
-        {key: 'first', title: 'Hire a Tutor'},
-        {key: 'second', title: 'Post a Project'},
-        {key: 'third', title: 'Post an Interships / Jobs'},
-        {key: 'forth', title: 'Search for College Students'},
+        { key: 'first', title: 'Hire a Tutor' },
+        { key: 'second', title: 'Post a Project' },
+        { key: 'third', title: 'Post an Interships / Jobs' },
+        { key: 'fourth', title: 'Search for College Students' },
       ],
     };
   }
@@ -33,7 +33,7 @@ class EmployeeInner extends Component {
   renderScene = ({ route }) => {
     switch (route.title) {
       case 'Hire a Tutor':
-        return <HireTutor  />; // passing data as data prop
+        return <HireTutor />; // passing data as data prop
       case 'Post a Project':
         return <PostProject />;
       case 'Post an Interships / Jobs':
@@ -46,23 +46,26 @@ class EmployeeInner extends Component {
   };
 
   render() {
+    NavtoPostedpage = () => {
+      this.props.navigation.navigate('PostedProjectByEmployee');
+    }
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <CommonStatusBar />
           <View style={styles.header}>
-        <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
-          <Entypo name="menu" color="#71b85f" size={35} />
-        </TouchableOpacity>
-        <Image
-          source={require('../../../assets/images/logo.png')}
-          style={styles.image}
-        />
-        <TouchableOpacity>
-          <Feather name="bell" color="#71b85f" size={30} />
-        </TouchableOpacity>
-      </View>
-          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+            <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+              <Entypo name="menu" color="#71b85f" size={35} />
+            </TouchableOpacity>
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={styles.image}
+            />
+            <TouchableOpacity>
+              <Feather name="bell" color="#71b85f" size={30} />
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <View style={styles.tabSec}>
               <TabView
                 navigationState={this.state}
@@ -73,15 +76,15 @@ class EmployeeInner extends Component {
                 //   forth: SearchClgStu,
                 // })}
                 renderScene={this.renderScene}
-                onIndexChange={(index) => this.setState({index})}
-                style={{flex: 1, justifyContent: 'center'}}
+                onIndexChange={(index) => this.setState({ index })}
+                style={{ flex: 1, justifyContent: 'center' }}
                 renderTabBar={(props) => {
                   return (
                     <TabBar
-                      tabStyle={{width: 'auto'}}
+                      tabStyle={{ width: 'auto' }}
                       scrollEnabled={true}
                       {...props}
-                      renderLabel={({route, focused, color}) => (
+                      renderLabel={({ route, focused, color }) => (
                         <Text style={focused ? styles.label : styles.label2}>
                           {route.title}
                         </Text>

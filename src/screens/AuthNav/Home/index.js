@@ -37,6 +37,10 @@ class HomeScreen extends Component {
     headerShown: false,
   };
 
+  navigateToviewProfile = async () => {
+    this.props.navigation.navigate('ViewProfileScreen')
+  };
+
   updateUser = (user) => {
     this.setState({user: user});
   };
@@ -121,10 +125,10 @@ class HomeScreen extends Component {
 
             <View style={styles.marVer15}>
               <View style={CommonStyles.container}>
-                <Text style={styles.hdng}>Find some of our quality talent</Text>
+                <Text style={styles.hdng}>Recently Joined College Students</Text>
               </View>
 
-              <QualityTalent />
+              <QualityTalent navigateToviewProfile={this.navigateToviewProfile}/>
             </View>
 
             <View style={styles.marVer15}>
