@@ -18,8 +18,6 @@ import styles from './styles';
 import axios from 'axios';
 import { API_URL } from '../../config/url';
 import DropDownPicker from 'react-native-custom-dropdown';
-import Icon from 'react-native-vector-icons/Feather';
-import { Picker } from '@react-native-community/picker';
 
 class PostProject extends Component {
   constructor() {
@@ -246,14 +244,7 @@ class PostProject extends Component {
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
                 <DropDownPicker
-                  items={[
-                    { label: 'React JS', value: 'React' },
-                    { label: 'JavaScript', value: 'JavaScript' },
-                    { label: 'Angular JS', value: 'Angular JS' },
-                    { label: 'C language', value: 'C language' },
-                    { label: 'React Native', value: 'React Native' },
-                    { label: 'JAVA', value: 'JAVA' },
-                  ]}
+                  items={this.state.skillOptions}
                   controller={instance => this.controller = instance}
                   multiple={true}
                   // multipleText=

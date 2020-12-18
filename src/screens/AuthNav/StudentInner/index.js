@@ -14,6 +14,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Filter from '../../../components/Filter';
 
+
+
 class StudentInner extends Component {
   constructor() {
     super();
@@ -37,6 +39,14 @@ class StudentInner extends Component {
     this.props.navigation.navigate('ProjectDetailsFreelancer');
   };
 
+  navigateToDetailsTutor = async() => {
+    this.props.navigation.navigate('TutorDetailsFreelancer');
+  }
+
+  navigateToDetailsJob = async() => {
+    this.props.navigation.navigate('JobDetailsFreelancer');
+  }
+
   ProjectId = async (data) => {
     console.log(data);
     this.setState({
@@ -47,7 +57,7 @@ class StudentInner extends Component {
   renderScene = ({route}) => {
     switch (route.title) {
       case 'Tutoring Jobs':
-        return <TutoringJobs />; // passing data as data prop
+        return <TutoringJobs  navigateToDetailsTutor ={this.navigateToDetailsTutor}/>; // passing data as data prop
       case 'Project':
         return (
           <StudentProject
@@ -55,8 +65,8 @@ class StudentInner extends Component {
           />
         );
       case 'Interships / Jobs':
-        return <InternshipJobs />;
-      case 'Search for College Students':
+        return <InternshipJobs navigateToDetailsJob={this.navigateToDetailsJob}/>;
+      case 'Questions & Answers':
         return <QuestionAnswer />;
       default:
         return null;

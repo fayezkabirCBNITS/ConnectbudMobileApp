@@ -7,7 +7,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from "react-native-vector-icons/Entypo";
 import axios from 'axios';
 import { API_URL } from '../../config/url';
-import AsyncStorage from '@react-native-community/async-storage';
+
+//for redux
+import {
+  // storeAccessToken,
+  // updateUserStatus,
+  // updateUserPaymentMethod,
+  // updateUserDetails,
+  updateJobId
+} from "../../redux/actions/user-data";
+import { connect } from "react-redux";
 
 class TutoringJobs extends Component {
   constructor() {
@@ -27,7 +36,7 @@ class TutoringJobs extends Component {
     taglistbody.append("type", "tutor");
     taglistbody.append("skills", "");
     taglistbody.append("search_type", "all");
-    taglistbody.append("offset", "0");
+    taglistbody.append("offset", "10");
 
     await axios({
       url: API_URL + "expert_jobsummary",
@@ -52,11 +61,11 @@ class TutoringJobs extends Component {
     this.feedProjects();
   }
 
-  // PageNav = async(JobId) => {
-  //   console.log(JobId);
-  //   AsyncStorage.setItem("TutorJobId",JobId);
-  //   this.props.navigateToDetails();
-  // }
+  PageNav = async(JobId) => {
+    console.log(JobId);
+    this.props.navigateToDetailsTutor();
+    this.props.updateJobId(JobId);
+  }
 
   render() {
     return (
@@ -65,7 +74,7 @@ class TutoringJobs extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {
               this.state.tutorexpertset.map((item, idx) => (
-                <TouchableOpacity key={idx}>
+                <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
                   <View style={CommonStyles.container}>
                     <View style={styles.subjectWrapper}>
                       <View style={styles.leftSection}>
@@ -134,4 +143,15 @@ class TutoringJobs extends Component {
   }
 }
 
-export default TutoringJobs;
+// export default TutoringJobs;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
+    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
+    updateJobId: (data) => dispatch(updateJobId(data)),
+    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(TutoringJobs);
