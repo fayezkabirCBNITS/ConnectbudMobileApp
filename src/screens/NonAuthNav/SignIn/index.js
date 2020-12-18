@@ -98,7 +98,6 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
-    console.log('user login hit');
     let obj = {};
     if (this.props.navigation.state.params.userType === 'student') {
       obj = {
