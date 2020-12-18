@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
@@ -21,7 +21,7 @@ class ViewOverview extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
+      url: API_URL + "expertProfile/" + this.props.slugname,
       method: "GET",
     })
       .then((response) => {
