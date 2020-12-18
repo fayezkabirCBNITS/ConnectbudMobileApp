@@ -26,4 +26,4 @@ export const LOGOUT = "LOGOUT";
 // export const UPDATE_STORES = "UPDATE STORES";
 
 
-// export const CHANGE_APP_OPEN_STATUS = "CHANGE APP OPEN STATUS";
+ export const CHANGE_APP_OPEN_STATUS = "CHANGE APP OPEN STATUS";

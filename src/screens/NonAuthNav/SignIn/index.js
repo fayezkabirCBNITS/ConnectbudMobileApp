@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
-  StatusBar,
   View,
   ScrollView,
   Text,
@@ -9,34 +8,22 @@ import {
   Pressable,
   ImageBackground,
   Image,
-  TouchableOpacity,
   ActivityIndicator,
-
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CommonStatusBar from '../../../components/StatusBar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ApiUrl from '../../../config/ApiUrl';
+import {makePostRequest} from '../../../services/http-connectors';
 import styles from './singInstyle';
-
-import base64 from "base-64";
-import axios from "axios";
-import { API_URL } from "../../../config/url";
-//for redux
-import {
-  // storeAccessToken,
-  // updateUserStatus,
-  // updateUserPaymentMethod,
-  updateUserDetails,
-} from "../../../redux/actions/user-data";
-import { connect } from "react-redux";
-//
+import base64 from 'base-64';
+import {updateUserDetails} from '../../../redux/actions/user-data';
+import {connect} from 'react-redux';
 
 class SignInScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showLoader: false,
       username: '',
@@ -52,7 +39,7 @@ class SignInScreen extends Component {
   };
 
   handleSkills = async () => {
-    this.setState({ showSkills: !this.state.showSkills });
+    this.setState({showSkills: !this.state.showSkills});
   };
 
   showHide() {
@@ -63,21 +50,21 @@ class SignInScreen extends Component {
 
   handleEmail = async (e) => {
     await this.setState({
-      username: e
-    })
-  }
+      username: e,
+    });
+  };
 
   handlePassword = async (e) => {
     await this.setState({
-      password: e
-    })
-  }
+      password: e,
+    });
+  };
 
   submitLogin = () => {
     let dataSet = this.validateForm();
     if (dataSet === true) {
       this.userLogin();
-      this.setState({ showLoader: true });
+      this.setState({showLoader: true});
       // Toast.show('submit action', Toast.LONG);
     }
   };
@@ -88,20 +75,21 @@ class SignInScreen extends Component {
 
     if (!this.state.username) {
       formIsValid = false;
-      errors["username"] = "*Please enter your email address.";
-    }
-    else if (typeof this.state.username !== "undefined") {
+      errors['username'] = '*Please enter your email address.';
+    } else if (typeof this.state.username !== 'undefined') {
       var pattern = new RegExp(
-        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
+      ///^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+
       if (!pattern.test(this.state.username)) {
         formIsValid = false;
-        errors["username"] = "*Please enter your valid email address.";
+        errors['username'] = '*Please enter your valid email address.';
       }
     }
     if (!this.state.password) {
       formIsValid = false;
-      errors["password"] = "*Please enter your password.";
+      errors['password'] = '*Please enter your password.';
     }
     this.setState({
       errors: errors,
@@ -110,67 +98,40 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
-    const obj = {
-      username: base64.encode(this.state.username),
-      password: base64.encode(this.state.password),
-      login_type: base64.encode("normal"),
-    };
-    //this.setState({ isLoading: true });
-    await axios
-      .post(API_URL + "auth/login", obj, {
-        header: {
-          "content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log('login res==============', response);
-        this.props.updateUserDetails(response.data);
-
-        this.props.navigation.navigate('EmployeeInner')
-        // localStorage.setItem("username", base64.decode(response.data[0].name));
-        // localStorage.setItem("slugname", base64.decode(response.data[0].slug));
-        // localStorage.setItem(
-        //   "user_id",
-        //   base64.decode(response.data[0].user_id)
-        // );
-        // localStorage.setItem("flag", base64.decode(response.data[0].Flag));
-        // localStorage.setItem("token", base64.decode(response.data[0].Token));
-        // localStorage.setItem("status", base64.decode(response.data[0].Status));
-        // localStorage.setItem("searchType", "")
-
-        // if (
-        //   base64.decode(response.data[0].Flag) === "Y" &&
-        //   localStorage.getItem("pageStatus") === null
-        // ) {
-        //   this.props.history.push("/feed");
-        // } else if (
-        //   base64.decode(response.data[0].Flag) === "Y" &&
-        //   localStorage.getItem("pageStatus") === "project"
-        // ) {
-        //   this.props.history.push("/project-details");
-        // }  else if (
-        //   base64.decode(response.data[0].Flag) === "Y" &&
-        //   localStorage.getItem("pageStatus") === "Tutorproject"
-        // ) {
-        //   this.props.history.push("/tutor-details");
-        // }else if (
-        //   base64.decode(response.data[0].Flag) === "Y" &&
-        //   localStorage.getItem("pageStatus") === "job"
-        // ) {
-        //   this.props.history.push("/job-details");
-        // } else {
-        //   swal("The email or password you have entered is invalid!");
-        //   this.setState({ isLoading: false });
-        // }
-      })
-      .catch((error) => {
-        if (error.response.data.error === "You are signed up as Employer") {
-          alert("You are signed up as an employer!");
-        } else {
-          alert("The email or password you have entered is invalid!");
-        }
-        this.setState({ showLoader: false });
-      });
+    console.log('user login hit');
+    let obj = {};
+    if (this.props.navigation.state.params.userType === 'student') {
+      obj = {
+        username: base64.encode(this.state.username),
+        password: base64.encode(this.state.password),
+        login_type: base64.encode('normal'),
+      };
+    } else if (this.props.navigation.state.params.userType === 'employee') {
+      obj = {
+        username: base64.encode(this.state.username),
+        password: base64.encode(this.state.password),
+        login_type: base64.encode('employer'),
+      };
+    }
+    ///
+    let response = await makePostRequest(ApiUrl.LOGIN, false, obj);
+    console.log('handleLogin response-----', response);
+    if (response) {
+      //Toast.show(response.msg, Toast.LONG);
+      this.props.updateUserDetails(response);
+      console.log('resdtlres============', response[0]?.Flag);
+      {
+        response[0]?.Flag === 'WQ=='
+          ? this.props.navigation.navigate('StudentInner')
+          : response[0]?.Flag === 'Rg=='
+          ? this.props.navigation.navigate('EmployeeInner')
+          : null;
+      }
+    } else {
+      alert('The email or password you have entered is invalid!');
+      // Toast.show(response.msg, Toast.LONG);
+    }
+    ///
   };
 
   render() {
@@ -179,13 +140,15 @@ class SignInScreen extends Component {
         <View style={styles.main}>
           <CommonStatusBar />
           <ImageBackground
-            style={{ width: '100%', height: '100%' }}
+            style={{width: '100%', height: '100%'}}
             source={require('../../../assets/images/authBg.jpg')}>
             <ScrollView showsVerticalScrollIndicator={false}>
-
               <View style={[CommonStyles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
-                  <Image source={require('../../../assets/images/logoWhite.png')} style={CommonStyles.splashImg} />
+                  <Image
+                    source={require('../../../assets/images/logoWhite.png')}
+                    style={CommonStyles.splashImg}
+                  />
                 </View>
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -222,10 +185,20 @@ class SignInScreen extends Component {
                   </View>
                   <View style={styles.formSubGroup1}>
                     {this.state.type === false ? (
-                      <FontAwesome name="eye-slash" size={20} color="#fff" onPress={this.showHide} />
+                      <FontAwesome
+                        name="eye-slash"
+                        size={20}
+                        color="#fff"
+                        onPress={this.showHide}
+                      />
                     ) : (
-                        <FontAwesome name="eye" size={20} color="#fff" onPress={this.showHide} />
-                      )}
+                      <FontAwesome
+                        name="eye"
+                        size={20}
+                        color="#fff"
+                        onPress={this.showHide}
+                      />
+                    )}
                   </View>
                 </View>
                 <Text style={styles.errorText}>
@@ -251,16 +224,28 @@ class SignInScreen extends Component {
                     )}
                 </Pressable>
                 <View style={styles.iconDiv}>
-                  <Image source={require('../../../assets/images/fb.png')} style={styles.iconImg} />
-                  <Image source={require('../../../assets/images/g.png')} style={styles.iconImg} />
-                  <Image source={require('../../../assets/images/google.png')} style={styles.iconImg} />
+                  <Image
+                    source={require('../../../assets/images/fb.png')}
+                    style={styles.iconImg}
+                  />
+                  <Image
+                    source={require('../../../assets/images/g.png')}
+                    style={styles.iconImg}
+                  />
+                  <Image
+                    source={require('../../../assets/images/google.png')}
+                    style={styles.iconImg}
+                  />
                 </View>
-                <Text style={styles.signupAcnt}>Don't have an account?{" "}
-                  <Text style={styles.signupText}
-                    onPress={() => this.props.navigation.navigate('SignUpScreen')}
-                  >
+                <Text style={styles.signupAcnt}>
+                  Don't have an account?{' '}
+                  <Text
+                    style={styles.signupText}
+                    onPress={() =>
+                      this.props.navigation.navigate('SignUpScreen')
+                    }>
                     Sign Up
-              </Text>
+                  </Text>
                 </Text>
               </View>
             </ScrollView>
@@ -271,15 +256,16 @@ class SignInScreen extends Component {
   }
 }
 
-// export default SignInScreen;
 
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
-    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
-    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
     updateUserDetails: (data) => dispatch(updateUserDetails(data)),
-    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);

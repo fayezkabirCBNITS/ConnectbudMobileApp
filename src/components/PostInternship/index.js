@@ -6,6 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Picker} from '@react-native-community/picker';
 import styles from "./styles";
+import { connect } from "react-redux";
 
 class PostInternship extends Component {
   constructor() {
@@ -162,4 +163,22 @@ class PostInternship extends Component {
   }
 }
 
-export default PostInternship;
+// export default PostInternship;
+const mapStateToProps = (state) => {
+
+  return {
+    userDeatailResponse: state.userData,
+    userID:state.userData.user_id,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //fetchCartData: () => dispatch(fetchCartData()),
+    //updateStoreId: (id) => dispatch(updateStoreId(id)),
+    //showLoader: (text) => dispatch(showLoader(text)),
+    // hideLoader: () => dispatch(hideLoader()),
+  };
+};
+
+export default connect(mapStateToProps, null)(PostInternship);

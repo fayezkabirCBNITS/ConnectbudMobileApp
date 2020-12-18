@@ -13,12 +13,39 @@ import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {
+  decodeToken,
+  deepClone,
+  logoutUser,
+} from "../../services/helper-methods";
+import { NavigationActions, StackActions } from "react-navigation";
+import { connect } from "react-redux";
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+  _logout = async(_) => {
+    await logoutUser();
+    this.resetStack();
+  };
+  resetStack = () => {
+    this.props.navigation.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({
+            routeName: "NonAuthStackNav",
+            action: NavigationActions.navigate({
+              routeName: "HomeScreen",
+            }),
+          }),
+        ],
+      })
+    );
+  };
+ 
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -85,6 +112,13 @@ export default class Sidebar extends Component {
                 <AntDesign name="contacts" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Contact</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={this._logout}
+                style={styles.menuOptn}>
+                <AntDesign name="contacts" color="#fff" size={27} />
+                <Text style={styles.menuOptnText}>Logout</Text>
+              </TouchableOpacity>
             </ScrollView>
           </ImageBackground>
         </View>
@@ -92,3 +126,10 @@ export default class Sidebar extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userData,
+  };
+};
+
+export default connect(mapStateToProps, null)(Sidebar);

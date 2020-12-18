@@ -14,10 +14,10 @@ export const getToken = () => {
     if (
       state &&
       state.userData &&
-      state.userData.accessToken &&
-      state.userData.accessToken.length
+      state.userData.Token &&
+      state.userData.Token.length
     ) {
-      token = state.userData.accessToken;
+      token = state.userData.Token;
     }
     resolve(token);
   });
