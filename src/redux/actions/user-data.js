@@ -6,7 +6,7 @@ import {
   // UPDATE_USER_VERIFICATION_STATUS,
   // UPDATE_USER_PAYMENT_METHOD,
   // STORE_ACCESS_TOKEN,
-  // CHANGE_APP_OPEN_STATUS,
+   CHANGE_APP_OPEN_STATUS,
 } from "./action-types";
 
 // export const updateCardToken = (cardToken) => {
@@ -47,14 +47,14 @@ import {
 //   };
 // };
 
-// export const changeAppOpenStatus = (openAppFirstTime) => {
-//   return {
-//     type: CHANGE_APP_OPEN_STATUS,
-//     payload: {
-//       openAppFirstTime,
-//     },
-//   };
-// };
+export const changeAppOpenStatus = (openAppFirstTime) => {
+  return {
+    type: CHANGE_APP_OPEN_STATUS,
+    payload: {
+      openAppFirstTime,
+    },
+  };
+};
 export const updateUserDetails = (userData) => {
   return {
     type: UPDATE_USER_DETAILS,

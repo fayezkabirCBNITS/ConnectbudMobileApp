@@ -19,9 +19,9 @@ import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 
 export const MainStack = createStackNavigator(
   {
-    HomeScreen: {
-      screen: HomeScreen
-    },
+    // HomeScreen: {
+    //   screen: HomeScreen
+    // },
     ProfileScreen: {
       screen: ProfileScreen,
     },
@@ -64,7 +64,7 @@ export const MainStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'CategoryScreen',
   }
 );
 export const AuthStackNav = createDrawerNavigator(

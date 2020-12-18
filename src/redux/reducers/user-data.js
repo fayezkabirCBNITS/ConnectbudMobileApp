@@ -5,7 +5,7 @@ import {
   // STORE_ACCESS_TOKEN,
   // UPDATE_USER_VERIFICATION_STATUS,
   // UPDATE_USER_PAYMENT_METHOD,
-  // CHANGE_APP_OPEN_STATUS,
+  CHANGE_APP_OPEN_STATUS,
   UPDATE_USER_DETAILS,
   LOGOUT,
 } from '../actions/action-types';
@@ -21,7 +21,8 @@ const initialState = {
   // accountStatus: "",
   // accessToken: "",
   // id: null,
-  // openAppFirstTime: true,
+  
+  openAppFirstTime: true,
 
   Flag: '',
   Status: '',
@@ -57,10 +58,10 @@ export const userDataReducer = (state = initialState, action) => {
     //   newState.isPaymentMethodAdded = true;
     //   break;
     // }
-    // case CHANGE_APP_OPEN_STATUS: {
-    //   newState.openAppFirstTime = action.payload.openAppFirstTime;
-    //   break;
-    // }
+    case CHANGE_APP_OPEN_STATUS: {
+      newState.openAppFirstTime = action.payload.openAppFirstTime;
+      break;
+    }
 
     case UPDATE_USER_DETAILS: {
       newState.userDetails = action.payload.userData
@@ -74,7 +75,7 @@ export const userDataReducer = (state = initialState, action) => {
         ? action.payload.userData[0].Status
         : newState.Status;
 
-      newState.Token = action.payload.userData[0].Token
+      newState.Token  = action.payload.userData[0].Token
         ? action.payload.userData[0].Token
         : newState.Token;
 
