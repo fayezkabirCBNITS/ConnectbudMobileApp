@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Linking,
+  StyleSheet,
+} from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
-import style from './style';
 import {ScrollView} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+import { API_URL } from "../../config/url";
+import {WebView} from 'react-native-webview';
 import PortfolioExperience from '../../components/PortfolioExperience'
 import {withNavigation} from 'react-navigation';
 
@@ -15,11 +24,25 @@ class Portfolio extends Component {
     super(props);
     this.state = {
       portfolio: [{hdng: 'Design and Editing'}, {hdng: 'Online Coding'}],
+      profiledataset: [],
     };
   }
 
   static navigationOptions = {
     headerShown: false,
+  };
+
+  componentDidMount = async () => {
+    await axios({
+      url: API_URL + "expertProfile/Utkarsh-Sarkar-15",
+      method: 'GET',
+    })
+      .then((response) => {
+        this.setState({
+          profiledataset: response.data,
+        });
+      })
+      .catch(() => {});
   };
 
   render() {
@@ -35,28 +58,40 @@ class Portfolio extends Component {
         </View>
 
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.portfolio.map((item, i) => (
-            <View key={i} style={styles.portfolioSec}>
-              <View style={styles.portImgSec}>
-                <Image
-                  source={require('../../assets/images/bnr.jpg')}
-                  style={CommonStyles.image}
-                />
-                <View style={styles.portSecName}>
-                  <Text style={styles.portSecNameText}>{item.hdng}</Text>
+          {this.state.profiledataset.map((item, i) => (
+            <>
+              {item.portfolio.map((value, i) => (
+                // <a href={value.link}>
+                <View key={i} style={styles.portfolioSec}>
+                  <View style={styles.portImgSec}>
+                    <Image
+                      source={{uri: value.image}}
+                      style={CommonStyles.image}
+                    />
+                    <View style={styles.portSecName}>
+                      <Text
+                        style={styles.portSecNameText}
+                        onPress={() => Linking.openURL(value.link)}>
+                        {value.title}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.portDetails}>
+                    <View>
+                      {/* <Text style={styles.portDetailsHead}>Test</Text> */}
+                      <Text style={styles.portDetailsSlo}>
+                        {value.category}
+                      </Text>
+                    </View>
+                    <TouchableOpacity style={styles.editBtn}>
+                      <MaterialIcons name="mode-edit" color="#fff" size={18} />
+                      <Text style={styles.editBtnText}>Edit</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.portDetails}>
-                <View>
-                  <Text style={styles.portDetailsHead}>Test</Text>
-                  <Text style={styles.portDetailsSlo}>Test</Text>
-                </View>
-                <TouchableOpacity style={styles.editBtn}>
-                  <MaterialIcons name="mode-edit" color="#fff" size={18} />
-                  <Text style={styles.editBtnText}>Edit</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+                // </a>
+              ))}
+            </>
           ))}
         </ScrollView>
 
@@ -70,20 +105,27 @@ class Portfolio extends Component {
             </TouchableOpacity>
           </View>
         </View>
-
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.portfolio.map((item, i) => (
-            <View key={i} style={styles.portDocSec}>
-              <TouchableOpacity style={styles.portDocImgSec}>
-                <Ionicons
-                  name="document-attach-outline"
-                  color="rgba(0,0,0,0.3)"
-                  size={60}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
+        {this.state.profiledataset.map((item, i) => (
+          <>
+            <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+              {item.resumefile.map((value, i) => (
+                <View key={i} style={styles.portDocSec}>
+                  <TouchableOpacity style={styles.portDocImgSec}>
+                    <Text onPress={() => Linking.openURL(value.resumefile)}>
+                      {value.resumefile}
+                      {/* <WebView
+                       originWhitelist={['*']}
+                       source={{ html: 'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx' }}
+                       view={value.resumefile}
+                       style={{ marginTop: 20 }}
+                    /> */}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          </>
+        ))}
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
@@ -94,19 +136,21 @@ class Portfolio extends Component {
           </View>
         </View>
 
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.portfolio.map((item, i) => (
-            <View key={i} style={[styles.portfolioSec, {marginBottom: 20}]}>
-              <TouchableOpacity style={styles.portDocImgSec}>
-                <Ionicons
-                  name="ios-videocam-outline"
-                  color="rgba(0,0,0,0.3)"
-                  size={60}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
+        {/* {this.state.profiledataset.map((item, i) => (
+          <> */}
+        <View>
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html:
+                'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx',
+            }}
+            style={{marginTop: 20}}
+          />
+        </View>
+
+        {/* </>
+        ))} */}
       </ScrollView>
     );
   }

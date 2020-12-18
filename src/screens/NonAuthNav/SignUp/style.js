@@ -112,4 +112,8 @@ export default {
         fontFamily: 'Poppins-Regular',
         fontSize: 14,
       },
+      errorText: {
+        width: '100%',
+        color: '#fc0303',
+      },
 }

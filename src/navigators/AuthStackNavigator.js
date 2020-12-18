@@ -10,6 +10,7 @@ import StudentInner from '../screens/AuthNav/StudentInner';
 import EmployeeInner from '../screens/AuthNav/EmployeeInner';
 import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
 import Sidebar from '../components/Sidebar/index';
+import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
 import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
@@ -39,6 +40,9 @@ export const MainStack = createStackNavigator(
     },
     PostedProjectByEmployee : {
       screen:PostedProjectByEmployee
+    },
+    ViewProfileScreen: {
+      screen: ViewProfileScreen
     },
     AddPortfolioScreen :{
       screen : AddPortfolioScreen

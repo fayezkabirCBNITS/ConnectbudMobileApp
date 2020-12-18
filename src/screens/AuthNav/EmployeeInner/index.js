@@ -21,7 +21,7 @@ class EmployeeInner extends Component {
         {key: 'first', title: 'Hire a Tutor'},
         {key: 'second', title: 'Post a Project'},
         {key: 'third', title: 'Post an Interships / Jobs'},
-        {key: 'forth', title: 'Search for College Students'},
+        {key: 'fourth', title: 'Search for College Students'},
       ],
     };
   }
@@ -30,7 +30,11 @@ class EmployeeInner extends Component {
     headerShown: false,
   };
 
-  render() {
+  NavtoPostedpage = () => {
+    this.props.navigation.navigate('PostedProjectByEmployee');
+  }
+
+  render() {    
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -55,7 +59,7 @@ class EmployeeInner extends Component {
                   first: HireTutor,
                   second: PostProject,
                   third: PostInternship,
-                  forth: SearchClgStu,
+                  fourth: SearchClgStu,
                 })}
                 onIndexChange={(index) => this.setState({index})}
                 style={{flex: 1, justifyContent: 'center'}}
