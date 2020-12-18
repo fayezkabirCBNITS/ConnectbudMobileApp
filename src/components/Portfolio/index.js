@@ -16,10 +16,12 @@ import axios from 'axios';
 import { API_URL } from "../../config/url";
 import {WebView} from 'react-native-webview';
 import PortfolioExperience from '../../components/PortfolioExperience'
+import {withNavigation} from 'react-navigation';
+
 
 class Portfolio extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       portfolio: [{hdng: 'Design and Editing'}, {hdng: 'Online Coding'}],
       profiledataset: [],
@@ -49,7 +51,7 @@ class Portfolio extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading}>
             <Text style={styles.portfolioHead}>Portfolio</Text>
-            <TouchableOpacity>
+            <TouchableOpacity >
               <Text style={styles.addPortfolio}>+ Add Portfolio</Text>
             </TouchableOpacity>
           </View>
@@ -93,7 +95,7 @@ class Portfolio extends Component {
           ))}
         </ScrollView>
 
-        <PortfolioExperience />
+        <PortfolioExperience/>
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
@@ -154,4 +156,4 @@ class Portfolio extends Component {
   }
 }
 
-export default Portfolio;
+export default withNavigation(Portfolio);

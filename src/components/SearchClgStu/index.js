@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -12,40 +12,66 @@ import CommonStyles from '../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import styles from './styles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
 
 import axios from 'axios';
-import {API_URL} from '../../config/url';
-import {Value} from 'react-native-reanimated';
+import { API_URL } from '../../config/url';
+import { Value } from 'react-native-reanimated';
+
+var items = [
+  {
+    id: 1,
+    name: 'JavaScript',
+  },
+  {
+    id: 2,
+    name: 'Java',
+  },
+  {
+    id: 3,
+    name: 'Ruby',
+  },
+  {
+    id: 4,
+    name: 'React Native',
+  },
+  {
+    id: 5,
+    name: 'PHP',
+  },
+  {
+    id: 6,
+    name: 'Python',
+  },
+  {
+    id: 7,
+    name: 'Go',
+  },
+  {
+    id: 8,
+    name: 'Swift',
+  },
+];
 
 class SearchClgStu extends Component {
   constructor() {
     super();
     this.state = {
-      showSkills: false,
-      skillsData: [
-        {title: 'C'},
-        {title: 'JAVA'},
-        {title: 'C++'},
-        {title: 'C#'},
-      ],
-      FreelancerSet: [],
-      skillOptions: [],
+      selectedItems: [
+        {
+          id: 7,
+          name: 'Go',
+        },
+        {
+          id: 8,
+          name: 'Swift',
+        }
+      ]
     };
   }
 
-  SkillSearch = async () => {
-    await axios.get(API_URL + 'keyskill/recruiter').then((response) => {
-      this.setState({
-        skillOptions: response.data,
-      });
-    });
-  };
-
-  handleSkills = async () => {
-    this.setState({showSkills: !this.state.showSkills});
-  };
 
   static navigationOptions = {
     headerShown: false,
@@ -53,7 +79,7 @@ class SearchClgStu extends Component {
 
   componentDidMount = () => {
     this.AllEmployee();
-    this.SkillSearch();
+    //this.SkillSearch();
   };
 
   AllEmployee = async () => {
@@ -109,7 +135,7 @@ class SearchClgStu extends Component {
   };
 
   render() {
-    const renderSkillItems = ({item}) => (
+    const renderSkillItems = ({ item }) => (
       <TouchableOpacity style={styles.headSec}>
         <View style={styles.details}>
           <Text style={styles.flastListHead}>{item.title}</Text>
@@ -120,100 +146,113 @@ class SearchClgStu extends Component {
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <Text style={styles.title}>Search</Text>
-          <View style={styles.skillView}>
-            <View style={[styles.formGroup1]}>
-              <View style={[styles.formSubGroup2, { flexWrap: 'wrap' }]}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Java"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                />
-              </View>
-              <View style={{ marginTop: 10 }}>
-                <FontAwesome
-                  name="angle-down"
-                  size={28}
-                  color="#d7d7d8"
-                  onPress={() => this.handleSkills()}
-                />
-              </View>
-            </View>
+          <View>
+            <SearchableDropdown
+              onItemSelect={(item) => {
+                alert(item)
+                const items = this.state.selectedItems;
+                items.push(item)
+                this.setState({ selectedItems: items });
+              }}
+              containerStyle={{ padding: 5, marginVertical: 15, width: "90%", marginHorizontal: "5%" }}
+              // onRemoveItem={(item, index) => {
+              //   const items = this.state.selectedItems.filter((sitem) => sitem.id !== item.id);
+              //   this.setState({ selectedItems: items });
+              // }}
+              itemStyle={{
+                padding: 10,
+                marginTop: 2,
+                backgroundColor: '#ddd',
+                borderColor: '#bbb',
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
+              itemTextStyle={{ color: '#222' }}
+              itemsContainerStyle={{ maxHeight: 140 }}
+              items={items}
+              defaultIndex={2}
+              resetValue={false}
+              textInputProps={
+                {
+                  placeholder: "Search your project",
+                  underlineColorAndroid: "transparent",
+                  style: {
+                    padding: 12,
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                    borderRadius: 5,
+                  },
+                  // onTextChange: text => alert(text)
+                }
+              }
+              listProps={
+                {
+                  nestedScrollEnabled: true,
+                }
+              }
+            />
           </View>
-          {this.state.showSkills === true ? (
-            <View style={[styles.flatList, {marginTop: -15}]}>
-              <FlatList
-                data={this.state.skillsData}
-                ItemSeparatorComponent={this.FlatListItemSeparator}
-                renderItem={renderSkillItems}
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-          ) : (
-            <></>
-          )}
+
           <Text style={styles.title}>College Student List</Text>
-          <ScrollView>
-          {this.state.FreelancerSet.map((item, i) => {
-            return (
-              <TouchableOpacity style={{marginTop: -5}}>
-                <View style={CommonStyles.container}>
-                  <View style={styles.subjectWrapper}>
-                    <View style={[styles.leftSection]}>
-                      <Image
-                        source={{uri: item.user_image}}
-                        style={styles.userImg}
-                      />
+          <TouchableOpacity style={{ marginTop: -5 }}>
+            <View style={CommonStyles.container}>
+              <View style={styles.subjectWrapper}>
+                <View style={[styles.leftSection]}>
+                  <Image
+                    source={require('../../assets/images/userPro.jpg')}
+                    style={styles.userImg}
+                  />
+                </View>
+                <View style={styles.rightSection}>
+                  <Text style={styles.boxTitle}>Angad Kumar</Text>
+                  <View style={[styles.flexstyle, styles.timeAgo]}>
+
+                    <FontAwesome
+                      name="graduation-cap"
+                      color="#71b85f"
+                      size={15}
+                    />
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Text style={styles.iconText}>Institute :</Text><Text style={{ fontSize: 12, fontFamily: 'Poppins-SemiBold' }}> San Jose</Text>
                     </View>
-                    <View style={styles.rightSection}>
-                      <Text style={styles.boxTitle}>{item.name}</Text>
-                      <View style={[styles.flexstyle, styles.timeAgo]}>
-                        <FontAwesome
-                          name="graduation-cap"
-                          color="#71b85f"
-                          size={15}
-                        />
-                        <Text style={styles.iconText}>
-                          Institute :<Text> {item.institute}</Text>
-                        </Text>
-                      </View>
-                      <View style={[styles.flexstyle, styles.timeAgo]}>
-                        <FontAwesome
-                          name="institution"
-                          color="#71b85f"
-                          size={15}
-                        />
-                        <Text style={styles.iconText}>
-                          Prefered :<Text> {item.prefferedskill}</Text>
-                        </Text>
-                      </View>
-                      <View
-                        style={[
-                          styles.flexstyle,
-                          styles.timeAgo,
-                          {marginLeft: -5},
-                        ]}>
-                        <Entypo name="location-pin" color="#71b85f" size={25} />
-                        <Text style={styles.iconText}>
-                          Location :<Text> {Value.location}</Text>
-                        </Text>
-                      </View>
-                      {item.skillset.map((value, i) => (
-                        <View style={styles.btnGrp}>
-                          <TouchableOpacity style={styles.subBtn}>
-                            <Text style={styles.btnText}>
-                              {value.skill_name}
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      ))}
+
+                  </View>
+                  <View style={[styles.flexstyle, styles.timeAgo]}>
+
+                    <FontAwesome
+                      name="institution"
+                      color="#71b85f"
+                      size={15}
+                    />
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Text style={styles.iconText}>Prefered :</Text><Text style={{ fontSize: 12, fontFamily: 'Poppins-SemiBold' }}> Data Science</Text>
                     </View>
                   </View>
+                  <View style={[styles.flexstyle, styles.timeAgo, { marginLeft: -5, }]}>
+                    <Entypo
+                      name="location-pin"
+                      color="#71b85f"
+                      size={25}
+                    />
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Text style={styles.iconText}>Location :</Text><Text style={{ fontSize: 12, fontFamily: 'Poppins-SemiBold' }}> Kolkata, India</Text>
+                    </View>
+                  </View>
+                  <View style={styles.btnGrp}>
+                    <TouchableOpacity style={styles.subBtn}>
+                      <Text style={styles.btnText}>Python</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.subBtn}>
+                      <Text style={styles.btnText}>Hive</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.subBtn}>
+                      <Text style={styles.btnText}>React</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </TouchableOpacity>
-            );
-          })}
-          </ScrollView>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );

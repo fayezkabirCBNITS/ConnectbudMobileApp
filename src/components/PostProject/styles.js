@@ -7,10 +7,7 @@ export default {
     form: {
         marginTop:20,
         marginHorizontal: 10,
-        // borderColor: "rgba(113,184,95,0.3)",
-        // borderWidth: 2,
         padding: 10,
-        // borderRadius: 6
       },
       title: {
         fontWeight: 'bold',
@@ -34,8 +31,16 @@ export default {
         backgroundColor: '#f8f8f8',
         borderRadius: 4,
         fontSize: 16,
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor:'rgba(59,29,37,0.5)',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
     },
     formGroup1: {
         width: '100%',
@@ -43,9 +48,18 @@ export default {
         backgroundColor: '#f8f8f8',
         borderRadius: 4,
         fontSize: 16,
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor:'rgba(59,29,37,0.5)',
         flexDirection: 'row',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+        textAlignVertical: 'top',
     },
     flatList:{
         width: '85%',
@@ -68,9 +82,7 @@ export default {
         justifyContent: 'center',
         alignItems: 'center',
       },
-      formSubGroup2: {
-        width: '80%',
-      },
+  
       authBtn: {
         width: '50%',
         marginHorizontal: '8%',

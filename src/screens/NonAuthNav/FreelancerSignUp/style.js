@@ -1,7 +1,24 @@
+const React = require('react-native');
+const {Dimensions} = React;
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
+
 export default {
   main: {
     flex: 1,
     backgroundColor:'#71b85f'
+  },
+  formrow: {
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    alignSelf:'flex-start',
+    justifyContent:'flex-start'
+},
+  container: {
+    width: '100%',
+    paddingHorizontal: '5%',
+    marginTop:40,
   },
     inputDiv: {
         flex: 1, 
@@ -17,10 +34,10 @@ export default {
         
       },
       logo:{
-        marginTop:80,
         justifyContent: 'center', 
         marginBottom: 50, 
-        alignItems: 'center'
+        alignItems: 'center', 
+        opacity:0.9
       },
       inputText:{
         height: 40, 
@@ -40,42 +57,32 @@ export default {
       },
       forgetText:{
         color: '#f7ec1e',
-        fontSize: 15,
-        fontFamily: 'Poppins-SemiBold',
+        fontSize: 16
       },
       signinBtn:{
         width: '70%',
         backgroundColor: '#f7ec1e', 
         padding: 15, 
         alignItems: 'center', 
+        alignSelf:'center',
         marginTop: 20, 
-        borderRadius: 40
+        borderRadius: 40,
       },
       signinText:{
-        fontSize: 15,
+        fontSize: 16,
         fontFamily: 'Poppins-SemiBold',
       },
-      iconDiv:{
-        display: 'flex', 
-        flexDirection: 'row'
-      },
-      iconImg:{
-        width:50,
-        height:50,
-        borderRadius:25,
-        marginTop:50,
-        margin:5
-      },
       signupAcnt:{
-        marginTop: 30,
-        color:'#fff' ,
-        fontSize: 14,
+        marginTop: 20,
+        marginBottom:50,
         fontFamily: 'Poppins-Regular',
+        color:'#fff' ,
+        fontSize: 14
       },
       signupText:{
         color: '#f7ec1e',
-        fontSize: 14,
         fontFamily: 'Poppins-SemiBold',
+        fontSize: 14
       },
       formGroup1: {
         width: '100%',
@@ -93,19 +100,32 @@ export default {
       formSubGroup2: {
         width: '90%',
       },
+      formSubGroupNum: {
+        width: '25%',
+        justifyContent: 'center',
+        alignItems: 'center',
+     
+      },
+      formSubGroup2Num: {
+        width: '75%',
+      },
       inputHead: {
-        color: 'rgba(59,29,37,0.5)',
+        color: '#fff',
+        fontFamily: 'Poppins-SemiBold',
         fontSize: 14,
         marginBottom: 5,
+        alignSelf:'flex-start',
       },
       inputGroup: {
         color: '#fff',
+        fontFamily: 'Poppins-Regular',
         height: 45,
         fontSize: 14,
-        fontFamily: 'Poppins-Regular',
       },
-      errorText: {
-        width: '100%',
-        color: '#fc0303',
-      },
-}
+  radio: {
+    backgroundColor:'transparent',         
+    borderWidth:0,
+    paddingLeft:0,
+  
+},
+};

@@ -18,10 +18,10 @@ class EmployeeInner extends Component {
     this.state = {
       index: 0,
       routes: [
-        // {key: 'first', title: 'Hire a Tutor'},
-        {key: 'first', title: 'Post a Project'},
-        {key: 'second', title: 'Post an Interships / Jobs'},
-        {key: 'third', title: 'Search for College Students'},
+        {key: 'first', title: 'Hire a Tutor'},
+        {key: 'second', title: 'Post a Project'},
+        {key: 'third', title: 'Post an Interships / Jobs'},
+        {key: 'fourth', title: 'Search for College Students'},
       ],
     };
   }
@@ -56,10 +56,10 @@ class EmployeeInner extends Component {
               <TabView
                 navigationState={this.state}
                 renderScene={SceneMap({
-                  // first: HireTutor,
-                  first: PostProject,
-                  second: PostInternship,
-                  third: SearchClgStu,
+                  first: HireTutor,
+                  second: PostProject,
+                  third: PostInternship,
+                  fourth: SearchClgStu,
                 })}
                 onIndexChange={(index) => this.setState({index})}
                 style={{flex: 1, justifyContent: 'center'}}

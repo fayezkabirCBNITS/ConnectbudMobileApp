@@ -1,3 +1,7 @@
+const React = require('react-native');
+const {Dimensions} = React;
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 export default {
   main: {
     flex: 1,
@@ -5,6 +9,7 @@ export default {
   },
   container: {
     width: '100%',
+    height:'100%',
     paddingHorizontal: '5%',
     marginTop:40,
   },
@@ -25,7 +30,7 @@ export default {
         justifyContent: 'center', 
         marginBottom: 50, 
         alignItems: 'center', 
-        backgroundColor: '#71b85f'
+        //backgroundColor: '#71b85f'
       },
       inputText:{
         height: 40, 
@@ -48,24 +53,28 @@ export default {
         fontSize: 16
       },
       signinBtn:{
-        width: '100%',
+        width: '70%',
         backgroundColor: '#f7ec1e', 
         padding: 15, 
         alignItems: 'center', 
-        marginTop: 20, 
+        marginTop: 30, 
         borderRadius: 40
       },
       signinText:{
-        fontSize: 16
+        fontSize: 14,
+        fontFamily: 'Poppins-SemiBold',
       },
       signupAcnt:{
-        marginTop: 50,
+        marginTop: 30,
         color:'#fff' ,
-        fontSize: 16
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        
       },
       signupText:{
         color: '#f7ec1e',
-        fontSize: 16 
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
       },
       formGroup1: {
         width: '100%',
@@ -100,7 +109,8 @@ export default {
       inputGroup: {
         color: '#fff',
         height: 45,
-        fontSize: 15,
+        fontFamily: 'Poppins-Regular',
+        fontSize: 14,
       },
       errorText: {
         width: '100%',

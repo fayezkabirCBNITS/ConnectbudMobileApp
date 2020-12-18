@@ -12,10 +12,11 @@ import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { API_URL } from "../../config/url";
+import {withNavigation} from 'react-navigation';
 
 class PortfolioExperience extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       experienceset: [],
       urlprofessional: "",
@@ -48,7 +49,7 @@ class PortfolioExperience extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
             <Text style={styles.portfolioHead}>Experience</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddExperienceScreen')}>
               <Text style={styles.addPortfolio}>+ Add Experience</Text>
             </TouchableOpacity>
           </View>
@@ -105,4 +106,4 @@ class PortfolioExperience extends Component {
   }
 }
 
-export default PortfolioExperience;
+export default withNavigation(PortfolioExperience);

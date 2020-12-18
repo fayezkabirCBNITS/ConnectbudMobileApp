@@ -12,7 +12,7 @@ export default {
     height: 50,
     color: '#000',
     fontFamily: 'Poppins-Regular',
-    fontSize: 16,
+    fontSize: 14,
   },
   searchBar: {
     width: '100%',
@@ -39,7 +39,7 @@ export default {
     height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginVertical: 10,
   },
   loginBtn: {
     width: '100%',
@@ -104,5 +104,54 @@ export default {
     textAlign: 'center',
     color: '#71b85f',
     fontSize: 18,
+  },
+  searchDropSec: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 2,
+  },
+  searchPicker: {
+    width: '80%',
+    height: 50,
+    borderColor: '#71b85f',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  dropSerachIcon: {
+    width: '15%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#71b85f',
+    borderRadius: 5,
+  },
+  hdng2: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 19,
+  },
+  hdngLg: {
+    marginTop: -7,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 19,
+  },
+  hdngLgGreen: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 19,
+    color: '#71b85f'
+  },
+  lightGrey: {    
+    paddingVertical: 20,
+    backgroundColor: '#f6f8fb'
+  },
+  green: {    
+    paddingVertical: 20,
+    backgroundColor: '#70b85f'
+  },
+  hdngWhite: {
+    marginTop: -7,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 21,
+    color: '#fff'
   },
 };
