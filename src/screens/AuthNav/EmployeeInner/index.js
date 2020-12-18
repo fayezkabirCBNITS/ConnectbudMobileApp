@@ -12,6 +12,7 @@ import SearchClgStu from '../../../components/SearchClgStu';
 import Header from '../../../components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import OnlineClassEmployer from "../../../components/OnlineCodingClassEmployer"
 //
 import { connect } from "react-redux";
 //import {updateUserDetails} from "../../../redux/actions/user-data";
