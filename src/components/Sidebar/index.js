@@ -63,7 +63,7 @@ export default class Sidebar extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuOptn}
-                onPress={() => this.props.navigation.navigate('')}>
+                onPress={() => this.props.navigation.navigate('InnerChatting')}>
                 <Entypo name="message" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Chat</Text>
               </TouchableOpacity>
