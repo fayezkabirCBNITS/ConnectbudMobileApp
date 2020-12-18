@@ -32,6 +32,26 @@ class StudentInner extends Component {
     headerShown: false,
   };
 
+  navigateToDetails = async() => {
+    console.log("called props");
+    this.props.navigation.navigate('ProjectDetailsFreelancer');
+  }
+
+  renderScene = ({ route }) => {
+    switch (route.title) {
+      case 'Tutoring Jobs':
+        return <TutoringJobs navigateToDetails={this.navigateToDetails}/>; // passing data as data prop
+      case 'Project':
+        return <StudentProject />;
+      case 'Interships / Jobs':
+        return <InternshipJobs />;
+      case 'Search for College Students':
+        return <QuestionAnswer />;
+      default:
+        return null;
+    }
+  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -42,12 +62,13 @@ class StudentInner extends Component {
             <View style={styles.tabSec}>
               <TabView
                 navigationState={this.state}
-                renderScene={SceneMap({
-                  first: TutoringJobs,
-                  second: StudentProject,
-                  third: InternshipJobs,
-                  forth: QuestionAnswer,
-                })}
+                // renderScene={SceneMap({
+                //   first: TutoringJobs,
+                //   second: StudentProject,
+                //   third: InternshipJobs,
+                //   forth: QuestionAnswer,
+                // })}
+                renderScene={this.renderScene}
                 onIndexChange={(index) => this.setState({index})}
                 style={{flex: 1, justifyContent: 'center'}}
                 renderTabBar={(props) => {

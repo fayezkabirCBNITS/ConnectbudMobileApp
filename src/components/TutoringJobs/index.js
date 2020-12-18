@@ -51,6 +51,11 @@ class TutoringJobs extends Component {
     this.feedProjects();
   }
 
+  PageNav = async(JobId) => {
+    console.log(JobId);
+    this.props.navigateToDetails();
+  }
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -58,7 +63,7 @@ class TutoringJobs extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {
               this.state.tutorexpertset.map((item, idx) => (
-                <TouchableOpacity key={idx}>
+                <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
                   <View style={CommonStyles.container}>
                     <View style={styles.subjectWrapper}>
                       <View style={styles.leftSection}>
