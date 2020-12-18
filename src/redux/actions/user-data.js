@@ -1,7 +1,8 @@
 import {
   UPDATE_USER_DETAILS,
+  UPDATE_USER_JOBID,
+  UPDATE_VIEWPROFILE,
   LOGOUT,
-  UPDATE_JOB_ID
 
   // UPDATE_CARD_TOKEN,
   // UPDATE_USER_VERIFICATION_STATUS,
@@ -10,14 +11,14 @@ import {
   // CHANGE_APP_OPEN_STATUS,
 } from "./action-types";
 
-export const updateJobId = (id) => {
-  return {
-    type: UPDATE_JOB_ID,
-    payload: {
-      id,
-    },
-  };
-};
+// export const updateJobId = (id) => {
+//   return {
+//     type: UPDATE_JOB_ID,
+//     payload: {
+//       id,
+//     },
+//   };
+// };
 
 // export const updateUserStatus = (isUserVerified) => {
 //   return {
@@ -61,6 +62,27 @@ export const updateUserDetails = (userData) => {
     type: UPDATE_USER_DETAILS,
     payload: {
       userData,
+    },
+  };
+};
+
+//update job id
+export const updateJobId = (jobId) => {
+  return {
+    type: UPDATE_USER_JOBID,
+    payload: {
+      jobId,
+    },
+  };
+};
+
+//update landing viewprofile data
+export const updateViewProfile = (slug, user_id) => {
+  return {
+    type: UPDATE_VIEWPROFILE,
+    payload: {
+      slug,
+      user_id
     },
   };
 };

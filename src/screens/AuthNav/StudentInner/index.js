@@ -11,13 +11,14 @@ import InternshipJobs from '../../../components/InternshipJobs';
 import QuestionAnswer from '../../../components/QuestionAnswer';
 import Header from '../../../components/Header';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import RBSheet from "react-native-raw-bottom-sheet";
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Filter from '../../../components/Filter';
 
 class StudentInner extends Component {
   constructor() {
     super();
     this.state = {
+      JobId : "",
       index: 0,
       routes: [
         {key: 'first', title: 'Tutoring Jobs'},
@@ -32,6 +33,36 @@ class StudentInner extends Component {
     headerShown: false,
   };
 
+  navigateToDetails = async () => {
+    this.props.navigation.navigate('ProjectDetailsFreelancer');
+  };
+
+  ProjectId = async (data) => {
+    console.log(data);
+    this.setState({
+      JobId : data,
+    })
+  };
+
+  renderScene = ({route}) => {
+    switch (route.title) {
+      case 'Tutoring Jobs':
+        return <TutoringJobs />; // passing data as data prop
+      case 'Project':
+        return (
+          <StudentProject
+            navigateToDetails={this.navigateToDetails}
+          />
+        );
+      case 'Interships / Jobs':
+        return <InternshipJobs />;
+      case 'Search for College Students':
+        return <QuestionAnswer />;
+      default:
+        return null;
+    }
+  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -42,12 +73,13 @@ class StudentInner extends Component {
             <View style={styles.tabSec}>
               <TabView
                 navigationState={this.state}
-                renderScene={SceneMap({
-                  first: TutoringJobs,
-                  second: StudentProject,
-                  third: InternshipJobs,
-                  forth: QuestionAnswer,
-                })}
+                // renderScene={SceneMap({
+                //   first: TutoringJobs,
+                //   second: StudentProject,
+                //   third: InternshipJobs,
+                //   forth: QuestionAnswer,
+                // })}
+                renderScene={this.renderScene}
                 onIndexChange={(index) => this.setState({index})}
                 style={{flex: 1, justifyContent: 'center'}}
                 renderTabBar={(props) => {
@@ -71,29 +103,27 @@ class StudentInner extends Component {
               />
             </View>
           </ScrollView>
-          <TouchableOpacity onPress={() => this.RBSheet.open()} style={styles.filterSec}>
+          <TouchableOpacity
+            onPress={() => this.RBSheet.open()}
+            style={styles.filterSec}>
             <MaterialIcons name="filter-list" color="#71b85f" size={40} />
             <Text style={styles.filterText}>Filter</Text>
           </TouchableOpacity>
-              
+
           <RBSheet
-          ref={ref => {
-            this.RBSheet = ref;
-          }}
-          height={300}
-          openDuration={600}
-          customStyles={{
-            container: {
-              justifyContent: "center",
-              alignItems: "center"
-            }
-          }}
-        >
-
-          <Filter />
-
-        </RBSheet>
-          
+            ref={(ref) => {
+              this.RBSheet = ref;
+            }}
+            height={300}
+            openDuration={600}
+            customStyles={{
+              container: {
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            }}>
+            <Filter />
+          </RBSheet>
         </View>
       </SafeAreaView>
     );

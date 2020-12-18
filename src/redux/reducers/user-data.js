@@ -7,7 +7,8 @@ import {
   // UPDATE_USER_PAYMENT_METHOD,
   // CHANGE_APP_OPEN_STATUS,
   UPDATE_USER_DETAILS,
-  UPDATE_JOB_ID,
+  UPDATE_USER_JOBID,
+  UPDATE_VIEWPROFILE,
   LOGOUT,
 } from '../actions/action-types';
 
@@ -35,15 +36,22 @@ const initialState = {
   slug: '',
   user_id: '',
   userDetails: [],
-  jobid: ""
+  JOBID: '',
+  slugname: '',
+  view_user_id: ''
 };
 
 export const userDataReducer = (state = initialState, action) => {
-  let newState = {...state};
+  let newState = { ...state };
 
   switch (action.type) {
-    case UPDATE_JOB_ID: {
-      newState.jobid = action.payload.id;
+    case UPDATE_USER_JOBID: {
+      newState.JOBID = action.payload.jobId;
+      break;
+    }
+    case UPDATE_VIEWPROFILE: {
+      newState.slugname = action.payload.slug;
+      newState.view_user_id = action.payload.user_id;
       break;
     }
     // case UPDATE_USER_VERIFICATION_STATUS: {
@@ -81,7 +89,7 @@ export const userDataReducer = (state = initialState, action) => {
         : newState.Token;
 
       newState.expert_type = action.payload.userData[0].expert_type
-      
+
         ? action.payload.userData[0].expert_type
         : newState.expert_type;
 
