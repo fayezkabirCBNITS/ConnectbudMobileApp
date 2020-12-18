@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -8,6 +8,7 @@ import {
   TextInput,
   Pressable,
   Image,
+  ImageBackground,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -15,6 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
+import CommonStatusBar from '../../../components/StatusBar';
 
 class SignUpScreen extends Component {
   constructor() {
@@ -43,7 +45,7 @@ class SignUpScreen extends Component {
   }
 
   onSentOtp = () => {
-    this.setState({isSent: true});
+    this.setState({ isSent: true });
   };
 
   handleInputFirstName = async (e) => {
@@ -166,7 +168,7 @@ class SignUpScreen extends Component {
         // localStorage.setItem('last_name', res.data.last_name);
         this.props.navigation.navigate('SignInScreen');
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   submituserRegistrationForm = () => {
@@ -182,7 +184,7 @@ class SignUpScreen extends Component {
         <View style={styles.main}>
           <CommonStatusBar />
           <ImageBackground
-            style={{width:'100%', height:'100%'}}
+            style={{ width: '100%', height: '100%' }}
             source={require('../../../assets/images/authBg.jpg')}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={[styles.container, styles.inputDiv]}>
@@ -240,11 +242,11 @@ class SignUpScreen extends Component {
                   </View>
                   <View style={styles.formSubGroupNum}>
                     <Pressable
-                      style={{backgroundColor: '#595555', borderRadius: 40}}>
+                      style={{ backgroundColor: '#595555', borderRadius: 40 }}>
                       <Text
                         style={{
                           paddingHorizontal: 10,
-                          paddingVertical: 5,fontSize:12,
+                          paddingVertical: 5, fontSize: 12,
                           fontFamily: 'Poppins-Regular',
                           color: '#fff',
                         }}
@@ -269,14 +271,14 @@ class SignUpScreen extends Component {
                     </View>
                     <View style={styles.formSubGroupNum}>
                       <Pressable
-                        style={{backgroundColor: '#595555', borderRadius: 40}}>
+                        style={{ backgroundColor: '#595555', borderRadius: 40 }}>
                         <Text
                           style={{
                             paddingHorizontal: 10,
                             paddingVertical: 5,
                             color: '#fff',
                           }}
-                          // onPress={()=>this.onSentOtp()}
+                        // onPress={()=>this.onSentOtp()}
                         >
                           Verify
                         </Text>
@@ -292,47 +294,30 @@ class SignUpScreen extends Component {
                       placeholder="Type Password"
                       style={styles.inputGroup}
                       keyboardType="default"
-                      secureTextEntry
+                      secureTextEntry={this.state.type}
                       placeholderTextColor={'#fff'}
                       value={this.state.password}
-                      onChange={this.handleInputName}
+                      onChangeText={this.handleInputPassword}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
-                    <AntDesign name="lock" size={20} color="#fff" />
+                    {this.state.type === false ? (
+                      <FontAwesome name="eye-slash" size={20} color="#fff" onPress={this.showHide} />
+                    ) : (
+                        <FontAwesome name="eye" size={20} color="#fff" onPress={this.showHide} />
+                      )}
                   </View>
                 </View>
+                <Text
+                  style={styles.errorText}>
+                  {this.state.errors.password}
+                </Text>
 
-            <View style={styles.formGroup1}>
-              <View style={styles.formSubGroup2}>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Type Password"
-                  style={styles.inputGroup}
-                  keyboardType="default"
-                  secureTextEntry={this.state.type}
-                  value={this.state.password}
-                  onChangeText={this.handleInputPassword}
-                />
-              </View>
-              <View style={styles.formSubGroup1}>
-              {this.state.type === false ? (
-                  <FontAwesome name="eye-slash" size={20} color="#fff" onPress={this.showHide} />
-                ) : (
-                    <FontAwesome name="eye" size={20} color="#fff" onPress={this.showHide} />
-                  )}
-              </View>
-            </View>
-            <Text
-              style={styles.errorText}>
-              {this.state.errors.password}
-            </Text>
-
-            <Pressable
-              style={styles.signinBtn}
-              onPress={this.submituserRegistrationForm}>
-              <Text style={styles.signinText}>Sign Up</Text>
-            </Pressable>
+                <Pressable
+                  style={styles.signinBtn}
+                  onPress={this.submituserRegistrationForm}>
+                  <Text style={styles.signinText}>Sign Up</Text>
+                </Pressable>
 
                 <Text style={styles.signupAcnt}>
                   Already have an account?{' '}
