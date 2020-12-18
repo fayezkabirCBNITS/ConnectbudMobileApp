@@ -313,11 +313,28 @@ class SignUpScreen extends Component {
                   {this.state.errors.password}
                 </Text>
 
-                <Pressable
-                  style={styles.signinBtn}
-                  onPress={this.submituserRegistrationForm}>
-                  <Text style={styles.signinText}>Sign Up</Text>
-                </Pressable>
+            <View style={styles.formGroup1}>
+              <View style={styles.formSubGroup2}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Type Password"
+                  style={styles.inputGroup}
+                  keyboardType="default"
+                  secureTextEntry
+                  value={this.state.password}
+                  onChange={this.handleInputName}
+                />
+              </View>
+              <View style={styles.formSubGroup1}>
+                <AntDesign name="lock" size={20} color="#fff" />
+              </View>
+            </View>
+
+            <Pressable
+              style={styles.signinBtn}
+              onPress={this.submituserRegistrationForm}>
+              <Text style={styles.signinText}>Sign Up</Text>
+            </Pressable>
 
                 <Text style={styles.signupAcnt}>
                   Already have an account?{' '}
