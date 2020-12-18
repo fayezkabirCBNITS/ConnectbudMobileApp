@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from "react-native-vector-icons/Entypo";
 import axios from 'axios';
 import { API_URL } from '../../config/url';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class TutoringJobs extends Component {
   constructor() {
@@ -51,10 +52,11 @@ class TutoringJobs extends Component {
     this.feedProjects();
   }
 
-  PageNav = async(JobId) => {
-    console.log(JobId);
-    this.props.navigateToDetails();
-  }
+  // PageNav = async(JobId) => {
+  //   console.log(JobId);
+  //   AsyncStorage.setItem("TutorJobId",JobId);
+  //   this.props.navigateToDetails();
+  // }
 
   render() {
     return (
@@ -63,7 +65,7 @@ class TutoringJobs extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {
               this.state.tutorexpertset.map((item, idx) => (
-                <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
+                <TouchableOpacity key={idx}>
                   <View style={CommonStyles.container}>
                     <View style={styles.subjectWrapper}>
                       <View style={styles.leftSection}>

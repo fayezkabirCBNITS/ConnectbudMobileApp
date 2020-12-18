@@ -9,6 +9,15 @@ import Entypo from "react-native-vector-icons/Entypo";
 
 import axios from 'axios';
 import { API_URL } from '../../config/url';
+//for redux
+import {
+  // storeAccessToken,
+  // updateUserStatus,
+  // updateUserPaymentMethod,
+  // updateUserDetails,
+  updateJobId
+} from "../../redux/actions/user-data";
+import { connect } from "react-redux";
 
 var items = [
   {
@@ -86,7 +95,6 @@ class StudentProject extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           // lodarStatus: false,
           expertset: response.data,
@@ -97,6 +105,12 @@ class StudentProject extends Component {
         this.setState({ isLoading: false });
       });
   };
+
+  PageNav = async(JobId) => {
+    // await AsyncStorage.setItem('ProjectJobId' , JobId);
+    this.props.navigateToDetails();
+    this.props.updateJobId(JobId);
+  }
 
 
   render() {
@@ -152,8 +166,7 @@ class StudentProject extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {
               this.state.expertset.map((item, idx) => (
-
-                <TouchableOpacity key={idx}>
+                <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
                   <View style={CommonStyles.container}>
                     <View style={styles.subjectWrapper}>
                       <View style={styles.leftSection}>
@@ -221,4 +234,16 @@ class StudentProject extends Component {
   }
 }
 
-export default StudentProject;
+// export default StudentProject;
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
+    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
+    updateJobId: (data) => dispatch(updateJobId(data)),
+    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(StudentProject);
