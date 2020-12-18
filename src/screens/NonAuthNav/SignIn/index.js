@@ -24,7 +24,15 @@ import styles from './singInstyle';
 import base64 from "base-64";
 import axios from "axios";
 import { API_URL } from "../../../config/url";
-
+//for redux
+import {
+  // storeAccessToken,
+  // updateUserStatus,
+  // updateUserPaymentMethod,
+  updateUserDetails,
+} from "../../../redux/actions/user-data";
+import { connect } from "react-redux";
+//
 
 class SignInScreen extends Component {
   constructor() {
@@ -116,7 +124,9 @@ class SignInScreen extends Component {
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log('login res==============',response);
+        this.props.updateUserDetails(response.data);
+
         this.props.navigation.navigate('EmployeeInner')
         // localStorage.setItem("username", base64.decode(response.data[0].name));
         // localStorage.setItem("slugname", base64.decode(response.data[0].slug));
@@ -268,4 +278,15 @@ class SignInScreen extends Component {
   }
 }
 
-export default SignInScreen;
+// export default SignInScreen;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
+    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
+    updateUserDetails: (data) => dispatch(updateUserDetails(data)),
+    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignInScreen);
