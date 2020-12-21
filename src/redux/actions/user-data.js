@@ -1,19 +1,21 @@
 import {
   UPDATE_USER_DETAILS,
+  UPDATE_USER_JOBID,
+  UPDATE_VIEWPROFILE,
   LOGOUT,
 
   // UPDATE_CARD_TOKEN,
   // UPDATE_USER_VERIFICATION_STATUS,
   // UPDATE_USER_PAYMENT_METHOD,
   // STORE_ACCESS_TOKEN,
-  // CHANGE_APP_OPEN_STATUS,
+   CHANGE_APP_OPEN_STATUS,
 } from "./action-types";
 
-// export const updateCardToken = (cardToken) => {
+// export const updateJobId = (id) => {
 //   return {
-//     type: UPDATE_CARD_TOKEN,
+//     type: UPDATE_JOB_ID,
 //     payload: {
-//       cardToken,
+//       id,
 //     },
 //   };
 // };
@@ -47,19 +49,40 @@ import {
 //   };
 // };
 
-// export const changeAppOpenStatus = (openAppFirstTime) => {
-//   return {
-//     type: CHANGE_APP_OPEN_STATUS,
-//     payload: {
-//       openAppFirstTime,
-//     },
-//   };
-// };
+export const changeAppOpenStatus = (openAppFirstTime) => {
+  return {
+    type: CHANGE_APP_OPEN_STATUS,
+    payload: {
+      openAppFirstTime,
+    },
+  };
+};
 export const updateUserDetails = (userData) => {
   return {
     type: UPDATE_USER_DETAILS,
     payload: {
       userData,
+    },
+  };
+};
+
+//update job id
+export const updateJobId = (jobId) => {
+  return {
+    type: UPDATE_USER_JOBID,
+    payload: {
+      jobId,
+    },
+  };
+};
+
+//update landing viewprofile data
+export const updateViewProfile = (slug, user_id) => {
+  return {
+    type: UPDATE_VIEWPROFILE,
+    payload: {
+      slug,
+      user_id
     },
   };
 };

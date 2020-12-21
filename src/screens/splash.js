@@ -2,20 +2,39 @@ import React, {Component} from 'react';
 import {View, Image, StatusBar} from 'react-native';
 import {NavigationActions, StackActions} from 'react-navigation';
 import CommonStyles from '../../CommonStyles';
-
+import {deepClone} from '../services/helper-methods';
+import {connect} from 'react-redux';
+import {changeAppOpenStatus} from '../redux/actions/user-data';
 class SplashScreen extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     console.log('123456 :>> ', 123456);
+    const {userData} = deepClone(this.props);
+    console.log('props data=============== :>> ', this.props);
+
     setTimeout(() => {
-      this.resetStack();
-    }, 1000);
+      if (userData && userData?.Token && userData?.Token.length) {
+        //this.rese;
+        console.log('open false :>> ');
+        this.props.changeAppOpenStatus(false);
+        //this.resetStack('AuthStackNav');
+        {
+          userData?.Flag === 'WQ=='
+            ? this.props.navigation.navigate('StudentInner')
+            : userData?.Flag === 'Rg=='
+            ? this.props.navigation.navigate('EmployeeInner')
+            : null;
+        }
+      }
+      else {
+        this.props.changeAppOpenStatus(true);
+        console.log('open true :>> ');
+
+        this.resetStack();
+      }
+    }, 3000);
   }
 
-  /**
-   * Reset Navigation stack with a new route
-   */
-  //NonAuthStackNav
-  resetStack = (routeName = 'AuthStackNav') => {
+  resetStack = (routeName = 'NonAuthStackNav') => {
     this.props.navigation.dispatch(
       StackActions.reset({
         index: 0,
@@ -27,6 +46,7 @@ class SplashScreen extends Component {
       }),
     );
   };
+
   render() {
     return (
       <View style={CommonStyles.splash}>
@@ -45,4 +65,16 @@ class SplashScreen extends Component {
   }
 }
 
-export default SplashScreen;
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeAppOpenStatus: (status) => dispatch(changeAppOpenStatus(status)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);

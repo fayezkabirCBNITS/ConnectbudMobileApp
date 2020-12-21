@@ -5,8 +5,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  SafeAreaView,
-  AsyncStorage
+  SafeAreaView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -21,6 +20,7 @@ import ViewPortfolio from '../../../components/ViewPortfolio';
 import ViewWorkHistory from '../../../components/ViewWorkHistory';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
+import { connect } from 'react-redux';
 
 
 class ViewProfileScreen extends Component {
@@ -29,9 +29,9 @@ class ViewProfileScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        {key: 'first', title: 'ViewOverview'},
-        {key: 'second', title: 'ViewPortfolio'},
-        {key: 'third', title: 'ViewWork History'},
+        { key: 'first', title: 'ViewOverview' },
+        { key: 'second', title: 'ViewPortfolio' },
+        { key: 'third', title: 'ViewWork History' },
       ],
       profiledataset: [],
     };
@@ -42,24 +42,38 @@ class ViewProfileScreen extends Component {
   };
 
   componentDidMount = async () => {
+    const { userDeatail } = this.props;
     await axios({
-      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
+      url: API_URL + "expertProfile/" + userDeatail.slugname,
       method: "GET",
     })
       .then((response) => {
         this.setState({
-          profiledataset: response.data,
-          freelancerId: response.data[0].user_id,
+          profiledataset: response.data
         });
       })
       .catch(() => { });
+  };
+
+  renderScene = ({ route }) => {
+    const { userDeatail } = this.props;
+    switch (route.title) {
+      case 'ViewOverview':
+        return <ViewOverview slugname={userDeatail.slugname}/>;
+      case 'ViewPortfolio':
+        return <ViewPortfolio slugname={userDeatail.slugname}/>
+      case 'ViewWork History':
+        return <ViewWorkHistory freeId={userDeatail.view_user_id}/>;
+      default:
+        return null;
+    }
   };
 
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-        <CommonStatusBar />
+          <CommonStatusBar />
           {/* {localStorage.getItem("user_id") !== null && localStorage.getItem("user_id") !== "undefined" && localStorage.getItem("status") !== null ? (
             <CommonStatusBar />
           ) : (
@@ -107,11 +121,12 @@ class ViewProfileScreen extends Component {
             <View style={styles.tabSec}>
               <TabView
                 navigationState={this.state}
-                renderScene={SceneMap({
-                  first: ViewOverview,
-                  second: ViewPortfolio,
-                  third: ViewWorkHistory,
-                })}
+                // renderScene={SceneMap({
+                //   first: ViewOverview,
+                //   second: ViewPortfolio,
+                //   third: ViewWorkHistory,
+                // })}
+                renderScene={this.renderScene}
                 onIndexChange={(index) => this.setState({ index })}
                 style={{ flex: 1, justifyContent: 'center' }}
                 renderTabBar={(props) => {
@@ -139,4 +154,9 @@ class ViewProfileScreen extends Component {
   }
 }
 
-export default ViewProfileScreen;
+const mapStateToProps = (state) => {
+  return {
+    userDeatail: state.userData,
+  };
+};
+export default connect(mapStateToProps, null)(ViewProfileScreen);

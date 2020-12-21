@@ -9,4 +9,6 @@ export {
   UPDATE_STORES,
   LOGOUT,
   CHANGE_APP_OPEN_STATUS,
+  UPDATE_USER_JOBID,
+  UPDATE_VIEWPROFILE
 } from "./action-types";

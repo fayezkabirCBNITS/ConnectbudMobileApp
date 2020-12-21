@@ -5,6 +5,9 @@ export const SHOW_LOADER = "SHOW_LOADER";
 export const HIDE_LOADER = "HIDE_LOADER";
 
 export const UPDATE_USER_DETAILS = "UPDATE USER DETAILS";
+export const UPDATE_USER_JOBID = "UPDATE USER JOBID";
+export const UPDATE_VIEWPROFILE = "UPDATE_VIEWPROFILE";
+
 export const LOGOUT = "LOGOUT";
 
 
@@ -23,4 +26,4 @@ export const LOGOUT = "LOGOUT";
 // export const UPDATE_STORES = "UPDATE STORES";
 
 
-// export const CHANGE_APP_OPEN_STATUS = "CHANGE APP OPEN STATUS";
+ export const CHANGE_APP_OPEN_STATUS = "CHANGE APP OPEN STATUS";

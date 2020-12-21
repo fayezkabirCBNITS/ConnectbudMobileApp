@@ -11,6 +11,9 @@ import EmployeeInner from '../screens/AuthNav/EmployeeInner';
 import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
 import Sidebar from '../components/Sidebar/index';
 import ProjectDetailsFreelancer from "./../screens/AuthNav/ProjectDetailsFreelancer";
+import JobDetailsFreelancer from "./../screens/AuthNav/JobDetailsFreelancer";
+import TutorDetailsFreelancer from "./../screens/AuthNav/TutorDetailsFreelancer";
+
 import ProposalFromFreelancer from "./../screens/AuthNav/ProposalFromFreelancer"
 import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
@@ -23,9 +26,9 @@ import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
 
 export const MainStack = createStackNavigator(
   {
-    HomeScreen: {
-      screen: HomeScreen
-    },
+    // HomeScreen: {
+    //   screen: HomeScreen
+    // },
     ProfileScreen: {
       screen: ProfileScreen,
     },
@@ -47,8 +50,14 @@ export const MainStack = createStackNavigator(
     PostedProjectByEmployee : {
       screen:PostedProjectByEmployee
     },
-    PostedDetailsFreelancer : {
+    ProjectDetailsFreelancer : {
       screen : ProjectDetailsFreelancer
+    },
+    TutorDetailsFreelancer : {
+      screen : TutorDetailsFreelancer
+    },
+    JobDetailsFreelancer : {
+      screen : JobDetailsFreelancer
     },
     ProposalFromFreelancer : {
       screen : ProposalFromFreelancer
@@ -80,7 +89,7 @@ export const MainStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'CategoryScreen',
   }
 );
 export const AuthStackNav = createDrawerNavigator(

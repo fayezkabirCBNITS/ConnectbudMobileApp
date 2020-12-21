@@ -30,14 +30,13 @@ class ViewWorkHistory extends Component {
   };
 
   componentDidMount = async () => {
-    //console.log(await AsyncStorage.getItem("user_id"));
     let body = new FormData();
     body.append("hirer_id", "");
     body.append("freelancer_id", "");
     body.append("job_id", "");
     body.append("type", "");
     body.append("page_type", "ongoing");
-    body.append("user_id", 2519);
+    body.append("user_id", this.props.freeId);
 
     await axios({
       url: API_URL + "fetchmilestones",
@@ -64,7 +63,7 @@ class ViewWorkHistory extends Component {
     body.append("job_id", "");
     body.append("type", "");
     body.append("page_type", "ongoing");
-    body.append("user_id", 2519);
+    body.append("user_id", this.props.freeId);
 
     await axios({
       url: API_URL + "fetchmilestones",
