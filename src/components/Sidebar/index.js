@@ -29,7 +29,8 @@ class Sidebar extends Component {
   }
   _logout = async (_) => {
     await logoutUser();
-    this.resetStack();
+    this.props.navigation.navigate('HomeScreen')
+    //this.resetStack();
   };
   resetStack = () => {
     this.props.navigation.dispatch(
