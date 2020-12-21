@@ -59,9 +59,9 @@ class ViewProfileScreen extends Component {
     const { userDeatail } = this.props;
     switch (route.title) {
       case 'ViewOverview':
-        return <ViewOverview />;
+        return <ViewOverview slugname={userDeatail.slugname}/>;
       case 'ViewPortfolio':
-        return <ViewPortfolio />
+        return <ViewPortfolio slugname={userDeatail.slugname}/>
       case 'ViewWork History':
         return <ViewWorkHistory freeId={userDeatail.view_user_id}/>;
       default:

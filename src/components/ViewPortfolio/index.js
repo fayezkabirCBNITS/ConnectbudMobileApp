@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Linking,
-  StyleSheet,
-  AsyncStorage
+  StyleSheet
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
@@ -32,7 +31,7 @@ class ViewPortfolio extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
+      url: API_URL + "expertProfile/" + this.props.slugname,
       method: 'GET',
     })
       .then((response) => {

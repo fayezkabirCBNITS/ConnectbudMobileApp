@@ -8,6 +8,15 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import axios from 'axios';
 import {API_URL} from '../../config/url';
+//for redux
+import {
+  // storeAccessToken,
+  // updateUserStatus,
+  // updateUserPaymentMethod,
+  // updateUserDetails,
+  updateJobId
+} from "../../redux/actions/user-data";
+import { connect } from "react-redux";
 
 class InternshipJobs extends Component {
   constructor() {
@@ -27,7 +36,7 @@ class InternshipJobs extends Component {
     taglistbody.append('type', 'recruiter');
     taglistbody.append('skills', '');
     taglistbody.append('search_type', 'all');
-    taglistbody.append('offset', '0');
+    taglistbody.append('offset', '10');
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -50,13 +59,19 @@ class InternshipJobs extends Component {
     this.expertJobs();
   }
 
+  PageNav = async(JobId) => {
+    // await AsyncStorage.setItem('ProjectJobId' , JobId);
+    this.props.navigateToDetailsJob();
+    this.props.updateJobId(JobId);
+  }
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.jobexpertSet.map((item, idx) => (
-              <TouchableOpacity key={idx}>
+              <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
                 <View style={CommonStyles.container}>
                   <View style={styles.subjectWrapper}>
                     <View style={styles.leftSection}>
@@ -107,4 +122,15 @@ class InternshipJobs extends Component {
   }
 }
 
-export default InternshipJobs;
+// export default InternshipJobs;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
+    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
+    updateJobId: (data) => dispatch(updateJobId(data)),
+    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(InternshipJobs);

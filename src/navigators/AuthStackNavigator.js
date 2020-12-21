@@ -11,11 +11,18 @@ import EmployeeInner from '../screens/AuthNav/EmployeeInner';
 import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
 import Sidebar from '../components/Sidebar/index';
 import ProjectDetailsFreelancer from "./../screens/AuthNav/ProjectDetailsFreelancer";
+import JobDetailsFreelancer from "./../screens/AuthNav/JobDetailsFreelancer";
+import TutorDetailsFreelancer from "./../screens/AuthNav/TutorDetailsFreelancer";
+
 import ProposalFromFreelancer from "./../screens/AuthNav/ProposalFromFreelancer"
 import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
 import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
+import InnerChatting from "./../screens/AuthNav/chats/chattingInner";
+import EditPostedProject from '../screens/AuthNav/EditPostedProject';
+import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
+import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
 
 export const MainStack = createStackNavigator(
   {
@@ -46,6 +53,12 @@ export const MainStack = createStackNavigator(
     ProjectDetailsFreelancer : {
       screen : ProjectDetailsFreelancer
     },
+    TutorDetailsFreelancer : {
+      screen : TutorDetailsFreelancer
+    },
+    JobDetailsFreelancer : {
+      screen : JobDetailsFreelancer
+    },
     ProposalFromFreelancer : {
       screen : ProposalFromFreelancer
     },
@@ -61,6 +74,18 @@ export const MainStack = createStackNavigator(
     },
     AddExperienceScreen:{
       screen:AddExperienceScreen
+    },
+    InnerChatting:{
+      screen:InnerChatting
+    },
+    EditPostedProject:{
+      screen: EditPostedProject
+    },
+    PostedProjectDetails:{
+      screen : PostedProjectDetails
+    },
+    AssessmentQuestion:{
+      screen : AssessmentQuestion
     },
   },
   {
