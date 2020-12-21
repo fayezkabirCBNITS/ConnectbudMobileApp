@@ -40,13 +40,14 @@ export default {
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   skillTab: {
-    width: '47%',
+    minWidth: 90,
     backgroundColor: '#E4E4E4',
-    paddingHorizontal: 10,
-    height: 50,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    // height: 50,
     borderRadius: 50 / 2,
     justifyContent: 'center',
     alignItems: 'center',

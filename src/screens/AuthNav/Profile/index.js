@@ -74,23 +74,20 @@ class ProfileScreen extends Component {
                     <FontAwesome name="camera" color="#71b85f" size={22} />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.userImg}>
+                {/* <View style={styles.userImg}>
                   <Image
                     source={{ uri: item.user_image }}
                     style={CommonStyles.usrImage}
                   />
-                  {/* <TouchableOpacity style={CommonStyles.userPhoto}>
-                  <FontAwesome name="camera" color="#71b85f" size={22} />
-                </TouchableOpacity> */}
-                </View>
-                {/* <TouchableOpacity style={styles.camPosition}>
+                </View> */}
+                <TouchableOpacity style={styles.camPosition}>
                 <FontAwesome name="camera" color="#71b85f" size={22} />
-              </TouchableOpacity> */}
+              </TouchableOpacity>
               </ImageBackground>
             ))}
             {this.state.profiledataset.map((item, i) => (
               <ScrollView
-                style={{ flexDirection: 'row', marginTop: -80 }}
+                style={{ flexDirection: 'row', marginTop: -70 }}
                 showsHorizontalScrollIndicator={false}
                 horizontal>
                 <View style={styles.details}>
