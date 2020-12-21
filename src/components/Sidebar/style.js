@@ -37,14 +37,34 @@ export default {
     borderBottomColor: 'rgba(255,255,255,0.2)',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   menuOptnText: {
-      width: '80%',
+    width: '80%',
     fontFamily: 'Poppins-Regular',
     color: '#fff',
     fontSize: 20,
     marginLeft: 10,
-    marginTop: 5
-  }
+    marginTop: 5,
+  },
+  socialIcon: {
+    width: '100%',
+    paddingHorizontal: '6%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingBottom: 5,
+  },
+  socialText: {
+    fontFamily: 'Poppins-SemiBold',
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  socialSec: {
+    height: 100,
+    justifyContent: 'center',    
+    borderTopColor: 'rgba(255,255,255,0.2)',
+    borderTopWidth: 1,
+  },
 };
