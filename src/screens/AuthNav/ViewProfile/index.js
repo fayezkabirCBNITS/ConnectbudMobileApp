@@ -29,9 +29,9 @@ class ViewProfileScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: 'first', title: 'ViewOverview' },
-        { key: 'second', title: 'ViewPortfolio' },
-        { key: 'third', title: 'ViewWork History' },
+        { key: 'first', title: 'View Overview' },
+        { key: 'second', title: 'View Portfolio' },
+        { key: 'third', title: 'View Work History' },
       ],
       profiledataset: [],
     };
@@ -92,13 +92,19 @@ class ViewProfileScreen extends Component {
                     source={{ uri: item.user_image }}
                     style={CommonStyles.usrImage}
                   />
+                  <TouchableOpacity style={CommonStyles.userPhoto}>
+                    <FontAwesome name="camera" color="#71b85f" size={22} />
+                  </TouchableOpacity>
                 </View>
+                <TouchableOpacity style={styles.camPosition}>
+                <FontAwesome name="camera" color="#71b85f" size={22} />
+              </TouchableOpacity>
               </ImageBackground>
             ))}
 
             {this.state.profiledataset.map((item, i) => (
               <ScrollView
-                style={{ flexDirection: 'row', marginTop: -80 }}
+                style={{ flexDirection: 'row', marginTop: -70 }}
                 showsHorizontalScrollIndicator={false}
                 horizontal>
                 <View style={styles.details}>
@@ -132,6 +138,7 @@ class ViewProfileScreen extends Component {
                 renderTabBar={(props) => {
                   return (
                     <TabBar
+                    scrollEnabled
                       {...props}
                       renderLabel={({ route, focused, color }) => (
                         <Text style={focused ? styles.label : styles.label2}>
