@@ -81,4 +81,13 @@ export default {
     resizeMode: 'cover',
     borderRadius: 50,
   },
+  errorMsg: {
+    width: '100%',
+    paddingHorizontal: '8%',
+    //paddingVertical: 5,
+  },
+  errorMsgText: {
+    color: '#FF5959',
+    fontFamily: 'Poppins-Regular',
+  },
 };
