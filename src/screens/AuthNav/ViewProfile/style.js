@@ -30,17 +30,17 @@ export default {
   },
   userInfo: {},
   userInfoHead: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Poppins-SemiBold',
   },
   userInfoDetails: {
+    marginTop: -5,
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
   details: {
     minWidth: 150,
-    padding: 10,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
     marginLeft: 10,
     borderWidth: 1,
     borderColor: '#aad49f',
@@ -60,8 +60,8 @@ export default {
   },
   tab: {
     backgroundColor: '#fff',
-    borderRadius: 10,
-    width: '90%',
+    // borderRadius: 10,
+    width: '100%',
     height: 50,
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -84,7 +84,7 @@ export default {
     fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
     width: 'auto',
-    color: '#f00',
+    color: '#71b85f',
     textAlign: 'center',
   },
   camPosition: {

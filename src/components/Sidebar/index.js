@@ -62,7 +62,7 @@ class Sidebar extends Component {
               </View>
 
               <View style={styles.userDetails}>
-                <Text style={styles.name}>Ankita Saha</Text>
+                <Text style={styles.name}>Ashnoor Kaur</Text>
                 <Text style={styles.slogan}>Lorem Lorem Lorem</Text>
               </View>
             </View>
@@ -90,7 +90,7 @@ class Sidebar extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuOptn}
-                onPress={() => this.props.navigation.navigate('InnerChatting')}>
+                onPress={() => this.props.navigation.navigate('')}>
                 <Entypo name="message" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Chat</Text>
               </TouchableOpacity>

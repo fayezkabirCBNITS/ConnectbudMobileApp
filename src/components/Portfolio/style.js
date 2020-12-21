@@ -67,6 +67,7 @@ export default {
   },
   portDetails: {
     width: '100%',
+    minHeight: 50,
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
@@ -78,6 +79,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
   },
   portDetailsSlo: {
+    width: '100%',
     color: '#000',
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
@@ -104,6 +106,13 @@ export default {
     borderRadius: 10,
     overflow: 'hidden',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 20,
+  },
+  fileLinkText: {
+    color: '#000',
+    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center'
   },
 };

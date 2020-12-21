@@ -77,7 +77,7 @@ class Portfolio extends Component {
                     </View>
                   </View>
                   <View style={styles.portDetails}>
-                    <View>
+                    <View style={{width: '60%'}}>
                       {/* <Text style={styles.portDetailsHead}>Test</Text> */}
                       <Text style={styles.portDetailsSlo}>
                         {value.category}
@@ -111,7 +111,7 @@ class Portfolio extends Component {
               {item.resumefile.map((value, i) => (
                 <View key={i} style={styles.portDocSec}>
                   <TouchableOpacity style={styles.portDocImgSec}>
-                    <Text onPress={() => Linking.openURL(value.resumefile)}>
+                    <Text style={styles.fileLinkText} onPress={() => Linking.openURL(value.resumefile)}>
                       {value.resumefile}
                       {/* <WebView
                        originWhitelist={['*']}
