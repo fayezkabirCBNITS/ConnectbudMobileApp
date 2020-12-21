@@ -19,6 +19,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-simple-toast';
 //import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { withNavigation } from "react-navigation" ;
+import Connect, { connect } from "react-redux";
 
 class EditProfileScreen extends Component {
   static navigationOptions = {
@@ -39,7 +41,7 @@ class EditProfileScreen extends Component {
       community: '',
       socialUrl: '',
       profileImageSource: '',
-      coverImageSource: '',
+      coverImageSource: '../../../assets/images/bnr.jpg',
       profileImageToUpload: {},
       coverImageToUpload: {},
       showStartDatePicker: false,
@@ -153,6 +155,9 @@ class EditProfileScreen extends Component {
     />
   );
   render() {
+    // console.log(this.props.navigation.state.params.slugname);
+    
+    console.log(this.props.userDeatailResponse)
     const renderSkillItems = ({item}) => (
       <TouchableOpacity style={styles.headSec}>
         <View style={styles.details}>
@@ -579,4 +584,13 @@ class EditProfileScreen extends Component {
   }
 }
 
-export default EditProfileScreen;
+// export default EditProfileScreen;
+const mapStateToProps = (state) => {
+
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+// export default  withNavigation(connect(Overview),(mapStateToProps, null));
+export default connect( mapStateToProps,null,)(withNavigation(EditProfileScreen));

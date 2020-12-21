@@ -5,10 +5,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
+import { withNavigation } from "react-navigation" ;
+import Connect, { connect } from "react-redux";
 
 class Overview extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       profiledataset: [],
 
@@ -40,14 +42,18 @@ class Overview extends Component {
       })
       .catch(() => { });
   };
+  gotoEditPage = data => {
+    this.props.navigation.navigate('EditProfileScreen' , {slugname : this.props.userDeatailResponse.slugname})
+  }
 
   render() {
+    console.log(this.props.userDeatailResponse.slugname)
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <TouchableOpacity style={styles.editBtn}>
             <MaterialIcons name="mode-edit" color="#fff" size={18} />
-            <Text style={styles.editBtnText}>Edit</Text>
+            <Text style={styles.editBtnText} onPress={this.gotoEditPage}>Edit</Text>
           </TouchableOpacity>
 
           {this.state.profiledataset.map((item, i) => (
@@ -103,7 +109,7 @@ class Overview extends Component {
             </View>
           ))}
           {this.state.profiledataset.map((item, i) => (
-            <>
+            <View key={i}>
               <Text style={styles.skillHead}>Skills</Text>
               <View style={styles.skillSec}>
 
@@ -114,7 +120,7 @@ class Overview extends Component {
                 ))}
 
               </View>
-            </>
+            </View>
           ))}
           {this.state.profiledataset.map((item, i) => (
             <View key={i}>
@@ -127,5 +133,12 @@ class Overview extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
 
-export default Overview;
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+// export default  withNavigation(connect(Overview),(mapStateToProps, null));
+export default connect( mapStateToProps,null,)(withNavigation(Overview));
