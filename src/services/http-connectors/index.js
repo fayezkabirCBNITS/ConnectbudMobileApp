@@ -103,7 +103,7 @@ export const makePostRequest = async (
   attachToken = false,
   params = {},
 ) => {
-  console.log('POST url :>> ', url, params);
+  console.log('POST url :>> ', CONNECTBUD_API_BASE_URL+url, params);
   let headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -120,10 +120,69 @@ export const makePostRequest = async (
   }
   return new Promise((resolve, reject) => {
     try {
-      fetch(CONNECTBUD_API_BASE_URL + url, {
+      fetch(CONNECTBUD_API_BASE_URL+url, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(params),
+        //body:params,
+      })
+        .then(
+          async (res) => {
+            console.log('res---', res);
+            handleErrorIfAvailable(res);
+            return await res.json();
+          },
+          (error) => {
+            reject(error);
+          },
+        )
+        .then(
+          (jsonResponse) => {
+            resolve(jsonResponse);
+          },
+          (error) => {
+            console.log('error', error);
+            reject(error);
+          },
+        )
+        .catch((error) => {
+          console.log('error', error);
+          reject(error);
+        });
+    } catch (e) {
+      reject();
+    }
+  });
+};
+
+export const makePostRequestMultipart = async (
+  url,
+  attachToken = false,
+  params = {},
+) => {
+  console.log('POST url :>> ', url, params);
+  let headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  };
+  if (attachToken) {
+    try {
+      const authToken = await getToken();
+      if (authToken) {
+        headers['Authorization'] = 'Bearer ' + authToken;
+      }
+    } catch (e) {
+      console.log('e', e);
+    }
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      fetch(CONNECTBUD_API_BASE_URL+url, {
+        method: 'POST',
+        headers: headers,
+        body: params,
+        //body: JSON.stringify(params),
+
       })
         .then(
           async (res) => {

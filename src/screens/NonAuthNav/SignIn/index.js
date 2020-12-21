@@ -132,6 +132,13 @@ class SignInScreen extends Component {
     }
     ///
   };
+  handleSignUp =()=>{
+    if (this.props.navigation.state.params.userType === 'student') {
+      this.props.navigation.navigate('FreelancerSignUpScreen')
+    } else if (this.props.navigation.state.params.userType === 'employee') {
+      this.props.navigation.navigate('SignUpScreen')
+    }
+  }
 
   render() {
     return (
@@ -141,7 +148,7 @@ class SignInScreen extends Component {
           <ImageBackground
             style={{width: '100%', height: '100%'}}
             source={require('../../../assets/images/authBg.jpg')}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
               <View style={[CommonStyles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -240,8 +247,8 @@ class SignInScreen extends Component {
                   Don't have an account?{' '}
                   <Text
                     style={styles.signupText}
-                    onPress={() =>
-                      this.props.navigation.navigate('SignUpScreen')
+                    onPress={
+                      this.handleSignUp
                     }>
                     Sign Up
                   </Text>
