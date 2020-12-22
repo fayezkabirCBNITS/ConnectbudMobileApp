@@ -15,6 +15,13 @@ export default {
         fontSize: 14,
         marginBottom: 5,
     },
+    formrow: {
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'center',
+      alignSelf:'flex-start',
+      justifyContent:'flex-start'
+  },
     skillView: {
         width: '75%',
         height: 60,
@@ -33,6 +40,12 @@ export default {
         marginHorizontal:'5%',
         marginVertical:10,
     },
+    radio: {
+      backgroundColor:'transparent',         
+      borderWidth:0,
+      paddingLeft:0,
+    
+  },
     formGroup1: {
         width: '100%',
         marginBottom: 5,
@@ -59,6 +72,9 @@ export default {
     },
     formSubGroup2: {
         width: '80%',
+    },
+    formSubGroup22: {
+        width: '100%',
     },
     inputGroup: {
         color: '#3B1D25',
@@ -122,6 +138,28 @@ export default {
         shadowRadius: 2.62,
         elevation: 4,
           
-      }
+      },
+      skillTab: {
+        //width: '40%',
+        backgroundColor: '#E4E4E4',
+        paddingHorizontal: 10,
+        height: 40,
+        borderRadius: 40 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        marginRight: 10,
+        flexDirection:'row',
+      },
+      marginRight3:{
+          margin:5,
+      },
+      skillText: {
+        fontSize: 11,
+        fontFamily: 'Poppins-Regular',
+        color: '#000',
+        marginLeft:3,
+        textAlign: "center",
+      },
 }
 

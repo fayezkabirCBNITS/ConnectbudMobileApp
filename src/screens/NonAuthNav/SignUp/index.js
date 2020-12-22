@@ -14,14 +14,13 @@ import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
-// import axios from 'axios';
-// import {API_URL} from '../../../config/url';
 import CommonStatusBar from '../../../components/StatusBar';
 import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
-import {makePostRequest} from '../../../services/http-connectors';
+import {
+  makePostRequestMultipart,
+} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
-
 class SignUpScreen extends Component {
   constructor() {
     super();
@@ -34,14 +33,12 @@ class SignUpScreen extends Component {
         //phone: '',
         password: '',
       },
-      //firstname: '',
-      //lastname: '',
-      //email: '',
-      //password: '',
       //number: '',
       isSent: false,
       errors: {},
       type: true,
+      isModalVisible:false,
+      userEmail:'',
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -73,109 +70,8 @@ class SignUpScreen extends Component {
     this.setState({isSent: true});
   };
 
-  /*
-
-  handleInputFirstName = async (e) => {
-    await this.setState({
-      firstname: e,
-    });
-    this.validateForm();
-  };
-
-  handleInputLastName = async (e) => {
-    await this.setState({
-      lastname: e,
-    });
-    this.validateForm();
-  };
-
-  handleInputEmail = async (e) => {
-    await this.setState({
-      email: e,
-    });
-    this.validateForm();
-  };
-
-  handleInputPassword = async (e) => {
-    await this.setState({
-      password: e,
-    });
-    this.validateForm();
-  };
-
-  validateForm = () => {
-    let errors = {};
-    let formIsValid = true;
-
-    if (!this.state.firstname) {
-      formIsValid = false;
-      errors['firstname'] = '*Please enter your first name.';
-    }
-
-    if (this.state.firstname !== 'undefined') {
-      if (!this.state.firstname.match(/^[a-zA-Z ]*$/)) {
-        formIsValid = false;
-        errors['firstname'] = '*Please enter alphabet characters only.';
-      }
-    }
-
-    if (!this.state.lastname) {
-      formIsValid = false;
-      errors['lastname'] = '*Please enter your last name.';
-    }
-
-    if (this.state.lastname !== 'undefined') {
-      if (!this.state.lastname.match(/^[a-zA-Z ]*$/)) {
-        formIsValid = false;
-        errors['lastname'] = '*Please enter alphabet characters only.';
-      }
-    }
-
-    if (!this.state.email) {
-      formIsValid = false;
-      errors['email'] = '*Please enter your email address.';
-    }
-
-    if (this.state.email !== 'undefined') {
-      //regular expression for email validation
-      var pattern = new RegExp(
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      );
-      if (!pattern.test(this.state.email)) {
-        formIsValid = false;
-        errors['email'] = '*Please enter valid email address.';
-      }
-    }
-    if (!this.state.password) {
-      formIsValid = false;
-      errors['password'] = '*Please enter your password.';
-    }
-
-    if (this.state.password !== 'undefined') {
-      if (
-        !this.state.password.match(
-          /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/,
-        )
-      ) {
-        formIsValid = false;
-        errors['password'] =
-          '*Please enter minimum one upper case, one special symbol, one number & one lower case.';
-      }
-    }
-
-    this.setState({
-      errors: errors,
-    });
-    return formIsValid;
-  };
-*/
-  
 submituserRegistrationForm = async () => {
   console.log('sgggg=========');
-    // if (!this.state.isVerified) {
-    //   alert('Please verify that you are a human!');
-    //   return false;
-    // }
     this.setState({
       errors: Validator.validateForm(
         null,
@@ -186,51 +82,24 @@ submituserRegistrationForm = async () => {
 
     if(this.state.errors.formIsValid) {
       console.log('sgggg=========2')
-      //body.append('username', this.state.fields.user_name);
-
     let body = new FormData();
     body.append('username', this.state.fields.email);
     body.append('password', this.state.fields.password);
     body.append('email', this.state.fields.email);
     body.append('first_name', this.state.fields.first_name);
     body.append('last_name', this.state.fields.last_name);
-    let response = await makePostRequest(ApiUrl.EmployerSignUp,false,body);
+    let response = await makePostRequestMultipart(ApiUrl.EmployerSignUp,false,body);
     console.log('handle employee Signup-----', response);
     if (response) {
-      //Toast.show(response.msg, Toast.LONG);
-      //this.props.updateUserDetails(response);
-      //console.log('resdtlres============', response[0]?.Flag);
-      // {
-      //   response[0]?.Flag === 'WQ=='
-      //     ? this.props.navigation.navigate('StudentInner')
-      //     : response[0]?.Flag === 'Rg=='
-      //     ? this.props.navigation.navigate('EmployeeInner')
-      //     : null;
-      // }
-    } else {
-      //alert('The email or password you have entered is invalid!');
-      // Toast.show(response.msg, Toast.LONG);
+      this.setState({userEmail:response?.email});
+      this.setState({isModalVisible:true});
     }
   }
-    /*
-    axios
-      .post(API_URL + "auth/register_recruiter", body)
-      .then((res) => {
-        alert('Please verify your email & login');
-        this.props.navigation.navigate('SignInScreen');
-      })
-      .catch((error) => { });
-      */
   };
-
-  // submituserRegistrationForm = () => {
-  //   // let dataSet = this.validateForm();
-  //   // if (dataSet === true) {
-  //   //   this.handleSubmit();
-  //   // }
-
-  // };
-
+onDismissModel=()=>{
+  this.setState({isModalVisible:false});
+  this.props.navigation.navigate('HomeScreen')
+}
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -255,13 +124,10 @@ submituserRegistrationForm = async () => {
                       style={styles.inputGroup}
                       keyboardType="default"
                       placeholderTextColor={'#fff'}
-                      //value={this.state.firstname}
-                      //onChange={this.handleInputFirstName}
                       value={this.state.fields.first_name}
                       onChangeText={(text) =>
                         this.handleChange(text.trim(), 'first_name')
                       }
-                     // errorMessage={this.state.errors['first_name']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -278,13 +144,10 @@ submituserRegistrationForm = async () => {
                       style={styles.inputGroup}
                       keyboardType="default"
                       placeholderTextColor={'#fff'}
-                      //value={this.state.lastname}
-                      //onChange={this.handleInputLastName}
                       value={this.state.fields.last_name}
                       onChangeText={(text) =>
                         this.handleChange(text.trim(), 'last_name')
                       }
-                      //errorMessage={this.state.errors['last_name']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -301,13 +164,10 @@ submituserRegistrationForm = async () => {
                       style={styles.inputGroup}
                       keyboardType="default"
                       placeholderTextColor={'#fff'}
-                      //value={this.state.email}
-                      //onChange={this.handleInputEmail}
                       value={this.state.fields.email}
                       onChangeText={(text) =>
                         this.handleChange(text.trim(), 'email')
                       }
-                      //errorMessage={this.state.errors['email']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -383,15 +243,11 @@ submituserRegistrationForm = async () => {
                       style={styles.inputGroup}
                       keyboardType="default"
                       secureTextEntry={true}
-                      //secureTextEntry={this.state.type}
                       placeholderTextColor={'#fff'}
-                      //value={this.state.password}
-                      //onChangeText={this.handleInputPassword}
                       value={this.state.fields.password}
                       onChangeText={(text) =>
                         this.handleChange(text.trim(), 'password')
                       }
-                      //errorMessage={this.state.errors['password']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -455,6 +311,26 @@ submituserRegistrationForm = async () => {
             </ScrollView>
           </ImageBackground>
         </View>
+        {this.state.isModalVisible === true?<Modal transparent={true} isVisible={this.state.isModalVisible}>
+            <View style={CommonStyles.modalBg}>
+              <View style={CommonStyles.modalContent}>
+                <Image
+                  source={require('../../../assets/images/messageSend.png')}
+                  style={CommonStyles.modalImg}
+                />
+                <Text style={CommonStyles.modalText}>
+                  A verification link send to your email id
+                </Text>
+                <Text style={CommonStyles.modalEmail}>
+                  {this.state.userEmail}
+                </Text>
+
+                <TouchableOpacity style={CommonStyles.modalCross} onPress={this.onDismissModel}>
+                  <Entypo name="circle-with-cross" color="#71b85f" size={35} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>:<></>}
       </SafeAreaView>
     );
   }

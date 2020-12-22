@@ -90,4 +90,44 @@ export default {
     color: '#FF5959',
     fontFamily: 'Poppins-Regular',
   },
+  
+
+
+modalImg: {
+  width: 150,
+  height: 98,
+},
+modalText: {
+  color: '#000',
+  fontFamily: 'Poppins-SemiBold',
+  textAlign: 'center',
+  fontSize: 18,
+  marginTop: 25,
+},
+modalEmail: {
+  color: 'blue',
+  fontFamily: 'Poppins-SemiBold',
+  textAlign: 'center',
+  fontSize: 14,
+  marginTop: 7,
+},
+modalContent: {
+  width: '80%',
+  paddingVertical: 40,
+  paddingHorizontal: 25,
+  backgroundColor: '#fff',
+  borderRadius: 10,
+  alignItems: 'center',
+},
+modalBg: {
+  flex: 1,
+  backgroundColor: '#000000aa',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+modalCross: {
+  position: 'absolute',
+  top: 10,
+  right: 10,
+},
 };
