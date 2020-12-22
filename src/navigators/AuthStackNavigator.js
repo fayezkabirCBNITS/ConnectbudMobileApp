@@ -22,6 +22,12 @@ import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
 import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
+import ChatScreen from '../screens/AuthNav/Chat';
+import ChatListScreen  from '../screens/AuthNav/ChatList';
+import NotificationScreen from '../screens/AuthNav/Notification';
+import BankDetailScreen from '../screens/AuthNav/BankDetails';
+import TransactionScreen from '../screens/AuthNav/Transactions';
+
 
 export const MainStack = createStackNavigator(
   {
@@ -82,6 +88,21 @@ export const MainStack = createStackNavigator(
     AssessmentQuestion:{
       screen : AssessmentQuestion
     },
+    ChatScreen: {
+      screen : ChatScreen
+    },
+    ChatListScreen: {
+      screen : ChatListScreen
+    },
+    NotificationScreen: {
+      screen : NotificationScreen
+    },
+    BankDetailScreen: {
+      screen : BankDetailScreen
+    },
+    TransactionScreen: {
+      screen : TransactionScreen
+    }
   },
   {
     initialRouteName: 'CategoryScreen',
@@ -93,5 +114,6 @@ export const AuthStackNav = createDrawerNavigator(
   },
   {
     contentComponent: (props) => <Sidebar {...props} />,
+    drawerWidth: "80%",
   },
 );
