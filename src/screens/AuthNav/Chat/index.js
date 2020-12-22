@@ -21,6 +21,9 @@ import { API_URL } from "../../../config/url";
 import base64 from 'base-64';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+import AsyncStorage from "@react-native-community/async-storage";
+
+
 
 class ChatScreen extends Component {
   constructor() {
@@ -103,7 +106,7 @@ class ChatScreen extends Component {
                 <TouchableOpacity
                   key={i}
                   style={styles.chatCard}
-                  onPress={() =>
+                  onPress={async() =>
                     this.props.navigation.navigate('ChatListScreen',{
                       job_id: item.job_id,
                       receiver_id: item.receiver_id,

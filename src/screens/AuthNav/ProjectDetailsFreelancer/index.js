@@ -28,7 +28,6 @@ import {
 } from '../../../redux/actions/user-data';
 import base64 from 'base-64';
 
-
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
@@ -40,6 +39,7 @@ class ProjectDetailsFreelancer extends Component {
       Job: '',
       jobDetails: [],
       jobSet: [],
+      btnStatus: '',
     };
   }
 
@@ -49,6 +49,10 @@ class ProjectDetailsFreelancer extends Component {
 
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
+    console.log(userDeatailResponse.userData.user_id);
+    this.setState({
+      btnStatus: userDeatailResponse.userData.user_id,
+    });
     let taglistbody = new FormData();
     let body = new FormData();
     body.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
@@ -58,7 +62,10 @@ class ProjectDetailsFreelancer extends Component {
     body.append('offset', '0');
 
     taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
-    taglistbody.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
+    taglistbody.append(
+      'user_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
     taglistbody.append('type', 'freelancer');
 
     await axios({
@@ -67,6 +74,7 @@ class ProjectDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
+        console.log(response);
         this.setState({
           jobDetails: response.data,
           // priceAmount: response.data[0].price_amount,
@@ -137,13 +145,39 @@ class ProjectDetailsFreelancer extends Component {
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
                   <TouchableOpacity style={styles.applyBtn}>
-                    <Text
-                      style={styles.applyBtnText}
-                      onPress={()=>this.props.navigation.navigate(
-                        'AssessmentQuestion'
-                      )}>
-                      Apply
-                    </Text>
+                    {this.state.jobDetails.map((value, index) => {
+                      return (
+                        <>
+                          {value.pending_status === 'pending' ? (
+                            <Text style={styles.applyBtnText}>Waiting</Text>
+                          ) : (
+                            <>
+                              {this.state.btnStatus === '' ? (
+                                <Text
+                                  style={styles.applyBtnText}
+                                  onPress={() =>
+                                    this.props.navigation.navigate(
+                                      'SignInScreen',
+                                    )
+                                  }>
+                                  Apply
+                                </Text>
+                              ) : (
+                                <Text
+                                  style={styles.applyBtnText}
+                                  onPress={() =>
+                                    this.props.navigation.navigate(
+                                      'AssessmentQuestion',
+                                    )
+                                  }>
+                                  Apply
+                                </Text>
+                              )}
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
                   </TouchableOpacity>
                 </View>
               ))}
