@@ -118,4 +118,29 @@ export default {
         width: '100%',
         color: '#fc0303',
       },
+      formSubGroup22: {
+        width: '100%',
+    },
+    skillTab: {
+      //width: '40%',
+      backgroundColor: '#E4E4E4',
+      paddingHorizontal: 10,
+      height: 40,
+      borderRadius: 40 / 2,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 5,
+      marginRight: 10,
+      flexDirection:'row',
+    },
+    marginRight3:{
+        margin:5,
+    },
+    skillText: {
+      fontSize: 11,
+      fontFamily: 'Poppins-Regular',
+      color: '#000',
+      marginLeft:3,
+      textAlign: "center",
+    },
 }
