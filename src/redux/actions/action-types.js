@@ -7,6 +7,7 @@ export const HIDE_LOADER = "HIDE_LOADER";
 export const UPDATE_USER_DETAILS = "UPDATE USER DETAILS";
 export const UPDATE_USER_JOBID = "UPDATE USER JOBID";
 export const UPDATE_VIEWPROFILE = "UPDATE_VIEWPROFILE";
+export const UPDATE_SLUG = "UPDATE_SLUG";
 
 export const LOGOUT = "LOGOUT";
 

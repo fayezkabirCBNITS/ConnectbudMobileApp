@@ -23,6 +23,7 @@ import {
 } from '../../services/helper-methods';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {connect} from 'react-redux';
+import base64 from "base-64";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -66,8 +67,8 @@ class Sidebar extends Component {
               </View>
 
               <View style={styles.userDetails}>
-                <Text style={styles.name}>Ashnoor Kaur</Text>
-                <Text style={styles.slogan}>Lorem Lorem Lorem</Text>
+                <Text style={styles.name}>{base64.decode(this.props.userData.name)}</Text>
+                <Text style={styles.slogan}>{base64.decode(this.props.userData.Status)}</Text>
               </View>
             </View>
 
@@ -78,22 +79,29 @@ class Sidebar extends Component {
                 <FontAwesome name="home" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Home</Text>
               </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.menuOptn}
-                onPress={() => this.props.navigation.navigate('ProfileScreen')}>
-                <FontAwesome name="user" color="#fff" size={27} />
-                <Text style={styles.menuOptnText}>Student Profile</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.menuOptn}
-                onPress={() =>
-                  this.props.navigation.navigate('EmployeeProfileScreen')
-                }>
-                <FontAwesome name="user" color="#fff" size={27} />
-                <Text style={styles.menuOptnText}>Employee Profile</Text>
-              </TouchableOpacity>
+              {
+                this.props.userData.Flag === "WQ==" ? 
+                <TouchableOpacity
+                  style={styles.menuOptn}
+                  onPress={() => this.props.navigation.navigate('ProfileScreen')}>
+                  <FontAwesome name="user" color="#fff" size={27} />
+                  <Text style={styles.menuOptnText}>Profile</Text>
+                </TouchableOpacity>
+                :
+                (
+                  this.props.userData.Flag === "Rg==" ?
+                  <TouchableOpacity
+                    style={styles.menuOptn}
+                    onPress={() =>
+                      this.props.navigation.navigate('EmployeeProfileScreen')
+                    }>
+                    <FontAwesome name="user" color="#fff" size={27} />
+                    <Text style={styles.menuOptnText}>Profile</Text>
+                  </TouchableOpacity>
+                  : 
+                    <></>
+                )
+              }
 
               <TouchableOpacity
                 style={styles.menuOptn}
