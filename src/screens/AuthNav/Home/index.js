@@ -126,7 +126,6 @@ class HomeScreen extends Component {
                 </View>
                 )} 
               </View>
-
             <View style={styles.marVer15}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Recently Joined College Students</Text>

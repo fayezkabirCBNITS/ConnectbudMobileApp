@@ -26,6 +26,8 @@ import {
   // updateUserDetails,
   updateJobId,
 } from '../../../redux/actions/user-data';
+import base64 from 'base-64';
+
 
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
@@ -46,19 +48,17 @@ class TutorDetailsFreelancer extends Component {
   };
 
   componentDidMount = async () => {
-    // console.log("1st time");
     const {userDeatailResponse} = this.props;
-    // console.log(userDeatailResponse.userData.JOBID);
     let taglistbody = new FormData();
     let body = new FormData();
-    body.append('user_id', '2519');
+    body.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
     body.append('type', 'tutor');
     body.append('skills', '');
     body.append('search_type', 'all');
-    body.append('offset', '0');
+    body.append('offset', '10');
 
     taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
-    taglistbody.append('user_id', '2519');
+    taglistbody.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
     taglistbody.append('type', 'tutor');
 
     await axios({
@@ -72,7 +72,6 @@ class TutorDetailsFreelancer extends Component {
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
-        console.log(this.state.jobDetails);
         this.setState({isLoading: true});
       })
       .catch((error) => {
@@ -97,15 +96,11 @@ class TutorDetailsFreelancer extends Component {
   };
 
   PageNav = (JobId) => {
-    console.log('same page jobs');
     this.props.updateJobId(JobId);
     // this.props.navigation.navigate('ProjectDetailsFreelancer');
   };
 
   render() {
-    // console.log('all props details==========',this.props);
-
-    // console.log('Jobid==========',userDeatailResponse.userData.JOBID);
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>

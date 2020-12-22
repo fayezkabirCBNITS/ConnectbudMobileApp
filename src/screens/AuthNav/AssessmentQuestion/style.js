@@ -84,5 +84,10 @@ export default {
         fontWeight: 'bold',
         letterSpacing: 1,
     },
+    errorText: {
+        width: '100%',
+        color: '#fc0303',
+        marginLeft: 14,
+      },
 }
 

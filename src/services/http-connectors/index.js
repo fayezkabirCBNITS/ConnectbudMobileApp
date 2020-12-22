@@ -40,7 +40,7 @@ export const makeGetRequest = async (
   if (params) {
     queryString = structureQueryParams(params);
   }
-  console.log("url, attachToken, params :>> ", url, attachToken, params);
+  console.log("url, attachToken, params :>> ", CONNECTBUD_API_BASE_URL+url, attachToken, params);
   let headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const makeGetRequest = async (
   return new Promise((resolve, reject) => {
     try {
       let isValid = false;
-      fetch(url + queryString, {
+      fetch(CONNECTBUD_API_BASE_URL+url + queryString, {
         method: "GET",
         headers: headers,
       })
@@ -82,6 +82,48 @@ export const makeGetRequest = async (
           reject(error);
         },
       )
+      .catch((error) => {
+        console.log('error', error);
+        reject(error);
+      });
+    } catch (e) {
+      reject();
+    }
+  });
+};
+export const makeAuthGetRequest = async (
+  url,
+  attachToken = false,
+  params = {},
+) => {
+  console.log('GET url --- ', url);
+  let headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+  if (attachToken) {
+    try {
+      const authToken = await getToken();
+      if (authToken) {
+        headers['Authorization'] = 'Bearer ' + authToken;
+      }
+    } catch (e) {}
+  }
+  return new Promise((resolve, reject) => {
+    console.log('GET final url --- ',CONNECTBUD_API_BASE_URL+ url+params);
+
+    try {
+      fetch(CONNECTBUD_API_BASE_URL + url + params, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then( async(res) => {
+          handleErrorIfAvailable(res);
+          return res.json();
+        })
+        .then((jsonResponse) => {
+          resolve(jsonResponse);
+        })
         .catch((e) => {
           reject(e);
         });
@@ -90,7 +132,6 @@ export const makeGetRequest = async (
     }
   });
 };
-
 /**
  *
  * @param {string} url API url
