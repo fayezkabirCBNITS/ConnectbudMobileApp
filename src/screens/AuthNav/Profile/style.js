@@ -30,17 +30,17 @@ export default {
   },
   userInfo: {},
   userInfoHead: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: 'Poppins-SemiBold',
   },
   userInfoDetails: {
+    marginTop: -5,
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
   details: {
     minWidth: 150,
-    padding: 10,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
     marginLeft: 10,
     borderWidth: 1,
     borderColor: '#aad49f',
@@ -55,7 +55,7 @@ export default {
   },
   tabSec: {
     width: '100%',
-    height: deviceHeight - 290,
+    height: deviceHeight - 285,
     marginTop: 20,
   },
   tab: {

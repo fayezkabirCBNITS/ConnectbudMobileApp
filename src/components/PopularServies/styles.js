@@ -43,6 +43,8 @@ export default {
     borderRadius: 7
   },
   marTop20: {
-    marginTop: 20
+    marginTop: 20,
+    justifyContent: 'center',
+    height: 55,
   }
 };
