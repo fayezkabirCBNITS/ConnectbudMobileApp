@@ -41,8 +41,8 @@ class HomeScreen extends Component {
     this.props.navigation.navigate('ViewProfileScreen')
   };
 
-  navigateToProjectDetails = async () => {
-    this.props.navigation.navigate('ProjectDetailsFreelancer')
+  navProjectDetails = async () => {
+    this.props.navigation.navigate('ProjectDetailsFreelancer');
   }
 
   updateUser = (user) => {
@@ -170,7 +170,7 @@ class HomeScreen extends Component {
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Latest Projects</Text>
               </View>
-              <LatestProjects navigateToProjectDetails={this.navigateToProjectDetails}/>
+              <LatestProjects navProjectDetails={this.navProjectDetails}/>
             </View> 
           </ScrollView>
 

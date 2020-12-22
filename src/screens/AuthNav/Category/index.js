@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -12,70 +12,65 @@ import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Header from '../../../components/Header';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
+// import Header from '../../../components/Header';
+// import Entypo from 'react-native-vector-icons/Entypo';
+// import Feather from 'react-native-vector-icons/Feather';
+import ApiUrl from '../../../config/ApiUrl';
+import { makePostRequest, makeGetRequest } from '../../../services/http-connectors';
 
 class CategoryScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategoy: [],
-      dummyCategoryArr: [
-        {
-          cat: 'software development',
-          icon: <FontAwesome name="connectdevelop" color="#000" size={35} />,
-        },
-        {
-          cat: 'online coding',
-          icon: <FontAwesome name="connectdevelop" color="#000" size={35} />,
-        },
-        {
-          cat: 'homework',
-          icon: <FontAwesome name="home" color="#000" size={35} />,
-        },
-        {
-          cat: 'design',
-          icon: <FontAwesome name="connectdevelop" color="#000" size={35} />,
-        },
-        {
-          cat: 'homework',
-          icon: <FontAwesome name="home" color="#000" size={35} />,
-        },
-        {
-          cat: 'Language',
-          icon: <FontAwesome name="language" color="#000" size={35} />,
-        },
-        {
-          cat: 'music & arts',
-          icon: <FontAwesome name="music" color="#000" size={35} />,
-        },
-        {
-          cat: 'homework',
-          icon: <FontAwesome name="home" color="#000" size={35} />,
-        },
-        {
-          cat: 'fitness',
-          icon: <FontAwesome name="connectdevelop" color="#000" size={35} />,
-        },
-        {
-          cat: 'music & arts',
-          icon: <FontAwesome name="connectdevelop" color="#000" size={35} />,
-        },
-        {
-          cat: 'fitness',
-          icon: <FontAwesome name="connectdevelop" color="#000" size={35} />,
-        },
-      ],
+      categorySet: [],
+      keyGen: [],
+      buttonstate: true
     };
   }
-  categorySelection = (index) => {
-    const arr = this.state.selectedCategoy;
-    arr.push(index);
-    this.setState({selectedCategoy: arr});
+
+  async ParentTagList(e, value) {
+      if (this.state.keyGen.includes(value) == false) {
+      await this.setState({
+        keyGen: this.state.keyGen.concat([value])
+      });
+    } else {
+      await this.setState({
+        keyGen: this.state.keyGen.filter(function (val) {
+          return val !== value;
+        })
+      });
+    }
+    if (this.state.keyGen.length > 0) {
+      this.setState({
+        buttonstate: false
+      });
+    } else {
+      this.setState({
+        buttonstate: true
+      });
+    }
+  }
+
+  handleSubmit = async () => {
+    const body = {
+      category_id: this.state.keyGen.toString(),
+      page_type: "maintag"
+    };
+    let response = await makePostRequest(ApiUrl.CategorySubmit, false, body);
+    if (response) {
+      this.props.navigation.navigate('AddSkillScreen', {userID : this.props.navigation.state.params.userID, tagID : this.state.keyGen});
+    }
   };
-  gotoNextScreen = (_) => {
-    this.props.navigation.navigate('AddSkillScreen');
+
+  componentDidMount = async () => {
+    let response = await makeGetRequest(ApiUrl.FetchCategory + this.props.navigation.state.params.userID, false, "");
+    if (response[0].message === "Profile exists") {
+      this.props.navigation.navigate('SignInScreen')
+    } else {
+      await this.setState({
+        categorySet: response
+      });
+    }
   };
 
   static navigationOptions = {
@@ -87,24 +82,25 @@ class CategoryScreen extends Component {
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <CommonStatusBar />
-          <View style={styles.header}>
-        <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+          <View style={CommonStyles.header}>
+            {/* <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
           <Entypo name="menu" color="#71b85f" size={35} />
-        </TouchableOpacity>
-        <Image
-          source={require('../../../assets/images/logo.png')}
-          style={styles.image}
-        />
-        <TouchableOpacity>
+        </TouchableOpacity> */}
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={styles.image}
+            />
+            {/* <TouchableOpacity>
           <Feather name="bell" color="#71b85f" size={30} />
-        </TouchableOpacity>
-      </View>
+        </TouchableOpacity> */}
+          </View>
           <View style={CommonStyles.container}>
             <View style={styles.categoryHeader}>
-              <Text style={styles.categoryTitle}>Select the Category.</Text>
+              <Text style={styles.categoryTitle}>Select the categories:</Text>
               <TouchableOpacity
                 style={styles.continueBtn}
-                onPress={this.gotoNextScreen}>
+                onPress={this.handleSubmit}
+                disabled={this.state.buttonstate}>
                 <Text style={styles.continueBtnText}>continue</Text>
               </TouchableOpacity>
             </View>
@@ -113,20 +109,22 @@ class CategoryScreen extends Component {
               style={styles.scroll}
               showsVerticalScrollIndicator={false}>
               <View style={styles.categoryList}>
-                {this.state.dummyCategoryArr.map((data, idx) => (
-                  <TouchableOpacity
-                    key={idx}
-                    style={[
-                      styles.categorylistedItem,
-                      this.state.selectedCategoy.includes(idx)
-                        ? styles.categorySelected
-                        : '',
-                    ]}
-                    onPress={() => this.categorySelection(idx)}>
-                    <View style={styles.categoryIcon}>{data.icon}</View>
-                    <Text style={styles.categoryText}>{data.cat}</Text>
-                  </TouchableOpacity>
-                ))}
+                {this.state.categorySet.map((item, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={item.tagID}
+                      style={[
+                        styles.categorylistedItem,
+                        this.state.keyGen.includes(item.tagID)
+                          ? styles.categorySelected
+                          : '',
+                      ]}
+                      onPress={(e) => this.ParentTagList(e, item.tagID)}>
+                      <Image source={{ uri: item.description }} style={styles.categoryIcon} />
+                      <Text style={styles.categoryText}>{item.tagName}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
               </View>
             </ScrollView>
           </View>
