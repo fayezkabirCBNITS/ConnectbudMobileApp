@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -14,19 +14,31 @@ import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './style';
-import axios from 'axios';
-import { API_URL } from "../../../config/url";
+// import axios from 'axios';
+// import {API_URL} from '../../../config/url';
 import CommonStatusBar from '../../../components/StatusBar';
+import Validator from '../../../config/Validator';
+import ApiUrl from '../../../config/ApiUrl';
+import {makePostRequest} from '../../../services/http-connectors';
+import ErrorMsg from '../../../components/ErrorMsg';
 
 class SignUpScreen extends Component {
   constructor() {
     super();
     this.state = {
-      firstname: '',
-      lastname: '',
-      email: '',
-      password: '',
-      number: '',
+      fields: {
+        //user_name: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        //phone: '',
+        password: '',
+      },
+      //firstname: '',
+      //lastname: '',
+      //email: '',
+      //password: '',
+      //number: '',
       isSent: false,
       errors: {},
       type: true,
@@ -44,9 +56,24 @@ class SignUpScreen extends Component {
     });
   }
 
+  handleChange(value, name) {
+    let fields = this.state.fields;
+    fields[name] = value;
+    this.setState({fields});
+    this.setState({
+      errors: Validator.validateForm(
+        name,
+        this.state.fields,
+        this.state.errors,
+      ),
+    });
+  }
+
   onSentOtp = () => {
-    this.setState({ isSent: true });
+    this.setState({isSent: true});
   };
+
+  /*
 
   handleInputFirstName = async (e) => {
     await this.setState({
@@ -85,7 +112,7 @@ class SignUpScreen extends Component {
       errors['firstname'] = '*Please enter your first name.';
     }
 
-    if (typeof this.state.firstname !== 'undefined') {
+    if (this.state.firstname !== 'undefined') {
       if (!this.state.firstname.match(/^[a-zA-Z ]*$/)) {
         formIsValid = false;
         errors['firstname'] = '*Please enter alphabet characters only.';
@@ -97,7 +124,7 @@ class SignUpScreen extends Component {
       errors['lastname'] = '*Please enter your last name.';
     }
 
-    if (typeof this.state.lastname !== 'undefined') {
+    if (this.state.lastname !== 'undefined') {
       if (!this.state.lastname.match(/^[a-zA-Z ]*$/)) {
         formIsValid = false;
         errors['lastname'] = '*Please enter alphabet characters only.';
@@ -109,10 +136,10 @@ class SignUpScreen extends Component {
       errors['email'] = '*Please enter your email address.';
     }
 
-    if (typeof this.state.email !== 'undefined') {
+    if (this.state.email !== 'undefined') {
       //regular expression for email validation
       var pattern = new RegExp(
-        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i,
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
       if (!pattern.test(this.state.email)) {
         formIsValid = false;
@@ -124,7 +151,7 @@ class SignUpScreen extends Component {
       errors['password'] = '*Please enter your password.';
     }
 
-    if (typeof this.state.password !== 'undefined') {
+    if (this.state.password !== 'undefined') {
       if (
         !this.state.password.match(
           /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/,
@@ -141,42 +168,68 @@ class SignUpScreen extends Component {
     });
     return formIsValid;
   };
-
-  handleSubmit = () => {
+*/
+  
+submituserRegistrationForm = async () => {
+  console.log('sgggg=========');
     // if (!this.state.isVerified) {
     //   alert('Please verify that you are a human!');
     //   return false;
     // }
+    this.setState({
+      errors: Validator.validateForm(
+        null,
+        this.state.fields,
+        this.state.errors,
+      ),
+    });
+
+    if(this.state.errors.formIsValid) {
+      console.log('sgggg=========2')
+      //body.append('username', this.state.fields.user_name);
 
     let body = new FormData();
-    body.append('username', this.state.email);
-    body.append('password', this.state.password);
-    body.append('email', this.state.email);
-    body.append('first_name', this.state.firstname);
-    body.append('last_name', this.state.lastname);
+    body.append('username', this.state.fields.email);
+    body.append('password', this.state.fields.password);
+    body.append('email', this.state.fields.email);
+    body.append('first_name', this.state.fields.first_name);
+    body.append('last_name', this.state.fields.last_name);
+    let response = await makePostRequest(ApiUrl.EmployerSignUp,false,body);
+    console.log('handle employee Signup-----', response);
+    if (response) {
+      //Toast.show(response.msg, Toast.LONG);
+      //this.props.updateUserDetails(response);
+      //console.log('resdtlres============', response[0]?.Flag);
+      // {
+      //   response[0]?.Flag === 'WQ=='
+      //     ? this.props.navigation.navigate('StudentInner')
+      //     : response[0]?.Flag === 'Rg=='
+      //     ? this.props.navigation.navigate('EmployeeInner')
+      //     : null;
+      // }
+    } else {
+      //alert('The email or password you have entered is invalid!');
+      // Toast.show(response.msg, Toast.LONG);
+    }
+  }
+    /*
     axios
       .post(API_URL + "auth/register_recruiter", body)
       .then((res) => {
         alert('Please verify your email & login');
-
-        // this.setState({
-        //   userId: res.data.id
-        // });
-
-        // localStorage.setItem('user_id', res.data.user_id.toString());
-        // localStorage.setItem('first_name', res.data.first_name);
-        // localStorage.setItem('last_name', res.data.last_name);
         this.props.navigation.navigate('SignInScreen');
       })
       .catch((error) => { });
+      */
   };
 
-  submituserRegistrationForm = () => {
-    let dataSet = this.validateForm();
-    if (dataSet === true) {
-      this.handleSubmit();
-    }
-  };
+  // submituserRegistrationForm = () => {
+  //   // let dataSet = this.validateForm();
+  //   // if (dataSet === true) {
+  //   //   this.handleSubmit();
+  //   // }
+
+  // };
 
   render() {
     return (
@@ -184,9 +237,9 @@ class SignUpScreen extends Component {
         <View style={styles.main}>
           <CommonStatusBar />
           <ImageBackground
-            style={{ width: '100%', height: '100%' }}
+            style={{width: '100%', height: '100%'}}
             source={require('../../../assets/images/authBg.jpg')}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
               <View style={[styles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -202,14 +255,20 @@ class SignUpScreen extends Component {
                       style={styles.inputGroup}
                       keyboardType="default"
                       placeholderTextColor={'#fff'}
-                      value={this.state.firstname}
-                      onChange={this.handleInputName}
+                      //value={this.state.firstname}
+                      //onChange={this.handleInputFirstName}
+                      value={this.state.fields.first_name}
+                      onChangeText={(text) =>
+                        this.handleChange(text.trim(), 'first_name')
+                      }
+                     // errorMessage={this.state.errors['first_name']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
                     <AntDesign name="user" size={20} color="#fff" />
                   </View>
                 </View>
+                <ErrorMsg errorMsg={this.state.errors['first_name']} />
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -219,16 +278,45 @@ class SignUpScreen extends Component {
                       style={styles.inputGroup}
                       keyboardType="default"
                       placeholderTextColor={'#fff'}
-                      value={this.state.lastname}
-                      onChange={this.handleInputName}
+                      //value={this.state.lastname}
+                      //onChange={this.handleInputLastName}
+                      value={this.state.fields.last_name}
+                      onChangeText={(text) =>
+                        this.handleChange(text.trim(), 'last_name')
+                      }
+                      //errorMessage={this.state.errors['last_name']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
                     <AntDesign name="user" size={20} color="#fff" />
                   </View>
                 </View>
+                <ErrorMsg errorMsg={this.state.errors['last_name']} />
 
                 <View style={styles.formGroup1}>
+                  <View style={styles.formSubGroup2}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="Enter your email address"
+                      style={styles.inputGroup}
+                      keyboardType="default"
+                      placeholderTextColor={'#fff'}
+                      //value={this.state.email}
+                      //onChange={this.handleInputEmail}
+                      value={this.state.fields.email}
+                      onChangeText={(text) =>
+                        this.handleChange(text.trim(), 'email')
+                      }
+                      //errorMessage={this.state.errors['email']}
+                    />
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <AntDesign name="user" size={20} color="#fff" />
+                  </View>
+                </View>
+                <ErrorMsg errorMsg={this.state.errors['email']} />
+
+                {/* <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2Num}>
                     <TextInput
                       returnKeyType="done"
@@ -237,7 +325,7 @@ class SignUpScreen extends Component {
                       placeholderTextColor={'#fff'}
                       keyboardType="number-pad"
                       value={this.state.number}
-                      onChange={this.handleInputName}
+                      onChange={this.handleInputLastName}
                     />
                   </View>
                   <View style={styles.formSubGroupNum}>
@@ -285,34 +373,51 @@ class SignUpScreen extends Component {
                       </Pressable>
                     </View>
                   </View>
-                )}
+                )} */}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
                     <TextInput
                       returnKeyType="done"
-                      placeholder="Type Password"
+                      placeholder="Enter Password"
                       style={styles.inputGroup}
                       keyboardType="default"
-                      secureTextEntry={this.state.type}
+                      secureTextEntry={true}
+                      //secureTextEntry={this.state.type}
                       placeholderTextColor={'#fff'}
-                      value={this.state.password}
-                      onChangeText={this.handleInputPassword}
+                      //value={this.state.password}
+                      //onChangeText={this.handleInputPassword}
+                      value={this.state.fields.password}
+                      onChangeText={(text) =>
+                        this.handleChange(text.trim(), 'password')
+                      }
+                      //errorMessage={this.state.errors['password']}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
                     {this.state.type === false ? (
-                      <FontAwesome name="eye-slash" size={20} color="#fff" onPress={this.showHide} />
+                      <FontAwesome
+                        name="eye-slash"
+                        size={20}
+                        color="#fff"
+                        onPress={this.showHide}
+                      />
                     ) : (
-                        <FontAwesome name="eye" size={20} color="#fff" onPress={this.showHide} />
-                      )}
+                      <FontAwesome
+                        name="eye"
+                        size={20}
+                        color="#fff"
+                        onPress={this.showHide}
+                      />
+                    )}
                   </View>
                 </View>
-                <Text
-                  style={styles.errorText}>
-                  {this.state.errors.password}
-                </Text>
+                <ErrorMsg errorMsg={this.state.errors['password']} />
 
+                {/* <Text style={styles.errorText}>
+                  {this.state.errors.password}
+                </Text> */}
+                {/* 
             <View style={styles.formGroup1}>
               <View style={styles.formSubGroup2}>
                 <TextInput
@@ -328,13 +433,13 @@ class SignUpScreen extends Component {
               <View style={styles.formSubGroup1}>
                 <AntDesign name="lock" size={20} color="#fff" />
               </View>
-            </View>
+            </View> */}
 
-            <Pressable
-              style={styles.signinBtn}
-              onPress={this.submituserRegistrationForm}>
-              <Text style={styles.signinText}>Sign Up</Text>
-            </Pressable>
+                <Pressable
+                  style={styles.signinBtn}
+                  onPress={this.submituserRegistrationForm}>
+                  <Text style={styles.signinText}>Sign Up</Text>
+                </Pressable>
 
                 <Text style={styles.signupAcnt}>
                   Already have an account?{' '}

@@ -47,6 +47,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 17,
     marginBottom: 10,
+    height: 100,
   },
   knowMoreBtn: {
     width: '60%',
