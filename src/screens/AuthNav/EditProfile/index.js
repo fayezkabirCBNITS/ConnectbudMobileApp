@@ -602,7 +602,7 @@ class EditProfileScreen extends Component {
                           </View>
                         </TouchableOpacity>
 
-                      )) : null
+                      )) : <Text>no data</Text>
                     }
                   </View>
                 ) : (
