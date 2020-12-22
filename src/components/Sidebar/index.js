@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  Linking
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './style';
@@ -103,7 +104,7 @@ class Sidebar extends Component {
               <TouchableOpacity
                 style={styles.menuOptn}
                 onPress={() =>
-                  this.props.navigation.navigate('MyQuestionsScreen')
+                  this.props.navigation.navigate('MyQuestionScreen')
                 }>
                 <AntDesign name="questioncircle" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>My Question</Text>
@@ -157,19 +158,19 @@ class Sidebar extends Component {
             <View style={styles.socialSec}>
               <Text style={styles.socialText}>Connect with us</Text>
               <View style={styles.socialIcon}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com/ConnectBud/')}>
                   <Entypo name="facebook-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL('https://twitter.com/ConnectBud')}>
                   <Entypo name="twitter-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL('https://www.linkedin.com/company/connectbud/')}>
                   <Entypo name="linkedin-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/connectbud_edu/')}>
                   <Entypo name="instagram-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => Linking.openURL('https://www.youtube.com/c/connectbud')}>
                   <Entypo name="youtube-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
               </View>

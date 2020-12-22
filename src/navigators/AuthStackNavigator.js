@@ -32,6 +32,9 @@ import ChatListScreen  from '../screens/AuthNav/ChatList';
 import NotificationScreen from '../screens/AuthNav/Notification';
 import BankDetailScreen from '../screens/AuthNav/BankDetails';
 import TransactionScreen from '../screens/AuthNav/Transactions';
+import MyQuestionScreen from '../screens/AuthNav/MyQuestion';
+import FreeContactScreen from '../screens/AuthNav/FreeContracts';
+import EmpContactScreen from '../screens/AuthNav/EmpContracts';
 
 
 export const MainStack = createStackNavigator(
@@ -122,7 +125,16 @@ export const MainStack = createStackNavigator(
     },
     TransactionScreen: {
       screen : TransactionScreen
-    }
+    },
+    MyQuestionScreen: {
+      screen : MyQuestionScreen
+    },
+    FreeContactScreen: {
+      screen : FreeContactScreen
+    },
+    EmpContactScreen: {
+      screen: EmpContactScreen
+    },
   },
   {
     initialRouteName: 'CategoryScreen',
