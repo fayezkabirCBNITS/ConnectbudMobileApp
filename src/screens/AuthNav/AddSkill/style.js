@@ -54,7 +54,8 @@ export default {
         marginBottom : 10
     },
     accordianHeadIcon : {
-        marginRight : 15
+        marginRight : 15,
+        padding : 15
     },
     accordianHeadTitle : {
         fontSize : 18,
@@ -105,5 +106,8 @@ export default {
     },
     angle: {
         marginRight : 15
-    }
+    },
+    skillSelected : {
+        backgroundColor : "#c6e3bf"
+    },
 }
