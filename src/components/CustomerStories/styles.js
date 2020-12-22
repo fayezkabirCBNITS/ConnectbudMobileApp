@@ -26,6 +26,7 @@ export default {
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
     color: '#000',
+    textAlign: 'center'
   },
   feedback: {
     width: '100%',

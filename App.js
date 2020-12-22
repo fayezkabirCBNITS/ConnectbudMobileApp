@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {createAppContainer} from 'react-navigation';
 import RootStackNavigator from './src/navigators/RootStackNavigator';
+// import AppContainer from "./src/navigators/Navigator"
 import {PersistGate} from 'redux-persist/integration/react';
 
 import {Provider} from 'react-redux';
