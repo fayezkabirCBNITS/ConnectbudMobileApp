@@ -110,7 +110,7 @@ class Portfolio extends Component {
         </View>
         {this.state.profiledataset.map((item, i) => (
           <>
-            <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+            <ScrollView showsHorizontalScrollIndicator={false} horizontal key={i}>
               {item.resumefile.map((value, i) => (
                 <View key={i} style={styles.portDocSec}>
                   <TouchableOpacity style={styles.portDocImgSec}>

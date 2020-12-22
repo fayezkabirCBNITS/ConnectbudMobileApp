@@ -15,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Picker} from '@react-native-community/picker';
 import styles from './styles';
 import {connect} from 'react-redux';
+import base64 from 'base-64';
 import Validator from '../../config/Validator';
 import ApiUrl from '../../config/ApiUrl';
 import {Icon, CheckBox} from 'react-native-elements';
@@ -24,6 +25,7 @@ import {
 } from '../../services/http-connectors';
 import ErrorMsg from '../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
+import Toast from 'react-native-simple-toast';
 class PostInternship extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +36,7 @@ class PostInternship extends Component {
       companyName: '',
       price: '',
       locationName: '',
-      jobType: '',
+      jobType: 'Select Job Type',
       currencyType: 'USD',
       passportType: false,
       selectedSkills: [],
@@ -42,9 +44,12 @@ class PostInternship extends Component {
       skills: [],
       filteredSkills: [],
       cityArray: [],
-      cityValue: '',
-      countryValue: '',
-      //
+      cityValue: 'Select City',
+      countryValue: 'Select Country',
+      cityValuePlaceHolder: [{value: 'Select City', label: 'Select City'}],
+      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
+      showAdditional: false,
+
       errJobTitle: false,
       errJobDesc: false,
       errCompanyname: false,
@@ -55,11 +60,12 @@ class PostInternship extends Component {
       errPassportType: false,
       errJobType: false,
       showCity: false,
-      showVisa: true,
+      showVisa: false,
       visaYesChecked: false,
       VisaNoChecked: false,
-      visaType: '',
-      //
+      errCityName: false,
+      visaType: 'no',
+      additionalName: '',
     };
   }
 
@@ -75,69 +81,46 @@ class PostInternship extends Component {
   }
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    //this.setState({isGetModalVisible: false});
-    console.log('menuItemsResponse====>>>>>>', response);
-    this.setState({skills: response});
+    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
   setVisaYes = () => {
-    this.setState({visaYesChecked: true, VisaNoChecked: false});
-    //this.setState({visaType: ''});
+    this.setState({
+      visaYesChecked: true,
+      VisaNoChecked: false,
+      visaType: 'yes',
+    });
   };
 
   setVisaNo = () => {
-    this.setState({VisaNoChecked: true, visaYesChecked: false});
-    //this.setState({visaType: ''});
+    this.setState({VisaNoChecked: true, visaYesChecked: false, visaType: 'no'});
   };
-  handleClick = async (e, name) => {
+  handleChange = async (e, name) => {
     if (name === 'jobTitle') {
       this.setState({
-        restaurantName: e.nativeEvent.text,
-        errRestaurantName: false,
+        jobTitle: e.nativeEvent.text,
+        errJobTitle: false,
       });
     } else if (name === 'jobDescription') {
       this.setState({
-        taxID: e.nativeEvent.text,
-        errTaxID: false,
+        jobDescription: e.nativeEvent.text,
+        errJobDesc: false,
       });
     } else if (name === 'companyName') {
       this.setState({
-        address: e.nativeEvent.text,
-        errAddress: false,
+        companyName: e.nativeEvent.text,
+        errCompanyname: false,
       });
     } else if (name === 'price') {
       this.setState({
-        zipCode: e.nativeEvent.text,
-        errZipcode: false,
+        price: e.nativeEvent.text,
+        errPrice: false,
       });
-    } else if (name === 'locationName') {
+    } else if (name === 'additionalSkill') {
       this.setState({
-        description: e.nativeEvent.text,
-        errDescription: false,
-      });
-    } else if (name === 'jobType') {
-      this.setState({
-        phone: e.nativeEvent.text,
-        errPhone: false,
-        errPhoneNotNumber: false,
-        errPhoneBlank: false,
-      });
-    } else if (name === 'currencyType') {
-      this.setState({
-        phone: e.nativeEvent.text,
-        errPhone: false,
-        errPhoneNotNumber: false,
-        errPhoneBlank: false,
+        additionalName: e.nativeEvent.text,
       });
     }
-    // else if (name === 'jobType') {
-    //   this.setState({
-    //     phone: e.nativeEvent.text,
-    //     errPhone: false,
-    //     errPhoneNotNumber: false,
-    //     errPhoneBlank: false,
-    //   });
-    // }
   };
   reverseAddSkills = async (index) => {
     // this.setState({})
@@ -151,75 +134,109 @@ class PostInternship extends Component {
     this.setState({skills: this.state.skills.sort()});
   };
   async fetchCountry(countryValue) {
-    let response = await makeAuthGetRequest(
-      ApiUrl.Location + countryValue,
-      false,
-      '',
-    );
-    console.log('countryResponse====>>>>>>', response);
-    this.setState({countryValue: countryValue});
-    this.setState({cityArray: response});
-    if (countryValue === 'All') {
-      this.setState({showCity: false, showVisa: true, currencyType: 'USD'});
-    } else if (countryValue === 'India') {
-      this.setState({showCity: true, showVisa: false, currencyType: 'INR'});
-    } else if (countryValue === 'USA') {
-      this.setState({showCity: true, showVisa: true, currencyType: 'USD'});
+    if (countryValue === 'Select Country') {
+      Toast.show('Please Select Country', Toast.LONG);
+    } else {
+      let response = await makeAuthGetRequest(
+        ApiUrl.Location + countryValue,
+        false,
+        '',
+      );
+      this.setState({countryValue: countryValue});
+      //this.setState({cityArray: response});
+      this.setState({
+        cityArray: this.state.cityValuePlaceHolder.concat(response),
+      });
+
+      if (countryValue === 'All') {
+        this.setState({showCity: false, showVisa: true, currencyType: 'USD'});
+      } else if (countryValue === 'India') {
+        this.setState({showCity: true, showVisa: false, currencyType: 'INR'});
+      } else if (countryValue === 'USA') {
+        this.setState({showCity: true, showVisa: true, currencyType: 'USD'});
+      }
     }
   }
   handleSubmit = async () => {
-    console.log(
-      'selected Skills====>>>>>>',
-      this.state.selectedSkills,
-      this.state.selectedSkillIndex,
-    );
-    /*
-Request URL: https://api.connectbud.com/recruiter_job_post
-
-user_id: 2489
-job_title: Animation Designer
-job_company: cbnits
-skill_set: Animation
-job_description: test desc test desctest desctest desctest desctest desc test desctest desctest desctest desctest desctest desctest desctest desc
-country: All
-city: 
-job_type: Full Time
-unit: USD
-job_amount: 250
-authorisation_visa: Yes
-skill_name: 
-*/
-/*
-    let body = new FormData();
-    body.append('username', this.state.email);
-    body.append('password', this.state.fields.password);
-    body.append('email', this.state.email);
-    body.append('first_name', this.state.fields.first_name);
-    body.append('last_name', this.state.fields.last_name);
-    body.append('collegeName', this.state.college);
-    body.append('major', this.state.fields.major);
-    body.append('course_type', this.state.courseType);
-    this.setState({errEmail: false});
-    this.setState({errCollege: false});
-    this.setState({errCourseType: false});
-    console.log('handle formdata -----', body);
-
-    let response = await makePostRequestMultipart(
-      ApiUrl.PostJob,
-      false,
-      body,
-    );
-    console.log('handle freelancer Signup-----', response);
-    if (response) {
-      this.setState({userEmail: response?.email});
-      this.setState({isModalVisible: true});
-    } else {
-      //alert('The email or password you have entered is invalid!');
-      // Toast.show(response.msg, Toast.LONG);
+    if (this.state.jobTitle === '') {
+      this.setState({errJobTitle: true});
     }
-    */
-  };
+    if (this.state.companyName === '') {
+      this.setState({errCompanyname: true});
+    }
+    if (this.state.jobDescription === '') {
+      this.setState({errJobDesc: true});
+    }
+    if (this.state.selectedSkills.length === 0) {
+      this.setState({errSkills: true});
+    }
+    if (this.state.countryValue === 'Select Country') {
+      this.setState({errLocationName: true});
+    }
+    if (this.state.selectedSkills === 'Select skill') {
+      this.setState({errSkills: true});
+    }
+    if (
+      this.state.countryValue === 'India' &&
+      this.state.countryValue === 'USA' &&
+      this.state.cityValue === 'Select City'
+    ) {
+      this.setState({errCityName: true});
+    }
+    if (this.state.jobType === 'Select Job Type') {
+      this.setState({errJobType: true});
+    }
+    if (this.state.price === '') {
+      this.setState({errPrice: true});
+    } else {
+      this.setState({
+        errJobTitle: false,
+        errCompanyname: false,
+        errJobDesc: false,
+        errSkills: false,
+        errLocationName: false,
+        errJobType: false,
+        errPrice: false,
+      });
 
+      let body = new FormData();
+      body.append('user_id', base64.decode(this.props.userID));
+      body.append('job_title', this.state.jobTitle);
+      body.append('job_company', this.state.companyName);
+      body.append(
+        'skill_set',
+        JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
+      );
+      body.append('job_description', this.state.jobDescription);
+      body.append('country', this.state.countryValue);
+      body.append('city', this.state.cityValue);
+      body.append('job_type', this.state.jobType);
+      body.append('unit', this.state.currencyType);
+      body.append('job_amount', this.state.price);
+      body.append('authorisation_visa', this.state.visaType);
+      body.append('skill_name', this.state.additionalName);
+
+      console.log('handle formdata -----', body);
+
+      let response = await makePostRequestMultipart(
+        ApiUrl.PostJob,
+        false,
+        body,
+      );
+      console.log('handle post a job-----', response);
+      if (response) {
+        if (response && response[0].message) {
+          Toast.show(response[0].message, Toast.LONG);
+        }
+      } else {
+        //alert('The email or password you have entered is invalid!');
+        // Toast.show(response.msg, Toast.LONG);
+      }
+    }
+  };
+  handleAdditionalSkill = async () => {
+    this.setState({showAdditional: true});
+  };
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -253,10 +270,15 @@ skill_name:
                 keyboardType="default"
                 style={styles.formGroup1}
                 value={this.state.jobTitle}
-                onChange={(evt) => this.handleClick(evt, 'jobTitle')}
-                blurOnSubmit={false}
+                onChange={(text) => this.handleChange(text, 'jobTitle')}
               />
             </View>
+            {this.state.errJobTitle === true ? (
+              <ErrorMsg errorMsg="Enter Project Title" />
+            ) : (
+              <></>
+            )}
+
             <View style={{marginHorizontal: '5%', marginVertical: '2%'}}>
               <TextInput
                 returnKeyType="done"
@@ -264,10 +286,14 @@ skill_name:
                 keyboardType="default"
                 style={styles.formGroup1}
                 value={this.state.companyName}
-                onChange={(evt) => this.handleClick(evt, 'companyName')}
-                blurOnSubmit={false}
+                onChange={(text) => this.handleChange(text, 'companyName')}
               />
             </View>
+            {this.state.errCompanyname === true ? (
+              <ErrorMsg errorMsg="Enter Company Name" />
+            ) : (
+              <></>
+            )}
             <View style={{marginHorizontal: '5%', marginVertical: '2%'}}>
               <TextInput
                 returnKeyType="done"
@@ -277,11 +303,14 @@ skill_name:
                 multiline={true}
                 style={styles.formGroup1}
                 value={this.state.jobDescription}
-                onChange={(evt) => this.handleClick(evt, 'jobDescription')}
-                blurOnSubmit={false}
+                onChange={(text) => this.handleChange(text, 'jobDescription')}
               />
             </View>
-
+            {this.state.errJobDesc === true ? (
+              <ErrorMsg errorMsg="Enter Project Description" />
+            ) : (
+              <></>
+            )}
             <Text style={[styles.title]}>Skills </Text>
 
             {this.state.selectedSkills.length > 0 ? (
@@ -311,7 +340,6 @@ skill_name:
             ) : (
               <></>
             )}
-
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
                 <Picker
@@ -335,20 +363,51 @@ skill_name:
                   ) : (
                     <></>
                   )}
-                  {/* <Picker.Item label="Java" value="Java" />
-                  <Picker.Item label="Python" value="Python" />
-                  <Picker.Item label="React" value="React" /> */}
                 </Picker>
                 <View style={{justifyContent: 'center', marginBottom: 0}}>
-                  <AntDesign
-                    name="plussquare"
-                    size={55}
-                    color="#60a84e"
-                    style={{marginLeft: 10}}
-                  />
+                  <TouchableOpacity onPress={this.handleAdditionalSkill}>
+                    <AntDesign
+                      name="plussquare"
+                      size={55}
+                      color="#60a84e"
+                      style={{marginLeft: 10}}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
+
+            {this.state.errSkills === true ? (
+              <ErrorMsg errorMsg="Select Skills" />
+            ) : (
+              <></>
+            )}
+
+            {this.state.showAdditional === true ? (
+              <View style={[styles.formGroup, {height: 100}]}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Add you additional Skills here e.g.- Java"
+                  style={[
+                    styles.inputGroup,
+                    {
+                      height: 100,
+                      justifyContent: 'flex-start',
+                      textAlignVertical: 'top',
+                    },
+                  ]}
+                  keyboardType="default"
+                  numberOfLines={5}
+                  multiline={true}
+                  value={this.state.additionalName}
+                  onChange={(text) =>
+                    this.handleChange(text, 'additionalSkill')
+                  }
+                />
+              </View>
+            ) : (
+              <></>
+            )}
 
             <Text style={styles.title}>Location</Text>
             <View style={styles.skillView1}>
@@ -360,12 +419,18 @@ skill_name:
                     //this.setState({countryValue: itemValue})
                     this.fetchCountry(itemValue)
                   }>
+                  <Picker.Item label="Select Country" value="Select Country" />
                   <Picker.Item label="All" value="All" />
                   <Picker.Item label="India" value="India" />
                   <Picker.Item label="USA" value="USA" />
                 </Picker>
               </View>
             </View>
+            {this.state.errLocationName === true ? (
+              <ErrorMsg errorMsg="Select Country" />
+            ) : (
+              <></>
+            )}
             {this.state.showCity === true ? (
               <>
                 <Text style={[styles.title]}>City </Text>
@@ -397,6 +462,11 @@ skill_name:
               <></>
             )}
 
+            {this.state.errCityName === true ? (
+              <ErrorMsg errorMsg="Select City" />
+            ) : (
+              <></>
+            )}
             {this.state.showVisa === true ? (
               <>
                 <Text style={[styles.title]}>
@@ -435,10 +505,14 @@ skill_name:
               <View style={[styles.formGroup1]}>
                 <Picker
                   style={{width: '100%', height: 45, color: '#3B1D25'}}
-                  selectedValue={this.state.typeValue}
+                  selectedValue={this.state.jobType}
                   onValueChange={(itemValue, itemIndex) =>
-                    this.setState({typeValue: itemValue})
+                    this.setState({jobType: itemValue})
                   }>
+                  <Picker.Item
+                    label="Select Job Type"
+                    value="Select Job Type"
+                  />
                   <Picker.Item label="Internship" value="Internship" />
                   <Picker.Item label="Full Time" value="Full Time" />
                   <Picker.Item label="Part Time" value="Part Time" />
@@ -446,6 +520,11 @@ skill_name:
               </View>
             </View>
 
+            {this.state.errSkills === true ? (
+              <ErrorMsg errorMsg="Select Job Type" />
+            ) : (
+              <></>
+            )}
             <View
               style={{
                 marginHorizontal: '5%',
@@ -479,12 +558,16 @@ skill_name:
                   width: '70%',
                 }}
                 value={this.state.price}
-                onChange={(evt) => this.handleClick(evt, 'price')}
+                onChange={(text) => this.handleChange(text, 'price')}
                 returnKeyType="next"
-                blurOnSubmit={false}
               />
             </View>
 
+            {this.state.errPrice === true ? (
+              <ErrorMsg errorMsg="Enter Price Value" />
+            ) : (
+              <></>
+            )}
             <TouchableOpacity
               activeOpacity={0.9}
               onPress={() => this.handleSubmit()}
@@ -505,7 +588,6 @@ skill_name:
   }
 }
 
-// export default PostInternship;
 const mapStateToProps = (state) => {
   return {
     userDeatailResponse: state.userData,

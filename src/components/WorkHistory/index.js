@@ -140,7 +140,7 @@ class WorkHistory extends Component {
                         {value.details.map((item, index) => {
                           if (index < 1) {
                             return (
-                              <Text style={styles.itemTitle}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Type : <Text style={styles.itemContent}>{item.project_type}</Text>
                               </Text>
                             )
@@ -149,7 +149,7 @@ class WorkHistory extends Component {
                         {value.details.map((item, index, arr) => {
                           if (arr.length - 1 === index) {
                             return (
-                              <Text style={styles.itemTitle}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Date : <Text style={styles.itemContent}>{item.start_date} - {item.end_date}</Text>
                               </Text>
                             )
@@ -158,11 +158,11 @@ class WorkHistory extends Component {
                         {value.details.map((item, index, arr) => {
                           if (arr.length - 1 === index) {
                             return (
-                              <Text style={styles.itemTitle} key={index}>
+                              <Text style={styles.itemTitle} key={index} key={index}>
                                 Technologies :{' '}
                                 {item.job_skills.map((obj, index) => {
                                   return (
-                                    <Text style={styles.itemContent}>{obj.label}</Text>
+                                    <Text style={styles.itemContent} key={index}>{obj.label}</Text>
                                   )
                                 })}
                               </Text>
