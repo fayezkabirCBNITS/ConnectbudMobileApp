@@ -90,7 +90,10 @@ export default {
     color: '#FF5959',
     fontFamily: 'Poppins-Regular',
   },
-  
+  loader: {
+    position: 'absolute',
+    right: 30,
+  },
 
 
 modalImg: {

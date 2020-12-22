@@ -5,28 +5,29 @@ import {Text, View, Image, TouchableOpacity, StatusBar} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './style';
-import { withNavigation } from "react-navigation"
+import {withNavigation} from 'react-navigation';
 
 class AppHeader extends Component {
-
   render() {
     return (
       <View style={styles.header}>
-         <StatusBar
-        backgroundColor="#71b85f"
-        barStyle="light-content"
-        hidden={false}
-        translucent={false}
-      />
-        <TouchableOpacity
-                  onPress={() => this.props.navigation.openDrawer()}>
+        <StatusBar
+          backgroundColor="#71b85f"
+          barStyle="light-content"
+          hidden={false}
+          translucent={false}
+        />
+        <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
           <Entypo name="menu" color="#71b85f" size={35} />
         </TouchableOpacity>
         <Image
           source={require('../../assets/images/logo.png')}
           style={styles.image}
         />
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('NotificationScreen')
+          }>
           <Feather name="bell" color="#71b85f" size={30} />
         </TouchableOpacity>
       </View>
@@ -34,4 +35,4 @@ class AppHeader extends Component {
   }
 }
 
-export default withNavigation( AppHeader );
+export default withNavigation(AppHeader);

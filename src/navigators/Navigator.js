@@ -20,7 +20,7 @@ import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
 import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
-import InnerChatting from "./../screens/AuthNav/chats/chattingInner";
+// import InnerChatting from "./../screens/AuthNav/chats/chattingInner";
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
 import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
@@ -81,9 +81,9 @@ export const MainStack = createStackNavigator(
     AddExperienceScreen:{
       screen:AddExperienceScreen
     },
-    InnerChatting:{
-      screen:InnerChatting
-    },
+    // InnerChatting:{
+    //   screen:InnerChatting
+    // },
     EditPostedProject:{
       screen: EditPostedProject
     },

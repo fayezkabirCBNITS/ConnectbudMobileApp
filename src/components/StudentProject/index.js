@@ -18,6 +18,7 @@ import {
   updateJobId,
 } from '../../redux/actions/user-data';
 import {connect} from 'react-redux';
+import base64 from 'base-64';
 
 var items = [
   {
@@ -71,6 +72,7 @@ class StudentProject extends Component {
       ],
       expertset: [],
       SearchSkill: [],
+      user_id: '',
     };
   }
 
@@ -78,18 +80,25 @@ class StudentProject extends Component {
     headerShown: false,
   };
 
-  componentDidMount = () => {
-    this.feedProjects();
+  componentDidMount = async () => {
+    const {userDeatailResponse} = this.props;
+    await this.setState({
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
+    });
+    this.feedProjects(userDeatailResponse);
     this.SkillSearch();
   };
 
-  feedProjects = async () => {
+  feedProjects = async (userDeatailResponse) => {
     let taglistbody = new FormData();
-    taglistbody.append('user_id', '2519');
+    taglistbody.append(
+      'user_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
     taglistbody.append('type', 'freelancer');
     taglistbody.append('skills', '');
     taglistbody.append('search_type', 'all');
-    taglistbody.append('offset', '10');
+    taglistbody.append('offset', '15');
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -129,11 +138,11 @@ class StudentProject extends Component {
 
     if (this.state.SearchSkill !== null) {
       let taglistbody = new FormData();
-      taglistbody.append('user_id', '2519');
+      taglistbody.append('user_id', this.state.user_id);
       taglistbody.append('type', 'freelancer');
       taglistbody.append('skills', data);
       taglistbody.append('search_type', 'else');
-      taglistbody.append('offset', '0');
+      taglistbody.append('offset', '5');
 
       await axios({
         url: API_URL + 'expert_jobsummary',
@@ -144,7 +153,6 @@ class StudentProject extends Component {
           this.setState({
             expertset: response.data,
           });
-          console.log(this.state.expertset);
           this.setState({isLoading: true});
         })
         .catch((error) => {
@@ -157,12 +165,12 @@ class StudentProject extends Component {
       //   lodarStatus: true,
       // });
       let taglistbody = new FormData();
-      taglistbody.append('user_id', '2519');
+      taglistbody.append('user_id', this.state.user_id);
       taglistbody.append('type', 'freelancer');
       taglistbody.append('skills', '');
       taglistbody.append('search_type', 'all');
-      taglistbody.append('offset', '10');
-  
+      taglistbody.append('offset', '15');
+
       await axios({
         url: API_URL + 'expert_jobsummary',
         method: 'POST',
@@ -182,7 +190,6 @@ class StudentProject extends Component {
   };
 
   expertProjects = async () => {
-    console.log('this called');
     let taglistbody = new FormData();
     taglistbody.append('user_id', '2519');
     taglistbody.append('type', 'freelancer');
@@ -199,7 +206,6 @@ class StudentProject extends Component {
         this.setState({
           expertset: response.data,
         });
-        console.log(this.state.expertset);
         this.setState({isLoading: true});
       })
       .catch((error) => {
@@ -228,7 +234,6 @@ class StudentProject extends Component {
               //   this.setState({
               //     skills: item, // an array of the selected items
               //   })
-              //   // console.log(item)
               // }
               onChangeItem={(item) => this.SearchProject(item)}
               value={this.state.skills}
@@ -289,6 +294,12 @@ class StudentProject extends Component {
 
 // export default StudentProject;
 
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
@@ -298,4 +309,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(StudentProject);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentProject);

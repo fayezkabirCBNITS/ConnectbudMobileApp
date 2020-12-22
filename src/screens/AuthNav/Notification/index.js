@@ -6,14 +6,31 @@ import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native-gesture-handler';
 
+import axios from 'axios';
+import {API_URL} from '../../../config/url';
+
 class NotificationScreen extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      notification: [],
+    };
   }
 
   static navigationOptions = {
     headerShown: false,
+  };
+
+  componentDidMount = async () => {
+    const body = {
+      user_id: '2489',
+    };
+    axios.post(API_URL + 'getNotification', body).then(async (res) => {
+      console.log(res);
+      await this.setState({
+        notification: res.data,
+      });
+    });
   };
 
   render() {
@@ -34,26 +51,30 @@ class NotificationScreen extends Component {
             />
           </View>
           {/* header section end */}
-
           <View style={CommonStyles.container}>
             <ScrollView
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>
-              <TouchableOpacity style={styles.head}>
-                <View style={styles.wrapper}>
-                  <View style={styles.imgSec}>
-                    <Image
-                      source={require('../../../assets/images/profileImg.jpg')}
-                      style={CommonStyles.image}
-                    />
+              {this.state.notification.map((data, i) => (
+                <TouchableOpacity style={styles.head}>
+                  <View style={styles.wrapper}>
+                    <View style={styles.imgSec}>
+                      <Image
+                        source={{uri: data.notification_image}}
+                        style={CommonStyles.image}
+                      />
+                    </View>
+                    <Text
+                      style={styles.notiText}
+                      onPress={() =>
+                        this.props.navigation.navigate('ChatScreen')
+                      }>
+                      {data.notification_message}
+                    </Text>
                   </View>
-                  <Text style={styles.notiText}>
-                    Priya Rani has sent you an invitation for Physics tutor
-                    needed
-                  </Text>
-                </View>
-                <Text style={styles.notiTime}>47 days ago</Text>
-              </TouchableOpacity>
+                  <Text style={styles.notiTime}>{data.notification_time}</Text>
+                </TouchableOpacity>
+              ))}
             </ScrollView>
           </View>
         </View>

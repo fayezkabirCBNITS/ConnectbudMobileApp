@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Modal,
 } from 'react-native';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
@@ -15,53 +14,20 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import { connect }  from "react-redux";
+import { withNavigation } from "react-navigation";
+import axios from "axios";
+import { API_URL } from "../../../config/url";
+import base64 from 'base-64';
+import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class ChatScreen extends Component {
   constructor() {
     super();
     this.state = {
-      chatList: [
-        {
-          img: require('../../../assets/images/profileImg.jpg'),
-          name: 'The Kop Fans',
-        },
-        {
-          img: require('../../../assets/images/userPro.jpg'),
-          name: 'Anna Bella',
-        },
-        {
-          img: require('../../../assets/images/profileImg.jpg'),
-          name: 'The Kop Fans',
-        },
-        {
-          img: require('../../../assets/images/userPro.jpg'),
-          name: 'Anna Bella',
-        },
-        {
-          img: require('../../../assets/images/profileImg.jpg'),
-          name: 'The Kop Fans',
-        },
-        {
-          img: require('../../../assets/images/userPro.jpg'),
-          name: 'Anna Bella',
-        },
-        {
-          img: require('../../../assets/images/profileImg.jpg'),
-          name: 'The Kop Fans',
-        },
-        {
-          img: require('../../../assets/images/userPro.jpg'),
-          name: 'Anna Bella',
-        },
-        {
-          img: require('../../../assets/images/profileImg.jpg'),
-          name: 'The Kop Fans',
-        },
-        {
-          img: require('../../../assets/images/userPro.jpg'),
-          name: 'Anna Bella',
-        },
-      ],
+      chatList: [],
+      showLoader:false
     };
   }
 
@@ -69,10 +35,39 @@ class ChatScreen extends Component {
     headerShown: false,
   };
 
+  componentDidMount(){
+    this.setState({showLoader: true});
+    let taglistbody = new FormData();
+    taglistbody.append("sender_id", base64.decode(this.props.userDeatailResponse.user_id));
+    taglistbody.append("type", "freelancer");
+    axios({
+      url: API_URL + "chat/chattedUsers",
+      method: "POST",
+      data: taglistbody,
+    })
+      .then((response) => {
+        console.log("dddddd111111",response)
+        this.setState({showLoader: false});
+        this.setState({
+          chatList: response.data,
+        });
+      })
+      .catch((error) => {
+        this.setState({showLoader: false});
+       });
+  }
+gotoPage = ()=>{
+  
+}
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+        <Spinner
+          visible={this.state.showLoader}
+          animation="fade"
+          textContent={'Loading...'}
+        />
           <StatusBar />
           {/* header section */}
           <View style={CommonStyles.header}>
@@ -105,16 +100,25 @@ class ChatScreen extends Component {
 
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={CommonStyles.container}>
-              {this.state.chatList.map((item, i) => (
+            
+              {this.state.chatList.length > 0 ? (this.state.chatList.map((item, i) => (
                 <TouchableOpacity
                   key={i}
                   style={styles.chatCard}
-                  onPress={() =>
-                    this.props.navigation.navigate('ChatListScreen')
+                  onPress={async() =>
+                this.props.navigation.navigate('ChatListScreen',{
+                job_id: item.job_id,
+                receiver_id: item.receiver_id,
+                sender_id: base64.decode(this.props.userDeatailResponse.user_id),
+                name:item.name,
+                user_image: item.user_image,
+                user_type: this.props.userDeatailResponse?.Flag,
+                room_id: item.room_id,
+            }, AsyncStorage.setItem('room_id',item.room_id))
                   }>
                   <View style={styles.imgSec}>
-                    <Image source={item.img} style={styles.chatImage} />
-                    <View style={styles.online} />
+                    <Image source={{uri: item.user_image}} style={styles.chatImage} />
+                    {item.status === "True" ? <View style={styles.online} />  : null }
                   </View>
 
                   <View style={styles.details}>
@@ -123,18 +127,20 @@ class ChatScreen extends Component {
                       style={styles.userChat}
                       numberOfLines={1}
                       ellipsizeMode="tail">
-                      Great! Thank you So much
+                      {item.last_message}
                     </Text>
                   </View>
 
                   <View style={styles.count}>
-                    <Text style={styles.chatTime}>YESTERDAY</Text>
-                    <View style={styles.unread}>
-                      <Text style={styles.unreadText}>25</Text>
-                    </View>
+                    <Text style={styles.chatTime}>{item.chatTime}</Text>
+                    {item.read_status === "false"  ? 
+                    (<View style={styles.unread}>
+                      {/* <Text style={styles.unreadText}>25</Text> */}
+                    </View>)
+                    : null}
                   </View>
                 </TouchableOpacity>
-              ))}
+              ))): <Text style={styles.userChat}>No chat found</Text>}
             </View>
           </ScrollView>
         </View>
@@ -143,4 +149,11 @@ class ChatScreen extends Component {
   }
 }
 
-export default ChatScreen;
+const mapStateToProps = (state) => {
+
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+export default connect( mapStateToProps,null,)(withNavigation(ChatScreen));
