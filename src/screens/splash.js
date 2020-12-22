@@ -1,39 +1,64 @@
 import React, {Component} from 'react';
-import {View, Image, StatusBar} from 'react-native';
+import {View, Image, StatusBar, Linking, Platform} from 'react-native';
 import {NavigationActions, StackActions} from 'react-navigation';
 import CommonStyles from '../../CommonStyles';
 import {deepClone} from '../services/helper-methods';
 import {connect} from 'react-redux';
 import {changeAppOpenStatus} from '../redux/actions/user-data';
 class SplashScreen extends Component {
-  async componentDidMount() {
-    console.log('123456 :>> ', 123456);
-    const {userData} = deepClone(this.props);
-    console.log('props data=============== :>> ', this.props);
-
-    setTimeout(() => {
-      if (userData && userData?.Token && userData?.Token.length) {
-        //this.rese;
-        console.log('open false :>> ');
-        this.props.changeAppOpenStatus(false);
-        //this.resetStack('AuthStackNav');
-        {
-          userData?.Flag === 'WQ=='
-            ? this.props.navigation.navigate('StudentInner')
-            : userData?.Flag === 'Rg=='
-            ? this.props.navigation.navigate('EmployeeInner')
-            : null;
-        }
-      }
-      else {
-        this.props.changeAppOpenStatus(true);
-        console.log('open true :>> ');
-
-        this.resetStack();
-      }
-    }, 3000);
+  constructor(props) {
+    super(props);
+    this.state = {
+      deepLinking: false,
+    };
+    
   }
 
+  handleOpenURL(event) {
+    console.log('url============', event.url);
+    //https://dev.connectbud.com/maintag?MjU5Ng==
+    //const route = e.url.replace(/.*?:\/\//g, '');
+    // do something with the url, in our case navigate(route)
+  }
+
+ async componentDidMount() {
+    
+    if (Platform.OS === 'android') {
+    await  Linking.getInitialURL().then((url) => {
+      if(url){
+        this.setState({deepLinking: true});
+      }
+      });
+    }
+
+    if (this.state.deepLinking === false) {
+      const {userData} = deepClone(this.props);
+      setTimeout(() => {
+        if (userData && userData?.Token && userData?.Token.length) {
+          //this.rese;
+          console.log('open false :>> ');
+          this.props.changeAppOpenStatus(false);
+          {
+            userData?.Flag === 'WQ=='
+              ? this.props.navigation.navigate('StudentInner')
+              : userData?.Flag === 'Rg=='
+              ? this.props.navigation.navigate('EmployeeInner')
+              : null;
+          }
+        } else {
+          this.props.changeAppOpenStatus(true);
+          console.log('open true :>> ');
+          this.props.navigation.navigate('HomeScreen')
+         // this.resetStack();
+        }
+      }, 3000);
+    } else {
+      this.props.navigation.navigate('CategoryScreen');
+    }
+  }
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
   resetStack = (routeName = 'NonAuthStackNav') => {
     this.props.navigation.dispatch(
       StackActions.reset({
