@@ -158,7 +158,7 @@ class WorkHistory extends Component {
                         {value.details.map((item, index, arr) => {
                           if (arr.length - 1 === index) {
                             return (
-                              <Text style={styles.itemTitle}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Technologies :{' '}
                                 {item.job_skills.map((obj, index) => {
                                   return (

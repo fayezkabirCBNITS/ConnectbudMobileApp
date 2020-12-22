@@ -17,6 +17,9 @@ import { API_URL } from "../../config/url";
 import {WebView} from 'react-native-webview';
 import PortfolioExperience from '../../components/PortfolioExperience'
 import {withNavigation} from 'react-navigation';
+import { connect } from "react-redux";
+import base64 from 'base-64';
+import  { BASE_URL } from "../../config/ApiUrl"
 
 
 class Portfolio extends Component {
@@ -34,7 +37,7 @@ class Portfolio extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: API_URL + "expertProfile/Utkarsh-Sarkar-15",
+      url:  `${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`,
       method: 'GET',
     })
       .then((response) => {
@@ -155,5 +158,12 @@ class Portfolio extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
 
-export default withNavigation(Portfolio);
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+// export default withNavigation(Portfolio);
+export default connect( mapStateToProps,null,)(withNavigation(Portfolio));
