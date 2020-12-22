@@ -6,7 +6,7 @@ import StatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import BlogListScreen from '../../../components/BlogList';
 
 class BlogScreen extends Component {
   constructor() {
@@ -45,7 +45,13 @@ class BlogScreen extends Component {
           {/* header section end */}
 
           <View style={CommonStyles.container}>
-            <Text>Blog</Text>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.scroll}>
+              <BlogListScreen />
+              <BlogListScreen />
+              <BlogListScreen />
+            </ScrollView>
           </View>
         </View>
       </SafeAreaView>

@@ -3,4 +3,8 @@ const {Dimensions} = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
-export default {};
+export default {
+  scroll: {
+    height: deviceHeight - 84,
+  },
+};
