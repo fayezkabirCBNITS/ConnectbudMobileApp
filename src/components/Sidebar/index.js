@@ -142,7 +142,7 @@ class Sidebar extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('')}
+                onPress={() => this.props.navigation.navigate('EditProfileScreen')}
                 style={styles.menuOptn}>
                 <AntDesign name="contacts" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Contact</Text>

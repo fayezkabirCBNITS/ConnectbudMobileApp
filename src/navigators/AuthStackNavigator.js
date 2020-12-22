@@ -22,6 +22,11 @@ import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
 import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
+import AboutUs from '../screens/AuthNav/AboutUs';
+import FAQs from '../screens/AuthNav/FAQs';
+import TermsOfServices from '../screens/AuthNav/TermsOfServices';
+import PrivacyPolicy from '../screens/AuthNav/PrivacyPolicy';
+import ContactUs from '../screens/AuthNav/ContactUs'
 import ChatScreen from '../screens/AuthNav/Chat';
 import ChatListScreen  from '../screens/AuthNav/ChatList';
 import NotificationScreen from '../screens/AuthNav/Notification';
@@ -87,6 +92,21 @@ export const MainStack = createStackNavigator(
     },
     AssessmentQuestion:{
       screen : AssessmentQuestion
+    },
+    AboutUs:{
+      screen : AboutUs
+    },
+    FAQs:{
+      screen : FAQs
+    },
+    TermsOfServices:{
+      screen : TermsOfServices
+    },
+    PrivacyPolicy:{
+      screen : PrivacyPolicy
+    },
+    ContactUs : {
+      screen : ContactUs
     },
     ChatScreen: {
       screen : ChatScreen
