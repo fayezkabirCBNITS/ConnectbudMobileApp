@@ -9,4 +9,4 @@ export default EndPoint = {
   Location:'keyskill/',
   PostJob:'recruiter_job_post',
 };
-export const BASE_URL ="https://api.connectbud.com/"
+export const BASE_URL ="https://api.connectbud.com/"   //do not remove
