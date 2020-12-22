@@ -12,10 +12,10 @@ import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Header from '../../../components/Header';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+// import Header from '../../../components/Header';
+// import Entypo from 'react-native-vector-icons/Entypo';
+// import Feather from 'react-native-vector-icons/Feather';
 import {
   Collapse,
   CollapseHeader,
@@ -23,7 +23,9 @@ import {
 } from 'accordion-collapse-react-native';
 import { Thumbnail, List, ListItem, Separator } from 'native-base';
 import ApiUrl from '../../../config/ApiUrl';
-import { makePostRequest, makeGetRequest } from '../../../services/http-connectors';
+import { makePostRequest } from '../../../services/http-connectors';
+import {updateUserDetails} from '../../../redux/actions/user-data';
+import {connect} from 'react-redux';
 
 
 class AddskillScreen extends Component {
@@ -35,7 +37,8 @@ class AddskillScreen extends Component {
       keyGen: [],
       buttonstate: true,
       addSkill: "",
-      addSkillBox: false
+      addSkillBox: false,
+      userID: this.props.navigation.state.params.userID
     };
   }
 
@@ -64,8 +67,6 @@ class AddskillScreen extends Component {
 
 
   handleSubmit = async () => {
-    //localStorage.setItem("tagId", this.state.keyGen);
-
     const body = {
       category_name: this.state.keyGen.toString(),
       user_id: this.props.navigation.state.params.userID,
@@ -73,8 +74,7 @@ class AddskillScreen extends Component {
     };
     let response = await makePostRequest(ApiUrl.ChildSkillSubmit, false, body);
     if (response) {
-      // localStorage.setItem("token", response.data[0].Token);
-      // localStorage.setItem("slugname", response.data[0].slug);
+      this.props.updateUserDetails(response, this.state.userID);
       this.props.navigation.navigate('StudentInner');
     }
   };
@@ -217,4 +217,9 @@ class AddskillScreen extends Component {
   }
 }
 
-export default AddskillScreen;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUserDetails: (data, user_id) => dispatch(updateUserDetails(data, user_id)),
+  };
+};
+export default connect(null, mapDispatchToProps)(AddskillScreen);
