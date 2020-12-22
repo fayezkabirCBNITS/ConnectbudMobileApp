@@ -10,6 +10,7 @@ import {
   UPDATE_USER_JOBID,
   UPDATE_VIEWPROFILE,
   LOGOUT,
+  UPDATE_SLUG,
 } from '../actions/action-types';
 
 const initialState = {
@@ -54,6 +55,11 @@ export const userDataReducer = (state = initialState, action) => {
       newState.slugname = action.payload.slug;
       newState.view_user_id = action.payload.user_id;
       break;
+    }
+    case UPDATE_SLUG : {
+      newState.slug = action.payload.slugName;
+      break;
+      
     }
     // case UPDATE_USER_VERIFICATION_STATUS: {
     //   newState.isUserVerified = action.payload.isUserVerified;

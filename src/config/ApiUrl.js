@@ -8,5 +8,13 @@ export default EndPoint = {
   FetchSkills:'keyskill/recruiter',
   Location:'keyskill/',
   PostJob:'recruiter_job_post',
+  FetchCategory: 'Tags/list/',
+  CategorySubmit: 'categorised_skill',
+  ChildSkillSubmit: 'freelancer_tags',
+  FetchSubjectSkills : 'fetch_skills',
+  tutorhomework: 'tutorhomework',
+  FreelancerJob:'freelancerJob',
+  JobMail:'jobmail',
+
 };
-export const BASE_URL ="https://api.connectbud.com/"
+export const BASE_URL ="https://api.connectbud.com/"   //do not remove

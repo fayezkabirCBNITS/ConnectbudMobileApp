@@ -3,6 +3,7 @@ import {
   UPDATE_USER_JOBID,
   UPDATE_VIEWPROFILE,
   LOGOUT,
+  UPDATE_SLUG,
 
   // UPDATE_CARD_TOKEN,
   // UPDATE_USER_VERIFICATION_STATUS,
@@ -65,6 +66,18 @@ export const updateUserDetails = (userData) => {
     },
   };
 };
+
+//update slug on profile edit
+
+export const updateslug = (slugName) => {
+  return {
+    type: UPDATE_SLUG,
+    payload: {
+      slugName,
+    },
+  };
+};
+
 
 //update job id
 export const updateJobId = (jobId) => {

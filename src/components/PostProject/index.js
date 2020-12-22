@@ -1,70 +1,74 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
   TextInput,
-  FlatList,
   TouchableOpacity,
   ActivityIndicator,
   SafeAreaView,
   Pressable,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
-
-import axios from 'axios';
-import { API_URL } from '../../config/url';
-import DropDownPicker from 'react-native-custom-dropdown';
-
+import {Picker} from '@react-native-community/picker';
+import {connect} from 'react-redux';
+import base64 from 'base-64';
+import ApiUrl from '../../config/ApiUrl';
+import {
+  makePostRequestMultipart,
+  makeAuthGetRequest,
+} from '../../services/http-connectors';
+import ErrorMsg from '../../components/ErrorMsg';
+import {withNavigation} from 'react-navigation';
+import Toast from 'react-native-simple-toast';
 class PostProject extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showLoader: false,
       showSkills: false,
-      skillsData: [
-        { title: 'C' },
-        { title: 'JAVA' },
-        { title: 'C++' },
-        { title: 'C#' },
-      ],
+      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
+      selectedSkills: [],
+      selectedSkillIndex: null,
       title: '',
       des: '',
       budget: '',
+      budgetINR: '',
       errors: {},
-      skillOptions: [],
       monthSelect: '0 Month',
       daySelect: '0 Days',
       skills: [],
-      SS: ""
+      SS: '',
+      errSkills: false,
+      JobID: '',
+      Skill: '',
+      showAdditional: false,
+      xtraSkill:'',
     };
   }
-  handleSkills = async () => {
-    this.setState({ showSkills: !this.state.showSkills });
-  };
 
   static navigationOptions = {
     headerShown: false,
   };
-
-  SkillSearch = async () => {
-    await axios.get(API_URL + 'keyskill/recruiter').then((response) => {
-      this.setState({
-        skillOptions: response.data,
-      });
-      console.log(this.state.skillOptions);
+  componentDidMount() {
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.fetchSkills();
     });
-  };
-
-  componentDidMount = () => {
-    this.SkillSearch();
-  };
+    this.fetchSkills();
+  }
+  async fetchSkills() {
+    let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
+    console.log('menuItemsResponse====>>>>>>', response);
+    //this.state.skills.concat({value: data, label: data}).sort()
+    //this.setState({skills: response});
+    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
+  }
 
   handleInputTitle = async (e) => {
-    console.log('callled');
     await this.setState({
       title: e,
     });
@@ -78,13 +82,17 @@ class PostProject extends Component {
     this.validateJobForm();
   };
 
+  handleInputAdditionalSkill = async (e) => {
+    await this.setState({
+      xtraSkill: e,
+    });
+  };
   handleInputBudget = async (e) => {
-    console.log('called');
     await this.setState({
       budget: e,
     });
     this.validateJobForm();
-    console.log(this.state.budget);
+    this.setState({budgetINR: this.state.budget * 75});
   };
 
   validateJobForm = () => {
@@ -101,20 +109,10 @@ class PostProject extends Component {
       errors['titleChara'] = '*enter minimum 5 characters';
     }
 
-    // if (!this.state.SS.length) {
-    //   formIsValid = false;
-    //   errors['skill'] = '*Please select Skill(s)';
-    // }
-
     if (!this.state.des) {
       formIsValid = false;
       errors['about'] = '*Please enter project descriptions';
     }
-
-    // if (this.state.des.length > 0 && this.state.des.length < 50) {
-    //   formIsValid = false;
-    //   errors['aboutChara'] = '*enter minimum 50 characters';
-    // }
 
     if (!this.state.budget) {
       formIsValid = false;
@@ -127,13 +125,18 @@ class PostProject extends Component {
   };
 
   postProject = async () => {
+    this.setState({showLoader: false});
+
     let jobDescription = new FormData();
-    jobDescription.append('posted_by', '2489');
+    jobDescription.append('posted_by', base64.decode(this.props.userID));
     jobDescription.append('job_name', this.state.title);
     jobDescription.append('description', this.state.des);
-    jobDescription.append('expertise_skill', this.state.skills);
+    jobDescription.append(
+      'expertise_skill',
+      JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
+    );
     // jobDescription.append("category", this.getSSLabel(this.state.SS));
-    jobDescription.append('additional_skill', '');
+    jobDescription.append('additional_skill',this.state.xtraSkill);
     jobDescription.append('price_unit', 'usd');
     jobDescription.append('price_amount', this.state.budget);
     jobDescription.append(
@@ -141,39 +144,25 @@ class PostProject extends Component {
       this.state.daySelect + this.state.monthSelect,
     );
     jobDescription.append('projects_for', 'All');
+    console.log('post freelancer job=============', jobDescription);
 
-    await axios({
-      url: API_URL + 'freelancerJob',
-      method: 'POST',
-      data: jobDescription,
-    })
-      .then((response) => {
-        // localStorage.setItem('jobID', this.state.JobID);
-        this.setState({
-          JobID: response.data[0].job_id,
-          Skill: response.data[0].skill_set,
-          // SS: '',
-          // SC: '',
-          // des: '',
-          // title: '',
-          // budget: '',
-          // monthShow: 'Months',
-          // dayShow: 'Days',
-          // countrySelect: 'Country',
-        });
-        this.fireMail();
-        alert('Successfully posted the Project!');
-        this.props.NavtoPostedpage();
-      })
-      .catch((error) => {
-        swal({
-          title: 'Something went wrong!',
-          icon: 'error',
-        });
-        // this.setState({
-        //   btnStatus: false,
-        // });
+    let response = await makePostRequestMultipart(
+      ApiUrl.FreelancerJob,
+      false,
+      jobDescription,
+    );
+    console.log('handle freelancer post a job-----', response);
+
+    if (response) {
+      this.setState({
+        JobID: response[0].job_id,
+        Skill: response[0].skill_set,
       });
+      this.fireMail();
+      alert('Successfully posted the Project!');
+      // this.props.NavtoPostedpage();
+      this.props.navigation.navigate('PostedProjectByEmployee');
+    }
   };
 
   fireMail = async () => {
@@ -182,27 +171,39 @@ class PostProject extends Component {
     body.append('skill_set', this.state.Skill);
     body.append('type', 'freelancer');
 
-    await axios({
-      url: API_URL + 'jobmail',
-      method: 'POST',
-      data: body,
-    });
+    let response = await makePostRequestMultipart(ApiUrl.JobMail, false, body);
+    console.log('handle fire mail-----', response);
   };
-
   onButtonSubmit = async () => {
     let dataSet = this.validateJobForm();
-    if (dataSet === true) {
-      this.postProject();
-      this.setState({ showLoader: true });
-      Toast.show('submit action', Toast.LONG);
+    if (this.state.selectedSkills.length === 0) {
+      this.setState({errSkills: true});
+    } else {
+      if (dataSet === true) {
+        this.setState({showLoader: true, errSkills: false});
+        this.postProject();
+      }
     }
   };
-
-
+  reverseAddSkills = async (index) => {
+    // this.setState({})
+    this.setState({
+      selectedSkills: this.state.selectedSkills.filter((_, i) => i !== index),
+    });
+    let data = this.state.selectedSkills[index];
+    await this.setState({
+      skills: this.state.skills.concat({value: data, label: data}).sort(),
+    });
+    this.setState({skills: this.state.skills.sort()});
+  };
+  
+  handleAdditionalSkill =async()=>{
+    this.setState({showAdditional:true});
+  };
   render() {
     return (
       <SafeAreaView style={CommonStyles.main}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
           <View style={styles.form}>
             <Text style={styles.title}>Project Details</Text>
 
@@ -219,7 +220,7 @@ class PostProject extends Component {
             </View>
             <Text style={styles.errorText}>{this.state.errors.title}</Text>
 
-            <View style={[styles.formGroup, { height: 100 }]}>
+            <View style={[styles.formGroup, {height: 100}]}>
               <TextInput
                 returnKeyType="done"
                 placeholder="Describe your project..."
@@ -239,75 +240,129 @@ class PostProject extends Component {
             </View>
             <Text style={styles.errorText}>{this.state.errors.about}</Text>
 
-            <Text style={styles.inputHead}>Skills *</Text>
+            <Text style={[styles.title]}>Skills </Text>
 
+            {this.state.selectedSkills.length > 0 ? (
+              this.state.selectedSkills?.map((data, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => this.reverseAddSkills(index)}>
+                    <View
+                      style={[
+                        styles.formSubGroup22,
+                        {flexWrap: 'wrap', flexDirection: 'row'},
+                      ]}>
+                      <View
+                        style={[
+                          styles.skillTab,
+                          {backgroundColor: '#71b85f', flexDirection: 'row'},
+                        ]}>
+                        <Text style={[styles.skillText, {color: '#fff'}]}>
+                          {data}
+                        </Text>
+                        <FontAwesome name="close" size={20} color="#fff" />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
+            ) : (
+              <></>
+            )}
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
-                <DropDownPicker
-                  items={this.state.skillOptions}
-                  controller={instance => this.controller = instance}
-                  multiple={true}
-                  // multipleText=
-                  min={0}
-                  max={10}
-                  defaultValue={this.state.skills}
-                  containerStyle={{ height: 40, width: 350 }}
-                  itemStyle={{
-                    justifyContent: 'flex-start',
-                  }}
-                  onChangeItem={(item) =>
+                <Picker
+                  style={{width: '100%', height: 45, color: '#3B1D25'}}
+                  selectedValue={this.state.skills}
+                  onValueChange={(itemValue, itemIndex) =>
                     this.setState({
-                      skills: item, // an array of the selected items
+                      selectedSkills: [...this.state.selectedSkills, itemValue],
+                      skills: this.state.skills.filter(
+                        (_, i) => i !== itemIndex,
+                      ),
                     })
-                    // console.log(item)
-                  }
-                  // onChangeItem={this.handleChangeSkills()}
-                  value={this.state.skills}
-                />
+                  }>
+                  {this.state.skills.length > 0 ? (
+                    this.state?.skills?.map((data) => {
+                      return (
+                        <Picker.Item label={data.label} value={data.value} />
+                      );
+                    })
+                  ) : (
+                    <></>
+                  )}
+                </Picker>
+                <View style={{justifyContent: 'center', marginBottom: 0}}>
+                  <TouchableOpacity onPress={this.handleAdditionalSkill}>
+                    <AntDesign
+                      name="plussquare"
+                      size={55}
+                      color="#60a84e"
+                      style={{marginLeft: 10}}
+                    />
+                    </TouchableOpacity>
+                </View>
               </View>
             </View>
-            {this.state.showSkills === true ? (
-              <View style={[styles.flatList, { marginTop: -15 }]}>
-                <FlatList
-                  data={this.state.skillsData}
-                  ItemSeparatorComponent={this.FlatListItemSeparator}
-                  renderItem={renderSkillItems}
-                  showsHorizontalScrollIndicator={false}
+
+            {this.state.errSkills === true ? (
+              <ErrorMsg errorMsg="Select Skills" />
+            ) : (
+              <></>
+            )}
+
+            {this.state.showAdditional === true ? (
+              <View style={[styles.formGroup, {height: 100}]}>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Add you additional Skills here e.g.- Java"
+                  style={[
+                    styles.inputGroup,
+                    {
+                      height: 100,
+                      justifyContent: 'flex-start',
+                      textAlignVertical: 'top',
+                    },
+                  ]}
+                  keyboardType="default"
+                  numberOfLines={5}
+                  multiline={true}
+                  onChangeText={this.handleInputAdditionalSkill}
                 />
               </View>
             ) : (
-                <></>
-              )}
+              <></>
+            )}
             <Text style={styles.inputHead}>Project Budget *</Text>
             <View style={styles.projectView}>
               <View
-                style={[styles.formGroup, { width: '45%', flexWrap: 'wrap' }]}>
+                style={[styles.formGroup, {width: '45%', flexWrap: 'wrap'}]}>
                 <TextInput
                   returnKeyType="done"
-                  style={[styles.inputGroup, { width: '70%' }]}
+                  style={[styles.inputGroup, {width: '70%'}]}
                   keyboardType="number-pad"
                   onChangeText={this.handleInputBudget}
                 />
-                <View style={[styles.formSubGroup1, { marginTop: 10 }]}>
+                <View style={[styles.formSubGroup1, {marginTop: 10}]}>
                   <FontAwesome name="dollar" size={20} color="#d7d7d8" />
                 </View>
               </View>
 
-              <View style={{ width: '10%' }}>
-                <Text style={{ fontSize: 16, padding: 10, fontWeight: 'bold' }}>
+              <View style={{width: '10%'}}>
+                <Text style={{fontSize: 16, padding: 10, fontWeight: 'bold'}}>
                   =
                 </Text>
               </View>
               <View
-                style={[styles.formGroup, { width: '45%', flexWrap: 'wrap' }]}>
-                <TextInput
-                  returnKeyType="done"
-                  style={[styles.inputGroup, { width: '70%' }]}
-                  // keyboardType="number-pad"
-                  // value={this.state.budget* 70}
-                  value={this.state.budget * 70}
-                />
-                <View style={[styles.formSubGroup1, { marginTop: 10 }]}>
+                style={[styles.formGroup, {width: '45%', flexWrap: 'wrap'}]}>
+                <Text
+                  style={[
+                    styles.inputGroup,
+                    {textAlignVertical: 'center', width: '70%'},
+                  ]}>
+                  {this.state.budgetINR}
+                </Text>
+                <View style={[styles.formSubGroup1, {marginTop: 10}]}>
                   <FontAwesome name="rupee" size={20} color="#d7d7d8" />
                 </View>
               </View>
@@ -322,7 +377,7 @@ class PostProject extends Component {
                 <ActivityIndicator
                   size="large"
                   color="#fff"
-                // style={CommonStyles.loader}
+                  // style={CommonStyles.loader}
                 />
               )}
             </TouchableOpacity>
@@ -333,4 +388,25 @@ class PostProject extends Component {
   }
 }
 
-export default PostProject;
+// export default PostProject;
+
+// export default PostInternship;
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state.userData,
+    userID: state.userData.user_id,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //fetchCartData: () => dispatch(fetchCartData()),
+    //updateStoreId: (id) => dispatch(updateStoreId(id)),
+    //showLoader: (text) => dispatch(showLoader(text)),
+    // hideLoader: () => dispatch(hideLoader()),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withNavigation(PostProject));

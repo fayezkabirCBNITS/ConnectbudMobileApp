@@ -39,7 +39,8 @@ export default {
     },
     continueBtnText: {
         fontSize: 20,
-        color: "#fff"
+        color: "#fff",
+        paddingBottom: 5
 
     },
     categoryBox: {
@@ -77,7 +78,9 @@ export default {
     categoryIcon : {
         backgroundColor: "#71b85f",
         padding : 15,
-        borderRadius : 100
+        borderRadius : 100,
+        width: '40%',
+        height: 65,
     }
 
 };
