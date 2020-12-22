@@ -85,7 +85,7 @@ class Sidebar extends Component {
                   style={styles.menuOptn}
                   onPress={() => this.props.navigation.navigate('ProfileScreen')}>
                   <FontAwesome name="user" color="#fff" size={27} />
-                  <Text style={styles.menuOptnText}>Student Profile</Text>
+                  <Text style={styles.menuOptnText}>Profile</Text>
                 </TouchableOpacity>
                 :
                 (
@@ -96,7 +96,7 @@ class Sidebar extends Component {
                       this.props.navigation.navigate('EmployeeProfileScreen')
                     }>
                     <FontAwesome name="user" color="#fff" size={27} />
-                    <Text style={styles.menuOptnText}>Employee Profile</Text>
+                    <Text style={styles.menuOptnText}>Profile</Text>
                   </TouchableOpacity>
                   : 
                     <></>
