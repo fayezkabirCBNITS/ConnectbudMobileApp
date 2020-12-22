@@ -8,6 +8,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
+import {connect} from 'react-redux';
+import base64 from 'base-64';
+
 
 class NotificationScreen extends Component {
   constructor() {
@@ -22,11 +25,12 @@ class NotificationScreen extends Component {
   };
 
   componentDidMount = async () => {
+    const {userDeatailResponse} = this.props;
+    console.log(userDeatailResponse);
     const body = {
-      user_id: '2489',
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
     };
     axios.post(API_URL + 'getNotification', body).then(async (res) => {
-      console.log(res);
       await this.setState({
         notification: res.data,
       });
@@ -83,4 +87,21 @@ class NotificationScreen extends Component {
   }
 }
 
-export default NotificationScreen;
+// export default NotificationScreen;
+
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
+    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
+    // updateJobId: (data) => dispatch(updateJobId(data)),
+    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+  };
+};
+
+export default connect(mapStateToProps, null)(NotificationScreen);

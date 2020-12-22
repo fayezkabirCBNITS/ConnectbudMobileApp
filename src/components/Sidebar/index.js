@@ -23,7 +23,6 @@ import {
 } from '../../services/helper-methods';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {connect} from 'react-redux';
-import base64 from "base-64";
 
 import base64 from 'base-64';
 
@@ -55,7 +54,6 @@ class Sidebar extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response);
         if (response.data[0].message !== 'token doesnot match') {
           this.setState({
             profileSet: response.data,

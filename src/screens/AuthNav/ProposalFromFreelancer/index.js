@@ -25,11 +25,12 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import {Thumbnail, List, ListItem, Separator} from 'native-base';
+import {connect} from 'react-redux';
 
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
-import {connect} from 'react-redux';
 import {Value} from 'react-native-reanimated';
+import base64 from 'base-64';
 
 class ProposalFromFreelancer extends Component {
   constructor(props) {
@@ -38,7 +39,16 @@ class ProposalFromFreelancer extends Component {
       questionset: [],
       skillset: [],
       jobskillset: [],
+      user_id: '',
       project_name: '',
+      recID: '',
+      reqStatus: '',
+      job_id: this.props.navigation.state.params
+        ? this.props.navigation.state.params.job_id
+        : '',
+      receiver_id: this.props.navigation.state.params
+        ? this.props.navigation.state.params.receiver_id
+        : '',
     };
   }
 
@@ -46,13 +56,22 @@ class ProposalFromFreelancer extends Component {
     headerShown: false,
   };
   componentDidMount = async () => {
+    const {userDeatailResponse} = this.props;
+    this.setState({
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
+    });
     //get chat
     let body1 = new FormData();
-
-    body1.append('sender_id', '2489');
-    body1.append('login_userid', '2489');
-    body1.append('receiver_id', '2519');
-    body1.append('job_id', '745');
+    body1.append(
+      'sender_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
+    body1.append(
+      'login_userid',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
+    body1.append('receiver_id', this.state.receiver_id);
+    body1.append('job_id', this.state.job_id);
     body1.append('sender_Flag', 'F');
     await axios({
       url: API_URL + 'chat/getChat',
@@ -60,6 +79,7 @@ class ProposalFromFreelancer extends Component {
       data: body1,
     })
       .then(async (response) => {
+        console.log(response);
         //    if (response.data[0].detail_type === "tutor") {
         //      await this.setState({
         //        FrelancerType: "tutor",
@@ -67,7 +87,9 @@ class ProposalFromFreelancer extends Component {
         //    }
         await this.setState({
           recID: response.data[0].sender_id,
+          reqStatus: response.data[0].request_status,
         });
+
         //    localStorage.setItem("slug", response.data[0].job_slug);
         //    this.setState({ isLoading: false });
       })
@@ -76,9 +98,12 @@ class ProposalFromFreelancer extends Component {
       });
 
     let taglistbody = new FormData();
-    taglistbody.append('hirer_id', '2489');
-    taglistbody.append('freelancer_id', '2519');
-    taglistbody.append('job_id', '745');
+    taglistbody.append(
+      'hirer_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
+    taglistbody.append('freelancer_id', this.state.receiver_id);
+    taglistbody.append('job_id', this.state.job_id);
     taglistbody.append('method', 'get');
     taglistbody.append('resumefile', '');
     taglistbody.append('videolink', '');
@@ -90,7 +115,6 @@ class ProposalFromFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           questionset: response.data.sort(function (a, b) {
             if (a.expert_Name < b.expert_Name) return -1;
@@ -118,14 +142,13 @@ class ProposalFromFreelancer extends Component {
   acceptRequest = async () => {
     const obj = {
       milestone_id: '',
-      receiver_id: this.state.recID,
-      sender_id: localStorage.getItem('user_id'),
+      receiver_id: this.state.recID.toString(),
+      sender_id: this.state.user_id,
       job_type: 'freelancer',
-      job_id: localStorage.getItem('userjobId'),
+      job_id: this.state.job_id.toString(),
       status: 'yes',
       confirmation_type: 'proposal',
     };
-
     await axios
       .post(API_URL + 'confirmation', obj, {
         header: {
@@ -133,8 +156,8 @@ class ProposalFromFreelancer extends Component {
         },
       })
       .then((response) => {
-        console.log(response);
         alert('Successfully accepted the proposal!');
+        this.props.navigation.navigate('ChatScreen');
         this.setState({isLoading: false});
       })
       .catch((error) => {
@@ -151,10 +174,10 @@ class ProposalFromFreelancer extends Component {
   acceptIgnore = async () => {
     const obj = {
       milestone_id: '',
-      receiver_id: this.state.recID,
-      sender_id: localStorage.getItem('user_id'),
+      receiver_id: this.state.recID.toString(),
+      sender_id: this.state.user_id,
       job_type: 'freelancer',
-      job_id: localStorage.getItem('userjobId'),
+      job_id: this.state.job_id.toString(),
       status: 'no',
       confirmation_type: 'proposal',
     };
@@ -236,23 +259,26 @@ class ProposalFromFreelancer extends Component {
                           </View>
                         ))}
                       </View>
-
-                      <View style={styles.btnWrapper}>
-                        <TouchableOpacity style={styles.accbtn}>
-                          <Text
-                            style={styles.btnText}
-                            onPress={() => this.acceptRequest()}>
-                            Accept
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.rejBtn}>
-                          <Text
-                            style={styles.btnText}
-                            onPress={() => this.acceptIgnore()}>
-                            Reject
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
+                      {this.state.reqStatus === 'accept' ? (
+                        <></>
+                      ) : (
+                        <View style={styles.btnWrapper}>
+                          <TouchableOpacity style={styles.accbtn}>
+                            <Text
+                              style={styles.btnText}
+                              onPress={() => this.acceptRequest()}>
+                              Accept
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.rejBtn}>
+                            <Text
+                              style={styles.btnText}
+                              onPress={() => this.acceptIgnore()}>
+                              Reject
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
                     </View>
                   </CollapseHeader>
                 </Collapse>
@@ -265,4 +291,21 @@ class ProposalFromFreelancer extends Component {
   }
 }
 
-export default ProposalFromFreelancer;
+// export default ProposalFromFreelancer;
+
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //fetchCartData: () => dispatch(fetchCartData()),
+    //updateStoreId: (id) => dispatch(updateStoreId(id)),
+    //showLoader: (text) => dispatch(showLoader(text)),
+    // hideLoader: () => dispatch(hideLoader()),
+  };
+};
+
+export default connect(mapStateToProps, null)(ProposalFromFreelancer);

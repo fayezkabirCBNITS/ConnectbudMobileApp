@@ -77,7 +77,6 @@ class ChatListScreen extends Component {
       data: body,
     })
       .then((response) => {
-        console.log("sppp",response);
         this.setState({showLoader: false});
         this.setState({
           chatMessage: response.data,
