@@ -64,7 +64,7 @@ class SignInScreen extends Component {
     let dataSet = this.validateForm();
     if (dataSet === true) {
       this.userLogin();
-      this.setState({showLoader: true});
+      
       // Toast.show('submit action', Toast.LONG);
     }
   };
@@ -98,6 +98,7 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
+    this.setState({showLoader: true});
     let obj = {};
     if (this.props.navigation.state.params.userType === 'student') {
       obj = {
@@ -116,6 +117,7 @@ class SignInScreen extends Component {
     let response = await makePostRequest(ApiUrl.LOGIN, false, obj);
     console.log('handleLogin response-----', response);
     if (response) {
+      this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
       this.props.updateUserDetails(response);
       console.log('resdtlres============', response[0]?.Flag);
@@ -127,6 +129,7 @@ class SignInScreen extends Component {
           : null;
       }
     } else {
+      this.setState({showLoader: false});
       alert('The email or password you have entered is invalid!');
       // Toast.show(response.msg, Toast.LONG);
     }
