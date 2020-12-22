@@ -1,17 +1,20 @@
-import React, {Component} from 'react';
-import {View, Image, StatusBar, Linking, Platform} from 'react-native';
-import {NavigationActions, StackActions} from 'react-navigation';
+import React, { Component } from 'react';
+import { View, Image, StatusBar, Linking, Platform } from 'react-native';
+import { NavigationActions, StackActions } from 'react-navigation';
 import CommonStyles from '../../CommonStyles';
-import {deepClone} from '../services/helper-methods';
-import {connect} from 'react-redux';
-import {changeAppOpenStatus} from '../redux/actions/user-data';
+import { deepClone } from '../services/helper-methods';
+import { connect } from 'react-redux';
+import { changeAppOpenStatus } from '../redux/actions/user-data';
+import base64 from "base-64";
+
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deepLinking: false,
+      userID: ""
     };
-    
+
   }
 
   handleOpenURL(event) {
@@ -21,18 +24,19 @@ class SplashScreen extends Component {
     // do something with the url, in our case navigate(route)
   }
 
- async componentDidMount() {
-    
+  async componentDidMount() {
+
     if (Platform.OS === 'android') {
-    await  Linking.getInitialURL().then((url) => {
-      if(url){
-        this.setState({deepLinking: true});
-      }
+      await Linking.getInitialURL().then((url) => {
+        if (url) {
+          let id = url.split("?")[1];
+          this.setState({ deepLinking: true, userID: base64.decode(id) });
+        }
       });
     }
 
     if (this.state.deepLinking === false) {
-      const {userData} = deepClone(this.props);
+      const { userData } = deepClone(this.props);
       setTimeout(() => {
         if (userData && userData?.Token && userData?.Token.length) {
           //this.rese;
@@ -42,18 +46,18 @@ class SplashScreen extends Component {
             userData?.Flag === 'WQ=='
               ? this.props.navigation.navigate('StudentInner')
               : userData?.Flag === 'Rg=='
-              ? this.props.navigation.navigate('EmployeeInner')
-              : null;
+                ? this.props.navigation.navigate('EmployeeInner')
+                : null;
           }
         } else {
           this.props.changeAppOpenStatus(true);
           console.log('open true :>> ');
           this.props.navigation.navigate('HomeScreen')
-         // this.resetStack();
+          // this.resetStack();
         }
       }, 3000);
     } else {
-      this.props.navigation.navigate('CategoryScreen');
+      this.props.navigation.navigate('CategoryScreen', {userID : this.state.userID});
     }
   }
   componentWillUnmount() {
