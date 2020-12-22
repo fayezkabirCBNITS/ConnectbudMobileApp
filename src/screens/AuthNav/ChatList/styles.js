@@ -131,4 +131,21 @@ export default {
     width: '100%',
     marginBottom: 60,
   },
+  editBtn: {
+    width: 85,
+    height: 30,
+    backgroundColor: '#71b85f',
+    borderRadius: 30 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 'auto',
+  },
+  editBtnText: {
+    fontFamily: 'Poppins-Regular',
+    color: '#fff',
+    marginLeft: 10,
+    fontSize: 16,
+    marginTop: 3,
+  },
 };
