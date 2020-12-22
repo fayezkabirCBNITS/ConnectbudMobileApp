@@ -43,13 +43,13 @@ class ChatScreen extends Component {
     let taglistbody = new FormData();
     taglistbody.append("sender_id", base64.decode(this.props.userDeatailResponse.user_id));
     taglistbody.append("type", "freelancer");
-
     axios({
       url: API_URL + "chat/chattedUsers",
       method: "POST",
       data: taglistbody,
     })
       .then((response) => {
+        console.log("dddddd111111",response)
         this.setState({showLoader: false});
         this.setState({
           chatList: response.data,
@@ -59,7 +59,9 @@ class ChatScreen extends Component {
         this.setState({showLoader: false});
        });
   }
-
+gotoPage = ()=>{
+  
+}
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -107,14 +109,15 @@ class ChatScreen extends Component {
                   key={i}
                   style={styles.chatCard}
                   onPress={async() =>
-                    this.props.navigation.navigate('ChatListScreen',{
-                      job_id: item.job_id,
-                      receiver_id: item.receiver_id,
-                      sender_id: base64.decode(this.props.userDeatailResponse.user_id),
-                      name:item.name,
-                      user_image: item.user_image,
-                      user_type: this.props.userDeatailResponse?.Flag
-                  })
+                this.props.navigation.navigate('ChatListScreen',{
+                job_id: item.job_id,
+                receiver_id: item.receiver_id,
+                sender_id: base64.decode(this.props.userDeatailResponse.user_id),
+                name:item.name,
+                user_image: item.user_image,
+                user_type: this.props.userDeatailResponse?.Flag,
+                room_id: item.room_id,
+            }, AsyncStorage.setItem('room_id',item.room_id))
                   }>
                   <View style={styles.imgSec}>
                     <Image source={{uri: item.user_image}} style={styles.chatImage} />
