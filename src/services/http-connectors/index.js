@@ -90,7 +90,47 @@ export const makeGetRequest = async (
     }
   });
 };
+export const makeAuthGetRequest = async (
+  url,
+  attachToken = false,
+  params = {},
+) => {
+  console.log('GET url --- ', url);
+  let headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+  if (attachToken) {
+    try {
+      const authToken = await getToken();
+      if (authToken) {
+        headers['Authorization'] = 'Bearer ' + authToken;
+      }
+    } catch (e) {}
+  }
+  return new Promise((resolve, reject) => {
+    console.log('GET final url --- ',CONNECTBUD_API_BASE_URL+ url+params);
 
+    try {
+      fetch(CONNECTBUD_API_BASE_URL + url + params, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then( async(res) => {
+          handleErrorIfAvailable(res);
+          return res.json();
+        })
+        .then((jsonResponse) => {
+          resolve(jsonResponse);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } catch (e) {
+      reject();
+    }
+  });
+};
 /**
  *
  * @param {string} url API url

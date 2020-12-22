@@ -4,4 +4,7 @@ export default EndPoint = {
   EmployerSignUp:'auth/register_recruiter',
   FreelancerSignUp:'auth/signup',
   ValidateCollegeEmail:'fetchemail',
+  FetchSkills:'keyskill/recruiter',
+  Location:'keyskill/',
+  PostJob:'recruiter_job_post',
 };
