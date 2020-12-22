@@ -7,12 +7,14 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  Linking,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Zocial from 'react-native-vector-icons/Zocial';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   decodeToken,
@@ -29,7 +31,7 @@ class Sidebar extends Component {
   }
   _logout = async (_) => {
     await logoutUser();
-    this.props.navigation.navigate('HomeScreen')
+    this.props.navigation.navigate('HomeScreen');
     //this.resetStack();
   };
   resetStack = () => {
@@ -103,7 +105,7 @@ class Sidebar extends Component {
               <TouchableOpacity
                 style={styles.menuOptn}
                 onPress={() =>
-                  this.props.navigation.navigate('MyQuestionsScreen')
+                  this.props.navigation.navigate('MyQuestionScreen')
                 }>
                 <AntDesign name="questioncircle" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>My Question</Text>
@@ -118,20 +120,6 @@ class Sidebar extends Component {
                 <Text style={styles.menuOptnText}>Bank Details</Text>
               </TouchableOpacity>
 
-              {/* <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('StudentInner')}
-                style={styles.menuOptn}>
-                <FontAwesome name="home" color="#fff" size={27} />
-                <Text style={styles.menuOptnText}>Student Inner</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.menuOptn}
-                onPress={() => this.props.navigation.navigate('EmployeeInner')}>
-                <FontAwesome name="home" color="#fff" size={27} />
-                <Text style={styles.menuOptnText}>Employee Inner</Text>
-              </TouchableOpacity> */}
-
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('TransactionScreen')
@@ -142,10 +130,17 @@ class Sidebar extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('EditProfileScreen')}
+                onPress={() => this.props.navigation.navigate('ContactUs')}
                 style={styles.menuOptn}>
                 <AntDesign name="contacts" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Contact</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('BlogScreen')}
+                style={styles.menuOptn}>
+                <Zocial name="blogger" color="#fff" size={25} />
+                <Text style={styles.menuOptnText}>Blog</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={this._logout} style={styles.menuOptn}>
@@ -157,19 +152,36 @@ class Sidebar extends Component {
             <View style={styles.socialSec}>
               <Text style={styles.socialText}>Connect with us</Text>
               <View style={styles.socialIcon}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL('https://www.facebook.com/ConnectBud/')
+                  }>
                   <Entypo name="facebook-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL('https://twitter.com/ConnectBud')
+                  }>
                   <Entypo name="twitter-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL(
+                      'https://www.linkedin.com/company/connectbud/',
+                    )
+                  }>
                   <Entypo name="linkedin-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL('https://www.instagram.com/connectbud_edu/')
+                  }>
                   <Entypo name="instagram-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL('https://www.youtube.com/c/connectbud')
+                  }>
                   <Entypo name="youtube-with-circle" color="#fff" size={40} />
                 </TouchableOpacity>
               </View>

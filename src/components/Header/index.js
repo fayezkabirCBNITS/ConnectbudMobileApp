@@ -5,6 +5,7 @@ import {Text, View, Image, TouchableOpacity, StatusBar} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './style';
+import { withNavigation } from "react-navigation"
 
 class AppHeader extends Component {
 
@@ -17,7 +18,8 @@ class AppHeader extends Component {
         hidden={false}
         translucent={false}
       />
-        <TouchableOpacity>
+        <TouchableOpacity
+                  onPress={() => this.props.navigation.openDrawer()}>
           <Entypo name="menu" color="#71b85f" size={35} />
         </TouchableOpacity>
         <Image
@@ -32,4 +34,4 @@ class AppHeader extends Component {
   }
 }
 
-export default AppHeader;
+export default withNavigation( AppHeader );
