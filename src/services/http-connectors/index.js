@@ -40,7 +40,7 @@ export const makeGetRequest = async (
   if (params) {
     queryString = structureQueryParams(params);
   }
-  console.log("url, attachToken, params :>> ", url, attachToken, params);
+  console.log("url, attachToken, params :>> ", CONNECTBUD_API_BASE_URL+url, attachToken, params);
   let headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const makeGetRequest = async (
   return new Promise((resolve, reject) => {
     try {
       let isValid = false;
-      fetch(url + queryString, {
+      fetch(CONNECTBUD_API_BASE_URL+url + queryString, {
         method: "GET",
         headers: headers,
       })
@@ -82,9 +82,10 @@ export const makeGetRequest = async (
           reject(error);
         },
       )
-        .catch((e) => {
-          reject(e);
-        });
+      .catch((error) => {
+        console.log('error', error);
+        reject(error);
+      });
     } catch (e) {
       reject();
     }

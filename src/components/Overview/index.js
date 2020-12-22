@@ -7,6 +7,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { withNavigation } from "react-navigation" ;
 import Connect, { connect } from "react-redux";
+import base64 from 'base-64';
+import  { BASE_URL } from "../../config/ApiUrl"
 
 class Overview extends Component {
   constructor(props) {
@@ -32,7 +34,7 @@ class Overview extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: 'https://api.connectbud.com/expertProfile/Utkarsh-Sarkar-15',
+      url:  `${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`,
       method: "GET",
     })
       .then((response) => {
@@ -47,7 +49,7 @@ class Overview extends Component {
   }
 
   render() {
-    console.log(this.props.userDeatailResponse.slugname)
+    //console.log(this.props.userDeatailResponse.slugname)
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -129,6 +131,7 @@ class Overview extends Component {
             </View>
           ))}
         </ScrollView>
+     
       </View>
     );
   }

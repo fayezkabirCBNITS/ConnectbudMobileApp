@@ -4,4 +4,6 @@ export default EndPoint = {
   EmployerSignUp:'auth/register_recruiter',
   FreelancerSignUp:'auth/signup',
   ValidateCollegeEmail:'fetchemail',
+  ExpertProfile : "expertProfile/"
 };
+export const BASE_URL ="https://api.connectbud.com/"

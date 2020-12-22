@@ -19,7 +19,15 @@ import Portfolio from '../../../components/Portfolio';
 import WorkHistory from '../../../components/WorkHistory';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
+import  { BASE_URL } from "../../../config/ApiUrl"
+// import { makeGetRequest } from '../../../services/http-connectors';
 
+import ApiUrl from '../../../config/ApiUrl';
+import {makeGetRequest} from '../../../services/http-connectors';
+import { connect }  from "react-redux";
+import { withNavigation } from "react-navigation";
+
+import base64 from 'base-64';
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +48,7 @@ class ProfileScreen extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: API_URL + "expertProfile/Utkarsh-Sarkar-15",
+      url: `${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`,
       method: "GET",
     })
       .then((response) => {
@@ -74,12 +82,6 @@ class ProfileScreen extends Component {
                     <FontAwesome name="camera" color="#71b85f" size={22} />
                   </TouchableOpacity>
                 </View>
-                {/* <View style={styles.userImg}>
-                  <Image
-                    source={{ uri: item.user_image }}
-                    style={CommonStyles.usrImage}
-                  />
-                </View> */}
                 <TouchableOpacity style={styles.camPosition}>
                 <FontAwesome name="camera" color="#71b85f" size={22} />
               </TouchableOpacity>
@@ -145,4 +147,13 @@ class ProfileScreen extends Component {
   }
 }
 
-export default ProfileScreen;
+// export default ProfileScreen;
+const mapStateToProps = (state) => {
+
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+// export default  withNavigation(connect(Overview),(mapStateToProps, null));
+export default connect( mapStateToProps,null,)(withNavigation(ProfileScreen));
