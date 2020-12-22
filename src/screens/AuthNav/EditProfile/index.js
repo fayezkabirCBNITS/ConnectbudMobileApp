@@ -20,12 +20,13 @@ import Toast from 'react-native-simple-toast';
 //import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { withNavigation } from "react-navigation";
-import { updateslug , updateUserDetails } from "../../../redux/actions/user-data";
+import { updateslug, updateUserDetails } from "../../../redux/actions/user-data";
 import Connect, { connect } from "react-redux";
 import axios from "axios";
 
 import base64 from 'base-64';
 import { BASE_URL } from "../../../config/ApiUrl"
+import index from '../TermsOfServices';
 
 class EditProfileScreen extends Component {
   static navigationOptions = {
@@ -44,7 +45,7 @@ class EditProfileScreen extends Component {
       startDate: '',
       endDate: '',
       community: '',
-      socialUrl: [{socialurl : "" }],
+      socialUrl: [{ socialurl: "" }],
       profileImageSource: '',
       coverImageSource: '../../../assets/images/bnr.jpg',
       profileImageToUpload: {},
@@ -61,11 +62,11 @@ class EditProfileScreen extends Component {
         { title: 'C++' },
         { title: 'C#' },
       ],
-      categoriesData: [ ],
-      skill: [ ],
-      categories: [ ],
-      listedCategory : [],
-      listedSkill : [],
+      categoriesData: [],
+      skill: [],
+      categories: [],
+      listedCategory: [],
+      listedSkill: [],
 
     };
   }
@@ -131,7 +132,7 @@ class EditProfileScreen extends Component {
     const categoryArr = this.state.categoriesData.map(item => item.label).join(', ');
     const skillArr = this.state.skillsData.map(item => item.label).join(', ');
     const socialArr = this.state.socialUrl.map(item => item.socialurl).join(', ');
-    
+
     let body = new FormData();
     body.append("id", this.props.userDeatailResponse.row_id);
     body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
@@ -171,10 +172,10 @@ class EditProfileScreen extends Component {
     body.append("portfolio_category", "");
     body.append("portfolio_link", "");
     body.append("image", "");
-    
+
 
     const res = axios.post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body);
-    res.then(res => {  
+    res.then(res => {
       this.props.updateslug(base64.encode(res.data[0].slug_name));
     });
 
@@ -182,11 +183,11 @@ class EditProfileScreen extends Component {
 
   handleAddSocialUrl = data => {
     const social = this.state.socialUrl;
-    social.push({socialurl : "" });
-    this.setState({socialUrl : social});
+    social.push({ socialurl: "" });
+    this.setState({ socialUrl: social });
   }
 
-  handleSocialUrl = (data , index) => {
+  handleSocialUrl = (data, index) => {
     this.state.socialUrl[index].socialurl = data.nativeEvent.text;
   }
 
@@ -254,37 +255,50 @@ class EditProfileScreen extends Component {
   handleTextChange = (text, targetState) => {
     if (targetState === "firtName") {
       this.setState({ firtName: text.nativeEvent.text });
-    }else if(targetState === "lastName") {
-      this.setState({lastName : text.nativeEvent.text})
-    }else if(targetState === "college") {
-      this.setState({college : text.nativeEvent.text})
-    }else if(targetState === "major") {
-      this.setState({major : text.nativeEvent.text})
-    }else if(targetState === "currentEnrollment") {
-      this.setState({currentEnrollment : text.nativeEvent.text})
-    }else if(targetState === "typeValue") {
-      this.setState({typeValue : text.nativeEvent.text})
-    }else if(targetState === "location") {
-      this.setState({location : text.nativeEvent.text})
-    }else if(targetState === "community") {
-      this.setState({community : text.nativeEvent.text})
+    } else if (targetState === "lastName") {
+      this.setState({ lastName: text.nativeEvent.text })
+    } else if (targetState === "college") {
+      this.setState({ college: text.nativeEvent.text })
+    } else if (targetState === "major") {
+      this.setState({ major: text.nativeEvent.text })
+    } else if (targetState === "currentEnrollment") {
+      this.setState({ currentEnrollment: text.nativeEvent.text })
+    } else if (targetState === "typeValue") {
+      this.setState({ typeValue: text.nativeEvent.text })
+    } else if (targetState === "location") {
+      this.setState({ location: text.nativeEvent.text })
+    } else if (targetState === "community") {
+      this.setState({ community: text.nativeEvent.text })
     }
-    else if(targetState === "info") {
-      this.setState({info : text.nativeEvent.text})
+    else if (targetState === "info") {
+      this.setState({ info: text.nativeEvent.text })
     }
   }
 
-  handleRemoveItem = (item , index) => {
-    console.log(`fuck you ${index} time`);
-    const unselectedByUser = this.state.categoriesData.filter(itm => itm === item );
-    const selected = this.state.categoriesData.filter(itm => itm != item )
-    console.log(unselectedByUser , selected , "-----------");
-    this.setState({categoriesData : selected , listedCategory : unselectedByUser})
+  handleRemoveItemCategory = (item, index) => {
+    if (this.state.categoriesData.length > 1) {
+      const unselectedByUser = this.state.listedCategory;
+      unselectedByUser.push(item);
+      const selected = this.state.categoriesData.filter(itm => itm != item)
+      this.setState({ categoriesData: selected, listedCategory: unselectedByUser })
+    } else {
+      alert("you need to have atleast 1 Category")
+    }
+  }
+  handleRemoveItemSkill = (item, index) => {
+    if (this.state.skillsData.length > 1) {
+      const unselectedByUser = this.state.listedSkill;
+      unselectedByUser.push(item);
+      const selected = this.state.skillsData.filter(itm => itm != item)
+      this.setState({ skillsData: selected, listedSkill: unselectedByUser })
+    } else {
+      alert("you need to have atleast 1 skill")
+    }
   }
   render() {
     // console.log(this.props.navigation.state.params.slugname);
     console.log(this.state, "66666666666666666666")
-    
+
     // const renderSkillItems = ({ item }) => (
     //   <TouchableOpacity style={styles.headSec}>
     //     <View style={styles.details}>
@@ -517,7 +531,7 @@ class EditProfileScreen extends Component {
                           size={20}
                           color="black"
                           style={styles.marginRight3}
-                          onPress={() => this.handleRemoveItem(item , i)}
+                          onPress={() => this.handleRemoveItemCategory(item, i)}
                         />
                       </View>
                     ))}
@@ -534,7 +548,7 @@ class EditProfileScreen extends Component {
                 {this.state.showCategories === true ? (
                   <View style={[styles.formGroup1, { marginTop: -15 }]}>
                     {
-                      this.state.listedCategory.length > 0 ? this.state.categoriesData.map((item, index) => (
+                      this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
                         <TouchableOpacity style={styles.headSec} key={index}>
                           <View style={styles.details}>
                             <Text style={styles.inputHead}>{item.label}</Text>
@@ -564,6 +578,7 @@ class EditProfileScreen extends Component {
                           size={20}
                           color="black"
                           style={styles.marginRight3}
+                          onPress={() => this.handleRemoveItemSkill(item , i)}
                         />
                       </View>
                     ))}
@@ -580,14 +595,14 @@ class EditProfileScreen extends Component {
                 {this.state.showSkills === true ? (
                   <View style={[styles.formGroup1, { marginTop: -15 }]}>
                     {
-                      this.state.skillsData.length > 0 ? this.state.skillsData.map((item, index) => (
+                      this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
                         <TouchableOpacity style={styles.headSec} key={index}>
                           <View style={styles.details}>
                             <Text style={styles.inputHead}>{item.label}</Text>
                           </View>
                         </TouchableOpacity>
 
-                      )) : null
+                      )) : <Text>no data</Text>
                     }
                   </View>
                 ) : (
@@ -666,7 +681,7 @@ class EditProfileScreen extends Component {
                       defaultValue={this.state.community}
                       style={styles.inputGroup}
                       keyboardType="default"
-                      onChange={(evt) => this.handleTextChange(evt , "community")}
+                      onChange={(evt) => this.handleTextChange(evt, "community")}
                     />
                   </View>
                 </View>
@@ -684,7 +699,7 @@ class EditProfileScreen extends Component {
                             defaultValue={data.socialurl}
                             style={styles.inputGroup}
                             keyboardType="default"
-                            onChange={(evt) =>this.handleSocialUrl(evt , index , "0") }
+                            onChange={(evt) => this.handleSocialUrl(evt, index, "0")}
                           />
                         </View>
                       </View>
