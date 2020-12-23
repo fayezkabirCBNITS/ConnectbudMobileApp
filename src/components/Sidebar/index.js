@@ -28,9 +28,7 @@ import {
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
-
 import base64 from 'base-64';
-
 import axios from 'axios';
 import {API_URL} from '../../config/url';
 
@@ -122,7 +120,9 @@ class Sidebar extends Component {
               <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableOpacity
                   style={styles.menuOptn}
-                  onPress={() => this.props.navigation.navigate('HomeScreen')}>
+                  onPress={() =>
+                    this.props.navigation.navigate('StudentInner')
+                  }>
                   <FontAwesome name="home" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Home</Text>
                 </TouchableOpacity>
@@ -255,7 +255,7 @@ class Sidebar extends Component {
                       <Text style={styles.menuOptnText}>Privacy Policy</Text>
                     </TouchableOpacity>
                   </CollapseBody>
-                </Collapse>
+                </Collapse> 
 
                 <TouchableOpacity
                   onPress={this._logout}
@@ -264,11 +264,13 @@ class Sidebar extends Component {
                   <Text style={styles.menuOptnText}>Logout</Text>
                 </TouchableOpacity>
               </ScrollView>
-            ) : (
+            ) : this.state.FlagStatus === 'Rg==' ? (
               <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableOpacity
                   style={styles.menuOptn}
-                  onPress={() => this.props.navigation.navigate('HomeScreen')}>
+                  onPress={() =>
+                    this.props.navigation.navigate('EmployeeInner')
+                  }>
                   <FontAwesome name="home" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Home</Text>
                 </TouchableOpacity>
@@ -328,6 +330,37 @@ class Sidebar extends Component {
                   <AntDesign name="logout" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Logout</Text>
                 </TouchableOpacity>
+              </ScrollView>
+            ) : (
+              <ScrollView>
+                <View>
+                  <TouchableOpacity
+                    style={styles.menuOptn}
+                    onPress={() => this.props.navigation.navigate('AboutUs')}>
+                    <Text style={styles.menuOptnText}>About Us</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.menuOptn}
+                    onPress={() =>
+                      this.props.navigation.navigate('FAQsScreen')
+                    }>
+                    <Text style={styles.menuOptnText}>FAQ</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.menuOptn}
+                    onPress={() =>
+                      this.props.navigation.navigate('TermsOfServices')
+                    }>
+                    <Text style={styles.menuOptnText}>Terms of Service</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.menuOptn}
+                    onPress={() =>
+                      this.props.navigation.navigate('PrivacyPolicy')
+                    }>
+                    <Text style={styles.menuOptnText}>Privacy Policy</Text>
+                  </TouchableOpacity>
+                </View>
               </ScrollView>
             )}
             <View style={styles.socialSec}>
