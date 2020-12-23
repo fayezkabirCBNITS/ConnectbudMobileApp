@@ -78,6 +78,7 @@ export default {
       },
       formSubGroup2: {
         width: '80%',
+        // marginBottom : 10
       },
       inputHead: {
         //color: 'rgba(59,29,37,0.5)',
@@ -151,5 +152,8 @@ export default {
       removeIcon: {
         width: '100%',
         fontSize: 20
+      },
+      scrollStyle : {
+        height : deviceHeight - 140
       }
 }

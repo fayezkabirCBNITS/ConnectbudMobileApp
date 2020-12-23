@@ -24,7 +24,7 @@ import ErrorMsg from '../../components/ErrorMsg';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import base64 from 'base-64';
-import timePicker from '../TimePicker'
+// import timePicker from '../TimePicker'
 
 
 class OnlineCodingClasses extends Component {
