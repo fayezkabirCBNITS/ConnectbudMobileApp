@@ -62,7 +62,6 @@ class PostProject extends Component {
   }
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    console.log('menuItemsResponse====>>>>>>', response);
     //this.state.skills.concat({value: data, label: data}).sort()
     //this.setState({skills: response});
     this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
@@ -198,7 +197,7 @@ class PostProject extends Component {
   };
   
   handleAdditionalSkill =async()=>{
-    this.setState({showAdditional:true});
+    this.setState({showAdditional:!this.state.showAdditional});
   };
   render() {
     return (
@@ -295,7 +294,6 @@ class PostProject extends Component {
                   )}
                 </Picker>
                 </View>
-                {/* <View style={{justifyContent: 'center', marginBottom: 0}}> */}
                   <TouchableOpacity
                    onPress={this.handleAdditionalSkill}
                   style={{marginLeft: 'auto'}}
@@ -307,7 +305,6 @@ class PostProject extends Component {
                       style={{marginLeft: 10}}
                     />
                     </TouchableOpacity>
-                {/* </View> */}
               </View>
             </View>
 

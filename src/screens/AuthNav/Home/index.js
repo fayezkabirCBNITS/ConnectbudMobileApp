@@ -26,8 +26,8 @@ import CustomerStories from '../../../components/CustomerStories';
 import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: '',
       showSearchBar: false,
@@ -67,7 +67,8 @@ class HomeScreen extends Component {
           <StatusBar />
         {/* header section */}
           <View style={CommonStyles.header}>         
-            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity style={CommonStyles.hambarIcon}
+             onPress={() => this.props.navigation.openDrawer()}>
               <Entypo name="menu" color="#71b85f" size={35} />
             </TouchableOpacity>
             <Image

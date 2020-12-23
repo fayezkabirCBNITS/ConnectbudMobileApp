@@ -4,7 +4,9 @@ import {
   Text,
   SafeAreaView,
   TextInput,
+  BackHandler,
   TouchableOpacity,
+  Alert,
   Image,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
@@ -26,8 +28,8 @@ import CustomerStories from '../../../components/CustomerStories';
 import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: '',
       showSearchBar: false,
@@ -38,7 +40,6 @@ class HomeScreen extends Component {
   static navigationOptions = {
     headerShown: false,
   };
-
   navigateToviewProfile = async () => {
     this.props.navigation.navigate('ViewProfileScreen');
   };
@@ -71,9 +72,9 @@ class HomeScreen extends Component {
         <View style={CommonStyles.main}>
           <StatusBar />
           <View style={CommonStyles.header}>
-            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+            {/* <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
               <Entypo name="menu" color="#71b85f" size={35} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Image
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}
