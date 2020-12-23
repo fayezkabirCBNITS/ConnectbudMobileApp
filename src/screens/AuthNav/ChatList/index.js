@@ -8,7 +8,6 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-  FlatList,
 } from 'react-native';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
@@ -23,9 +22,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {
   makePostRequestMultipart,
 } from '../../../services/http-connectors';
+import SyncStorage from 'sync-storage';
 
-let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=750_2298`;
-const socket = new WebSocket(webSocketConnection);
 class ChatListScreen extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +48,9 @@ class ChatListScreen extends Component {
       chatContent: "",
       file:""
     };
+    const room_id = SyncStorage.get("room_id")
+    let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${room_id}`;
+    this.socket = new WebSocket(webSocketConnection);
     
   }
 
@@ -58,8 +59,9 @@ class ChatListScreen extends Component {
   };
 
   componentDidMount(){
-    
+
     this.chatFullDetails();
+
   }
 
   chatFullDetails =() => {
@@ -84,6 +86,11 @@ class ChatListScreen extends Component {
           request_status: response.data[0].request_status,
           room_id:response.data[0].room_id,
         });
+        setTimeout(() => {
+          if (this.refs && this.refs.scrollView) {
+              this.refs.scrollView.scrollToEnd(true);
+          }
+      }, 400);
       })
       .catch((error) => {
         this.setState({showLoader: false});
@@ -92,16 +99,13 @@ class ChatListScreen extends Component {
   usercommentSubmit = async() => {
     
       let formData = new FormData();
-
       formData.append("file", this.state.file);
       formData.append("sender_id", +this.state.sender_id);
       formData.append("receiver_id", this.state.receiver_id);
       formData.append("message", this.state.chatContent);
       formData.append("job_id", this.state.job_id);
-      formData.append("job_type", this.state.user_type === "WQ=="?"recruiter":"freelancer");
-      
+      formData.append("job_type", "freelancer");
       let response = await makePostRequestMultipart("chat/startChat",false,formData);
-      console.log('dddddddddddddd-----', formData);
       
       };
 
@@ -111,24 +115,18 @@ class ChatListScreen extends Component {
  }
 
   sendMessage = async() => {
-    // if(this.state.room_id){
-      // let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${this.state.room_id? this.state.room_id:""}`;
-      // const socket = new WebSocket(webSocketConnection);
-    // }
-    
+    const room_id = SyncStorage.get("room_id")
     // Start
     if (this.state.chatContent != "") {
-      //this.chatFullDetails();
       
       var payload = {
         action: "sendmessage",
         data: this.state.chatContent,
-        source: this.state.receiver_id,
-        to_user: this.state.room_id
+        source: this.state.sender_id,
+        to_user: room_id
           
       };
-      socket.send(JSON.stringify(payload));
-      console.log(payload);
+      this.socket.send(JSON.stringify(payload));
 
       var temp = new Date();
       var time = temp.toUTCString('en-US', { timeZone: 'GMT' }).split(" ")[4].slice(0, 5);
@@ -147,12 +145,16 @@ class ChatListScreen extends Component {
         chatMessage: tempData,
         chatContent:""
       });
-      
+      setTimeout(() => {
+        if (this.refs && this.refs.scrollView) {
+            this.refs.scrollView.scrollToEnd(true);
+        }
+    }, 400);
     } 
   };
-  /*componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.chatMessage != this.state.chatMessage) {
-      let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=750_2519`;
+      let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${this.state.room_id}`;
       const socket = new WebSocket(webSocketConnection);
 
       let msgdata = "";
@@ -180,13 +182,18 @@ class ChatListScreen extends Component {
           this.setState({
             chatMessage: tempData,
           });
+          setTimeout(() => {
+            if (this.refs && this.refs.scrollView) {
+                this.refs.scrollView.scrollToEnd(true);
+            }
+        }, 400);
         } else {
           this.chatFullDetails();
         }
       };
     }
     //this.scrollToBottom();
-  }*/
+  }
 
   render() {
     
@@ -226,7 +233,7 @@ class ChatListScreen extends Component {
 
           <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView ref='scrollView' showsVerticalScrollIndicator={false}>
               <View style={CommonStyles.container}>
                 <View>
                 {this.state.chatMessage.map((data) => 
