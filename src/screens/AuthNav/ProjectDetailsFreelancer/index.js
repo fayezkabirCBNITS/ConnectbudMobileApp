@@ -32,6 +32,8 @@ import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 class ProjectDetailsFreelancer extends Component {
   constructor(props) {
     super(props);
@@ -40,6 +42,8 @@ class ProjectDetailsFreelancer extends Component {
       jobDetails: [],
       jobSet: [],
       btnStatus: '',
+      showLoader: false,
+      user_id: '',
     };
   }
 
@@ -49,9 +53,10 @@ class ProjectDetailsFreelancer extends Component {
 
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
-    console.log(userDeatailResponse.userData.user_id);
     this.setState({
       btnStatus: userDeatailResponse.userData.user_id,
+      showLoader: true,
+      user_id : base64.decode(userDeatailResponse.userData.user_id),
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -77,6 +82,63 @@ class ProjectDetailsFreelancer extends Component {
         console.log(response);
         this.setState({
           jobDetails: response.data,
+          showLoader: false,
+          // priceAmount: response.data[0].price_amount,
+          // skillSet: response.data[0].key_skill,
+        });
+        this.setState({isLoading: true});
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+
+    await axios({
+      url: API_URL + 'expert_jobsummary',
+      method: 'POST',
+      data: body,
+    })
+      .then((response) => {
+        this.setState({
+          jobSet: response.data,
+        });
+        this.setState({isLoading: true});
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+  };
+
+  PageNav = async(JobId) => {
+    this.setState({
+      showLoader: true,
+    })
+    this.props.updateJobId(JobId);
+    // this.props.navigation.navigate('ProjectDetailsFreelancer');
+    let taglistbody = new FormData();
+    let body = new FormData();
+    body.append('user_id', this.state.user_id);
+    body.append('type', 'freelancer');
+    body.append('skills', '');
+    body.append('search_type', 'all');
+    body.append('offset', '0');
+
+    taglistbody.append('job_id', JobId);
+    taglistbody.append(
+      'user_id',
+      this.state.user_id,
+    );
+    taglistbody.append('type', 'freelancer');
+
+    await axios({
+      url: API_URL + 'expert_jobdetails',
+      method: 'POST',
+      data: taglistbody,
+    })
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          jobDetails: response.data,
+          showLoader: false,
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
@@ -103,15 +165,15 @@ class ProjectDetailsFreelancer extends Component {
       });
   };
 
-  PageNav = (JobId) => {
-    this.props.updateJobId(JobId);
-    // this.props.navigation.navigate('ProjectDetailsFreelancer');
-  };
-
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
+        <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <StatusBar
             backgroundColor="#60a84e"
             barStyle="light-content"
@@ -185,7 +247,7 @@ class ProjectDetailsFreelancer extends Component {
               <View style={styles.similarJobWrapper}>
                 <View style={styles.slimilarJob}>
                   <Text style={styles.similiarjobText}>
-                    Similar Jobs for me
+                    Similar projects for me
                   </Text>
                 </View>
                 {this.state.jobSet.map((item, idx) => (

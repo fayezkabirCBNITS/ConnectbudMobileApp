@@ -34,6 +34,38 @@ export default {
     top: 0,
     paddingLeft: 5,
   },
+  tabSec: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  tab: {
+    width: '48%',
+    height: 50,
+    marginVertical: 10,
+    borderColor: 'rgba(0,0,0,0.2)',
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#71B85F',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  tabSlct: {
+    width: '48%',
+    height: 50,
+    marginVertical: 10,
+    borderColor: 'rgba(0,0,0,0.2)',
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#377D25',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  tabText: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+    color: '#fff'
+  },
   chatCard: {
     width: '100%',
     justifyContent: 'space-between',
@@ -74,11 +106,12 @@ export default {
   chatTime: {
     fontSize: 12,
     fontFamily: 'Poppins-Regular',
+    textAlign: 'right'
   },
   unread: {
-    width: 30,
-    minHeight: 30,
-    borderRadius: 30 / 2,
+    width: 15,
+    minHeight: 15,
+    borderRadius: 15 / 2,
     paddingTop: 2,
     backgroundColor: '#71b85f',
     justifyContent: 'center',
@@ -100,6 +133,11 @@ export default {
     fontSize: 14,
     marginTop: 'auto',
   },
+  userChat2: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 20,
+    paddingBottom: 70,
+  },
   online: {
     width: 12,
     height: 12,
@@ -114,4 +152,10 @@ export default {
     width: 150,
     height: 98,
   },
+  noChat: {
+    width: '100%',
+    height: deviceHeight - 160,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 };

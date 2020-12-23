@@ -235,7 +235,7 @@ class PostInternship extends Component {
     }
   };
   handleAdditionalSkill = async () => {
-    this.setState({showAdditional: true});
+    this.setState({showAdditional: !this.state.showAdditional});
   };
   render() {
     return (
@@ -341,9 +341,10 @@ class PostInternship extends Component {
               <></>
             )}
             <View style={styles.skillView}>
-              <View style={[styles.formGroup1]}>
+              <View style={[styles.formGroup01]}>
+              <View style={styles.formPicker}>
                 <Picker
-                  style={{width: '100%', height: 45, color: '#3B1D25'}}
+                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular'}}
                   selectedValue={this.state.skills}
                   onValueChange={(itemValue, itemIndex) =>
                     //this.setState({ selectedSkills:this.state.selectedSkills.push(itemValue) })
@@ -364,16 +365,18 @@ class PostInternship extends Component {
                     <></>
                   )}
                 </Picker>
-                <View style={{justifyContent: 'center', marginBottom: 0}}>
-                  <TouchableOpacity onPress={this.handleAdditionalSkill}>
+                </View>
+                <TouchableOpacity
+                   onPress={this.handleAdditionalSkill}
+                  style={{marginLeft: 'auto'}}
+                   >
                     <AntDesign
                       name="plussquare"
                       size={55}
                       color="#60a84e"
                       style={{marginLeft: 10}}
                     />
-                  </TouchableOpacity>
-                </View>
+                    </TouchableOpacity>
               </View>
             </View>
 
