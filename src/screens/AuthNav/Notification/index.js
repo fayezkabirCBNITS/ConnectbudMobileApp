@@ -34,6 +34,7 @@ class NotificationScreen extends Component {
       await this.setState({
         notification: res.data,
       });
+      console.log(this.state.notification);
     });
   };
 
@@ -71,7 +72,15 @@ class NotificationScreen extends Component {
                     <Text
                       style={styles.notiText}
                       onPress={() =>
-                        this.props.navigation.navigate('ChatScreen')
+                        this.props.navigation.navigate('ChatListScreen',{
+                          job_id: data.project_id,
+                          receiver_id: data.sender_user_id,
+                          sender_id: data.receiver_user_id,
+                          // name:item.name,
+                          user_image: data.notification_image,
+                          user_type: this.props.userDeatailResponse?.Flag,
+                          // room_id: item.room_id,
+                      })
                       }>
                       {data.notification_message}
                     </Text>

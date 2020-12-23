@@ -100,6 +100,11 @@ export default {
     fontSize: 14,
     marginTop: 'auto',
   },
+  userChat2: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 20,
+    paddingBottom: 70,
+  },
   online: {
     width: 12,
     height: 12,
@@ -114,4 +119,10 @@ export default {
     width: 150,
     height: 98,
   },
+  noChat: {
+    width: '100%',
+    height: deviceHeight - 160,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 };

@@ -23,11 +23,12 @@ export default {
       justifyContent:'flex-start'
   },
   formGroup: {
-    width: '100%',
+    width: '90%',
     marginBottom: 15,
     backgroundColor: '#f8f8f8',
     borderRadius: 4,
     fontSize: 16,
+    marginHorizontal:'5%',
     // borderWidth: 1,
     borderColor:'rgba(59,29,37,0.5)',
     shadowColor: '#000',
@@ -39,14 +40,21 @@ export default {
     shadowRadius: 2.62,
     elevation: 4,
 },
-    skillView: {
-        width: '75%',
-        height: 60,
-        alignContent: 'center',
-        display: 'flex',
-        flexDirection: 'row',
-        marginHorizontal:'5%',
-        marginVertical:10,
+    // skillView: {
+    //     width: '75%',
+    //     height: 60,
+    //     alignContent: 'center',
+    //     display: 'flex',
+    //     flexDirection: 'row',
+    //     marginHorizontal:'5%',
+    //     marginVertical:10,
+    // },
+    skillView:{
+      width: '90%', 
+      height: 60, 
+      alignContent: 'center', 
+      marginHorizontal:'5%',
+      // flexDirection: 'row'
     },
     skillView1: {
         width: '90%',
@@ -82,6 +90,43 @@ export default {
         elevation: 4,
         textAlignVertical: 'top',
     },
+    
+    formGroup01: {
+      width: '100%',
+      marginBottom: 15,
+      backgroundColor: '#0000',
+      borderRadius: 4,
+      fontSize: 16,
+      // borderWidth: 1,
+      borderColor:'rgba(59,29,37,0.5)',
+      flexDirection: 'row',
+      // shadowColor: '#000',
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 2,
+      // },
+      // shadowOpacity: 0.23,
+      // shadowRadius: 2.62,
+      // elevation: 4,
+      // textAlignVertical: 'top',
+  },
+  formPicker: {
+    width: '80%',
+    height: 55,
+    backgroundColor: '#f8f8f8',
+    borderRadius: 4,
+    // borderWidth: 1,
+    // borderColor:'rgba(59,29,37,0.5)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    textAlignVertical: 'top'
+},
     formSubGroup1: {
         width: '20%',
         justifyContent: 'center',

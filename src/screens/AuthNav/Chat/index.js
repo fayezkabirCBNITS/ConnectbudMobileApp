@@ -21,8 +21,7 @@ import { API_URL } from "../../../config/url";
 import base64 from 'base-64';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import AsyncStorage from "@react-native-community/async-storage";
-
+import SyncStorage from 'sync-storage';
 
 
 class ChatScreen extends Component {
@@ -49,7 +48,6 @@ class ChatScreen extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log("dddddd111111",response)
         this.setState({showLoader: false});
         this.setState({
           chatList: response.data,
@@ -108,7 +106,7 @@ gotoPage = ()=>{
                 <TouchableOpacity
                   key={i}
                   style={styles.chatCard}
-                  onPress={async() =>
+                  onPress={() =>
                 this.props.navigation.navigate('ChatListScreen',{
                 job_id: item.job_id,
                 receiver_id: item.receiver_id,
@@ -117,7 +115,7 @@ gotoPage = ()=>{
                 user_image: item.user_image,
                 user_type: this.props.userDeatailResponse?.Flag,
                 room_id: item.room_id,
-            }, AsyncStorage.setItem('room_id',item.room_id))
+            },  SyncStorage.set('room_id',item.job_id+'_'+item.receiver_id))
                   }>
                   <View style={styles.imgSec}>
                     <Image source={{uri: item.user_image}} style={styles.chatImage} />
@@ -143,7 +141,7 @@ gotoPage = ()=>{
                     : null}
                   </View>
                 </TouchableOpacity>
-              ))): <Text style={styles.userChat}>No chat found</Text>}
+              ))): <View style={styles.noChat}><Text style={styles.userChat2}>No chat found</Text></View>}
             </View>
           </ScrollView>
         </View>

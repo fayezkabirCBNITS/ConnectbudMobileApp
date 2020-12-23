@@ -114,7 +114,6 @@ class HireTutor extends Component {
 
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    console.log(response, 'respp==>')
     this.setState({
       subjectSkills: response
     })

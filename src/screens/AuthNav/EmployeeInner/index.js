@@ -100,12 +100,8 @@ class EmployeeInner extends Component {
   // };
   render() {
     const {userDeatailResponse} = this.props;
-    console.log('all props details==========', this.props);
 
-    console.log('user details==========', userDeatailResponse);
-    NavtoPostedpage = () => {
-      this.props.navigation.navigate('PostedProjectByEmployee');
-    };
+    // console.log('user details==========', userDeatailResponse);
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
