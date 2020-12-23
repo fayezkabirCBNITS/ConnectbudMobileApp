@@ -6,23 +6,23 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
   searchInput: {
     padding: 0,
-    paddingRight: 60,
+    paddingRight: 15,
     paddingLeft: 15,
     alignItems: 'center',
     height: 50,
     color: '#000',
     fontFamily: 'Poppins-Regular',
-    fontSize: 14,
+    fontSize: 17,
   },
   searchBar: {
     width: '100%',
-    height: 50,
+    // height: 50,
     marginVertical: 10,
-    borderColor: 'rgba(0,0,0,0.2)',
-    borderWidth: 1,
-    borderRadius: 5,
+    // borderColor: 'rgba(0,0,0,0.2)',
+    // borderWidth: 1,
+    // borderRadius: 5,
     backgroundColor: '#fff',
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   searchIcon: {
     width: 50,
@@ -139,20 +139,42 @@ export default {
   hdngLgGreen: {
     fontFamily: 'Poppins-Regular',
     fontSize: 19,
-    color: '#71b85f'
+    color: '#71b85f',
   },
-  lightGrey: {    
+  lightGrey: {
     paddingVertical: 20,
-    backgroundColor: '#f6f8fb'
+    backgroundColor: '#f6f8fb',
   },
-  green: {    
+  green: {
     paddingVertical: 20,
-    backgroundColor: '#70b85f'
+    backgroundColor: '#70b85f',
   },
   hdngWhite: {
     marginTop: -7,
     fontFamily: 'Poppins-Regular',
     fontSize: 21,
-    color: '#fff'
+    color: '#fff',
+  },
+  marTop15: {
+    marginTop: 15,
+  },
+  search: {
+    backgroundColor: '#fff',
+    shadowColor: '#0000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0,
+    shadowRadius: 1.0,
+    elevation: 0,
+    borderColor: 'rgba(0,0,0,0.2)',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  searchPos: {
+    position: 'absolute',
+    top: 12,
+    left: 15,
   },
 };

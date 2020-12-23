@@ -62,7 +62,6 @@ class PostProject extends Component {
   }
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    console.log('menuItemsResponse====>>>>>>', response);
     //this.state.skills.concat({value: data, label: data}).sort()
     //this.setState({skills: response});
     this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
@@ -198,7 +197,7 @@ class PostProject extends Component {
   };
   
   handleAdditionalSkill =async()=>{
-    this.setState({showAdditional:true});
+    this.setState({showAdditional:!this.state.showAdditional});
   };
   render() {
     return (
@@ -271,8 +270,10 @@ class PostProject extends Component {
             )}
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
+                <View style={styles.formPicker}>
                 <Picker
-                  style={{width: '100%', height: 45, color: '#3B1D25'}}
+                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular'}}
+
                   selectedValue={this.state.skills}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({
@@ -292,8 +293,11 @@ class PostProject extends Component {
                     <></>
                   )}
                 </Picker>
-                <View style={{justifyContent: 'center', marginBottom: 0}}>
-                  <TouchableOpacity onPress={this.handleAdditionalSkill}>
+                </View>
+                  <TouchableOpacity
+                   onPress={this.handleAdditionalSkill}
+                  style={{marginLeft: 'auto'}}
+                   >
                     <AntDesign
                       name="plussquare"
                       size={55}
@@ -301,7 +305,6 @@ class PostProject extends Component {
                       style={{marginLeft: 10}}
                     />
                     </TouchableOpacity>
-                </View>
               </View>
             </View>
 
@@ -312,7 +315,7 @@ class PostProject extends Component {
             )}
 
             {this.state.showAdditional === true ? (
-              <View style={[styles.formGroup, {height: 100}]}>
+              <View style={[styles.formGroup, {height: 100, marginTop: 10}]}>
                 <TextInput
                   returnKeyType="done"
                   placeholder="Add you additional Skills here e.g.- Java"
@@ -333,7 +336,7 @@ class PostProject extends Component {
             ) : (
               <></>
             )}
-            <Text style={styles.inputHead}>Project Budget *</Text>
+            <Text style={[styles.inputHead, {marginTop: 30}]}>Project Budget *</Text>
             <View style={styles.projectView}>
               <View
                 style={[styles.formGroup, {width: '45%', flexWrap: 'wrap'}]}>

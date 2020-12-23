@@ -36,15 +36,19 @@ import MyQuestionScreen from '../screens/AuthNav/MyQuestion';
 import FreeContactScreen from '../screens/AuthNav/FreeContracts';
 import EmpContactScreen from '../screens/AuthNav/EmpContracts';
 import BlogScreen from '../screens/AuthNav/Blog';
+import HireStudentsScreen from '../screens/AuthNav/HireStudent';
 
 
 export const MainStack = createStackNavigator(
   {
-    // HomeScreen: {
-    //   screen: HomeScreen
-    // },
+    HomeScreenAuth: {
+      screen: HomeScreen
+    },
     ProfileScreen: {
       screen: ProfileScreen,
+    },
+    EmployeeInner: {
+      screen: EmployeeInner
     },
     CategoryScreen: {
       screen: CategoryScreen,
@@ -57,9 +61,6 @@ export const MainStack = createStackNavigator(
     },
     StudentInner: {
       screen: StudentInner
-    },
-    EmployeeInner: {
-      screen: EmployeeInner
     },
     PostedProjectByEmployee : {
       screen:PostedProjectByEmployee
@@ -139,9 +140,12 @@ export const MainStack = createStackNavigator(
     BlogScreen: {
       screen: BlogScreen
     },
+    HireStudentsScreen: {
+      screen: HireStudentsScreen
+    },
   },
   {
-    initialRouteName: 'CategoryScreen',
+    initialRouteName: 'ContactUs',
   }
 );
 export const AuthStackNav = createDrawerNavigator(
