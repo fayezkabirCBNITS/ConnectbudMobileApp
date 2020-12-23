@@ -14,7 +14,7 @@ import CommonStyles from '../../../../CommonStyles';
 import StatusBar from '../../../components/StatusBar';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from "axios";
 import { API_URL } from "../../../config/url";
@@ -24,6 +24,7 @@ import {
 } from '../../../services/http-connectors';
 import SyncStorage from 'sync-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 class ChatListScreen extends Component {
   constructor(props) {
@@ -196,6 +197,15 @@ class ChatListScreen extends Component {
     //this.scrollToBottom();
   }
 
+  hireStudent = () => {
+    this.RBSheet.close(),
+      this.props.navigation.navigate('HireStudentsScreen');
+  };
+  viewProposal = () => {
+    this.RBSheet.close(),
+      this.props.navigation.navigate('ProposalFromFreelancer');
+  };
+
   render() {
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
     return (
@@ -224,13 +234,43 @@ class ChatListScreen extends Component {
             </View>
 
             <Text style={styles.chatUserName}>{this.state.name}</Text>
-            {this.state.request_type === "proposal" && this.state.user_type === "Rg==" ?
+            {/* {this.state.request_type === "proposal" && this.state.user_type === "Rg==" ?
             (<TouchableOpacity style={styles.editBtn} onPress={()=>this.props.navigation.navigate(
                         'ProposalFromFreelancer'
                       )}>
                   <Text style={styles.editBtnText}>Proposal</Text>
-                </TouchableOpacity>): null}
+                </TouchableOpacity>): null} */}
+
+            <TouchableOpacity onPress={() => this.RBSheet.open()} style={styles.menuVertical}>
+              <Fontisto name="more-v-a" size={25} color="#fff" />
+            </TouchableOpacity>
           </View>
+
+          <RBSheet
+            ref={(ref) => {
+              this.RBSheet = ref;
+            }}
+            height={170}
+            openDuration={600}
+            customStyles={{
+              container: {
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            }}>
+            <View style={styles.btmSheet}>
+              <TouchableOpacity
+                onPress={this.hireStudent}
+                style={styles.loginBtn}>
+                <Text style={styles.loginBtnText2}>Hire Student</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.viewProposal}
+                style={styles.loginBtn2}>
+                <Text style={styles.loginBtnText2}>View Proposal</Text>
+              </TouchableOpacity>
+            </View>
+          </RBSheet>
 
           <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}
             contentContainerStyle={styles.keyboard}

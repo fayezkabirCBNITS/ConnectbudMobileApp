@@ -21,10 +21,10 @@ export default {
     marginLeft: 10,
   },
   chatUserName: {
-    width: '65%',
+    width: '60%',
     marginLeft: 15,
     color: '#fff',
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: 'Poppins-SemiBold',
   },
   send: {
@@ -42,7 +42,7 @@ export default {
     // borderRadius: 7,
     // borderBottomRightRadius: 0,
   },
-  sndChatText: {    
+  sndChatText: {
     minWidth: 90,
     backgroundColor: '#E9F9E4',
     paddingVertical: 10,
@@ -165,5 +165,44 @@ export default {
     paddingRight: 10,
     flex: 1,
     backgroundColor: '#fff',
+  },
+  btmSheet: {
+    width: '100%',
+    height: 170,
+    paddingHorizontal: '10%',
+    justifyContent: 'center',
+  },
+  loginBtn: {
+    width: '100%',
+    height: 50,
+    marginBottom: 15,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#71b85f',
+    borderWidth: 1.5,
+  },
+  loginBtn2: {
+    width: '100%',
+    height: 50,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#71b85f',
+    borderWidth: 1.5,
+  },
+  loginBtnText2: {
+    fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center',
+    color: '#71b85f',
+    fontSize: 18,
+  },
+  menuVertical: {
+    position: 'absolute',
+    right: 0,
+    width: 50,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 };
