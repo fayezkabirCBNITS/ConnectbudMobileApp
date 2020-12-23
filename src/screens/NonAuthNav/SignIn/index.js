@@ -20,6 +20,7 @@ import styles from './singInstyle';
 import base64 from 'base-64';
 import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
+import PushNotification from "react-native-push-notification";
 
 class SignInScreen extends Component {
   constructor(props) {
@@ -30,6 +31,8 @@ class SignInScreen extends Component {
       password: '',
       errors: {},
       type: true,
+      deviceTokenId: "",
+      devicetype:""
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -38,6 +41,31 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
+  componentDidMount(){
+    var _this = this;
+    PushNotification.configure({     
+      onRegister: function (token) {
+        console.log("TOKEN:", token.token);
+        if(token){
+            _this.setState({deviceTokenId : token.token, devicetype: token.os})
+        }
+      },
+
+      onNotification: function (notification) {
+        console.log("NOTIFICATION:", notification);  
+      },
+      onAction: function (notification) {
+        console.log("ACTION:", notification);
+        // console.log("NOTIFICATION:", notification);
+        // process the action
+      },
+      onRegistrationError: function(err) {
+        console.error("err.message", err);
+      },
+      popInitialNotification: true,
+      requestPermissions: true,
+    })
+  }
   handleSkills = async () => {
     this.setState({showSkills: !this.state.showSkills});
   };
@@ -105,12 +133,16 @@ class SignInScreen extends Component {
         username: base64.encode(this.state.username),
         password: base64.encode(this.state.password),
         login_type: base64.encode('normal'),
+        deviceTokenId: this.state.deviceTokenId,
+        devicetype: this.state.devicetype
       };
     } else if (this.props.navigation.state.params.userType === 'employee') {
       obj = {
         username: base64.encode(this.state.username),
         password: base64.encode(this.state.password),
         login_type: base64.encode('employer'),
+        deviceTokenId: this.state.deviceTokenId,
+        devicetype: this.state.devicetype
       };
     }
     ///
