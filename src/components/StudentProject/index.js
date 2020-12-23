@@ -14,66 +14,17 @@ import {API_URL} from '../../config/url';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 //for redux
-import {
-  // storeAccessToken,
-  // updateUserStatus,
-  // updateUserPaymentMethod,
-  // updateUserDetails,
-  updateJobId,
-} from '../../redux/actions/user-data';
+import { updateJobId } from '../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
 
-var items = [
-  {
-    id: 1,
-    name: 'JavaScript',
-  },
-  {
-    id: 2,
-    name: 'Java',
-  },
-  {
-    id: 3,
-    name: 'Ruby',
-  },
-  {
-    id: 4,
-    name: 'React Native',
-  },
-  {
-    id: 5,
-    name: 'PHP',
-  },
-  {
-    id: 6,
-    name: 'Python',
-  },
-  {
-    id: 7,
-    name: 'Go',
-  },
-  {
-    id: 8,
-    name: 'Swift',
-  },
-];
+
 class StudentProject extends Component {
   constructor() {
     super();
 
     this.state = {
       skillOptions: [],
-      selectedItems: [
-        {
-          id: 7,
-          name: 'Go',
-        },
-        {
-          id: 8,
-          name: 'Swift',
-        },
-      ],
       expertset: [],
       SearchSkill: [],
       user_id: '',
@@ -107,7 +58,7 @@ class StudentProject extends Component {
     taglistbody.append('type', 'freelancer');
     taglistbody.append('skills', '');
     taglistbody.append('search_type', 'all');
-    taglistbody.append('offset', '15');
+    taglistbody.append('offset', 15);
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -120,11 +71,8 @@ class StudentProject extends Component {
           showLoader: false,
           expertset: response.data,
         });
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => { });
   };
 
   resetProjects = async () => {
@@ -184,7 +132,7 @@ class StudentProject extends Component {
       taglistbody.append('type', 'freelancer');
       taglistbody.append('skills', data);
       taglistbody.append('search_type', 'else');
-      taglistbody.append('offset', '5');
+      taglistbody.append('offset', 15);
 
       await axios({
         url: API_URL + 'expert_jobsummary',
@@ -196,11 +144,8 @@ class StudentProject extends Component {
             expertset: response.data,
             showLoader: false,
           });
-          this.setState({isLoading: true});
         })
-        .catch((error) => {
-          this.setState({isLoading: false});
-        });
+        .catch((error) => { });
 
       // this.expertProjects;
     } else {
@@ -212,7 +157,7 @@ class StudentProject extends Component {
       taglistbody.append('type', 'freelancer');
       taglistbody.append('skills', '');
       taglistbody.append('search_type', 'all');
-      taglistbody.append('offset', '15');
+      taglistbody.append('offset', 15);
 
       await axios({
         url: API_URL + 'expert_jobsummary',
@@ -224,11 +169,8 @@ class StudentProject extends Component {
             // lodarStatus: false,
             expertset: response.data,
           });
-          this.setState({isLoading: true});
         })
-        .catch((error) => {
-          this.setState({isLoading: false});
-        });
+        .catch((error) => { });
     }
   };
 
@@ -243,7 +185,7 @@ class StudentProject extends Component {
     taglistbody.append('type', 'freelancer');
     taglistbody.append('skills', skill);
     taglistbody.append('search_type', 'else');
-    taglistbody.append('offset', '0');
+    taglistbody.append('offset', 15);
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -255,12 +197,35 @@ class StudentProject extends Component {
         this.setState({
           expertset: response.data,
         });
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => { });
   };
+
+  Method = async () => {
+    await this.setState({
+      expertset: this.props.TutorShowData,
+    });
+  };
+
+  catSkill = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  child = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  componentWillReceiveProps() {
+    if (this.props.TutorShowData.length > 0) {
+      this.Method();
+      this.catSkill();
+      this.child();
+    }
+  }
 
   render() {
     return (

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import { ScrollView } from 'react-native-gesture-handler';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import TutoringJobs from '../../../components/TutoringJobs';
 import StudentProject from '../../../components/StudentProject';
 import InternshipJobs from '../../../components/InternshipJobs';
@@ -20,14 +20,17 @@ class StudentInner extends Component {
   constructor() {
     super();
     this.state = {
-      JobId : "",
+      JobId: "",
       index: 0,
       routes: [
-        {key: 'first', title: 'Tutoring Jobs'},
-        {key: 'second', title: 'Project'},
-        {key: 'third', title: 'Interships / Jobs'},
-        {key: 'forth', title: 'Questions & Answers'},
+        { key: 'first', title: 'Tutoring Jobs' },
+        { key: 'second', title: 'Project' },
+        { key: 'third', title: 'Interships / Jobs' },
+        { key: 'forth', title: 'Questions & Answers' },
       ],
+      tutorexpertset: [],
+      skillOptions: [],
+      filterdata: ""
     };
   }
 
@@ -39,33 +42,72 @@ class StudentInner extends Component {
     this.props.navigation.navigate('ProjectDetailsFreelancer');
   };
 
-  navigateToDetailsTutor = async() => {
+  navigateToDetailsTutor = async () => {
     this.props.navigation.navigate('TutorDetailsFreelancer');
   }
 
-  navigateToDetailsJob = async() => {
+  navigateToDetailsJob = async () => {
     this.props.navigation.navigate('JobDetailsFreelancer');
   }
 
-  ProjectId = async (data) => {
-    console.log(data);
+  TutorHideModal = (data) => {
     this.setState({
-      JobId : data,
-    })
+      tutorexpertset: data,
+    });
   };
 
-  renderScene = ({route}) => {
+  ChildSkillset = (data) => {
+    this.setState({
+      skillOptions: data,
+    });
+  };
+
+  Skills = (data) => {
+    this.setState({
+      skillOptions: data,
+    });
+  };
+
+  filterData = (data) => {
+    this.setState({
+      filterdata: data,
+    });
+  };
+
+  // ProjectId = async (data) => {
+  //   console.log(data);
+  //   this.setState({
+  //     JobId: data,
+  //   })
+  // };
+
+  renderScene = ({ route }) => {
     switch (route.title) {
       case 'Tutoring Jobs':
-        return <TutoringJobs  navigateToDetailsTutor ={this.navigateToDetailsTutor}/>; // passing data as data prop
+        return <TutoringJobs
+          TutorShowData={this.state.tutorexpertset}
+          ChildSkills={this.state.skillOptions}
+          Child={this.state.skillOptions}
+          tutorsetFilterData={this.state.filterdata}
+          navigateToDetailsTutor={this.navigateToDetailsTutor}
+        />; // passing data as data prop
       case 'Project':
         return (
           <StudentProject
+            TutorShowData={this.state.tutorexpertset}
+            ChildSkills={this.state.skillOptions}
+            Child={this.state.skillOptions}
+            tutorsetFilterData={this.state.filterdata}
             navigateToDetails={this.navigateToDetails}
           />
         );
       case 'Interships / Jobs':
-        return <InternshipJobs navigateToDetailsJob={this.navigateToDetailsJob}/>;
+        return <InternshipJobs
+          TutorShowData={this.state.tutorexpertset}
+          ChildSkills={this.state.skillOptions}
+          Child={this.state.skillOptions}
+          tutorsetFilterData={this.state.filterdata}
+          navigateToDetailsJob={this.navigateToDetailsJob} />;
       case 'Questions & Answers':
         return <QuestionAnswer />;
       default:
@@ -79,7 +121,7 @@ class StudentInner extends Component {
         <View style={CommonStyles.main}>
           <CommonStatusBar />
           <Header />
-          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <View style={styles.tabSec}>
               <TabView
                 navigationState={this.state}
@@ -90,15 +132,15 @@ class StudentInner extends Component {
                 //   forth: QuestionAnswer,
                 // })}
                 renderScene={this.renderScene}
-                onIndexChange={(index) => this.setState({index})}
-                style={{flex: 1, justifyContent: 'center'}}
+                onIndexChange={(index) => this.setState({ index })}
+                style={{ flex: 1, justifyContent: 'center' }}
                 renderTabBar={(props) => {
                   return (
                     <TabBar
-                      tabStyle={{width: 'auto'}}
+                      tabStyle={{ width: 'auto' }}
                       scrollEnabled={true}
                       {...props}
-                      renderLabel={({route, focused, color}) => (
+                      renderLabel={({ route, focused, color }) => (
                         <Text style={focused ? styles.label : styles.label2}>
                           {route.title}
                         </Text>
@@ -113,12 +155,14 @@ class StudentInner extends Component {
               />
             </View>
           </ScrollView>
-          <TouchableOpacity
-            onPress={() => this.RBSheet.open()}
-            style={styles.filterSec}>
-            <MaterialIcons name="filter-list" color="#71b85f" size={40} />
-            <Text style={styles.filterText}>Filter</Text>
-          </TouchableOpacity>
+          {this.state.index != 3 && (
+            <TouchableOpacity
+              onPress={() => this.RBSheet.open()}
+              style={styles.filterSec}>
+              <MaterialIcons name="filter-list" color="#71b85f" size={40} />
+              <Text style={styles.filterText}>Filter</Text>
+            </TouchableOpacity>
+          )}
 
           <RBSheet
             ref={(ref) => {
@@ -132,7 +176,13 @@ class StudentInner extends Component {
                 alignItems: 'center',
               },
             }}>
-            <Filter />
+            <Filter
+              TutorHideModal={this.TutorHideModal}
+              ChildSkillset={this.ChildSkillset}
+              Skills={this.Skills}
+              filterData={this.filterData}
+              ActiveTab={this.state.index}
+            />
           </RBSheet>
         </View>
       </SafeAreaView>

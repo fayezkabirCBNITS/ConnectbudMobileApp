@@ -26,7 +26,7 @@ const validator = {
       'first_name' in fields
     ) {
       if (!fields['first_name']) {
-        errors['first_name'] = 'Please enter first name.';
+        errors['first_name'] = 'Please enter your first name.';
         errors['formIsValid'] = false;
       } else {
         if (!fields['first_name'].match(/^[a-zA-Z ]*$/)) {
@@ -65,7 +65,7 @@ const validator = {
 
     if ((fieldName == 'college' || fieldName == null) && 'college' in fields) {
       if (!fields['college']) {
-        errors['college'] = 'Please enter college name.';
+        errors['college'] = 'Please enter your college name.';
         errors['formIsValid'] = false;
       } else {
         ///^[a-zA-Z\s]+$/
@@ -78,7 +78,7 @@ const validator = {
     /////
     if ((fieldName == 'major' || fieldName == null) && 'major' in fields) {
       if (!fields['major']) {
-        errors['major'] = 'Please enter major.';
+        errors['major'] = 'Please enter your major.';
         errors['formIsValid'] = false;
       } else {
         if (!fields['major'].match(/^[a-zA-Z ]*$/)) {

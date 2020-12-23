@@ -5,17 +5,10 @@ import styles from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-
 import axios from 'axios';
 import {API_URL} from '../../config/url';
 //for redux
-import {
-  // storeAccessToken,
-  // updateUserStatus,
-  // updateUserPaymentMethod,
-  // updateUserDetails,
-  updateJobId
-} from "../../redux/actions/user-data";
+import { updateJobId } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
 
 class InternshipJobs extends Component {
@@ -36,7 +29,7 @@ class InternshipJobs extends Component {
     taglistbody.append('type', 'recruiter');
     taglistbody.append('skills', '');
     taglistbody.append('search_type', 'all');
-    taglistbody.append('offset', '10');
+    taglistbody.append('offset', 10);
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -48,15 +41,38 @@ class InternshipJobs extends Component {
           // lodarStatus: false,
           jobexpertSet: response.data,
         });
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => { });
   };
 
   componentDidMount() {
     this.expertJobs();
+  }
+
+  Method = async () => {
+    await this.setState({
+      jobexpertSet: this.props.TutorShowData,
+    });
+  };
+
+  catSkill = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  child = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  componentWillReceiveProps() {
+    if (this.props.TutorShowData.length > 0) {
+      this.Method();
+      this.catSkill();
+      this.child();
+    }
   }
 
   PageNav = async(JobId) => {
@@ -64,6 +80,7 @@ class InternshipJobs extends Component {
     this.props.navigateToDetailsJob();
     this.props.updateJobId(JobId);
   }
+
 
   render() {
     return (
