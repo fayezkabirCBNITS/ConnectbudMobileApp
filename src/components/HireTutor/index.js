@@ -22,8 +22,9 @@ import { makePostRequestMultipart, makeAuthGetRequest } from '../../services/htt
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ErrorMsg from '../../components/ErrorMsg';
 import { connect } from 'react-redux';
-import {withNavigation} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import base64 from 'base-64';
+import OnlineCodingClasses from '../OnlinCodingClasses/onlineClasses'
 
 class HireTutor extends Component {
   constructor() {
@@ -35,9 +36,9 @@ class HireTutor extends Component {
       totalCost: '',
       subjectValue: '',
       gradeValue: '',
-      showActiveTab: false,
       showActiveTabBtn: false,
-      showTab: false,
+      homeworkTab: false,
+      OnlineTab: false,
       selectedSkills: [],
       subjectSkills: [],
       showDatePicker: false,
@@ -49,31 +50,33 @@ class HireTutor extends Component {
       errendTime: false,
       errsubjectValue: false,
       errgradeValue: false,
-      ConnectBud:'',
+      ConnectBud: '',
+      errConnectBud: false,
     };
   }
 
-  onActive = () => {
-    this.setState({
-      showActiveTab: !this.state.showActiveTab,
-    })
-    this.onActiveTab()
+  onActive = (Tab) => {
+    if (Tab == 'online') {
+      this.setState({
+        OnlineTab: true,
+        homeworkTab: false,
+      })
+    } else if (Tab == 'homework') {
+      this.setState({
+        homeworkTab: true,
+        OnlineTab: false,
+      })
+    }
   }
 
   onActiveBtn = (test) => {
-    if(test == 'cb'){
-      this.setState({ConnectBud: 'connectbud'})
-    }else if(test == 'he'){
-      this.setState({ConnectBud: 'me'})
+    if (test == 'cb') {
+      this.setState({ ConnectBud: 'connectbud' })
+    } else if (test == 'he') {
+      this.setState({ ConnectBud: 'me' })
     }
     this.setState({
       showActiveTabBtn: !this.state.showActiveTabBtn,
-    })
-  }
-
-  onActiveTab = () => {
-    this.setState({
-      showTab: !this.state.showTab,
     })
   }
 
@@ -140,6 +143,9 @@ class HireTutor extends Component {
     } else if (!this.state.totalCost) {
       this.setState({ errTotalCost: true });
       return;
+    } else if (this.state.ConnectBud == '') {
+      this.setState({ errConnectBud: true });
+      return;
     }
 
     let body = new FormData();
@@ -159,13 +165,14 @@ class HireTutor extends Component {
       false,
       body,
     );
-    console.log('Homeork details-----', response);
+    console.log('Homeork details-----', response[0].hire_by);
 
-    if (response) {
-      alert('Successfully Submitted ')
-    } else {
-      //alert('The email or password you have entered is invalid!');
-      // Toast.show(response.msg, Toast.LONG);
+    if (response[0].hire_by == 'me') {
+      alert('Successfully Posted ');
+      this.props.navigation.navigate('PostedProjectByEmployee')
+    } else if (response[0].hire_by == 'connectbud') {
+      alert('Successfully Posted ');
+      this.props.navigation.navigate('BankDetailScreen')
     }
   }
 
@@ -182,30 +189,32 @@ class HireTutor extends Component {
                 { flexDirection: 'row' },
               ]}>
               <View
-                style={this.state.showActiveTab == true ? styles.skillTab : styles.ActiveskillTab}
+                style={this.state.OnlineTab == true ? styles.ActiveskillTab : styles.skillTab}
               >
                 <Text
-                  style={this.state.showActiveTab == true ? styles.skillText : styles.ActiveSkillText}
+                  style={this.state.OnlineTab == true ? styles.ActiveSkillText : styles.skillText}
                   // style={[styles.skillText]} 
-                  onPress={this.onActive}
+                  onPress={() => this.onActive('online')}
                 >
                   Online class & Tutorial
                 </Text>
               </View>
-              <View
 
-                style={!this.state.showActiveTab == true ? styles.skillTab : styles.ActiveskillTab}
+              <View
+                style={this.state.homeworkTab == true ? styles.ActiveskillTab : styles.skillTab}
               >
                 <Text
                   // style={styles.skillText} 
-                  style={!this.state.showActiveTab == true ? styles.skillText : styles.ActiveSkillText}
-                  onPress={this.onActive}
+                  style={this.state.homeworkTab == true ? styles.ActiveSkillText : styles.skillText}
+                  onPress={() => this.onActive('homework')}
                 >
                   HomeWork Help</Text>
               </View>
             </View>
 
-            {this.state.showTab && <View>
+            {this.state.OnlineTab && <OnlineCodingClasses />}
+
+            {this.state.homeworkTab && <View>
               <Text style={styles.inputHead}>Select a subject</Text>
               <View style={styles.formGroup1}>
                 <View style={[styles.formSubGroup2, { width: '100%' }]}>
@@ -256,7 +265,7 @@ class HireTutor extends Component {
                 >
                   <Text
                     style={this.state.showActiveTabBtn == true ? styles.skillText : styles.ActiveSkillText}
-                    onPress={()=>this.onActiveBtn('cb')}  
+                    onPress={() => this.onActiveBtn('cb')}
                   >
                     ConnectBud
                   </Text>
@@ -266,15 +275,15 @@ class HireTutor extends Component {
                 >
                   <Text
                     style={!this.state.showActiveTabBtn == true ? styles.skillText : styles.ActiveSkillText}
-                    onPress={()=>this.onActiveBtn('he')}
+                    onPress={() => this.onActiveBtn('he')}
                   >
                     Choose your own
                 </Text>
                 </View>
               </View>
+              {this.state.errConnectBud === true ? (<ErrorMsg errorMsg="Please select one" />) : (<></>)}
 
               <Text style={styles.inputHead}>When is it :</Text>
-
               <Text style={styles.inputHead}>Date</Text>
               <DateTimePickerModal
                 isVisible={this.state.showDatePicker}
