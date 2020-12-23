@@ -32,7 +32,7 @@ class HomeScreen extends Component {
       user: '',
       showSearchBar: false,
     };
-  }
+  } 
 
   static navigationOptions = {
     headerShown: false,
