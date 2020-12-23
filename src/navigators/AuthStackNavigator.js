@@ -36,6 +36,7 @@ import MyQuestionScreen from '../screens/AuthNav/MyQuestion';
 import FreeContactScreen from '../screens/AuthNav/FreeContracts';
 import EmpContactScreen from '../screens/AuthNav/EmpContracts';
 import BlogScreen from '../screens/AuthNav/Blog';
+import HireStudentsScreen from '../screens/AuthNav/HireStudent';
 
 
 export const MainStack = createStackNavigator(
@@ -138,6 +139,9 @@ export const MainStack = createStackNavigator(
     },
     BlogScreen: {
       screen: BlogScreen
+    },
+    HireStudentsScreen: {
+      screen: HireStudentsScreen
     },
   },
   {

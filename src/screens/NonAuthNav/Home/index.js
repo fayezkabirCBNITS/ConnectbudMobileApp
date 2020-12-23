@@ -11,7 +11,7 @@ import CommonStyles from '../../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import QualityTalent from '../../../components/QualityTalent';
@@ -23,6 +23,7 @@ import WhyHire from '../../../components/WhyHire';
 import HowWorks from '../../../components/HowWorks';
 import LatestProjects from '../../../components/LatestProjects';
 import CustomerStories from '../../../components/CustomerStories';
+import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends Component {
   constructor() {
@@ -30,6 +31,7 @@ class HomeScreen extends Component {
     this.state = {
       user: '',
       showSearchBar: false,
+      firstQuery: '',
     };
   }
 
@@ -63,15 +65,22 @@ class HomeScreen extends Component {
   };
 
   render() {
+    const { firstQuery } = this.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <StatusBar />
           <View style={CommonStyles.header}>
+            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+              <Entypo name="menu" color="#71b85f" size={35} />
+            </TouchableOpacity>
             <Image
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}
             />
+            <TouchableOpacity  onPress={() => this.RBSheet.open()} style={CommonStyles.bellIcon}>
+              <Text style={styles.loginBtnText}>Login</Text>
+            </TouchableOpacity>
           </View>
 
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -83,15 +92,15 @@ class HomeScreen extends Component {
             </TouchableOpacity>
 
             <View style={CommonStyles.container}>
-              <View style={styles.loginHead}>
+              {/* <View style={styles.loginHead}>
                 <TouchableOpacity
                   onPress={() => this.RBSheet.open()}
                   style={styles.filterSec}
                   style={styles.mainLoginBtn}>
                   <Text style={styles.loginBtnText}>Login</Text>
                 </TouchableOpacity>
-              </View>
-              <View style={styles.searchDropSec}>
+              </View> */}
+              <View style={[styles.searchDropSec, styles.marTop15]}>
                 <View style={styles.searchPicker}>
                   <Picker
                     style={{color: '#71b85f'}}
@@ -112,12 +121,22 @@ class HomeScreen extends Component {
               </View>
               {this.state.showSearchBar && (
                 <View style={styles.searchBar}>
-                  <TextInput
+                  {/* <TextInput
                     placeholder='Search for "Name, Skills & Colleges"'
                     style={styles.searchInput}
                   />
                   <TouchableOpacity style={styles.searchIcon}>
                     <Fontisto name="search" color="#fff" size={20} />
+                  </TouchableOpacity> */}
+                  <Searchbar
+                    placeholder="Search"
+                    onChangeText={query => { this.setState({ firstQuery: query }); }}
+                    value={firstQuery}
+                    inputStyle={styles.searchInput}
+                    style={styles.search}
+                  />
+                  <TouchableOpacity style={styles.searchPos}>
+                    <AntDesign name="search1" size={25} color="#000" />
                   </TouchableOpacity>
                 </View>
               )}
