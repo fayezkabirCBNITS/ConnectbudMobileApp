@@ -18,11 +18,15 @@ import {
 } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
+
 class TutoringJobs extends Component {
   constructor() {
     super();
     this.state = {
       tutorexpertset: [],
+      showLoader: false,
     };
   }
 
@@ -31,6 +35,9 @@ class TutoringJobs extends Component {
   };
 
   feedProjects = async () => {
+    this.setState({
+      showLoader : true
+    })
     let taglistbody = new FormData();
     taglistbody.append("user_id", "2519");
     taglistbody.append("type", "tutor");
@@ -47,6 +54,7 @@ class TutoringJobs extends Component {
         this.setState({
           // lodarStatus: false,
           tutorexpertset: response.data,
+          showLoader: false
         });
 
         this.setState({ isLoading: true });
@@ -71,6 +79,11 @@ class TutoringJobs extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+        <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <ScrollView showsVerticalScrollIndicator={false}>
             {
               this.state.tutorexpertset.map((item, idx) => (
