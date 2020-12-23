@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  BackHandler,
+  Alert,
+  Image,
+} from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
@@ -17,6 +25,7 @@ import OnlineClassEmployer from '../../../components/OnlineCodingClassEmployer';
 import {connect} from 'react-redux';
 //import {updateUserDetails} from "../../../redux/actions/user-data";
 import {showLoader} from '../../../redux/actions/loader-data';
+import {withNavigation} from 'react-navigation';
 
 class EmployeeInner extends Component {
   constructor(props) {
@@ -50,7 +59,45 @@ class EmployeeInner extends Component {
         return null;
     }
   };
+  // componentDidMount() {
+  //   console.log('did mount====================');
+  //   const {navigation} = this.props;
+  //   this.focusListener = navigation.addListener('didFocus', () => {
+  //     console.log('did mount focus====================');
 
+  //     BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+  //   });
+  //   BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+  // }
+
+  // componentWillUnmount() {
+  //   this.focusListener.remove();
+  //   BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+  // }
+  // componentDidUpdate() {
+  //   console.log('did update====');
+  // }
+  // backPressed = () => {
+  //   Alert.alert(
+  //     'Exit ConnectBud',
+  //     'Do you want to exit?',
+  //     [
+  //       {
+  //         text: 'No',
+  //         onPress: () => console.log('Cancel Pressed'),
+  //         style: 'cancel',
+  //       },
+  //       {text: 'Yes', onPress: () => BackHandler.exitApp()},
+  //     ],
+  //     {cancelable: false},
+  //   );
+  //   return true;
+  // };
+  // multipleFunction = async () => {
+  //   this.focusListener.remove();
+  //   BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+  //   this.props.navigation.openDrawer();
+  // };
   render() {
     const {userDeatailResponse} = this.props;
     console.log('all props details==========', this.props);
@@ -64,8 +111,7 @@ class EmployeeInner extends Component {
         <View style={CommonStyles.main}>
           <CommonStatusBar />
           <View style={styles.header}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity onPress={()=>this.props.navigation.openDrawer()}>
               <Entypo name="menu" color="#71b85f" size={35} />
             </TouchableOpacity>
             <Image
@@ -134,4 +180,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, null)(EmployeeInner);
+export default connect(mapStateToProps, null)(withNavigation(EmployeeInner));

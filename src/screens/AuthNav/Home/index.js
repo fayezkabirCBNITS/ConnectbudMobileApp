@@ -25,8 +25,8 @@ import LatestProjects from '../../../components/LatestProjects';
 import CustomerStories from '../../../components/CustomerStories';
 
 class HomeScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: '',
       showSearchBar: false,
@@ -69,7 +69,8 @@ class HomeScreen extends Component {
           <StatusBar />
         {/* header section */}
           <View style={CommonStyles.header}>         
-            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity style={CommonStyles.hambarIcon}
+             onPress={() => this.props.navigation.openDrawer()}>
               <Entypo name="menu" color="#71b85f" size={35} />
             </TouchableOpacity>
             <Image
@@ -92,14 +93,6 @@ class HomeScreen extends Component {
             </TouchableOpacity>
 
             <View style={CommonStyles.container}>
-              <View style={styles.loginHead}>
-                <TouchableOpacity
-                  onPress={() => this.RBSheet.open()}
-                  style={styles.filterSec}
-                  style={styles.mainLoginBtn}>
-                  <Text style={styles.loginBtnText}>Login</Text>
-                </TouchableOpacity>
-              </View>
               <View style={styles.searchDropSec}>
                 <View style={styles.searchPicker}>
                     <Picker

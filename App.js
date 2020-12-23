@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {createAppContainer} from 'react-navigation';
-import RootStackNavigator from './src/navigators/RootStackNavigator';
-// import AppContainer from "./src/navigators/Navigator"
+//import RootStackNavigator from './src/navigators/RootStackNavigator';
+import AppContainer from './src/navigators/Navigator';
 import {PersistGate} from 'redux-persist/integration/react';
-
 import {Provider} from 'react-redux';
 import {persistor, store} from './src/redux/store';
 // import Toast from "react-native-toast-message";
 // import Loader from "./src/containers/Loader";
-
-const AppContainer = createAppContainer(RootStackNavigator);
-
+// const AppContainer = createAppContainer(RootStackNavigator);
 export default class App extends Component {
   appContainerRef = null;
 
@@ -33,7 +30,6 @@ export default class App extends Component {
                 this.onNavigationStateChange(prevState, newState, action)
               }
             />
-
             {/* <Loader /> */}
           </PersistGate>
         </Provider>

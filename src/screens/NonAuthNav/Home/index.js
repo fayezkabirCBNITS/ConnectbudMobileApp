@@ -4,7 +4,9 @@ import {
   Text,
   SafeAreaView,
   TextInput,
+  BackHandler,
   TouchableOpacity,
+  Alert,
   Image,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
@@ -25,8 +27,8 @@ import LatestProjects from '../../../components/LatestProjects';
 import CustomerStories from '../../../components/CustomerStories';
 
 class HomeScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: '',
       showSearchBar: false,
@@ -36,7 +38,31 @@ class HomeScreen extends Component {
   static navigationOptions = {
     headerShown: false,
   };
+  /*
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+  }
 
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+  }
+  backPressed = () => {
+    Alert.alert(
+      'Exit ConnectBud',
+      'Do you want to exit?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Yes', onPress: () => BackHandler.exitApp()},
+      ],
+      {cancelable: false},
+    );
+    return true;
+  };
+  */
   navigateToviewProfile = async () => {
     this.props.navigation.navigate('ViewProfileScreen');
   };
@@ -68,6 +94,11 @@ class HomeScreen extends Component {
         <View style={CommonStyles.main}>
           <StatusBar />
           <View style={CommonStyles.header}>
+          {/* <TouchableOpacity style={CommonStyles.hambarIcon}
+             onPress={() => this.props.navigation.openDrawer()}
+             >
+              <Entypo name="menu" color="#71b85f" size={35} />
+            </TouchableOpacity> */}
             <Image
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}

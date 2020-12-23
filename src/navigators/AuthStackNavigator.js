@@ -40,11 +40,14 @@ import BlogScreen from '../screens/AuthNav/Blog';
 
 export const MainStack = createStackNavigator(
   {
-    // HomeScreen: {
-    //   screen: HomeScreen
-    // },
+    HomeScreenAuth: {
+      screen: HomeScreen
+    },
     ProfileScreen: {
       screen: ProfileScreen,
+    },
+    EmployeeInner: {
+      screen: EmployeeInner
     },
     CategoryScreen: {
       screen: CategoryScreen,
@@ -57,9 +60,6 @@ export const MainStack = createStackNavigator(
     },
     StudentInner: {
       screen: StudentInner
-    },
-    EmployeeInner: {
-      screen: EmployeeInner
     },
     PostedProjectByEmployee : {
       screen:PostedProjectByEmployee
@@ -141,7 +141,7 @@ export const MainStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'CategoryScreen',
+    initialRouteName: 'ContactUs',
   }
 );
 export const AuthStackNav = createDrawerNavigator(

@@ -40,6 +40,8 @@ class SplashScreen extends Component {
       setTimeout(() => {
         if (userData && userData?.Token && userData?.Token.length) {
           //this.rese;
+          console.log('open false :===============',userData);
+
           console.log('open false :>> ');
           this.props.changeAppOpenStatus(false);
           {
