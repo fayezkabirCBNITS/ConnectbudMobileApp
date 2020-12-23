@@ -29,9 +29,9 @@ class ViewProfileScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: 'first', title: 'View Overview' },
-        { key: 'second', title: 'View Portfolio' },
-        { key: 'third', title: 'View Work History' },
+        { key: 'first', title: 'Overview' },
+        { key: 'second', title: 'Portfolio' },
+        { key: 'third', title: 'Work History' },
       ],
       profiledataset: [],
     };
@@ -48,6 +48,7 @@ class ViewProfileScreen extends Component {
       method: "GET",
     })
       .then((response) => {
+        console.log(response , "viewwwwwwwwww")
         this.setState({
           profiledataset: response.data
         });
@@ -58,11 +59,11 @@ class ViewProfileScreen extends Component {
   renderScene = ({ route }) => {
     const { userDeatail } = this.props;
     switch (route.title) {
-      case 'ViewOverview':
+      case 'Overview':
         return <ViewOverview slugname={userDeatail.slugname}/>;
-      case 'ViewPortfolio':
+      case 'Portfolio':
         return <ViewPortfolio slugname={userDeatail.slugname}/>
-      case 'ViewWork History':
+      case 'Work History':
         return <ViewWorkHistory freeId={userDeatail.view_user_id}/>;
       default:
         return null;

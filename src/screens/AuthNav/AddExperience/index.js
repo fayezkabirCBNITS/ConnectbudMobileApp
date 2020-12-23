@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import {
   Image,
   LayoutAnimation,
   Platform,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -23,8 +24,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../../../components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-const width = Dimensions.get('window').width;
+import { withNavigation } from "react-navigation";
+import { updateslug, updateUserDetails } from "../../../redux/actions/user-data";
+import { connect } from "react-redux";
+import base64 from 'base-64';
+import { BASE_URL } from "../../../config/ApiUrl"
+import axios from "axios";
 
+const width = Dimensions.get('window').width;
 class Animated_Item extends Component {
   constructor() {
     super();
@@ -80,8 +87,9 @@ class Animated_Item extends Component {
           //styles.singleItemView,
           styles.formGroup1,
           {
-            transform: [{translateX: translate_Animation_Object}],
+            transform: [{ translateX: translate_Animation_Object }],
             opacity: opacity_Animation_Object,
+            marginBottom: 35
           },
         ]}>
         {/* <Text style={styles.singleItemText}>Item {this.props.item.text}</Text> */}
@@ -107,9 +115,23 @@ class Animated_Item extends Component {
 class AddExperienceScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {valueArray: [], disabled: false};
+    this.state = {
+      valueArray: [],
+      disabled: false,
+      id: "",
+      userID: "",
+      projectTitle: "",
+      projectDecription: "",
+      projectUrl: "",
+      additionalurls: [],
+    };
     this.addNewElement = false;
     this.index = 0;
+  }
+  componentDidMount = () => {
+    this.setState({ id: this.props.userDeatailResponse.row_id, userID: base64.decode(this.props.userDeatailResponse.user_id) })
+
+    console.log(this.props.userDeatailResponse.row_id, base64.decode(this.props.userDeatailResponse.user_id), " ----------adddddddddexpppppppppp")
   }
 
   static navigationOptions = {
@@ -118,11 +140,11 @@ class AddExperienceScreen extends Component {
 
   afterAnimationComplete = () => {
     this.index += 1;
-    this.setState({disabled: false});
+    this.setState({ disabled: false });
   };
   add_New_View = () => {
     this.addNewElement = true;
-    const newlyAddedValue = {id: 'id_' + this.index, text: this.index + 1};
+    const newlyAddedValue = { id: 'id_' + this.index, text: this.index + 1 };
 
     this.setState({
       disabled: true,
@@ -149,7 +171,80 @@ class AddExperienceScreen extends Component {
       },
     );
   }
+  handleSubmit = async () => {
+    let body = new FormData();
+
+    body.append("id", this.state.id);
+    body.append("user_id", this.state.userID);
+
+    //For Edit Intro
+    body.append("first_name", "");
+    body.append("last_name", "");
+    body.append("category", "");
+    body.append("skills", "");
+    body.append("socialurls", "");
+    body.append("about", "");
+
+    //for Job
+    body.append("experience_id", "")
+    body.append("experience", this.state.title);
+    body.append("description", this.state.experience);
+    body.append("projecturl", this.state.projecturl);
+    body.append("professionalurls", this.state.addprofurls.toString());
+    body.append("employment_type", "");
+    body.append("willing_to_relocate", "");
+    body.append("country", "");
+    body.append("city", "");
+    body.append("resumefile", "");
+    body.append("videoresume", "");
+
+    // For Education
+    body.append("department", "");
+    body.append("title", "");
+    body.append("type", "");
+    body.append("location", "");
+    body.append("startDate", "");
+    body.append("endDate", "");
+    body.append("community", "");
+
+    //For Portfolio
+    body.append("portfolio_id", "")
+    body.append("portfolio_name", "");
+    body.append("portfolio_des", "");
+    body.append("portfolio_category", "");
+    body.append("portfolio_link", "");
+    body.append("image", "");
+
+    await axios
+      .post(
+        API_URL +
+        "expertProfile/" +
+        this.props.match.params.name.split(" ").join("-"),
+        body
+      )
+      .then((res) => {
+        this.setState({});
+
+        this.props.history.push(
+          "/profile/" + this.props.match.params.name.split(" ").join("-")
+        );
+      });
+  };
+
+  handleTextChange = (text, targetState) => {
+    if (targetState === "projectTitle") {
+
+      this.setState({ projectTitle: text.nativeEvent.text });
+    } else if (targetState === "projectDecription") {
+
+      this.setState({ projectDecription: text.nativeEvent.text });
+    } else if (targetState === "projectUrl") {
+
+      this.setState({ projectUrl: text.nativeEvent.text });
+    }
+  }
   render() {
+    console.log(this.state , "adddexperience stateeeeeeeeee")
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -166,20 +261,22 @@ class AddExperienceScreen extends Component {
               source={require('../../../assets/images/logo.png')}
               style={styles.image}
             />
-            <View style={{width: 35}}></View>
+            <View style={{ width: 35 }}></View>
           </View>
           <View style={CommonStyles.container}>
+            <KeyboardAvoidingView>
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollStyle}>
             <Text style={styles.portfolioHead}>Add Your Project Details</Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
               <Text style={styles.inputHead}>* Project Title: </Text>
 
               <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                <View style={[styles.formSubGroup2, { width: '100%' }]}>
                   <TextInput
                     returnKeyType="done"
                     placeholder="Project Title: Java Tutorial"
                     style={styles.inputGroup}
                     keyboardType="default"
+                    onChange={(evt) => this.handleTextChange(evt, "projectTitle")}
                   />
                 </View>
               </View>
@@ -213,6 +310,7 @@ class AddExperienceScreen extends Component {
                         textAlignVertical: 'top',
                       },
                     ]}
+                    onChange={(evt) => this.handleTextChange(evt, "projectDecription")}
                     keyboardType="default"
                     numberOfLines={10}
                     multiline={true}
@@ -223,12 +321,13 @@ class AddExperienceScreen extends Component {
               <Text style={styles.inputHead}>* Project Url: </Text>
 
               <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                <View style={[styles.formSubGroup2, { width: '100%' }]}>
                   <TextInput
                     returnKeyType="done"
                     placeholder="e.g.http://github.com/"
                     style={styles.inputGroup}
                     keyboardType="default"
+                    onChange={(evt) => this.handleTextChange(evt, "projectUrl")}
                   />
                 </View>
               </View>
@@ -236,7 +335,7 @@ class AddExperienceScreen extends Component {
               <Text style={styles.inputHead}>* Additional Url(s):</Text>
 
               <View style={styles.formGroup11}>
-                <View style={[styles.formGroup1, {width: '85%'}]}>
+                <View style={[styles.formGroup1, { width: '85%' }]}>
                   <View style={styles.formSubGroup2}>
                     <TextInput
                       returnKeyType="done"
@@ -254,13 +353,13 @@ class AddExperienceScreen extends Component {
                 </View>
               </View>
 
-              <View style={{width: '100%'}}>
+              <View style={{ width: '100%' }}>
                 <ScrollView
                   ref={(scrollView) => (this.scrollView = scrollView)}
                   onContentSizeChange={() => {
                     this.addNewElement && this.scrollView.scrollToEnd();
                   }}>
-                  <View style={{flex: 1, padding: 4}}>
+                  <View style={{ flex: 1, padding: 4 }}>
                     {this.state.valueArray.map((ele) => {
                       return (
                         <Animated_Item
@@ -276,8 +375,8 @@ class AddExperienceScreen extends Component {
               </View>
               <TouchableOpacity
                 activeOpacity={0.9}
-                style={[styles.authBtn, {marginTop: 10}]}>
-                <Text style={styles.authBtnText}>Update</Text>
+                style={[styles.authBtn, { marginTop: 10, marginBottom: 10 }]}>
+                <Text style={styles.authBtnText}>Add</Text>
                 {this.state.showLoader && (
                   <ActivityIndicator
                     size="large"
@@ -287,11 +386,20 @@ class AddExperienceScreen extends Component {
                 )}
               </TouchableOpacity>
             </ScrollView>
+            
+            </KeyboardAvoidingView>
           </View>
         </View>
       </SafeAreaView>
     );
   }
 }
+const mapStateToProps = (state) => {
 
-export default AddExperienceScreen;
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+
+// export default AddExperienceScreen;
+export default connect(mapStateToProps, null,)(withNavigation(AddExperienceScreen));
