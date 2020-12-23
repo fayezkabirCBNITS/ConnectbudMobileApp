@@ -18,13 +18,13 @@ import Overview from '../../../components/Overview';
 import Portfolio from '../../../components/Portfolio';
 import WorkHistory from '../../../components/WorkHistory';
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
-import {BASE_URL} from '../../../config/ApiUrl';
+import { API_URL } from "../../../config/url";
+import { BASE_URL } from "../../../config/ApiUrl"
 // import { makeGetRequest } from '../../../services/http-connectors';
 import ApiUrl from '../../../config/ApiUrl';
-import {makeGetRequest} from '../../../services/http-connectors';
-import {connect} from 'react-redux';
-import {withNavigation} from 'react-navigation';
+import { makeGetRequest } from '../../../services/http-connectors';
+import { connect } from "react-redux";
+import { withNavigation } from "react-navigation";
 
 import base64 from 'base-64';
 class ProfileScreen extends Component {
@@ -44,19 +44,22 @@ class ProfileScreen extends Component {
   static navigationOptions = {
     headerShown: false,
   };
-  componentDidMount = async () => {
-    await axios({
-      url: `${BASE_URL}expertProfile/${base64.decode(
-        this.props.userDeatailResponse.slug,
-      )}`,
-      method: 'GET',
-    })
-      .then((response) => {
-        this.setState({
-          profiledataset: response.data,
-        });
+
+  componentDidMount = () => {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      axios({
+        url: `${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`,
+        method: "GET",
       })
-      .catch(() => {});
+        .then((response) => {
+          console.log(response, "profile responseee")
+          this.setState({
+            profiledataset: response.data,
+          });
+        })
+        .catch(() => { });
+    });
   };
   render() {
     return (
@@ -65,8 +68,8 @@ class ProfileScreen extends Component {
           <CommonStatusBar />
           <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             {this.state.profiledataset.map((item, i) => (
-              <ImageBackground
-                source={{uri: item.cover_image}}
+              <ImageBackground key={i}
+                source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
                 <TouchableOpacity
                   style={CommonStyles.hanPosition}
@@ -75,7 +78,8 @@ class ProfileScreen extends Component {
                 </TouchableOpacity>
                 <View style={styles.userImg}>
                   <Image
-                    source={require('../../../assets/images/userPro.jpg')}
+                    // source={require(item.user_image ? `${item.user_image}` : '../../../assets/images/userPro.jpg')}
+                    source={{ uri: item.user_image }}
                     style={CommonStyles.usrImage}
                   />
                   <TouchableOpacity style={CommonStyles.userPhoto}>
@@ -91,6 +95,7 @@ class ProfileScreen extends Component {
               <ScrollView
                 style={{flexDirection: 'row', marginTop: -70}}
                 showsHorizontalScrollIndicator={false}
+                key={i}
                 horizontal>
                 <View style={styles.details}>
                   <Text style={styles.userInfoHead}>Name</Text>
@@ -152,4 +157,6 @@ const mapStateToProps = (state) => {
     userDeatailResponse: state.userData,
   };
 };
-export default connect(mapStateToProps, null)(withNavigation(ProfileScreen));
+
+// export default  withNavigation(connect(Overview),(mapStateToProps, null));
+export default connect(mapStateToProps, null,)(withNavigation(ProfileScreen));

@@ -48,6 +48,7 @@ class ViewProfileScreen extends Component {
       method: "GET",
     })
       .then((response) => {
+        console.log(response , "viewwwwwwwwww")
         this.setState({
           profiledataset: response.data
         });
