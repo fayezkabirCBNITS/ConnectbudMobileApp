@@ -207,7 +207,6 @@ class ChatListScreen extends Component {
   };
 
   render() {
-    const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>

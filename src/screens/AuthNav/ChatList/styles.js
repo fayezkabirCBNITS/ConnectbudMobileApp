@@ -164,6 +164,7 @@ export default {
     paddingLeft: 10,
     paddingRight: 10,
     flex: 1,
+    paddingBottom: 70,
     backgroundColor: '#fff',
   },
   btmSheet: {
