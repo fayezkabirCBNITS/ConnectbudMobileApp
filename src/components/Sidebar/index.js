@@ -105,7 +105,6 @@ class Sidebar extends Component {
                       source={{uri: data.user_image}}
                     />
                   </View>
-
                   <View style={styles.userDetails}>
                     <Text style={styles.name}>{data.name}</Text>
                     {/* <Text style={styles.slogan}>Lorem Lorem Lorem</Text> */}
@@ -121,7 +120,6 @@ class Sidebar extends Component {
                   <FontAwesome name="home" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Home</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() =>
@@ -130,7 +128,6 @@ class Sidebar extends Component {
                   <FontAwesome name="user" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Profile</Text>
                 </TouchableOpacity>
-
                 {/* <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() =>
@@ -139,14 +136,12 @@ class Sidebar extends Component {
                   <FontAwesome name="user" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Employee Profile</Text>
                 </TouchableOpacity> */}
-
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() => this.props.navigation.navigate('ChatScreen')}>
                   <Entypo name="message" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Chat</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('BankDetailScreen')
@@ -155,21 +150,18 @@ class Sidebar extends Component {
                   <FontAwesome name="bank" color="#fff" size={25} />
                   <Text style={styles.menuOptnText}>Bank Details</Text>
                 </TouchableOpacity>
-
                 {/* <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('StudentInner')}
                 style={styles.menuOptn}>
                 <FontAwesome name="home" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Student Inner</Text>
               </TouchableOpacity>
-
               <TouchableOpacity
                 style={styles.menuOptn}
                 onPress={() => this.props.navigation.navigate('EmployeeInner')}>
                 <FontAwesome name="home" color="#fff" size={27} />
                 <Text style={styles.menuOptnText}>Employee Inner</Text>
               </TouchableOpacity> */}
-
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('TransactionScreen')
@@ -178,7 +170,6 @@ class Sidebar extends Component {
                   <MaterialIcons name="payment" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Transactions</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('EditProfileScreen')
@@ -187,7 +178,6 @@ class Sidebar extends Component {
                   <AntDesign name="contacts" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() =>
@@ -196,7 +186,6 @@ class Sidebar extends Component {
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={this._logout}
                   style={styles.menuOptn}>
@@ -221,7 +210,6 @@ class Sidebar extends Component {
                   <FontAwesome name="user" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Profile</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() => this.props.navigation.navigate('ChatScreen')}>
@@ -237,7 +225,6 @@ class Sidebar extends Component {
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Posted Projects</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('BankDetailScreen')
@@ -253,14 +240,12 @@ class Sidebar extends Component {
               <FontAwesome name="home" color="#fff" size={27} />
               <Text style={styles.menuOptnText}>Student Inner</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={styles.menuOptn}
               onPress={() => this.props.navigation.navigate('EmployeeInner')}>
               <FontAwesome name="home" color="#fff" size={27} />
               <Text style={styles.menuOptnText}>Employee Inner</Text>
             </TouchableOpacity> */}
-
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('TransactionScreen')
@@ -278,7 +263,6 @@ class Sidebar extends Component {
                   <AntDesign name="contacts" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={this._logout}
                   style={styles.menuOptn}>
@@ -287,7 +271,6 @@ class Sidebar extends Component {
                 </TouchableOpacity>
               </ScrollView>
             )}
-
             <View style={styles.socialSec}>
               <Text style={styles.socialText}>Connect with us</Text>
               <View style={styles.socialIcon}>
