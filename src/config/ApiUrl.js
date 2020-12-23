@@ -18,5 +18,9 @@ export default EndPoint = {
   FetchTutorCategory: 'keyskill/tutor',
   FetchProjectCategory: 'keyskill/freelancer',
   JobSummary: 'expert_jobsummary',
+  Four: '/course/four',
+  Ten: '/course/ten',
+  CourseSubmit: 'course_submit',
+
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove

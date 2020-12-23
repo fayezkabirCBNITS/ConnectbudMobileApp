@@ -28,10 +28,11 @@ import {
 } from '../../../redux/actions/user-data';
 import base64 from 'base-64';
 
-
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
+
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class TutorDetailsFreelancer extends Component {
   constructor(props) {
@@ -40,6 +41,8 @@ class TutorDetailsFreelancer extends Component {
       Job: '',
       jobDetails: [],
       jobSet: [],
+      user_id: '',
+      showLoader: false,
     };
   }
 
@@ -49,6 +52,10 @@ class TutorDetailsFreelancer extends Component {
 
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
+    this.setState({
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
+      showLoader: true,
+    });
     let taglistbody = new FormData();
     let body = new FormData();
     body.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
@@ -58,7 +65,10 @@ class TutorDetailsFreelancer extends Component {
     body.append('offset', 10);
 
     taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
-    taglistbody.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
+    taglistbody.append(
+      'user_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
     taglistbody.append('type', 'tutor');
 
     await axios({
@@ -69,6 +79,7 @@ class TutorDetailsFreelancer extends Component {
       .then((response) => {
         this.setState({
           jobDetails: response.data,
+          showLoader: false,
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
@@ -88,15 +99,69 @@ class TutorDetailsFreelancer extends Component {
       .catch((error) => {});
   };
 
-  PageNav = (JobId) => {
-    this.props.updateJobId(JobId);
-    // this.props.navigation.navigate('ProjectDetailsFreelancer');
+  // this.props.navigation.navigate('ProjectDetailsFreelancer');
+
+  PageNav = async (JobID) => {
+    this.setState({
+      showLoader: true,
+    });
+    this.props.updateJobId(JobID);
+    let taglistbody = new FormData();
+    let body = new FormData();
+    body.append('user_id', this.state.user_id);
+    body.append('type', 'tutor');
+    body.append('skills', '');
+    body.append('search_type', 'all');
+    body.append('offset', '10');
+
+    taglistbody.append('job_id', JobID);
+    taglistbody.append('user_id', this.state.user_id);
+    taglistbody.append('type', 'tutor');
+
+    await axios({
+      url: API_URL + 'expert_jobdetails',
+      method: 'POST',
+      data: taglistbody,
+    })
+      .then((response) => {
+        this.setState({
+          jobDetails: response.data,
+          showLoader: false,
+          // priceAmount: response.data[0].price_amount,
+          // skillSet: response.data[0].key_skill,
+        });
+        this.setState({isLoading: true});
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+
+    await axios({
+      url: API_URL + 'expert_jobsummary',
+      method: 'POST',
+      data: body,
+    })
+      .then((response) => {
+        this.setState({
+          jobSet: response.data,
+        });
+
+        this.setState({isLoading: true});
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
   };
 
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <StatusBar
             backgroundColor="#60a84e"
             barStyle="light-content"
@@ -118,12 +183,12 @@ class TutorDetailsFreelancer extends Component {
                     <Text> {value.price_amount} USD</Text>
                   </Text>
 
-                  <Text>
+                  {/* <Text>
                     <Text style={styles.textSemibold}> Course Date : </Text>{' '}
                     {value.milestone.map((item, i) => (
                       <Text>{item.date},</Text>
                     ))}
-                  </Text>
+                  </Text> */}
                   <Text>
                     <Text style={styles.textSemibold}> Course Syllabus : </Text>
                     <Text style={styles.syllabusText}>{value.description}</Text>
@@ -138,7 +203,7 @@ class TutorDetailsFreelancer extends Component {
               <View style={styles.similarJobWrapper}>
                 <View style={styles.slimilarJob}>
                   <Text style={styles.similiarjobText}>
-                    Similar Jobs for me
+                    Similar tutoring jobs for me
                   </Text>
                 </View>
                 {this.state.jobSet.map((item, idx) => (
