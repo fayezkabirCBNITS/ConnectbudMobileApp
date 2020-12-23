@@ -116,9 +116,9 @@ class HomeScreen extends Component {
                     placeholder='Search for "Name, Skills & Colleges"'
                     style={styles.searchInput}
                   />
-                  <View style={styles.searchIcon}>
-                    <Fontisto name="search" color="#000" size={20} />
-                  </View>
+                  <TouchableOpacity style={styles.searchIcon}>
+                    <Fontisto name="search" color="#fff" size={20} />
+                  </TouchableOpacity>
                 </View>
               )}
             </View>
