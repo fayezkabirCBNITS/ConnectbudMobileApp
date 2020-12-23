@@ -9,7 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import style from '../Profile/style';
 
 
-class AboutUs extends Component {
+class FAQsScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -137,4 +137,4 @@ class AboutUs extends Component {
     }
 }
 
-export default AboutUs
+export default FAQsScreen

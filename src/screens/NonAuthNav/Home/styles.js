@@ -6,8 +6,8 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
   searchInput: {
     padding: 0,
-    paddingLeft: 50,
-    paddingRight: 15,
+    paddingRight: 60,
+    paddingLeft: 15,
     alignItems: 'center',
     height: 50,
     color: '#000',
@@ -25,14 +25,15 @@ export default {
     overflow: 'hidden',
   },
   searchIcon: {
-    width: 40,
+    width: 50,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    left: 0,
+    right: 0,
     top: 0,
     paddingLeft: 5,
+    backgroundColor: '#71b85f',
   },
   loginHead: {
     width: '100%',

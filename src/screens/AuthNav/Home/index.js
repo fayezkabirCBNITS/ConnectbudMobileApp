@@ -119,16 +119,16 @@ class HomeScreen extends Component {
                   <TextInput
                     placeholder='Search for "Name, Skills & Colleges"'
                     style={styles.searchInput}
-                  />
-                  <View style={styles.searchIcon}>
-                    <Fontisto name="search" color="#000" size={20} />
-                  </View>                
+                  />                      
+                  <TouchableOpacity style={styles.searchIcon}>
+                    <Fontisto name="search" color="#fff" size={20} />
+                  </TouchableOpacity>            
                 </View>
                 )} 
               </View>
             <View style={styles.marVer15}>
               <View style={CommonStyles.container}>
-                <Text style={styles.hdng}>Recently Joined College Students</Text>
+                <Text style={styles.hdng}>Recently Joined College Students dfh</Text>
               </View>
 
               <QualityTalent navigateToviewProfile={this.navigateToviewProfile}/>

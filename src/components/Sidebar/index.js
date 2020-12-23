@@ -14,7 +14,7 @@ import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Zocial from 'react-native-vector-icons/Zocial';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   decodeToken,
@@ -23,6 +23,11 @@ import {
 } from '../../services/helper-methods';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {connect} from 'react-redux';
+import {
+  Collapse,
+  CollapseHeader,
+  CollapseBody,
+} from 'accordion-collapse-react-native';
 
 import base64 from 'base-64';
 
@@ -35,6 +40,7 @@ class Sidebar extends Component {
     this.state = {
       profileSet: [],
       FlagStatus: '',
+      pressed: false,
     };
   }
   componentDidMount = async () => {
@@ -150,18 +156,6 @@ class Sidebar extends Component {
                   <FontAwesome name="bank" color="#fff" size={25} />
                   <Text style={styles.menuOptnText}>Bank Details</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('StudentInner')}
-                style={styles.menuOptn}>
-                <FontAwesome name="home" color="#fff" size={27} />
-                <Text style={styles.menuOptnText}>Student Inner</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuOptn}
-                onPress={() => this.props.navigation.navigate('EmployeeInner')}>
-                <FontAwesome name="home" color="#fff" size={27} />
-                <Text style={styles.menuOptnText}>Employee Inner</Text>
-              </TouchableOpacity> */}
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('TransactionScreen')
@@ -172,10 +166,15 @@ class Sidebar extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.navigation.navigate('EditProfileScreen')
+                    this.props.navigation.navigate('FreeContactScreen')
                   }
                   style={styles.menuOptn}>
-                  <AntDesign name="contacts" color="#fff" size={27} />
+                  <FontAwesome5
+                    name="file-contract"
+                    color="#fff"
+                    size={27}
+                    style={{paddingLeft: 3}}
+                  />
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -186,6 +185,78 @@ class Sidebar extends Component {
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuOptn}
+                  onPress={() => this.props.navigation.navigate('ContactUs')}>
+                  <AntDesign name="contacts" color="#fff" size={27} />
+                  <Text style={styles.menuOptnText}>Contact Us</Text>
+                </TouchableOpacity>
+
+                <Collapse
+                  onToggle={() =>
+                    this.setState({pressed: !this.state.pressed})
+                  }>
+                  <CollapseHeader>
+                    <View
+                      style={
+                        this.state.pressed ? styles.menuOptn2 : styles.menuOptn
+                      }>
+                      {this.state.pressed ? (
+                        <FontAwesome5
+                          name="building"
+                          color="#71b85f"
+                          size={27}
+                        />
+                      ) : (
+                        <FontAwesome5 name="building" color="#fff" size={27} />
+                      )}
+                      <Text
+                        style={
+                          this.state.pressed
+                            ? styles.menuOptnText2
+                            : styles.menuOptnText
+                        }>
+                        Company
+                      </Text>
+                      <View style={styles.collapsePos}>
+                        {this.state.pressed ? (
+                          <Entypo name="chevron-up" color="#71b85f" size={25} />
+                        ) : (
+                          <Entypo name="chevron-right" color="#fff" size={25} />
+                        )}
+                      </View>
+                    </View>
+                  </CollapseHeader>
+                  <CollapseBody>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() => this.props.navigation.navigate('AboutUs')}>
+                      <Text style={styles.menuOptnText}>About Us</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() =>
+                        this.props.navigation.navigate('FAQsScreen')
+                      }>
+                      <Text style={styles.menuOptnText}>FAQ</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() =>
+                        this.props.navigation.navigate('TermsOfServices')
+                      }>
+                      <Text style={styles.menuOptnText}>Terms of Service</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() =>
+                        this.props.navigation.navigate('PrivacyPolicy')
+                      }>
+                      <Text style={styles.menuOptnText}>Privacy Policy</Text>
+                    </TouchableOpacity>
+                  </CollapseBody>
+                </Collapse>
+
                 <TouchableOpacity
                   onPress={this._logout}
                   style={styles.menuOptn}>
@@ -234,18 +305,6 @@ class Sidebar extends Component {
                   <Text style={styles.menuOptnText}>Posted Jobs</Text>
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('StudentInner')}
-              style={styles.menuOptn}>
-              <FontAwesome name="home" color="#fff" size={27} />
-              <Text style={styles.menuOptnText}>Student Inner</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.menuOptn}
-              onPress={() => this.props.navigation.navigate('EmployeeInner')}>
-              <FontAwesome name="home" color="#fff" size={27} />
-              <Text style={styles.menuOptnText}>Employee Inner</Text>
-            </TouchableOpacity> */}
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('TransactionScreen')
