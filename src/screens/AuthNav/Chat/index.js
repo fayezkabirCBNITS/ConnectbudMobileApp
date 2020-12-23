@@ -87,8 +87,8 @@ gotoPage = ()=>{
           </View>
           {/* header section end */}
 
-          <View style={CommonStyles.container}>
-            <View style={styles.searchBar}>
+          <View style={[CommonStyles.container, styles.tabSec]}>
+            {/* <View style={styles.searchBar}>
               <TextInput
                 placeholder='Search for "Name, Skills & Colleges"'
                 style={styles.searchInput}
@@ -96,7 +96,13 @@ gotoPage = ()=>{
               <View style={styles.searchIcon}>
                 <Fontisto name="search" color="#71b85f" size={20} />
               </View>
-            </View>
+            </View> */}
+            <TouchableOpacity style={styles.tabSlct}>
+              <Text style={styles.tabText}>Project</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.tab}>
+              <Text style={styles.tabText}>Internship / Job</Text>
+            </TouchableOpacity>
           </View>
 
           <ScrollView showsVerticalScrollIndicator={false}>
