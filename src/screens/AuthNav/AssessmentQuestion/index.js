@@ -19,7 +19,7 @@ import {API_URL} from '../../../config/url';
 
 import {connect} from 'react-redux';
 import base64 from 'base-64';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class AssessmentQuestion extends Component {
   constructor(props) {
@@ -34,6 +34,7 @@ class AssessmentQuestion extends Component {
       ctc: '',
       errors: {},
       user_id: '',
+      showLoader: false,
     };
   }
 
@@ -106,13 +107,16 @@ class AssessmentQuestion extends Component {
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
     this.setState({
-      user_id : base64.decode(userDeatailResponse.userData.user_id),
-    })
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
+    });
 
     let taglistbody = new FormData();
 
     taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
-    taglistbody.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
+    taglistbody.append(
+      'user_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
     taglistbody.append('type', 'freelancer');
 
     await axios({
@@ -133,37 +137,43 @@ class AssessmentQuestion extends Component {
       });
   };
 
-  onSubmit = async(jobId, hirerId, Token) => {
+  onSubmit = async (jobId, hirerId, Token) => {
     let dataSet = this.validateJobForm();
     if (dataSet === true) {
-      //   this.setState({
-      //     btnStatus: true,
-      //   });
+      this.setState({
+        showLoader: true,
+      });
       let body = new FormData();
-      body.append("method", "Post");
-      body.append("type", "freelancer");
-      body.append("job_id", jobId);
-      body.append("freelancer_id", this.state.user_id);
-      body.append("hirer_id", hirerId);
-      body.append("answer1", this.state.firstAnswer);
-      body.append("answer2", this.state.secondAnswer);
-      body.append("answer3", this.state.thirdAnswer);
+      body.append('method', 'Post');
+      body.append('type', 'freelancer');
+      body.append('job_id', jobId);
+      body.append('freelancer_id', this.state.user_id);
+      body.append('hirer_id', hirerId);
+      body.append('answer1', this.state.firstAnswer);
+      body.append('answer2', this.state.secondAnswer);
+      body.append('answer3', this.state.thirdAnswer);
       {
-        this.state.ctc === ""
-          ? body.append("proposed_amount", this.state.priceAmount)
-          : body.append("proposed_amount", this.state.ctc);
+        this.state.ctc === ''
+          ? body.append('proposed_amount', this.state.priceAmount)
+          : body.append('proposed_amount', this.state.ctc);
       }
-      body.append("resumefile", "");
-      body.append("videolink", "");
+      body.append('resumefile', '');
+      body.append('videolink', '');
 
       await axios({
-        url: API_URL + "freelancerproposal",
-        method: "POST",
+        url: API_URL + 'freelancerproposal',
+        method: 'POST',
         data: body,
       })
         .then((response) => {
-        //   localStorage.setItem("page_status", "chat");
-          alert("Proposal sent successfully !")
+          //   localStorage.setItem("page_status", "chat");
+          this.setState({
+            showLoader: false,
+            firstAnswer: '',
+            thirdAnswer: '',
+            secondAnswer: '',
+          });
+          alert('Proposal sent successfully !');
           this.props.navigation.navigate('ChatScreen');
         })
         .catch((error) => {});
@@ -174,6 +184,11 @@ class AssessmentQuestion extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <ScrollView showsVerticalScrollIndicator={false}>
             <Header />
             <View>

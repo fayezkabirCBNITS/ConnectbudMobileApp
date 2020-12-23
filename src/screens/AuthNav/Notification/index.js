@@ -18,6 +18,7 @@ class NotificationScreen extends Component {
     super();
     this.state = {
       notification: [],
+      loginType: '',
     };
   }
 
@@ -27,7 +28,9 @@ class NotificationScreen extends Component {
 
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
-    console.log(userDeatailResponse);
+    this.setState({
+      loginType: userDeatailResponse.userData.Flag,
+    })
     const body = {
       user_id: base64.decode(userDeatailResponse.userData.user_id),
     };
@@ -79,7 +82,7 @@ class NotificationScreen extends Component {
                           sender_id: data.receiver_user_id,
                           name:data.sender_name,
                           user_image: data.notification_image,
-                          user_type: this.props.userDeatailResponse?.Flag,
+                          user_type: this.state.loginType,
                           room_id: data.room_id,
                       },  SyncStorage.set('room_id', data.project_id+'_'+data.sender_user_id))
                       }>

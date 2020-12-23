@@ -7,9 +7,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 // import DropDownPicker from 'react-native-custom-dropdown';
 import {Picker} from '@react-native-community/picker';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import axios from 'axios';
 import {API_URL} from '../../config/url';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 //for redux
 import {
   // storeAccessToken,
@@ -76,8 +79,8 @@ class StudentProject extends Component {
       user_id: '',
       skills: [],
       selectedSkills: '',
+      showLoader: false,
       skillValuePlaceHolder: [],
-      placeholder: "",
     };
   }
 
@@ -89,6 +92,7 @@ class StudentProject extends Component {
     const {userDeatailResponse} = this.props;
     await this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
+      showLoader: true,
     });
     this.feedProjects(userDeatailResponse);
     this.SkillSearch();
@@ -113,7 +117,38 @@ class StudentProject extends Component {
       .then((response) => {
         this.setState({
           // lodarStatus: false,
+          showLoader: false,
           expertset: response.data,
+        });
+        this.setState({isLoading: true});
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+  };
+
+  resetProjects = async () => {
+    this.setState({
+      selectedSkills: '',
+      showLoader: true,
+    });
+    let taglistbody = new FormData();
+    taglistbody.append('user_id', this.state.user_id);
+    taglistbody.append('type', 'freelancer');
+    taglistbody.append('skills', '');
+    taglistbody.append('search_type', 'all');
+    taglistbody.append('offset', '15');
+
+    await axios({
+      url: API_URL + 'expert_jobsummary',
+      method: 'POST',
+      data: taglistbody,
+    })
+      .then((response) => {
+        this.setState({
+          // lodarStatus: false,
+          expertset: response.data,
+          showLoader: false,
         });
         this.setState({isLoading: true});
       })
@@ -131,7 +166,7 @@ class StudentProject extends Component {
   SkillSearch = async () => {
     await axios.get(API_URL + 'keyskill/recruiter').then((response) => {
       this.setState({
-        skillValuePlaceHolder : this.state.placeholder,
+        skillValuePlaceHolder: this.state.placeholder,
         skills: this.state.skillValuePlaceHolder.concat(response.data),
       });
     });
@@ -140,6 +175,7 @@ class StudentProject extends Component {
   SearchProject = async (data) => {
     await this.setState({
       SearchSkill: data,
+      showLoader: true,
     });
 
     if (this.state.SearchSkill !== null) {
@@ -158,6 +194,7 @@ class StudentProject extends Component {
         .then((response) => {
           this.setState({
             expertset: response.data,
+            showLoader: false,
           });
           this.setState({isLoading: true});
         })
@@ -197,14 +234,16 @@ class StudentProject extends Component {
 
   expertProjects = async (skill) => {
     this.setState({
-      placeholder: skill
-    })
+      skillValuePlaceHolder: [{value: skill, label: skill}],
+      selectedSkills: skill,
+    });
+    console.log('sssssssssssssssss');
     let taglistbody = new FormData();
     taglistbody.append('user_id', this.state.user_id);
     taglistbody.append('type', 'freelancer');
     taglistbody.append('skills', skill);
     taglistbody.append('search_type', 'else');
-    taglistbody.append('offset', '10');
+    taglistbody.append('offset', '0');
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -227,14 +266,16 @@ class StudentProject extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <View>
             <Picker
               style={{width: '100%', height: 45, color: '#3B1D25'}}
               // selectedValue={this.state.selectedSkills}
-              onValueChange={(itemValue) =>
-                this.expertProjects(itemValue)
-              }
-              >
+              onValueChange={(itemValue) => this.expertProjects(itemValue)}>
               {this.state.skills.length > 0 ? (
                 this.state?.skills?.map((data) => {
                   return <Picker.Item label={data.label} value={data.value} />;
@@ -243,6 +284,16 @@ class StudentProject extends Component {
                 <></>
               )}
             </Picker>
+            {this.state.selectedSkills !== '' ? (
+              <TouchableOpacity style={styles.editBtn}>
+                {/* <MaterialIcons name="mode-edit" color="#fff" size={18} /> */}
+                <Text style={styles.editBtnText} onPress={this.resetProjects}>
+                  Reset
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.expertset.map((item, idx) => (
