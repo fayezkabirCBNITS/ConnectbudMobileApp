@@ -24,6 +24,8 @@ import {
 import ErrorMsg from '../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
 import Toast from 'react-native-simple-toast';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 class PostProject extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +49,7 @@ class PostProject extends Component {
       Skill: '',
       showAdditional: false,
       xtraSkill:'',
+      showLoader: false,
     };
   }
 
@@ -124,7 +127,9 @@ class PostProject extends Component {
   };
 
   postProject = async () => {
-    this.setState({showLoader: false});
+    this.setState({
+      showLoader: false,
+    })
 
     let jobDescription = new FormData();
     jobDescription.append('posted_by', base64.decode(this.props.userID));
@@ -156,6 +161,11 @@ class PostProject extends Component {
       this.setState({
         JobID: response[0].job_id,
         Skill: response[0].skill_set,
+        title: '',
+        des: '',
+        selectedSkills: '',
+        xtraSkill: '',
+        budget: '',
       });
       this.fireMail();
       alert('Successfully posted the Project!');
@@ -179,7 +189,9 @@ class PostProject extends Component {
       this.setState({errSkills: true});
     } else {
       if (dataSet === true) {
-        this.setState({showLoader: true, errSkills: false});
+        this.setState({
+          showLoader: true
+        })
         this.postProject();
       }
     }
@@ -203,6 +215,11 @@ class PostProject extends Component {
     return (
       <SafeAreaView style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+        <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <View style={styles.form}>
             <Text style={styles.title}>Project Details</Text>
 
@@ -376,13 +393,13 @@ class PostProject extends Component {
               <Pressable style={styles.signinBtn} onPress={this.onButtonSubmit}>
                 <Text style={styles.authBtnText}>Submit</Text>
               </Pressable>
-              {this.state.showLoader && (
+              {/* {this.state.showLoader && (
                 <ActivityIndicator
                   size="large"
                   color="#fff"
                   // style={CommonStyles.loader}
                 />
-              )}
+              )} */}
             </TouchableOpacity>
           </View>
         </ScrollView>
