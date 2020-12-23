@@ -23,6 +23,7 @@ import {
   makePostRequestMultipart,
 } from '../../../services/http-connectors';
 import SyncStorage from 'sync-storage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class ChatListScreen extends Component {
   constructor(props) {
@@ -196,7 +197,7 @@ class ChatListScreen extends Component {
   }
 
   render() {
-    
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -231,9 +232,10 @@ class ChatListScreen extends Component {
                 </TouchableOpacity>): null}
           </View>
 
-          <KeyboardAvoidingView
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-            <ScrollView ref='scrollView' showsVerticalScrollIndicator={false}>
+          <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.keyboard}
+            scrollEnabled={false}>
+                <ScrollView ref='scrollView' showsVerticalScrollIndicator={false}>
               <View style={CommonStyles.container}>
                 <View>
                 {this.state.chatMessage.map((data) => 
@@ -263,7 +265,7 @@ class ChatListScreen extends Component {
                 </View>
               </View>
             </ScrollView>
-          </KeyboardAvoidingView>
+          
           <View style={styles.chatInputSec}>
             {this.state.request_status === "pending" ? 
             (this.state.user_type === "Rg=="
@@ -286,6 +288,7 @@ class ChatListScreen extends Component {
               :null}
             </View>)}
           </View>
+          </KeyboardAwareScrollView>
         </View>
       </SafeAreaView>
     );

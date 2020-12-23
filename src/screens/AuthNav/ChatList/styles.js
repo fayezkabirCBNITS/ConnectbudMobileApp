@@ -35,14 +35,20 @@ export default {
   },
   sndChat: {
     maxWidth: '75%',
+    // minWidth: 90,
+    // backgroundColor: '#E9F9E4',
+    // paddingVertical: 10,
+    // paddingHorizontal: 15,
+    // borderRadius: 7,
+    // borderBottomRightRadius: 0,
+  },
+  sndChatText: {    
     minWidth: 90,
     backgroundColor: '#E9F9E4',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 7,
     borderBottomRightRadius: 0,
-  },
-  sndChatText: {
     color: '#000',
     fontFamily: 'PlutoSansRegular',
     fontSize: 15,
@@ -62,14 +68,20 @@ export default {
   },
   revChat: {
     maxWidth: '75%',
+    // minWidth: 90,
+    // backgroundColor: '#F7F7F7',
+    // paddingVertical: 10,
+    // paddingHorizontal: 15,
+    // borderRadius: 7,
+    // borderBottomLeftRadius: 0,
+  },
+  revChatText: {
     minWidth: 90,
     backgroundColor: '#F7F7F7',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 7,
     borderBottomLeftRadius: 0,
-  },
-  revChatText: {
     color: '#000',
     fontFamily: 'PlutoSansRegular',
     fontSize: 15,
@@ -127,10 +139,10 @@ export default {
     paddingRight: 60,
     color: '#fff',
   },
-  scroll: {
-    width: '100%',
-    marginBottom: 60,
-  },
+  // scroll: {
+  //   width: '100%',
+  //   marginBottom: 60,
+  // },
   editBtn: {
     width: 85,
     height: 30,
@@ -147,5 +159,11 @@ export default {
     marginLeft: 10,
     fontSize: 16,
     marginTop: 3,
+  },
+  keyboard: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    flex: 1,
+    backgroundColor: '#fff',
   },
 };

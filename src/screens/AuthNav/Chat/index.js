@@ -141,7 +141,7 @@ gotoPage = ()=>{
                     : null}
                   </View>
                 </TouchableOpacity>
-              ))): <Text style={styles.userChat}>No chat found</Text>}
+              ))): <View style={styles.noChat}><Text style={styles.userChat2}>No chat found</Text></View>}
             </View>
           </ScrollView>
         </View>

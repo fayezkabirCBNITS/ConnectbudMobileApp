@@ -45,22 +45,39 @@ export default {
     formGroup1: {
         width: '100%',
         marginBottom: 15,
-        backgroundColor: '#f8f8f8',
+        backgroundColor: '#0000',
         borderRadius: 4,
         fontSize: 16,
         // borderWidth: 1,
         borderColor:'rgba(59,29,37,0.5)',
         flexDirection: 'row',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-        textAlignVertical: 'top',
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //   width: 0,
+        //   height: 2,
+        // },
+        // shadowOpacity: 0.23,
+        // shadowRadius: 2.62,
+        // elevation: 4,
+        // textAlignVertical: 'top',
     },
+    formPicker: {
+      width: '80%',
+      height: 55,
+      backgroundColor: '#f8f8f8',
+      borderRadius: 4,
+      // borderWidth: 1,
+      // borderColor:'rgba(59,29,37,0.5)',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+      textAlignVertical: 'top'
+  },
     flatList:{
         width: '85%',
         marginBottom: 15,
@@ -101,11 +118,10 @@ export default {
         letterSpacing: 1,
       },
       skillView:{
-        width: '85%', 
+        width: '100%', 
         height: 60, 
         alignContent: 'center', 
-        display: 'flex', 
-        flexDirection: 'row'
+        // flexDirection: 'row'
       },
       projectView:{
         width: '100%', 
