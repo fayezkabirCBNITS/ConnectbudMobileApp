@@ -18,7 +18,6 @@ class SplashScreen extends Component {
   }
 
   handleOpenURL(event) {
-    console.log('url============', event.url);
     //https://dev.connectbud.com/maintag?MjU5Ng==
     //const route = e.url.replace(/.*?:\/\//g, '');
     // do something with the url, in our case navigate(route)
@@ -39,7 +38,7 @@ class SplashScreen extends Component {
       const { userData } = deepClone(this.props);
       setTimeout(() => {
         if (userData && userData?.Token && userData?.Token.length) {
-          //this.rese;
+
           console.log('open false :>> ');
           this.props.changeAppOpenStatus(false);
           {

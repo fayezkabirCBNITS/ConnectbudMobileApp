@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  Modal,
   FlatList,
   ActivityIndicator,
   TextInput,
@@ -16,6 +17,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
 //import ImagePicker from 'react-native-image-picker';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -70,6 +72,8 @@ class EditProfileScreen extends Component {
       categories: [],
       listedCategory: [],
       listedSkill: [],
+      
+      showModal : false,
 
     };
   }
@@ -291,7 +295,7 @@ class EditProfileScreen extends Component {
       const selected = this.state.categoriesData.filter(itm => itm != item)
       this.setState({ categoriesData: selected, listedCategory: unselectedByUser })
     } else {
-      alert("you need to have atleast 1 Category")
+      this.setState({showModal : true})
     }
   }
   handleRemoveItemSkill = (item, index) => {
@@ -301,9 +305,30 @@ class EditProfileScreen extends Component {
       const selected = this.state.skillsData.filter(itm => itm != item)
       this.setState({ skillsData: selected, listedSkill: unselectedByUser })
     } else {
-      alert("you need to have atleast 1 skill")
+      this.setState({showModal : true})
     }
   }
+  
+  viewModal = (text , flag) => (
+    <Modal transparent={true} isVisible={true}>
+      <View style={CommonStyles.modalBg}>
+        <View style={CommonStyles.modalContent}>
+          {/* <Image
+            source={require('../../../assets/images/messageSend.png')}
+            style={CommonStyles.modalImg}
+          /> */}
+          <Text style={CommonStyles.modalText}>you need to have atleast 1 item !</Text>
+          {/* <Text style={CommonStyles.modalEmail}>
+            ravindra.kumar@cbnits.com
+                </Text> */}
+
+          <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({showModal : false})}>
+            <Entypo name="circle-with-cross" color="#71b85f" size={35} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  )
   render() {
     // console.log(base64.decode(this.props.userDeatailResponse.slug) , "sligggggggggggggg");
     console.log(this.state, "66666666666666666666")
@@ -324,6 +349,7 @@ class EditProfileScreen extends Component {
           animation="fade"
           textContent={'Loading...'}
         />
+        {this.state.showModal ? this.viewModal() : null}
           <StatusBar
             backgroundColor="#60a84e"
             barStyle="light-content"
@@ -718,7 +744,7 @@ class EditProfileScreen extends Component {
 
                 <Text style={styles.inputHead}>Social Url(s) *</Text>
 
-                {this.state.socialUrl.length > 0 ?
+                {this.state.socialUrl.length > 50 ?
                   this.state.socialUrl.map((data, index) => (
                     <View style={styles.formGroup11} key={index}>
                       <View style={[styles.formGroup1, this.state.socialUrl.length - 1 === index ? { width: '85%' } : { width: '100%' }]}>
@@ -751,12 +777,13 @@ class EditProfileScreen extends Component {
                           placeholder="https://facebook.com/..."
                           style={styles.inputGroup}
                           keyboardType="default"
+                          onChange={(evt) => this.handleSocialUrl(evt, 0, "0")}
                         />
                       </View>
                     </View>
 
                     <View style={[styles.formSubGroup1, { marginLeft: 3, borderRadius: 5, height: 55, backgroundColor: '#71b85f', width: '15%', elevation: 4 }]}>
-                      <FontAwesome name="plus" size={25} color="#fff" />
+                      <FontAwesome name="plus" size={25} color="#fff" onPress={this.handleAddSocialUrl} />
                     </View>
                   </View>
                 }

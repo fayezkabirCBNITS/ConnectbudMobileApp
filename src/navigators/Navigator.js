@@ -2,7 +2,7 @@ import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-//import HomeScreen from '../screens/AuthNav/Home';
+import HomeScreenAuth from '../screens/AuthNav/Home';
 import ProfileScreen from '../screens/AuthNav/Profile';
 import CategoryScreen from "./../screens/AuthNav/Category"
 import AddSkillScreen from "./../screens/AuthNav/AddSkill"
@@ -20,23 +20,43 @@ import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
 import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
-// import InnerChatting from "./../screens/AuthNav/chats/chattingInner";
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
 import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
-
+import AboutUs from '../screens/AuthNav/AboutUs';
+import FAQs from '../screens/AuthNav/FAQs';
+import TermsOfServices from '../screens/AuthNav/TermsOfServices';
+import PrivacyPolicy from '../screens/AuthNav/PrivacyPolicy';
+import ContactUs from '../screens/AuthNav/ContactUs'
+import ChatScreen from '../screens/AuthNav/Chat';
+import ChatListScreen  from '../screens/AuthNav/ChatList';
+import NotificationScreen from '../screens/AuthNav/Notification';
+import BankDetailScreen from '../screens/AuthNav/BankDetails';
+import TransactionScreen from '../screens/AuthNav/Transactions';
+import MyQuestionScreen from '../screens/AuthNav/MyQuestion';
+import FreeContactScreen from '../screens/AuthNav/FreeContracts';
+import EmpContactScreen from '../screens/AuthNav/EmpContracts';
+import BlogScreen from '../screens/AuthNav/Blog';
+import HireStudentsScreen from '../screens/AuthNav/HireStudent';
+//non stack pages
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
 import FreelancerSignUpScreen from '../screens/NonAuthNav/FreelancerSignUp';
 import HomeScreen from '../screens/NonAuthNav/Home';
 import SplashScreen from '../screens/splash';
-
+//non stack pages
 
 export const MainStack = createStackNavigator(
   {
     
+    HomeScreenAuth: {
+      screen: HomeScreenAuth
+    },
     ProfileScreen: {
       screen: ProfileScreen,
+    },
+    EmployeeInner: {
+      screen: EmployeeInner
     },
     CategoryScreen: {
       screen: CategoryScreen,
@@ -49,9 +69,6 @@ export const MainStack = createStackNavigator(
     },
     StudentInner: {
       screen: StudentInner
-    },
-    EmployeeInner: {
-      screen: EmployeeInner
     },
     PostedProjectByEmployee : {
       screen:PostedProjectByEmployee
@@ -74,16 +91,12 @@ export const MainStack = createStackNavigator(
     AddPortfolioScreen :{
       screen : AddPortfolioScreen
     },
-
     EmployeeProfileScreen : {
       screen: EmployeeProfileScreen
     },
     AddExperienceScreen:{
       screen:AddExperienceScreen
     },
-    // InnerChatting:{
-    //   screen:InnerChatting
-    // },
     EditPostedProject:{
       screen: EditPostedProject
     },
@@ -93,9 +106,56 @@ export const MainStack = createStackNavigator(
     AssessmentQuestion:{
       screen : AssessmentQuestion
     },
+    AboutUs:{
+      screen : AboutUs
+    },
+    FAQs:{
+      screen : FAQs
+    },
+    TermsOfServices:{
+      screen : TermsOfServices
+    },
+    PrivacyPolicy:{
+      screen : PrivacyPolicy
+    },
+    ContactUs : {
+      screen : ContactUs
+    },
+    ChatScreen: {
+      screen : ChatScreen
+    },
+    ChatListScreen: {
+      screen : ChatListScreen
+    },
+    NotificationScreen: {
+      screen : NotificationScreen
+    },
+    BankDetailScreen: {
+      screen : BankDetailScreen
+    },
+    TransactionScreen: {
+      screen : TransactionScreen
+    },
+    MyQuestionScreen: {
+      screen : MyQuestionScreen
+    },
+    FreeContactScreen: {
+      screen : FreeContactScreen
+    },
+    EmpContactScreen: {
+      screen: EmpContactScreen
+    },
+    BlogScreen: {
+      screen: BlogScreen
+    },
+    HireStudentsScreen: {
+      screen: HireStudentsScreen
+    },
+     
   },
+
   {
-    initialRouteName: 'CategoryScreen',
+    initialRouteName: 'HomeScreenAuth',
   }
 );
 
@@ -104,6 +164,7 @@ const AuthStackNav = createStackNavigator(
       HomeScreen: {
         screen: HomeScreen
       },
+      
       SignInScreen: {
         screen: SignInScreen,
       },
@@ -124,6 +185,7 @@ const DrawerStackNav = createDrawerNavigator(
   },
   {
     contentComponent: (props) => <Sidebar {...props} />,
+    drawerWidth: "80%",
   },
 );
 

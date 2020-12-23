@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,8 @@ import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ScrollView } from 'react-native-gesture-handler';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import {ScrollView} from 'react-native-gesture-handler';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import Overview from '../../../components/Overview';
 import Portfolio from '../../../components/Portfolio';
 import WorkHistory from '../../../components/WorkHistory';
@@ -21,7 +21,6 @@ import axios from 'axios';
 import { API_URL } from "../../../config/url";
 import { BASE_URL } from "../../../config/ApiUrl"
 // import { makeGetRequest } from '../../../services/http-connectors';
-
 import ApiUrl from '../../../config/ApiUrl';
 import { makeGetRequest } from '../../../services/http-connectors';
 import { connect } from "react-redux";
@@ -34,9 +33,9 @@ class ProfileScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: 'first', title: 'Overview' },
-        { key: 'second', title: 'Portfolio' },
-        { key: 'third', title: 'Work History' },
+        {key: 'first', title: 'Overview'},
+        {key: 'second', title: 'Portfolio'},
+        {key: 'third', title: 'Work History'},
       ],
       profiledataset: [],
     };
@@ -62,18 +61,18 @@ class ProfileScreen extends Component {
         .catch(() => { });
     });
   };
-
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <CommonStatusBar />
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             {this.state.profiledataset.map((item, i) => (
               <ImageBackground key={i}
                 source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
-                <TouchableOpacity style={CommonStyles.hanPosition}
+                <TouchableOpacity
+                  style={CommonStyles.hanPosition}
                   onPress={() => this.props.navigation.openDrawer()}>
                   <Entypo name="menu" color="#71b85f" size={35} />
                 </TouchableOpacity>
@@ -94,7 +93,7 @@ class ProfileScreen extends Component {
             ))}
             {this.state.profiledataset.map((item, i) => (
               <ScrollView
-                style={{ flexDirection: 'row', marginTop: -70 }}
+                style={{flexDirection: 'row', marginTop: -70}}
                 showsHorizontalScrollIndicator={false}
                 key={i}
                 horizontal>
@@ -125,14 +124,14 @@ class ProfileScreen extends Component {
                   second: Portfolio,
                   third: WorkHistory,
                 })}
-                onIndexChange={(index) => this.setState({ index })}
-                style={{ flex: 1, justifyContent: 'center' }}
+                onIndexChange={(index) => this.setState({index})}
+                style={{flex: 1, justifyContent: 'center'}}
                 renderTabBar={(props) => {
                   return (
                     <TabBar
                       scrollEnabled
                       {...props}
-                      renderLabel={({ route, focused, color }) => (
+                      renderLabel={({route, focused, color}) => (
                         <Text style={focused ? styles.label : styles.label2}>
                           {route.title}
                         </Text>
@@ -153,9 +152,7 @@ class ProfileScreen extends Component {
   }
 }
 
-// export default ProfileScreen;
 const mapStateToProps = (state) => {
-
   return {
     userDeatailResponse: state.userData,
   };

@@ -8,7 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 
-class index extends Component {
+class TermsOfServices extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -194,4 +194,4 @@ class index extends Component {
     }
 }
 
-export default index
+export default TermsOfServices

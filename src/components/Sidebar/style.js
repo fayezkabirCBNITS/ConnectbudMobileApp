@@ -47,6 +47,25 @@ export default {
     marginLeft: 10,
     marginTop: 5,
   },
+  menuOptn2: {
+    width: '100%',
+    height: 60,
+    paddingHorizontal: '10%',
+    alignItems: 'center',
+    borderBottomColor: 'rgba(255,255,255,0.2)',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+  },
+  menuOptnText2: {
+    width: '80%',
+    fontFamily: 'Poppins-Regular',
+    color: '#71b85f',
+    fontSize: 20,
+    marginLeft: 10,
+    marginTop: 5,
+  },
   socialIcon: {
     width: '100%',
     paddingHorizontal: '6%',
@@ -63,8 +82,12 @@ export default {
   },
   socialSec: {
     height: 100,
-    justifyContent: 'center',    
+    justifyContent: 'center',
     borderTopColor: 'rgba(255,255,255,0.2)',
     borderTopWidth: 1,
+  },
+  collapsePos: {
+    position: 'absolute',
+    right: 25,
   },
 };
