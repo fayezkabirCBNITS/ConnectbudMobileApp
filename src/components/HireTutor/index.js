@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -11,19 +11,23 @@ import {
   TextInput,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
-import { Picker } from '@react-native-community/picker';
+import {Picker} from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
-import { makePostRequestMultipart, makeAuthGetRequest } from '../../services/http-connectors'
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {
+  makePostRequestMultipart,
+  makeAuthGetRequest,
+} from '../../services/http-connectors';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import base64 from 'base-64';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class HireTutor extends Component {
   constructor() {
@@ -37,7 +41,7 @@ class HireTutor extends Component {
       gradeValue: '',
       showActiveTab: false,
       showActiveTabBtn: false,
-      showTab: false,
+      showTab: true,
       selectedSkills: [],
       subjectSkills: [],
       showDatePicker: false,
@@ -49,62 +53,63 @@ class HireTutor extends Component {
       errendTime: false,
       errsubjectValue: false,
       errgradeValue: false,
-      ConnectBud:'',
+      ConnectBud: '',
+      showLoader: false,
     };
   }
 
   onActive = () => {
     this.setState({
       showActiveTab: !this.state.showActiveTab,
-    })
-    this.onActiveTab()
-  }
+    });
+    this.onActiveTab();
+  };
 
   onActiveBtn = (test) => {
-    if(test == 'cb'){
-      this.setState({ConnectBud: 'connectbud'})
-    }else if(test == 'he'){
-      this.setState({ConnectBud: 'me'})
+    if (test == 'cb') {
+      this.setState({ConnectBud: 'connectbud'});
+    } else if (test == 'he') {
+      this.setState({ConnectBud: 'me'});
     }
     this.setState({
       showActiveTabBtn: !this.state.showActiveTabBtn,
-    })
-  }
+    });
+  };
 
   onActiveTab = () => {
     this.setState({
       showTab: !this.state.showTab,
-    })
-  }
+    });
+  };
 
   static navigationOptions = {
     headerShown: false,
   };
 
   hideDatePicker = () => {
-    this.setState({ showDatePicker: false })
+    this.setState({showDatePicker: false});
   };
 
   handleConfirm = (date) => {
-    this.setState({ startDate: date })
+    this.setState({startDate: date});
     this.hideDatePicker();
   };
 
   hideTimePicker = () => {
-    this.setState({ showTimePicker: false })
+    this.setState({showTimePicker: false});
   };
 
   handleTimeConfirm = (time) => {
-    this.setState({ startTime: time })
+    this.setState({startTime: time});
     this.hideTimePicker();
   };
 
   hideEndTimePicker = () => {
-    this.setState({ showTimePicker: false })
+    this.setState({showTimePicker: false});
   };
 
   handleEndTimeConfirm = (time) => {
-    this.setState({ endTime: time })
+    this.setState({endTime: time});
     this.hideEndTimePicker();
   };
 
@@ -115,30 +120,32 @@ class HireTutor extends Component {
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
     this.setState({
-      subjectSkills: response
-    })
+      subjectSkills: response,
+    });
   }
 
   handleSubmit = async () => {
+    this.setState({
+      showLoader: true,
+    });
+
     if (!this.state.subjectValue) {
-      this.setState({ errsubjectValue: true });
+      this.setState({errsubjectValue: true});
       return;
     } else if (!this.state.gradeValue) {
-      this.setState({ errgradeValue: true });
+      this.setState({errgradeValue: true});
       return;
     } else if (!this.state.startDate) {
-      this.setState({ errstartDate: true });
+      this.setState({errstartDate: true});
       return;
-    }
-    else if (!this.state.startTime) {
-      this.setState({ errstartTime: true });
+    } else if (!this.state.startTime) {
+      this.setState({errstartTime: true});
       return;
-    }
-    else if (!this.state.endTime) {
-      this.setState({ errendTime: true });
+    } else if (!this.state.endTime) {
+      this.setState({errendTime: true});
       return;
     } else if (!this.state.totalCost) {
-      this.setState({ errTotalCost: true });
+      this.setState({errTotalCost: true});
       return;
     }
 
@@ -148,7 +155,7 @@ class HireTutor extends Component {
     body.append('job_name', this.state.subjectValue);
     body.append('total_amount', this.state.totalCost);
     body.append('Number_of_classes', 1);
-    body.append('date', moment(this.state.startDate).format("MM/DD/YYYY"));
+    body.append('date', moment(this.state.startDate).format('MM/DD/YYYY'));
     body.append('start_time', this.state.startTime);
     body.append('end_time', this.state.endTime);
     body.append('grade', this.state.gradeValue);
@@ -162,26 +169,36 @@ class HireTutor extends Component {
     console.log('Homeork details-----', response);
 
     if (response) {
-      alert('Successfully Submitted ')
+      alert('Successfully Submitted ');
+      this.props.navigation.navigate('PostedProjectByEmployee');
+      this.setState({
+        ConnectBud: '',
+        subjectValue: '',
+        totalCost: '',
+        startDate: '',
+        endTime: '',
+        gradeValue: '',
+      });
     } else {
       //alert('The email or password you have entered is invalid!');
       // Toast.show(response.msg, Toast.LONG);
     }
-  }
+  };
 
   render() {
     return (
       <View style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <View style={styles.form}>
             <Text style={styles.inputHead}>What type of session is it</Text>
 
-            <View
-              style={[
-                styles.formSubGroup2,
-                { flexDirection: 'row' },
-              ]}>
-              <View
+            <View style={[styles.formSubGroup2, {flexDirection: 'row'}]}>
+              {/* <View
                 style={this.state.showActiveTab == true ? styles.skillTab : styles.ActiveskillTab}
               >
                 <Text
@@ -191,119 +208,163 @@ class HireTutor extends Component {
                 >
                   Online class & Tutorial
                 </Text>
-              </View>
+              </View> */}
               <View
-
-                style={!this.state.showActiveTab == true ? styles.skillTab : styles.ActiveskillTab}
-              >
+                style={
+                  !this.state.showActiveTab == true
+                    ? styles.skillTab
+                    : styles.ActiveskillTab
+                }>
                 <Text
-                  // style={styles.skillText} 
-                  style={!this.state.showActiveTab == true ? styles.skillText : styles.ActiveSkillText}
-                  onPress={this.onActive}
-                >
-                  HomeWork Help</Text>
+                  // style={styles.skillText}
+                  style={
+                    !this.state.showActiveTab == true
+                      ? styles.skillText
+                      : styles.ActiveSkillText
+                  }
+                  onPress={this.onActive}>
+                  HomeWork Help
+                </Text>
               </View>
             </View>
 
-            {this.state.showTab && <View>
-              <Text style={styles.inputHead}>Select a subject</Text>
-              <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, { width: '100%' }]}>
-                  <Picker
-                    style={{ width: '100%', height: 45 }}
-                    selectedValue={this.state.subjectValue}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ subjectValue: itemValue })
-                    }>
-                    {this.state.subjectSkills.length > 0 ? (
-                      this.state?.subjectSkills?.map((data, idx) => {
-                        return (
-                          <Picker.Item label={data.label} value={data.value} key={idx} />
-                        );
-                      })
-                    ) : (
+            {this.state.showTab && (
+              <View>
+                <Text style={styles.inputHead}>Select a subject</Text>
+                <View style={styles.formGroup1}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                    <Picker
+                      style={{width: '100%', height: 45}}
+                      selectedValue={this.state.subjectValue}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({subjectValue: itemValue})
+                      }>
+                      {this.state.subjectSkills.length > 0 ? (
+                        this.state?.subjectSkills?.map((data, idx) => {
+                          return (
+                            <Picker.Item
+                              label={data.label}
+                              value={data.value}
+                              key={idx}
+                            />
+                          );
+                        })
+                      ) : (
                         <></>
                       )}
-                  </Picker>
+                    </Picker>
+                  </View>
                 </View>
-              </View>
-              {this.state.errsubjectValue === true ? (<ErrorMsg errorMsg="Please select subject" />) : (<></>)}
+                {this.state.errsubjectValue === true ? (
+                  <ErrorMsg errorMsg="Please select subject" />
+                ) : (
+                  <></>
+                )}
 
-              <Text style={styles.inputHead}>What is your grade level</Text>
+                <Text style={styles.inputHead}>What is your grade level</Text>
 
-              <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, { width: '100%' }]}>
-                  <Picker
-                    style={{ width: '100%', height: 45 }}
-                    selectedValue={this.state.gradeValue}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ gradeValue: itemValue })
+                <View style={styles.formGroup1}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                    <Picker
+                      style={{width: '100%', height: 45}}
+                      selectedValue={this.state.gradeValue}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({gradeValue: itemValue})
+                      }>
+                      <Picker.Item label="Select Grade" value="TH" />
+                      <Picker.Item label="Kindergaten" value="Kindergaten" />
+                      <Picker.Item label="1st Grade" value="1st Grade" />
+                      <Picker.Item label="2nd Grade" value="2nd Grade" />
+                    </Picker>
+                  </View>
+                </View>
+                {this.state.errgradeValue === true ? (
+                  <ErrorMsg errorMsg="Please select grade" />
+                ) : (
+                  <></>
+                )}
+
+                <Text style={styles.inputHead}>Hire By</Text>
+
+                <View
+                  style={[
+                    styles.formSubGroup2,
+                    {flexWrap: 'wrap', flexDirection: 'row'},
+                  ]}>
+                  <View
+                    style={
+                      this.state.showActiveTabBtn == true
+                        ? styles.skillTab
+                        : styles.ActiveskillTab
                     }>
-                    <Picker.Item label="Select Grade" value="TH" />
-                    <Picker.Item label="Kindergaten" value="Kindergaten" />
-                    <Picker.Item label="1st Grade" value="1st Grade" />
-                    <Picker.Item label="2nd Grade" value="2nd Grade" />
-                  </Picker>
+                    <Text
+                      style={
+                        this.state.showActiveTabBtn == true
+                          ? styles.skillText
+                          : styles.ActiveSkillText
+                      }
+                      onPress={() => this.onActiveBtn('cb')}>
+                      ConnectBud
+                    </Text>
+                  </View>
+                  <View
+                    style={
+                      !this.state.showActiveTabBtn == true
+                        ? styles.skillTab
+                        : styles.ActiveskillTab
+                    }>
+                    <Text
+                      style={
+                        !this.state.showActiveTabBtn == true
+                          ? styles.skillText
+                          : styles.ActiveSkillText
+                      }
+                      onPress={() => this.onActiveBtn('he')}>
+                      Choose your own
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              {this.state.errgradeValue === true ? (<ErrorMsg errorMsg="Please select grade" />) : (<></>)}
 
-              <Text style={styles.inputHead}>Hire By</Text>
+                <Text style={styles.inputHead}>When is it :</Text>
 
-              <View style={[styles.formSubGroup2, { flexWrap: 'wrap', flexDirection: 'row' }]}>
-                <View
-                  style={this.state.showActiveTabBtn == true ? styles.skillTab : styles.ActiveskillTab}
-                >
-                  <Text
-                    style={this.state.showActiveTabBtn == true ? styles.skillText : styles.ActiveSkillText}
-                    onPress={()=>this.onActiveBtn('cb')}  
-                  >
-                    ConnectBud
-                  </Text>
+                <Text style={styles.inputHead}>Date</Text>
+                <DateTimePickerModal
+                  isVisible={this.state.showDatePicker}
+                  mode="date"
+                  onConfirm={this.handleConfirm}
+                  onCancel={this.hideDatePicker}
+                  minimumDate={new Date()}
+                />
+
+                <View style={styles.formGroup1}>
+                  <View style={[styles.formSubGroup2, {height: 45}]}>
+                    <Text style={styles.inputHead2}>
+                      {this.state.startDate
+                        ? moment(this.state.startDate).format('MM/DD/YYYY')
+                        : 'Select Date'}
+                    </Text>
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <TouchableOpacity
+                      onPress={() => this.setState({showDatePicker: true})}>
+                      <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View
-                  style={!this.state.showActiveTabBtn == true ? styles.skillTab : styles.ActiveskillTab}
-                >
-                  <Text
-                    style={!this.state.showActiveTabBtn == true ? styles.skillText : styles.ActiveSkillText}
-                    onPress={()=>this.onActiveBtn('he')}
-                  >
-                    Choose your own
-                </Text>
-                </View>
-              </View>
+                {this.state.errstartDate === true ? (
+                  <ErrorMsg errorMsg="Please select date" />
+                ) : (
+                  <></>
+                )}
 
-              <Text style={styles.inputHead}>When is it :</Text>
-
-              <Text style={styles.inputHead}>Date</Text>
-              <DateTimePickerModal
-                isVisible={this.state.showDatePicker}
-                mode="date"
-                onConfirm={this.handleConfirm}
-                onCancel={this.hideDatePicker}
-                minimumDate={new Date()}
-              />
-
-              <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, { height: 45 }]}>
-                  <Text style={styles.inputHead2}>{this.state.startDate ? moment(this.state.startDate).format("MM/DD/YYYY") : 'Select Date'}</Text>
-                </View>
-                <View style={styles.formSubGroup1} >
-                  <TouchableOpacity onPress={() => this.setState({ showDatePicker: true })}>
-                    <FontAwesome name="calendar" size={25} color="#d7d7d8" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              {this.state.errstartDate === true ? <ErrorMsg errorMsg="Please select date" /> : (<></>)}
-
-              <Text style={styles.inputHead}>Time</Text>
-              {/* <DateTimePickerModal
+                <Text style={styles.inputHead}>Time</Text>
+                {/* <DateTimePickerModal
                 isVisible={this.state.showTimePicker}
                 mode="time"
                 onConfirm={this.handleTimeConfirm}
                 onCancel={this.hideTimePicker}
               /> */}
-              {/* <View style={styles.formGroup1}>
+                {/* <View style={styles.formGroup1}>
                 <View style={[styles.formSubGroup2, { height: 45 }]}>
                   <Text style={styles.inputHead2}>{this.state.startTime ? moment(this.state.startTime).format("LT") : 'Select Start time'}</Text>
                 </View>
@@ -313,69 +374,73 @@ class HireTutor extends Component {
                   </TouchableOpacity>
                 </View>
               </View> */}
-              <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, { width: '100%' }]}>
-                  <Picker
-                    style={{ width: '100%', height: 45 }}
-                    selectedValue={this.state.startTime}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ startTime: itemValue })
-                    }>
-                    <Picker.Item label="Select Start Time" value="TH" />
-                    <Picker.Item label="12:00 AM" value="12:00 AM" />
-                    <Picker.Item label="12:30 AM" value="12:30 AM" />
-                    <Picker.Item label="1:00 AM" value="1:00 AM" />
-                    <Picker.Item label="1:30 AM" value="1:30 AM" />
-                    <Picker.Item label="2:00 AM" value="2:00 AM" />
-                    <Picker.Item label="2:30 AM" value="2:30 AM" />
-                    <Picker.Item label="3:00 AM" value="3:00 AM" />
-                    <Picker.Item label="3:30 AM" value="3:30 AM" />
-                    <Picker.Item label="4:00 AM" value="4:00 AM" />
-                    <Picker.Item label="4:30 AM" value="4:30 AM" />
-                    <Picker.Item label="5:00 AM" value="5:00 AM" />
-                    <Picker.Item label="5:30 AM" value="5:30 AM" />
-                    <Picker.Item label="6:00 AM" value="6:00 AM" />
-                    <Picker.Item label="6:30 AM" value="6:30 AM" />
-                    <Picker.Item label="7:00 AM" value="7:00 AM" />
-                    <Picker.Item label="7:30 AM" value="7:30 AM" />
-                    <Picker.Item label="8:00 AM" value="8:00 AM" />
-                    <Picker.Item label="8:30 AM" value="8:30 AM" />
-                    <Picker.Item label="9:00 AM" value="9:00 AM" />
-                    <Picker.Item label="9:30 AM" value="9:30 AM" />
-                    <Picker.Item label="10:00 AM" value="10:00 AM" />
-                    <Picker.Item label="10:30 AM" value="10:30 AM" />
-                    <Picker.Item label="11:00 AM" value="11:00 AM" />
-                    <Picker.Item label="11:30 AM" value="11:30 AM" />
-                    <Picker.Item label="12:00 PM" value="12:00 PM" />
-                    <Picker.Item label="12:30 PM" value="12:30 PM" />
-                    <Picker.Item label="1:00 PM" value="1:00 PM" />
-                    <Picker.Item label="1:30 PM" value="1:30 PM" />
-                    <Picker.Item label="2:00 PM" value="2:00 PM" />
-                    <Picker.Item label="2:30 PM" value="2:30 PM" />
-                    <Picker.Item label="3:00 PM" value="3:00 PM" />
-                    <Picker.Item label="3:30 PM" value="3:30 PM" />
-                    <Picker.Item label="4:00 PM" value="4:00 PM" />
-                    <Picker.Item label="4:30 PM" value="4:30 PM" />
-                    <Picker.Item label="5:00 PM" value="5:00 PM" />
-                    <Picker.Item label="5:30 PM" value="5:30 PM" />
-                    <Picker.Item label="6:00 PM" value="6:00 PM" />
-                    <Picker.Item label="6:30 PM" value="6:30 PM" />
-                    <Picker.Item label="7:00 PM" value="7:00 PM" />
-                    <Picker.Item label="7:30 PM" value="7:30 PM" />
-                    <Picker.Item label="8:00 PM" value="8:00 PM" />
-                    <Picker.Item label="8:30 PM" value="8:30 PM" />
-                    <Picker.Item label="9:00 PM" value="9:00 PM" />
-                    <Picker.Item label="9:30 PM" value="9:30 PM" />
-                    <Picker.Item label="10:00 PM" value="10:00 PM" />
-                    <Picker.Item label="10:30 PM" value="10:30 PM" />
-                    <Picker.Item label="11:00 PM" value="11:00 PM" />
-                    <Picker.Item label="11:30 PM" value="11:30 PM" />
-                  </Picker>
+                <View style={styles.formGroup1}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                    <Picker
+                      style={{width: '100%', height: 45}}
+                      selectedValue={this.state.startTime}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({startTime: itemValue})
+                      }>
+                      <Picker.Item label="Select Start Time" value="TH" />
+                      <Picker.Item label="12:00 AM" value="12:00 AM" />
+                      <Picker.Item label="12:30 AM" value="12:30 AM" />
+                      <Picker.Item label="1:00 AM" value="1:00 AM" />
+                      <Picker.Item label="1:30 AM" value="1:30 AM" />
+                      <Picker.Item label="2:00 AM" value="2:00 AM" />
+                      <Picker.Item label="2:30 AM" value="2:30 AM" />
+                      <Picker.Item label="3:00 AM" value="3:00 AM" />
+                      <Picker.Item label="3:30 AM" value="3:30 AM" />
+                      <Picker.Item label="4:00 AM" value="4:00 AM" />
+                      <Picker.Item label="4:30 AM" value="4:30 AM" />
+                      <Picker.Item label="5:00 AM" value="5:00 AM" />
+                      <Picker.Item label="5:30 AM" value="5:30 AM" />
+                      <Picker.Item label="6:00 AM" value="6:00 AM" />
+                      <Picker.Item label="6:30 AM" value="6:30 AM" />
+                      <Picker.Item label="7:00 AM" value="7:00 AM" />
+                      <Picker.Item label="7:30 AM" value="7:30 AM" />
+                      <Picker.Item label="8:00 AM" value="8:00 AM" />
+                      <Picker.Item label="8:30 AM" value="8:30 AM" />
+                      <Picker.Item label="9:00 AM" value="9:00 AM" />
+                      <Picker.Item label="9:30 AM" value="9:30 AM" />
+                      <Picker.Item label="10:00 AM" value="10:00 AM" />
+                      <Picker.Item label="10:30 AM" value="10:30 AM" />
+                      <Picker.Item label="11:00 AM" value="11:00 AM" />
+                      <Picker.Item label="11:30 AM" value="11:30 AM" />
+                      <Picker.Item label="12:00 PM" value="12:00 PM" />
+                      <Picker.Item label="12:30 PM" value="12:30 PM" />
+                      <Picker.Item label="1:00 PM" value="1:00 PM" />
+                      <Picker.Item label="1:30 PM" value="1:30 PM" />
+                      <Picker.Item label="2:00 PM" value="2:00 PM" />
+                      <Picker.Item label="2:30 PM" value="2:30 PM" />
+                      <Picker.Item label="3:00 PM" value="3:00 PM" />
+                      <Picker.Item label="3:30 PM" value="3:30 PM" />
+                      <Picker.Item label="4:00 PM" value="4:00 PM" />
+                      <Picker.Item label="4:30 PM" value="4:30 PM" />
+                      <Picker.Item label="5:00 PM" value="5:00 PM" />
+                      <Picker.Item label="5:30 PM" value="5:30 PM" />
+                      <Picker.Item label="6:00 PM" value="6:00 PM" />
+                      <Picker.Item label="6:30 PM" value="6:30 PM" />
+                      <Picker.Item label="7:00 PM" value="7:00 PM" />
+                      <Picker.Item label="7:30 PM" value="7:30 PM" />
+                      <Picker.Item label="8:00 PM" value="8:00 PM" />
+                      <Picker.Item label="8:30 PM" value="8:30 PM" />
+                      <Picker.Item label="9:00 PM" value="9:00 PM" />
+                      <Picker.Item label="9:30 PM" value="9:30 PM" />
+                      <Picker.Item label="10:00 PM" value="10:00 PM" />
+                      <Picker.Item label="10:30 PM" value="10:30 PM" />
+                      <Picker.Item label="11:00 PM" value="11:00 PM" />
+                      <Picker.Item label="11:30 PM" value="11:30 PM" />
+                    </Picker>
+                  </View>
                 </View>
-              </View>
-              {this.state.errstartTime === true ? (<ErrorMsg errorMsg="Please select start time" />) : (<></>)}
+                {this.state.errstartTime === true ? (
+                  <ErrorMsg errorMsg="Please select start time" />
+                ) : (
+                  <></>
+                )}
 
-              {/* <DateTimePickerModal
+                {/* <DateTimePickerModal
                 isVisible={this.state.showEndTimePicker}
                 mode="time"
                 onConfirm={this.handleEndTimeConfirm}
@@ -392,100 +457,111 @@ class HireTutor extends Component {
                 </View>
               </View> */}
 
-              <View style={styles.formGroup1}>
-                <View style={[styles.formSubGroup2, { width: '100%' }]}>
-                  <Picker
-                    style={{ width: '100%', height: 45 }}
-                    selectedValue={this.state.endTime}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ endTime: itemValue })
-                    }>
-                    <Picker.Item label="Select End Time" value="TH" />
-                    <Picker.Item label="12:00 AM" value="12:00 AM" />
-                    <Picker.Item label="12:30 AM" value="12:30 AM" />
-                    <Picker.Item label="1:00 AM" value="1:00 AM" />
-                    <Picker.Item label="1:30 AM" value="1:30 AM" />
-                    <Picker.Item label="2:00 AM" value="2:00 AM" />
-                    <Picker.Item label="2:30 AM" value="2:30 AM" />
-                    <Picker.Item label="3:00 AM" value="3:00 AM" />
-                    <Picker.Item label="3:30 AM" value="3:30 AM" />
-                    <Picker.Item label="4:00 AM" value="4:00 AM" />
-                    <Picker.Item label="4:30 AM" value="4:30 AM" />
-                    <Picker.Item label="5:00 AM" value="5:00 AM" />
-                    <Picker.Item label="5:30 AM" value="5:30 AM" />
-                    <Picker.Item label="6:00 AM" value="6:00 AM" />
-                    <Picker.Item label="6:30 AM" value="6:30 AM" />
-                    <Picker.Item label="7:00 AM" value="7:00 AM" />
-                    <Picker.Item label="7:30 AM" value="7:30 AM" />
-                    <Picker.Item label="8:00 AM" value="8:00 AM" />
-                    <Picker.Item label="8:30 AM" value="8:30 AM" />
-                    <Picker.Item label="9:00 AM" value="9:00 AM" />
-                    <Picker.Item label="9:30 AM" value="9:30 AM" />
-                    <Picker.Item label="10:00 AM" value="10:00 AM" />
-                    <Picker.Item label="10:30 AM" value="10:30 AM" />
-                    <Picker.Item label="11:00 AM" value="11:00 AM" />
-                    <Picker.Item label="11:30 AM" value="11:30 AM" />
-                    <Picker.Item label="12:00 PM" value="12:00 PM" />
-                    <Picker.Item label="12:30 PM" value="12:30 PM" />
-                    <Picker.Item label="1:00 PM" value="1:00 PM" />
-                    <Picker.Item label="1:30 PM" value="1:30 PM" />
-                    <Picker.Item label="2:00 PM" value="2:00 PM" />
-                    <Picker.Item label="2:30 PM" value="2:30 PM" />
-                    <Picker.Item label="3:00 PM" value="3:00 PM" />
-                    <Picker.Item label="3:30 PM" value="3:30 PM" />
-                    <Picker.Item label="4:00 PM" value="4:00 PM" />
-                    <Picker.Item label="4:30 PM" value="4:30 PM" />
-                    <Picker.Item label="5:00 PM" value="5:00 PM" />
-                    <Picker.Item label="5:30 PM" value="5:30 PM" />
-                    <Picker.Item label="6:00 PM" value="6:00 PM" />
-                    <Picker.Item label="6:30 PM" value="6:30 PM" />
-                    <Picker.Item label="7:00 PM" value="7:00 PM" />
-                    <Picker.Item label="7:30 PM" value="7:30 PM" />
-                    <Picker.Item label="8:00 PM" value="8:00 PM" />
-                    <Picker.Item label="8:30 PM" value="8:30 PM" />
-                    <Picker.Item label="9:00 PM" value="9:00 PM" />
-                    <Picker.Item label="9:30 PM" value="9:30 PM" />
-                    <Picker.Item label="10:00 PM" value="10:00 PM" />
-                    <Picker.Item label="10:30 PM" value="10:30 PM" />
-                    <Picker.Item label="11:00 PM" value="11:00 PM" />
-                    <Picker.Item label="11:30 PM" value="11:30 PM" />
-                  </Picker>
+                <View style={styles.formGroup1}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                    <Picker
+                      style={{width: '100%', height: 45}}
+                      selectedValue={this.state.endTime}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({endTime: itemValue})
+                      }>
+                      <Picker.Item label="Select End Time" value="TH" />
+                      <Picker.Item label="12:00 AM" value="12:00 AM" />
+                      <Picker.Item label="12:30 AM" value="12:30 AM" />
+                      <Picker.Item label="1:00 AM" value="1:00 AM" />
+                      <Picker.Item label="1:30 AM" value="1:30 AM" />
+                      <Picker.Item label="2:00 AM" value="2:00 AM" />
+                      <Picker.Item label="2:30 AM" value="2:30 AM" />
+                      <Picker.Item label="3:00 AM" value="3:00 AM" />
+                      <Picker.Item label="3:30 AM" value="3:30 AM" />
+                      <Picker.Item label="4:00 AM" value="4:00 AM" />
+                      <Picker.Item label="4:30 AM" value="4:30 AM" />
+                      <Picker.Item label="5:00 AM" value="5:00 AM" />
+                      <Picker.Item label="5:30 AM" value="5:30 AM" />
+                      <Picker.Item label="6:00 AM" value="6:00 AM" />
+                      <Picker.Item label="6:30 AM" value="6:30 AM" />
+                      <Picker.Item label="7:00 AM" value="7:00 AM" />
+                      <Picker.Item label="7:30 AM" value="7:30 AM" />
+                      <Picker.Item label="8:00 AM" value="8:00 AM" />
+                      <Picker.Item label="8:30 AM" value="8:30 AM" />
+                      <Picker.Item label="9:00 AM" value="9:00 AM" />
+                      <Picker.Item label="9:30 AM" value="9:30 AM" />
+                      <Picker.Item label="10:00 AM" value="10:00 AM" />
+                      <Picker.Item label="10:30 AM" value="10:30 AM" />
+                      <Picker.Item label="11:00 AM" value="11:00 AM" />
+                      <Picker.Item label="11:30 AM" value="11:30 AM" />
+                      <Picker.Item label="12:00 PM" value="12:00 PM" />
+                      <Picker.Item label="12:30 PM" value="12:30 PM" />
+                      <Picker.Item label="1:00 PM" value="1:00 PM" />
+                      <Picker.Item label="1:30 PM" value="1:30 PM" />
+                      <Picker.Item label="2:00 PM" value="2:00 PM" />
+                      <Picker.Item label="2:30 PM" value="2:30 PM" />
+                      <Picker.Item label="3:00 PM" value="3:00 PM" />
+                      <Picker.Item label="3:30 PM" value="3:30 PM" />
+                      <Picker.Item label="4:00 PM" value="4:00 PM" />
+                      <Picker.Item label="4:30 PM" value="4:30 PM" />
+                      <Picker.Item label="5:00 PM" value="5:00 PM" />
+                      <Picker.Item label="5:30 PM" value="5:30 PM" />
+                      <Picker.Item label="6:00 PM" value="6:00 PM" />
+                      <Picker.Item label="6:30 PM" value="6:30 PM" />
+                      <Picker.Item label="7:00 PM" value="7:00 PM" />
+                      <Picker.Item label="7:30 PM" value="7:30 PM" />
+                      <Picker.Item label="8:00 PM" value="8:00 PM" />
+                      <Picker.Item label="8:30 PM" value="8:30 PM" />
+                      <Picker.Item label="9:00 PM" value="9:00 PM" />
+                      <Picker.Item label="9:30 PM" value="9:30 PM" />
+                      <Picker.Item label="10:00 PM" value="10:00 PM" />
+                      <Picker.Item label="10:30 PM" value="10:30 PM" />
+                      <Picker.Item label="11:00 PM" value="11:00 PM" />
+                      <Picker.Item label="11:30 PM" value="11:30 PM" />
+                    </Picker>
+                  </View>
                 </View>
-              </View>
-              {this.state.errendTime === true ? (<ErrorMsg errorMsg="Please select end time" />) : (<></>)}
-
-              <Text style={styles.inputHead}>Total Cost</Text>
-              <View style={styles.formGroup1}>
-                <View style={styles.formSubGroup2}>
-                  <TextInput
-                    returnKeyType="done"
-                    placeholder="180.00"
-                    style={styles.inputGroup}
-                    keyboardType="number-pad"
-                    value={this.state.totalCost}
-                    onChange={(e) => this.setState({ totalCost: e.nativeEvent.text })}
-                  />
-                </View>
-                <View style={styles.formSubGroup1}>
-                  <FontAwesome name="dollar" size={25} color="#d7d7d8" />
-                </View>
-              </View>
-              {this.state.errTotalCost === true ? (<ErrorMsg errorMsg="Please enter total cost" />) : (<></>)}
-
-              <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() => this.handleSubmit()}
-                style={[styles.authBtn]}>
-                <Text style={styles.authBtnText}>Submit</Text>
-                {this.state.showLoader && (
-                  <ActivityIndicator
-                    size="large"
-                    color="#fff"
-                    style={CommonStyles.loader}
-                  />
+                {this.state.errendTime === true ? (
+                  <ErrorMsg errorMsg="Please select end time" />
+                ) : (
+                  <></>
                 )}
-              </TouchableOpacity>
-            </View>}
+
+                <Text style={styles.inputHead}>Total Cost</Text>
+                <View style={styles.formGroup1}>
+                  <View style={styles.formSubGroup2}>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="180.00"
+                      style={styles.inputGroup}
+                      keyboardType="number-pad"
+                      value={this.state.totalCost}
+                      onChange={(e) =>
+                        this.setState({totalCost: e.nativeEvent.text})
+                      }
+                    />
+                  </View>
+                  <View style={styles.formSubGroup1}>
+                    <FontAwesome name="dollar" size={25} color="#d7d7d8" />
+                  </View>
+                </View>
+                {this.state.errTotalCost === true ? (
+                  <ErrorMsg errorMsg="Please enter total cost" />
+                ) : (
+                  <></>
+                )}
+
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={() => this.handleSubmit()}
+                  style={[styles.authBtn]}>
+                  <Text style={styles.authBtnText}>Submit</Text>
+                  {this.state.showLoader && (
+                    <ActivityIndicator
+                      size="large"
+                      color="#fff"
+                      style={CommonStyles.loader}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </ScrollView>
       </View>
@@ -500,8 +576,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-
-export default connect(
-  mapStateToProps,
-  null,
-)(withNavigation(HireTutor));
+export default connect(mapStateToProps, null)(withNavigation(HireTutor));
