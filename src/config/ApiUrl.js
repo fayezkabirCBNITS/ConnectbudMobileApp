@@ -15,6 +15,8 @@ export default EndPoint = {
   tutorhomework: 'tutorhomework',
   FreelancerJob:'freelancerJob',
   JobMail:'jobmail',
-
+  FetchTutorCategory: 'keyskill/tutor',
+  FetchProjectCategory: 'keyskill/freelancer',
+  JobSummary: 'expert_jobsummary',
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove

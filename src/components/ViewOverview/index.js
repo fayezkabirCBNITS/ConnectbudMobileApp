@@ -83,12 +83,14 @@ class ViewOverview extends Component {
           ))}
 
           {this.state.profiledataset.map((item, i) => (
-            <View key={i} style={styles.details}>
+            <>
               <Text style={styles.userInfoHead}>Categories</Text>
-              {item.category.map((item) => (
-                <Text style={styles.userInfoDetails}>{item.label}</Text>
-              ))}
-            </View>
+              <View style={styles.details}>
+                {item.category.map((value, i) => (
+                  <Text style={styles.userInfoDetails}>{value.label},{"  "}</Text>
+                ))}
+              </View>
+            </>
           ))}
 
           {this.state.profiledataset.map((item, i) => (

@@ -83,11 +83,11 @@ export default {
   },
   errorMsg: {
     width: '100%',
-    paddingHorizontal: '8%',
+    paddingHorizontal: '3%',
     //paddingVertical: 5,
   },
   errorMsgText: {
-    color: '#FF5959',
+    color: '#fc0303',
     fontFamily: 'Poppins-Regular',
   },
   loader: {

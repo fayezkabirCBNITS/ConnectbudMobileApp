@@ -5,22 +5,16 @@ import styles from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from "react-native-vector-icons/Entypo";
-import axios from 'axios';
-import { API_URL } from '../../config/url';
-
+import ApiUrl from '../../config/ApiUrl';
+import { makePostRequestMultipart } from '../../services/http-connectors';
 //for redux
-import {
-  // storeAccessToken,
-  // updateUserStatus,
-  // updateUserPaymentMethod,
-  // updateUserDetails,
-  updateJobId
-} from "../../redux/actions/user-data";
+import { updateJobId } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
+import base64 from "base-64";
 
 class TutoringJobs extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       tutorexpertset: [],
     };
@@ -31,37 +25,53 @@ class TutoringJobs extends Component {
   };
 
   feedProjects = async () => {
-    let taglistbody = new FormData();
-    taglistbody.append("user_id", "2519");
-    taglistbody.append("type", "tutor");
-    taglistbody.append("skills", "");
-    taglistbody.append("search_type", "all");
-    taglistbody.append("offset", "10");
+    const { userDeatailResponse } = this.props;
+    let body = new FormData();
+    body.append("user_id", base64.decode(userDeatailResponse.userData.user_id));
+    body.append("type", "tutor");
+    body.append("skills", "");
+    body.append("search_type", "all");
+    body.append("offset", 10);
 
-    await axios({
-      url: API_URL + "expert_jobsummary",
-      method: "POST",
-      data: taglistbody,
-    })
-      .then((response) => {
-        this.setState({
-          // lodarStatus: false,
-          tutorexpertset: response.data,
-        });
-
-        this.setState({ isLoading: true });
-      })
-      .catch((error) => {
-        this.setState({ isLoading: false });
+    let response = await makePostRequestMultipart(ApiUrl.JobSummary, false, body);
+    if (response) {
+      this.setState({
+        tutorexpertset: response,
       });
+    }
   };
 
   componentDidMount() {
-    // this.SkillSearch();
     this.feedProjects();
   }
 
-  PageNav = async(JobId) => {
+  Method = async () => {
+    await this.setState({
+      tutorexpertset: this.props.TutorShowData,
+    });
+  };
+
+  catSkill = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  child = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  componentWillReceiveProps() {
+    if (this.props.TutorShowData.length > 0) {
+      this.Method();
+      this.catSkill();
+      this.child();
+    }
+  }
+
+  PageNav = async (JobId) => {
     console.log(JobId);
     this.props.navigateToDetailsTutor();
     this.props.updateJobId(JobId);
@@ -143,15 +153,14 @@ class TutoringJobs extends Component {
   }
 }
 
-// export default TutoringJobs;
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
-    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
-    updateJobId: (data) => dispatch(updateJobId(data)),
-    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+    userDeatailResponse: state,
   };
 };
-
-export default connect(null, mapDispatchToProps)(TutoringJobs);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateJobId: (data) => dispatch(updateJobId(data)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TutoringJobs);

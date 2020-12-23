@@ -21,6 +21,7 @@ import {
   makePostRequestMultipart,
 } from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
+
 class SignUpScreen extends Component {
   constructor() {
     super();
@@ -171,7 +172,7 @@ onDismissModel=()=>{
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
-                    <AntDesign name="user" size={20} color="#fff" />
+                  <FontAwesome name="at" size={20} color="#fff" />
                   </View>
                 </View>
                 <ErrorMsg errorMsg={this.state.errors['email']} />
@@ -302,7 +303,7 @@ onDismissModel=()=>{
                   <Text
                     style={styles.signupText}
                     onPress={() =>
-                      this.props.navigation.navigate('FreelancerSignUpScreen')
+                      this.props.navigation.navigate('SignInScreen', {userType: 'employee'})
                     }>
                     Please Sign In
                   </Text>

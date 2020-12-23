@@ -55,7 +55,7 @@ class TutorDetailsFreelancer extends Component {
     body.append('type', 'tutor');
     body.append('skills', '');
     body.append('search_type', 'all');
-    body.append('offset', '10');
+    body.append('offset', 10);
 
     taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
     taglistbody.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
@@ -72,11 +72,8 @@ class TutorDetailsFreelancer extends Component {
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => { });
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -87,12 +84,8 @@ class TutorDetailsFreelancer extends Component {
         this.setState({
           jobSet: response.data,
         });
-
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => {});
   };
 
   PageNav = (JobId) => {

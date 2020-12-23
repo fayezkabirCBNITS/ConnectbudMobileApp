@@ -29,9 +29,9 @@ class ViewProfileScreen extends Component {
     this.state = {
       index: 0,
       routes: [
-        { key: 'first', title: 'View Overview' },
-        { key: 'second', title: 'View Portfolio' },
-        { key: 'third', title: 'View Work History' },
+        { key: 'first', title: 'Overview' },
+        { key: 'second', title: 'Portfolio' },
+        { key: 'third', title: 'Work History' },
       ],
       profiledataset: [],
     };
@@ -58,27 +58,27 @@ class ViewProfileScreen extends Component {
   renderScene = ({ route }) => {
     const { userDeatail } = this.props;
     switch (route.title) {
-      case 'ViewOverview':
-        return <ViewOverview slugname={userDeatail.slugname}/>;
-      case 'ViewPortfolio':
-        return <ViewPortfolio slugname={userDeatail.slugname}/>
-      case 'ViewWork History':
-        return <ViewWorkHistory freeId={userDeatail.view_user_id}/>;
+      case 'Overview':
+        return <ViewOverview slugname={userDeatail.slugname} />;
+      case 'Portfolio':
+        return <ViewPortfolio slugname={userDeatail.slugname} />
+      case 'Work History':
+        return <ViewWorkHistory freeId={userDeatail.view_user_id} />;
       default:
         return null;
     }
   };
 
   render() {
+    const { userDeatail } = this.props;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-          <CommonStatusBar />
-          {/* {localStorage.getItem("user_id") !== null && localStorage.getItem("user_id") !== "undefined" && localStorage.getItem("status") !== null ? (
-            <CommonStatusBar />
+          {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
+            <Header />
           ) : (
-              <Header />
-            )} */}
+              <CommonStatusBar />
+            )}
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             {this.state.profiledataset.map((item, i) => (
               <ImageBackground
@@ -92,13 +92,13 @@ class ViewProfileScreen extends Component {
                     source={{ uri: item.user_image }}
                     style={CommonStyles.usrImage}
                   />
-                  <TouchableOpacity style={CommonStyles.userPhoto}>
+                  {/* <TouchableOpacity style={CommonStyles.userPhoto}>
                     <FontAwesome name="camera" color="#71b85f" size={22} />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
-                <TouchableOpacity style={styles.camPosition}>
-                <FontAwesome name="camera" color="#71b85f" size={22} />
-              </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.camPosition}>
+                  <FontAwesome name="camera" color="#71b85f" size={22} />
+                </TouchableOpacity> */}
               </ImageBackground>
             ))}
 
@@ -138,7 +138,7 @@ class ViewProfileScreen extends Component {
                 renderTabBar={(props) => {
                   return (
                     <TabBar
-                    scrollEnabled
+                      scrollEnabled
                       {...props}
                       renderLabel={({ route, focused, color }) => (
                         <Text style={focused ? styles.label : styles.label2}>

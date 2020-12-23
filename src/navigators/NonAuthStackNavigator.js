@@ -1,4 +1,4 @@
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
@@ -14,10 +14,10 @@ export const NonAuthStackNav = createStackNavigator(
       screen: SignInScreen,
     },
     SignUpScreen: {
-          screen: SignUpScreen,
+      screen: SignUpScreen,
     },
-    FreelancerSignUpScreen:{
-      screen:FreelancerSignUpScreen,
+    FreelancerSignUpScreen: {
+      screen: FreelancerSignUpScreen,
     },
   },
   {
