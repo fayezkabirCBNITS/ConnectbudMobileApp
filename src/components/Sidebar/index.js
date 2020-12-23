@@ -58,6 +58,7 @@ class Sidebar extends Component {
       data: body,
     })
       .then((response) => {
+        console.log(response);
         if (response.data[0].message !== 'token doesnot match') {
           this.setState({
             profileSet: response.data,
@@ -149,25 +150,25 @@ class Sidebar extends Component {
                   <Text style={styles.menuOptnText}>Chat</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('BankDetailScreen')
-                  }
+                  // onPress={() =>
+                  //   this.props.navigation.navigate('BankDetailScreen')
+                  // }
                   style={styles.menuOptn}>
                   <FontAwesome name="bank" color="#fff" size={25} />
                   <Text style={styles.menuOptnText}>Bank Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('TransactionScreen')
-                  }
+                  // onPress={() =>
+                  //   this.props.navigation.navigate('TransactionScreen')
+                  // }
                   style={styles.menuOptn}>
                   <MaterialIcons name="payment" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Transactions</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('FreeContactScreen')
-                  }
+                  // onPress={() =>
+                  //   this.props.navigation.navigate('FreeContactScreen')
+                  // }
                   style={styles.menuOptn}>
                   <FontAwesome5
                     name="file-contract"
@@ -179,9 +180,10 @@ class Sidebar extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.menuOptn}
-                  onPress={() =>
-                    this.props.navigation.navigate('MyQuestionsScreen')
-                  }>
+                  // onPress={() =>
+                  //   this.props.navigation.navigate('MyQuestionsScreen')
+                  // }
+                  >
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
                 </TouchableOpacity>
@@ -293,14 +295,14 @@ class Sidebar extends Component {
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() =>
-                    this.props.navigation.navigate('MyQuestionsScreen')
+                    this.props.navigation.navigate('PostedProjectByEmployee')
                   }>
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Posted Projects</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.navigation.navigate('BankDetailScreen')
+                    this.props.navigation.navigate('PostedProjectByEmployee')
                   }
                   style={styles.menuOptn}>
                   <FontAwesome name="bank" color="#fff" size={25} />
@@ -308,18 +310,18 @@ class Sidebar extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('TransactionScreen')
-                  }
+                  // onPress={() =>
+                  //   this.props.navigation.navigate('TransactionScreen')
+                  // }
                   style={styles.menuOptn}>
                   <MaterialIcons name="payment" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('EditProfileScreen')
-                  }
+                  // onPress={() =>
+                  //   this.props.navigation.navigate('EditProfileScreen')
+                  // }
                   style={styles.menuOptn}>
                   <AntDesign name="contacts" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
