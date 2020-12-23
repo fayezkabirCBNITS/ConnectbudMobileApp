@@ -79,6 +79,7 @@ class ChatListScreen extends Component {
       data: body,
     })
       .then((response) => {
+        console.log(response);
         this.setState({showLoader: false});
         this.setState({
           chatMessage: response.data,

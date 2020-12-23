@@ -10,6 +10,7 @@ import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
+import SyncStorage from 'sync-storage';
 
 
 class NotificationScreen extends Component {
@@ -76,11 +77,11 @@ class NotificationScreen extends Component {
                           job_id: data.project_id,
                           receiver_id: data.sender_user_id,
                           sender_id: data.receiver_user_id,
-                          // name:item.name,
+                          name:data.sender_name,
                           user_image: data.notification_image,
                           user_type: this.props.userDeatailResponse?.Flag,
-                          // room_id: item.room_id,
-                      })
+                          room_id: data.room_id,
+                      },  SyncStorage.set('room_id', data.project_id+'_'+data.sender_user_id))
                       }>
                       {data.notification_message}
                     </Text>

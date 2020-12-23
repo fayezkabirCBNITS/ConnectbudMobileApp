@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity, Picker} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import DropDownPicker from 'react-native-custom-dropdown';
+// import DropDownPicker from 'react-native-custom-dropdown';
+import {Picker} from '@react-native-community/picker';
 
 import axios from 'axios';
 import {API_URL} from '../../config/url';
@@ -73,6 +74,10 @@ class StudentProject extends Component {
       expertset: [],
       SearchSkill: [],
       user_id: '',
+      skills: [],
+      selectedSkills: '',
+      skillValuePlaceHolder: [],
+      placeholder: "",
     };
   }
 
@@ -126,7 +131,8 @@ class StudentProject extends Component {
   SkillSearch = async () => {
     await axios.get(API_URL + 'keyskill/recruiter').then((response) => {
       this.setState({
-        skillOptions: response.data,
+        skillValuePlaceHolder : this.state.placeholder,
+        skills: this.state.skillValuePlaceHolder.concat(response.data),
       });
     });
   };
@@ -189,13 +195,16 @@ class StudentProject extends Component {
     }
   };
 
-  expertProjects = async () => {
+  expertProjects = async (skill) => {
+    this.setState({
+      placeholder: skill
+    })
     let taglistbody = new FormData();
-    taglistbody.append('user_id', '2519');
+    taglistbody.append('user_id', this.state.user_id);
     taglistbody.append('type', 'freelancer');
-    taglistbody.append('skills', this.state.SearchSkill);
+    taglistbody.append('skills', skill);
     taglistbody.append('search_type', 'else');
-    taglistbody.append('offset', '0');
+    taglistbody.append('offset', '10');
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -203,6 +212,7 @@ class StudentProject extends Component {
       data: taglistbody,
     })
       .then((response) => {
+        console.log(response);
         this.setState({
           expertset: response.data,
         });
@@ -218,26 +228,21 @@ class StudentProject extends Component {
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <View>
-            <DropDownPicker
-              items={this.state.skillOptions}
-              controller={(instance) => (this.controller = instance)}
-              multiple={true}
-              // multipleText=
-              min={0}
-              max={10}
-              defaultValue={this.state.skills}
-              containerStyle={{height: 50, width: 400, marginRight: 10}}
-              itemStyle={{
-                justifyContent: 'flex-start',
-              }}
-              // onChangeItem={(item) =>
-              //   this.setState({
-              //     skills: item, // an array of the selected items
-              //   })
-              // }
-              onChangeItem={(item) => this.SearchProject(item)}
-              value={this.state.skills}
-            />
+            <Picker
+              style={{width: '100%', height: 45, color: '#3B1D25'}}
+              // selectedValue={this.state.selectedSkills}
+              onValueChange={(itemValue) =>
+                this.expertProjects(itemValue)
+              }
+              >
+              {this.state.skills.length > 0 ? (
+                this.state?.skills?.map((data) => {
+                  return <Picker.Item label={data.label} value={data.value} />;
+                })
+              ) : (
+                <></>
+              )}
+            </Picker>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.expertset.map((item, idx) => (
