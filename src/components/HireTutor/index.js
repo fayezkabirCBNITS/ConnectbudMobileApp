@@ -170,6 +170,9 @@ class HireTutor extends Component {
 
     if (response) {
       alert('Successfully Submitted ');
+      this.setState({
+        showLoader: false,
+      })
       this.props.navigation.navigate('PostedProjectByEmployee');
       this.setState({
         ConnectBud: '',

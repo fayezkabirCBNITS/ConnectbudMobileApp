@@ -127,6 +127,9 @@ class PostProject extends Component {
   };
 
   postProject = async () => {
+    this.setState({
+      showLoader: false,
+    })
 
     let jobDescription = new FormData();
     jobDescription.append('posted_by', base64.decode(this.props.userID));
