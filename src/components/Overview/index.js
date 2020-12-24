@@ -136,15 +136,15 @@ class Overview extends Component {
               ) : <></>}
             </View> */}
             {this.state.profiledataset.map((item, i) => (
-              <>
-                <Text style={styles.userInfoHead}>Categories</Text>
-                <View style={styles.details}>
-                  {item.category.map((value, i) => (
-                    <Text style={styles.userInfoDetails}>{value.label}, {"  "}</Text>
-                  ))}
-                </View>
-              </>
-            ))}
+            <>
+            <Text style={styles.userInfoHead}>Categories</Text>
+            <View style={styles.details}>
+              {item.category.map((value, i) => (
+                <Text style={styles.userInfoDetails}>{value.label},{"  "}</Text>
+              ))}
+            </View>
+            </>
+          ))}
 
 
             {this.state.profiledataset.map((item, i) => (
