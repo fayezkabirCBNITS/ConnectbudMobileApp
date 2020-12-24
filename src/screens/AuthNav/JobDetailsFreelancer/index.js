@@ -109,8 +109,8 @@ class JobDetailsFreelancer extends Component {
   PageNav = async (JobId) => {
     this.props.updateJobId(JobId);
     this.setState({
-      showLoader : true
-    })
+      showLoader: true,
+    });
     // this.props.navigation.navigate('ProjectDetailsFreelancer');
     let taglistbody = new FormData();
     let body = new FormData();
@@ -121,10 +121,7 @@ class JobDetailsFreelancer extends Component {
     body.append('offset', '10');
 
     taglistbody.append('job_id', JobId);
-    taglistbody.append(
-      'user_id',
-      this.state.user_id,
-    );
+    taglistbody.append('user_id', this.state.user_id);
     taglistbody.append('type', 'recruiter');
 
     await axios({
@@ -204,7 +201,11 @@ class JobDetailsFreelancer extends Component {
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
 
-                  <TouchableOpacity style={styles.applyBtn}>
+                  <TouchableOpacity
+                    style={styles.applyBtn}
+                    onPress={() =>
+                      this.props.navigation.navigate('AssessmentQuestion')
+                    }>
                     <Text style={styles.applyBtnText}>Apply</Text>
                   </TouchableOpacity>
                 </View>
