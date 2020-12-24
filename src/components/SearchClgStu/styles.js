@@ -97,11 +97,11 @@ export default {
     },
     flexstyle: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "flex-start"
     },
     subjectWrapper: {
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         flexDirection: "row",
         width: "100%",
         borderColor: "rgba(113,184,95,0.3)",
@@ -124,7 +124,7 @@ export default {
         width: 50,
         height: 50,
         borderRadius: 25,
-        marginTop: -72
+        // marginTop: -72
     },
     timeAgo: {
         marginBottom: 5,
@@ -192,18 +192,20 @@ export default {
         color: 'rgba(59,29,37,0.5)',
     },
     btnGrp:{
-        display: 'flex', 
+        width: '100%',
         flexDirection: 'row', 
+        flexWrap: 'wrap',
         marginTop: 10
     },
     subBtn:{
         backgroundColor: '#E4E4E4', 
         borderRadius: 40, 
-        width: '30%', 
+        // width: '30%', 
         alignItems: 'center', 
         paddingHorizontal: 10, 
         paddingVertical: 5, 
-        marginHorizontal: 3
+        marginHorizontal: 3,
+        marginBottom: 10,
     },
     btnText:{
         color: 'rgba(59,29,37,0.5)',

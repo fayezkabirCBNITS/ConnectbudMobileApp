@@ -188,7 +188,7 @@ class Portfolio extends Component {
             </TouchableOpacity>
           </View>
         </View>
-
+        {this.state.profiledataset.length > 0 ? 
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           {this.state.profiledataset.map((item, i) => (
             <>
@@ -226,18 +226,18 @@ class Portfolio extends Component {
             </>
           ))}
         </ScrollView>
-
+        : <Text>No Data</Text>}
         <PortfolioExperience />
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
-            <Text style={styles.portfolioHead}>Uploaded Document</Text>
+            <Text style={styles.portfolioHead}>Uploaded Documents</Text>
             <TouchableOpacity onPress={(data) => this.handleAddNewDocument()}>
               <Text style={styles.addPortfolio}>+ Add Document</Text>
             </TouchableOpacity>
           </View>
         </View>
-        {this.state.profiledataset.map((item, i) => (
+        {this.state.profiledataset.length>0 ? this.state.profiledataset.map((item, i) => (
           <>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal key={i}>
               {item.resumefile.map((value, i) => (
@@ -269,11 +269,11 @@ class Portfolio extends Component {
               ))}
             </ScrollView>
           </>
-        ))}
+        )):<Text>No Data</Text>}
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
-            <Text style={styles.portfolioHead}>Uploaded Video</Text>
+            <Text style={styles.portfolioHead}>Uploaded Videos</Text>
             <TouchableOpacity>
               <Text style={styles.addPortfolio}>+ Add Video</Text>
             </TouchableOpacity>

@@ -106,4 +106,10 @@ export default {
     alignItems: 'center',
     justifyContent: 'center'
   },
+  fileLinkText: {
+    color: '#000',
+    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center'
+  },
 };

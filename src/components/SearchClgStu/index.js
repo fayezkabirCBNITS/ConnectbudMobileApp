@@ -472,8 +472,9 @@ async fetchFilterList(userIds) {
                                 style={{
                                   fontSize: 12,
                                   fontFamily: 'Poppins-SemiBold',
+                                  width: '70%',
+                                  paddingLeft: 10,
                                 }}>
-                                {' '}
                                 {item.institute}
                               </Text>
                             </View>
@@ -488,6 +489,8 @@ async fetchFilterList(userIds) {
                                 style={{
                                   fontSize: 12,
                                   fontFamily: 'Poppins-SemiBold',
+                                  width: '70%',
+                                  paddingLeft: 10,
                                 }}
                                 numberOfLines={3}
                                 ellipsizeMode="tail">
@@ -498,7 +501,7 @@ async fetchFilterList(userIds) {
                               style={[
                                 styles.flexstyle,
                                 styles.timeAgo,
-                                {marginLeft: -5},
+                                {marginLeft: -5, marginTop: -5},
                               ]}>
                               <Entypo
                                 name="location-pin"
@@ -512,22 +515,25 @@ async fetchFilterList(userIds) {
                                   style={{
                                     fontSize: 12,
                                     fontFamily: 'Poppins-SemiBold',
+                                    width: '70%',
+                                    paddingLeft: 10,
                                   }}
                                   numberOfLines={3}
-                                  ellipsizeMode="tail">
-                                  {item.location}
+                                  ellipsizeMode="tail">{item.location}
                                 </Text>
                               </View>
                             </View>
+                            <View style={styles.btnGrp}>
                             {item.skillset.map((value, i) => (
-                              <View style={styles.btnGrp}>
+                              
                                 <TouchableOpacity style={styles.subBtn}>
                                   <Text style={styles.btnText}>
                                     {value.skill_name}
                                   </Text>
                                 </TouchableOpacity>
-                              </View>
+                             
                             ))}
+                             </View>
                           </View>
                         </View>
                       </View>

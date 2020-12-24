@@ -5,14 +5,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Linking,
-  AsyncStorage
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios';
-import { API_URL } from "../../config/url";
+import ApiUrl from '../../config/ApiUrl';
+import { makeGetRequest } from '../../services/http-connectors';
 
 class ViewPortfolioExperience extends Component {
   constructor() {
@@ -28,19 +27,15 @@ class ViewPortfolioExperience extends Component {
   };
 
   componentDidMount = async () => {
-    await axios({
-      url: API_URL + "expertProfile/" + await AsyncStorage.getItem("slugname"),
-      method: 'GET',
-    })
-      .then((response) => {
-        this.setState({
-          experienceset: response.data[0].experiences,
-          urlprofessional: response.data[0].experiences.map(
-            (obj) => obj.professionalurls
-          ),
-        });
-      })
-      .catch(() => { });
+    let response = await makeGetRequest(ApiUrl.ExpertProfile + this.props.slugname, false, "");
+    if (response) {
+      this.setState({
+        experienceset: response[0].experiences,
+        urlprofessional: response[0].experiences.map(
+          (obj) => obj.professionalurls
+        ),
+      });
+    }
   };
 
   render() {
