@@ -591,7 +591,8 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
                 {this.state.showCategories === true ? (
-                  <View style={[styles.formGroup1, { marginTop: -15 }]}>
+                  <View style={[styles.formGroupNew, { marginTop: 0}]}>
+                    <ScrollView>
                     {
                       this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
                         <TouchableOpacity style={styles.headSec} key={index}>
@@ -600,9 +601,9 @@ class EditProfileScreen extends Component {
                           </View>
                         </TouchableOpacity>
 
-                      )) : <Text>No data to show</Text>
+                      )) : <Text style={{textAlign: 'center'}}>No data to show</Text>
                     }
-
+                  </ScrollView>
                   </View>
                 ) : (
                     <></>
@@ -638,7 +639,8 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
                 {this.state.showSkills === true ? (
-                  <View style={[styles.formGroup1, { marginTop: -15 }]}>
+                  <View style={[styles.formGroupNew, { marginTop: 0 }]}>
+                    <ScrollView>
                     {
                       this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
                         <TouchableOpacity style={styles.headSec} key={index}>
@@ -647,8 +649,9 @@ class EditProfileScreen extends Component {
                           </View>
                         </TouchableOpacity>
 
-                      )) : <Text>no data</Text>
+                      )) : <Text style={{textAlign: 'center'}}>no data</Text>
                     }
+                    </ScrollView>
                   </View>
                 ) : (
                     <></>
@@ -677,7 +680,7 @@ class EditProfileScreen extends Component {
                     <></>
                   )}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { height: 45 }]}>
+                  <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
                     <Text style={styles.inputHead2}>
                       {this.state.startDate}
                     </Text>
@@ -717,7 +720,7 @@ class EditProfileScreen extends Component {
                     <></>
                   )}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { height: 45 }]}>
+                  <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
                     <Text style={styles.inputHead2}>{this.state.endDate}</Text>
                   </View>
                   <View style={styles.formSubGroup1}>
