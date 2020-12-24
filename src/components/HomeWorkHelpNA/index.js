@@ -163,6 +163,7 @@ class HomeWorkHelp extends Component {
             body.append('date', date.replace(/['"]+/g, ''));
             body.append('start_time', this.state.startTime);
             body.append('end_time', this.state.endTime);
+            body.append('page_type', 'landing');
             body.append('grade', this.state.gradeValue);
             body.append('free_class', 0);
 
@@ -175,10 +176,10 @@ class HomeWorkHelp extends Component {
 
             if (response[0].hire_by == 'me') {
                 this.setState({ isModalVisible: true })
-                this.props.navigation.navigate('PostedProjectByEmployee');
+                // this.props.navigation.navigate('PostedProjectByEmployee');
             } else if (response[0].hire_by == 'connectbud') {
                 this.setState({ isModalVisible: true })
-                this.props.navigation.navigate('BankDetailScreen');
+                // this.props.navigation.navigate('BankDetailScreen');
             }
 
         }
