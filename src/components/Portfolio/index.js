@@ -188,7 +188,7 @@ class Portfolio extends Component {
             </TouchableOpacity>
           </View>
         </View>
-
+        {this.state.profiledataset.length > 0 ? 
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           {this.state.profiledataset.map((item, i) => (
             <>
@@ -226,7 +226,7 @@ class Portfolio extends Component {
             </>
           ))}
         </ScrollView>
-
+        : <Text>No Data</Text>}
         <PortfolioExperience />
 
         <View style={CommonStyles.container}>
@@ -237,7 +237,7 @@ class Portfolio extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        {this.state.profiledataset.map((item, i) => (
+        {this.state.profiledataset.length>0 ? this.state.profiledataset.map((item, i) => (
           <>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal key={i}>
               {item.resumefile.map((value, i) => (
@@ -269,7 +269,7 @@ class Portfolio extends Component {
               ))}
             </ScrollView>
           </>
-        ))}
+        )):<Text>No Data</Text>}
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>

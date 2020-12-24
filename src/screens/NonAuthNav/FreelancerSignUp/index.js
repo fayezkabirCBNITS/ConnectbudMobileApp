@@ -9,12 +9,14 @@ import {
   Pressable,
   ActivityIndicator,
   TextInput,
+  Modal
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import CommonStatusBar from '../../../components/StatusBar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
 import { Icon, CheckBox } from 'react-native-elements';
 import Validator from '../../../config/Validator';
