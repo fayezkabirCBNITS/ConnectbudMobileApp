@@ -21,6 +21,6 @@ export default EndPoint = {
   Four: '/course/four',
   Ten: '/course/ten',
   CourseSubmit: 'course_submit',
-
+  FetchMilestones: 'fetchmilestones'
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove

@@ -4,12 +4,12 @@ import CommonStyles from '../../../CommonStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
-import axios from 'axios';
-import { API_URL } from "../../config/url";
+import ApiUrl from '../../config/ApiUrl';
+import { makeGetRequest } from '../../services/http-connectors';
 
 class ViewOverview extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       profiledataset: [],
     };
@@ -20,16 +20,12 @@ class ViewOverview extends Component {
   };
 
   componentDidMount = async () => {
-    await axios({
-      url: API_URL + "expertProfile/" + this.props.slugname,
-      method: "GET",
-    })
-      .then((response) => {
-        this.setState({
-          profiledataset: response.data,
-        });
-      })
-      .catch(() => { });
+    let response = await makeGetRequest(ApiUrl.ExpertProfile + this.props.slugname, false, "");
+    if (response) {
+      this.setState({
+        profiledataset: response,
+      });
+    }
   };
 
   render() {

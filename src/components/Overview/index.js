@@ -139,7 +139,7 @@ class Overview extends Component {
             <Text style={styles.userInfoHead}>Categories</Text>
             <View style={styles.details}>
               {item.category.map((value, i) => (
-                <Text style={styles.userInfoDetails}>{value.label}, {"  "}</Text>
+                <Text style={styles.userInfoDetails}>{value.label},{"  "}</Text>
               ))}
             </View>
             </>

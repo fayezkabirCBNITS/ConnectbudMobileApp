@@ -231,7 +231,7 @@ class Portfolio extends Component {
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
-            <Text style={styles.portfolioHead}>Uploaded Document</Text>
+            <Text style={styles.portfolioHead}>Uploaded Documents</Text>
             <TouchableOpacity onPress={(data) => this.handleAddNewDocument()}>
               <Text style={styles.addPortfolio}>+ Add Document</Text>
             </TouchableOpacity>
@@ -273,7 +273,7 @@ class Portfolio extends Component {
 
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
-            <Text style={styles.portfolioHead}>Uploaded Video</Text>
+            <Text style={styles.portfolioHead}>Uploaded Videos</Text>
             <TouchableOpacity>
               <Text style={styles.addPortfolio}>+ Add Video</Text>
             </TouchableOpacity>

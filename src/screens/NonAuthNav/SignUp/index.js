@@ -243,7 +243,7 @@ onDismissModel=()=>{
                       placeholder="Enter Password"
                       style={styles.inputGroup}
                       keyboardType="default"
-                      secureTextEntry={true}
+                      secureTextEntry={this.state.type}
                       placeholderTextColor={'#fff'}
                       value={this.state.fields.password}
                       onChangeText={(text) =>
