@@ -97,6 +97,7 @@ export default {
       marginVertical: 40,
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 100
   },
   addBtnText: {
     fontSize: 20,
