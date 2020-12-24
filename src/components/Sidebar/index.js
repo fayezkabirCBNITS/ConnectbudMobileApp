@@ -150,25 +150,25 @@ class Sidebar extends Component {
                   <Text style={styles.menuOptnText}>Chat</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('BankDetailScreen')
-                  // }
+                  onPress={() =>
+                    this.props.navigation.navigate('BankDetailScreen')
+                  }
                   style={styles.menuOptn}>
                   <FontAwesome name="bank" color="#fff" size={25} />
                   <Text style={styles.menuOptnText}>Bank Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('TransactionScreen')
-                  // }
+                  onPress={() =>
+                    this.props.navigation.navigate('TransactionScreen')
+                  }
                   style={styles.menuOptn}>
                   <MaterialIcons name="payment" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Transactions</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('FreeContactScreen')
-                  // }
+                  onPress={() =>
+                    this.props.navigation.navigate('FreeContactScreen')
+                  }
                   style={styles.menuOptn}>
                   <FontAwesome5
                     name="file-contract"

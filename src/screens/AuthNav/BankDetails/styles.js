@@ -75,4 +75,8 @@ export default {
     borderRadius: 5,
     marginBottom: 15,
   },
+  errorText: {
+    width: '100%',
+    color: '#fc0303',
+  },
 };
