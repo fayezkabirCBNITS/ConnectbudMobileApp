@@ -24,7 +24,7 @@ export default {
         flexDirection: 'row',
     },
     ActiveSelectBtn: {
-        width: '48%',
+        width: '45%',
         backgroundColor: '#71b85f',
         height: 40,
         borderRadius: 40,

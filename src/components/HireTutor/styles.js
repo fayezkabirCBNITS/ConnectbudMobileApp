@@ -58,17 +58,20 @@ export default {
     fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
     marginBottom: 5,
+    marginLeft:5,
   },
   inputHead2: {
-    // color: 'rgba(59,29,37,0.5)',
     fontSize: 14,
     fontFamily: 'Poppins-Regular',
     marginTop: 10,
+    paddingHorizontal:2,
+    paddingVertical:5,
   },
   inputGroup: {
     color: '#3B1D25',
     height: 45,
     fontSize: 15,
+    width:'100%'
   },
   datePickerStyle: {
     dateIcon: {
@@ -259,4 +262,10 @@ export default {
     position: 'absolute',
     right: 15,
   },
+  dateField:{
+    paddingVertical:12,
+    fontFamily: 'Poppins-Regular',
+    fontSize:15,
+    paddingLeft:7 ,
+  }
 };

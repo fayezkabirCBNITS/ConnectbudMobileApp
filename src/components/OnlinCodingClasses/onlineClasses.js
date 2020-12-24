@@ -9,10 +9,10 @@ import {
     FlatList,
     ActivityIndicator,
     TextInput,
+    Modal,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -24,7 +24,6 @@ import ErrorMsg from '../../components/ErrorMsg';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import base64 from 'base-64';
-// import timePicker from '../TimePicker'
 
 
 class OnlineCodingClasses extends Component {
@@ -47,7 +46,8 @@ class OnlineCodingClasses extends Component {
             errStartDate: false,
             errStartTime: false,
             errHireBy: false,
-            ActiveId:'',
+            ActiveId: '',
+            isModalVisible: false,
         }
     }
 
@@ -80,30 +80,6 @@ class OnlineCodingClasses extends Component {
             })
         }
     }
-
-    // fetchTenSyllabus = async (Id) => {
-    //     let body = new FormData();
-    //     body.append('id', Id);
-    //     let response = await makePostRequestMultipart(ApiUrl.Ten, false, body);
-    //     console.log(response, 'TenSyllabus==>')
-    //     this.setState({
-    //         tenSyllabus: response,
-    //         TensyllabusTab: true,
-    //         // FoursyllabusTab:false
-    //     })
-
-    // }
-
-    // fetchFourSyllabus = async (Id) => {
-    //     let body = new FormData();
-    //     body.append('id', Id);
-    //     let response = await makePostRequestMultipart(ApiUrl.Four, false, body);
-    //     console.log(response, 'fourSyllabus==>')
-    //     this.setState({
-    //         fourSyllabus: response,
-    //         FoursyllabusTab: true
-    //     })
-    // }
 
     fetchSyllabus = async (Id, cNum) => {
         let body = new FormData();
@@ -177,37 +153,43 @@ class OnlineCodingClasses extends Component {
                 errHireBy: true
             })
             return;
+        } else {
+            this.setState({
+                errStartDate: false,
+                errStartTime: false,
+                errHireBy: false,
+            });
+            let body = new FormData();
+            body.append('user_id', base64.decode(this.props.userID));
+            body.append('hire_by', this.state.HireBy);
+            body.append('job_name', this.state.tenSyllabus[0].course_name);
+            body.append('overview', this.state.tenSyllabus[0].overview);
+            body.append('syllabus', this.state.tenSyllabus[0].syllabus);
+            body.append('projects_for', 'all');
+            body.append('amount', this.state.tenSyllabus[0].total_amount);
+            body.append('date', moment(this.state.startDate).format("MM/DD/YYYY"));
+            body.append('start_time', this.state.startTime);
+            body.append('skills', this.state.tenSyllabus[0].skills);
+            body.append('Number_of_classes', this.state.tenSyllabus[0].Number_of_classes);
+            body.append('free_class', 0);
+
+            let response = await makePostRequestMultipart(
+                ApiUrl.CourseSubmit,
+                false,
+                body,
+            );
+            console.log('CourseSubmit-----', response);
+
+            if (response[0].hire_by == 'me') {
+                this.setState({ isModalVisible: true })
+                this.props.navigation.navigate('PostedProjectByEmployee')
+            } else if (response[0].hire_by == 'connectbud') {
+                this.setState({ isModalVisible: true })
+                this.props.navigation.navigate('BankDetailScreen')
+            }
+            this.clearForm()
+
         }
-
-        let body = new FormData();
-        body.append('user_id', base64.decode(this.props.userID));
-        body.append('hire_by', this.state.HireBy);
-        body.append('job_name', this.state.tenSyllabus[0].course_name);
-        body.append('overview', this.state.tenSyllabus[0].overview);
-        body.append('syllabus', this.state.tenSyllabus[0].syllabus);
-        body.append('projects_for', 'all');
-        body.append('amount', this.state.tenSyllabus[0].total_amount);
-        body.append('date', moment(this.state.startDate).format("MM/DD/YYYY"));
-        body.append('start_time', this.state.startTime);
-        body.append('skills', this.state.tenSyllabus[0].skills);
-        body.append('Number_of_classes', this.state.tenSyllabus[0].Number_of_classes);
-        body.append('free_class', 0);
-
-        let response = await makePostRequestMultipart(
-            ApiUrl.CourseSubmit,
-            false,
-            body,
-        );
-        console.log('CourseSubmit-----', response);
-
-        if (response[0].hire_by == 'me') {
-            alert('Successfully Posted ');
-              this.props.navigation.navigate('PostedProjectByEmployee')
-        } else if(response[0].hire_by == 'connectbud') {
-            alert('Successfully Posted ');
-            this.props.navigation.navigate('BankDetailScreen')
-        }
-        this.clearForm()
     }
 
     handleFourSubmit = async () => {
@@ -226,37 +208,44 @@ class OnlineCodingClasses extends Component {
                 errHireBy: true
             })
             return;
+        } else {
+            this.setState({
+                errStartDate: false,
+                errStartTime: false,
+                errHireBy: false,
+            });
+
+            let body = new FormData();
+            body.append('user_id', base64.decode(this.props.userID));
+            body.append('hire_by', this.state.HireBy);
+            body.append('job_name', this.state.fourSyllabus[0].course_name);
+            body.append('overview', this.state.fourSyllabus[0].overview);
+            body.append('syllabus', this.state.fourSyllabus[0].syllabus);
+            body.append('projects_for', 'all');
+            body.append('amount', this.state.fourSyllabus[0].total_amount);
+            body.append('date', moment(this.state.startDate).format("MM/DD/YYYY"));
+            body.append('start_time', this.state.startTime);
+            body.append('skills', this.state.fourSyllabus[0].skills);
+            body.append('Number_of_classes', this.state.fourSyllabus[0].Number_of_classes);
+            body.append('free_class', 0);
+
+            let response = await makePostRequestMultipart(
+                ApiUrl.CourseSubmit,
+                false,
+                body,
+            );
+            console.log('CourseSubmit-----', response);
+
+            if (response[0].hire_by == 'me') {
+                alert('Successfully Posted ');
+                this.props.navigation.navigate('PostedProjectByEmployee')
+            } else if (response[0].hire_by == 'connectbud') {
+                alert('Successfully Posted ');
+                this.props.navigation.navigate('BankDetailScreen')
+            }
+            this.clearForm()
+
         }
-
-        let body = new FormData();
-        body.append('user_id', base64.decode(this.props.userID));
-        body.append('hire_by', this.state.HireBy);
-        body.append('job_name', this.state.fourSyllabus[0].course_name);
-        body.append('overview', this.state.fourSyllabus[0].overview);
-        body.append('syllabus', this.state.fourSyllabus[0].syllabus);
-        body.append('projects_for', 'all');
-        body.append('amount', this.state.fourSyllabus[0].total_amount);
-        body.append('date', moment(this.state.startDate).format("MM/DD/YYYY"));
-        body.append('start_time', this.state.startTime);
-        body.append('skills', this.state.fourSyllabus[0].skills);
-        body.append('Number_of_classes', this.state.fourSyllabus[0].Number_of_classes);
-        body.append('free_class', 0);
-
-        let response = await makePostRequestMultipart(
-            ApiUrl.CourseSubmit,
-            false,
-            body,
-        );
-        console.log('CourseSubmit-----', response);
-
-        if (response[0].hire_by == 'me') {
-            alert('Successfully Posted ');
-              this.props.navigation.navigate('PostedProjectByEmployee')
-        } else if(response[0].hire_by == 'connectbud') {
-            alert('Successfully Posted ');
-            this.props.navigation.navigate('BankDetailScreen')
-        }
-        this.clearForm()
     }
 
     render() {
@@ -303,11 +292,11 @@ class OnlineCodingClasses extends Component {
                                             <TouchableOpacity
                                                 onPress={() => this.fetchSyllabus(item.id, 'four')}
                                                 // style={styles.courseBtn}
-                                                style={this.state.ActiveId == item.id ? styles.AcourseBtn : styles.courseBtn} 
+                                                style={this.state.ActiveId == item.id ? styles.AcourseBtn : styles.courseBtn}
                                                 key={idx}>
-                                                <Text 
-                                                    style={this.state.ActiveId == item.id ? styles.AselectBtnText : styles.selectBtnText} 
-                                                    // style={styles.selectBtnText}
+                                                <Text
+                                                    style={this.state.ActiveId == item.id ? styles.AselectBtnText : styles.selectBtnText}
+                                                // style={styles.selectBtnText}
                                                 >
                                                     {item.name}
                                                 </Text>
@@ -329,9 +318,9 @@ class OnlineCodingClasses extends Component {
                                             key={idx}
                                             onPress={() => this.fetchSyllabus(item.id, 'ten')}
                                         >
-                                            <Text 
-                                                style={this.state.ActiveId == item.id ? styles.AselectBtnText : styles.selectBtnText} 
-                                                // style={styles.selectBtnText}
+                                            <Text
+                                                style={this.state.ActiveId == item.id ? styles.AselectBtnText : styles.selectBtnText}
+                                            // style={styles.selectBtnText}
                                             >{item.name}</Text>
                                         </TouchableOpacity>
                                     ))}
@@ -372,7 +361,7 @@ class OnlineCodingClasses extends Component {
                                                 <Text
                                                     style={this.state.ChooseByOwn ? styles.ActiveSelectBtnText : styles.selectBtnText}
                                                 >
-                                                    Choose your own
+                                                    Choose your own tutor
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -523,7 +512,7 @@ class OnlineCodingClasses extends Component {
                                                 <Text
                                                     style={this.state.ChooseByOwn ? styles.ActiveSelectBtnText : styles.selectBtnText}
                                                 >
-                                                    Choose your own
+                                                    Choose your own tutor
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -642,6 +631,19 @@ class OnlineCodingClasses extends Component {
                             )
                         }
                         {/* End 4 Class syllabus */}
+                        <Modal transparent={true} visible={this.state.isModalVisible}>
+                            <View style={CommonStyles.modalBg}>
+                                <View style={CommonStyles.modalContent}>
+                                    <Antdesign name="checkcircle" size={60} color="#71b85f" />
+                                    <Text style={CommonStyles.modalText}>
+                                        Successfully Posted
+                                    </Text>
+                                    <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ isModalVisible: false })}>
+                                        <Entypo name="circle-with-cross" color="#71b85f" size={35} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
 
                     </View>
                 </ScrollView>
