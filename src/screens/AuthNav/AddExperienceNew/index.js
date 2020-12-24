@@ -18,7 +18,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ScrollView} from 'react-native-gesture-handler';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-class CheckoutScreen extends Component {
+class AddExperienceNew extends Component {
   constructor() {
     super();
     this.state = {};
@@ -105,4 +105,4 @@ class CheckoutScreen extends Component {
   }
 }
 
-export default CheckoutScreen;
+export default AddExperienceNew;
