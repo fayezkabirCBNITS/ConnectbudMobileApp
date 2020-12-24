@@ -205,10 +205,10 @@ class HireTutor extends Component {
       console.log('Homeork details-----', response);
 
       if (response[0].hire_by == 'me') {
-        this.setState({isModalVisible: true})
+        this.setState({ isModalVisible: true })
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        this.setState({isModalVisible: true})
+        this.setState({ isModalVisible: true })
         this.props.navigation.navigate('BankDetailScreen');
       }
 
@@ -633,7 +633,7 @@ class HireTutor extends Component {
                   <Text style={CommonStyles.modalText}>
                     Successfully Posted
                 </Text>
-                  <TouchableOpacity style={CommonStyles.modalCross} onPress={()=>this.setState({isModalVisible: false})}>
+                  <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ isModalVisible: false })}>
                     <Entypo name="circle-with-cross" color="#71b85f" size={35} />
                   </TouchableOpacity>
                 </View>

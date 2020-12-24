@@ -49,6 +49,8 @@ import SplashScreen from '../screens/splash';
 import ViewUserProfileScreen from '../screens/NonAuthNav/ViewUserProfile';
 import PostProjectNA from '../screens/NonAuthNav/PostProjectNA';
 import ProjectDetailsFreelancerNA from './../screens/NonAuthNav/ProjectDetailFreelancer';
+import OnlineClassesNA from '../components/OnlinCodingClassesNA/onlineClassesNA';
+import HomeWorkHelpNA from '../components/HomeWorkHelpNA/index';
 //non stack pages
 
 export const MainStack = createStackNavigator(
@@ -186,6 +188,13 @@ const AuthStackNav = createStackNavigator(
     FreelancerSignUpScreen: {
       screen: FreelancerSignUpScreen,
     },
+    OnlineClassesNA : {
+      screen : OnlineClassesNA
+    },
+    HomeWorkHelpNA:{
+      screen : HomeWorkHelpNA
+    },
+
     ViewUserProfileScreen: {screen: ViewUserProfileScreen},
     ProjectDetailsFreelancerNA: {screen: ProjectDetailsFreelancerNA},
     PostProjectNA:{screen:PostProjectNA,},

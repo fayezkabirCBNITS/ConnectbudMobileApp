@@ -15,6 +15,8 @@ import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Antdesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
 import { Picker } from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
