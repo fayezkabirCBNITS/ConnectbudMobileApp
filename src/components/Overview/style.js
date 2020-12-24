@@ -35,7 +35,7 @@ export default {
   },
   details: {
     flexDirection: 'row',
-    flexWrap :"wrap",
+    flexWrap : 'wrap',
     alignItems: 'flex-start',
   },
   skillSec: {

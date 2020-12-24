@@ -21,6 +21,7 @@ import ViewWorkHistory from '../../../components/ViewWorkHistory';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
 import { connect } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 class ViewProfileScreen extends Component {
@@ -34,6 +35,7 @@ class ViewProfileScreen extends Component {
         { key: 'third', title: 'Work History' },
       ],
       profiledataset: [],
+      showLoader: false,
     };
   }
 
@@ -42,18 +44,22 @@ class ViewProfileScreen extends Component {
   };
 
   componentDidMount = async () => {
+    this.setState({ showLoader: true })
     const { userDeatail } = this.props;
     await axios({
       url: API_URL + "expertProfile/" + userDeatail.slugname,
       method: "GET",
     })
       .then((response) => {
-        console.log(response , "viewwwwwwwwww")
+        console.log(response, "viewwwwwwwwww")
         this.setState({
-          profiledataset: response.data
+          profiledataset: response.data,
+          showLoader: false
         });
       })
-      .catch(() => { });
+      .catch(() => {
+        this.setState({ showLoader: false })
+      });
   };
 
   renderScene = ({ route }) => {
@@ -74,6 +80,11 @@ class ViewProfileScreen extends Component {
     const { userDeatail } = this.props;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
+        <Spinner
+          visible={this.state.showLoader}
+          animation="fade"
+          textContent={'Loading...'}
+        />
         <View style={CommonStyles.main}>
           {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
             <Header />

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,19 +9,20 @@ import {
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
-import { API_URL } from "../../config/url";
-import {WebView} from 'react-native-webview';
-import ViewPortfolioExperience from '../../components/ViewPortfolioExperience'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ApiUrl from '../../config/ApiUrl';
+import { makeGetRequest } from '../../services/http-connectors';
+import { WebView } from 'react-native-webview';
+import ViewPortfolioExperience from '../../components/ViewPortfolioExperience';
 
 class ViewPortfolio extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      profiledataset: [],
+      profiledataset: []
     };
   }
 
@@ -30,16 +31,12 @@ class ViewPortfolio extends Component {
   };
 
   componentDidMount = async () => {
-    await axios({
-      url: API_URL + "expertProfile/" + this.props.slugname,
-      method: 'GET',
-    })
-      .then((response) => {
-        this.setState({
-          profiledataset: response.data,
-        });
-      })
-      .catch(() => {});
+    let response = await makeGetRequest(ApiUrl.ExpertProfile + this.props.slugname, false, "");
+    if (response) {
+      this.setState({
+        profiledataset: response
+      });
+    }
   };
 
   render() {
@@ -58,7 +55,7 @@ class ViewPortfolio extends Component {
                 <View key={i} style={styles.portfolioSec}>
                   <View style={styles.portImgSec}>
                     <Image
-                      source={{uri: value.image}}
+                      source={{ uri: value.image }}
                       style={CommonStyles.image}
                     />
                     <View style={styles.portSecName}>
@@ -70,7 +67,7 @@ class ViewPortfolio extends Component {
                     </View>
                   </View>
                   <View style={styles.portDetails}>
-                    <View>
+                    <View style={{ width: '60%' }}>
                       {/* <Text style={styles.portDetailsHead}>Test</Text> */}
                       <Text style={styles.portDetailsSlo}>
                         {value.category}
@@ -95,16 +92,28 @@ class ViewPortfolio extends Component {
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {item.resumefile.map((value, i) => (
                 <View key={i} style={styles.portDocSec}>
-                  <TouchableOpacity style={styles.portDocImgSec}>
-                    <Text onPress={() => Linking.openURL(value.resumefile)}>
-                      {value.resumefile}
-                      {/* <WebView
+                  <TouchableOpacity style={styles.portDocImgSec}
+                    onPress={() => Linking.openURL(value.resumefile)}>
+                    {
+                      <Text style={styles.fileLinkText}
+                      >
+                        {
+                          value.resumefile.includes(".pdf") === true ?
+                            <FontAwesome name="file-pdf-o" size={55} color="#71b85f" />
+
+                            :
+                            <FontAwesome name="file-word-o" size={55} color="#71b85f" />
+
+
+                        }
+                        {/* <WebView
                        originWhitelist={['*']}
                        source={{ html: 'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx' }}
                        view={value.resumefile}
                        style={{ marginTop: 20 }}
                     /> */}
-                    </Text>
+                      </Text>
+                    }
                   </TouchableOpacity>
                 </View>
               ))}
@@ -127,7 +136,7 @@ class ViewPortfolio extends Component {
               html:
                 'http://docs.google.com/gview?embedded=true&url=https://api.connectbud.com/media/Biswanath%20Singh%20CBNITS.docx',
             }}
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           />
         </View>
 
