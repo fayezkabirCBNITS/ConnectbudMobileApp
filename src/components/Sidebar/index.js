@@ -401,6 +401,18 @@ class Sidebar extends Component {
             ) : (
               <ScrollView>
                 <View>
+                <TouchableOpacity
+                    style={styles.menuOptn}
+                    onPress={() =>
+                      this.props.navigation.navigate(
+                        'HomeScreen',
+                      )
+                    }>
+                    <Text style={styles.menuOptnText}>
+                      Home
+                    </Text>
+                  </TouchableOpacity>
+
                   <TouchableOpacity
                     style={styles.menuOptn}
                     onPress={() =>
@@ -413,12 +425,12 @@ class Sidebar extends Component {
                     </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.menuOptn}>
+                  <TouchableOpacity style={styles.menuOptn} onPress={()=>this.props.navigation.navigate('HomeWorkHelpNA')}>
                     <Text style={styles.menuOptnText}>
                       Tutoring & Homework help
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.menuOptn}>
+                  <TouchableOpacity style={styles.menuOptn} onPress={()=>this.props.navigation.navigate('OnlineClassesNA')}>
                     <Text style={styles.menuOptnText}>Coding classes</Text>
                   </TouchableOpacity>
 
