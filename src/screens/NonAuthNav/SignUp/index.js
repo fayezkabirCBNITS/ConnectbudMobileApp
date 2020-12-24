@@ -9,6 +9,7 @@ import {
   Pressable,
   Image,
   ImageBackground,
+  Modal
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -243,7 +244,7 @@ onDismissModel=()=>{
                       placeholder="Enter Password"
                       style={styles.inputGroup}
                       keyboardType="default"
-                      secureTextEntry={true}
+                      secureTextEntry={this.state.type}
                       placeholderTextColor={'#fff'}
                       value={this.state.fields.password}
                       onChangeText={(text) =>

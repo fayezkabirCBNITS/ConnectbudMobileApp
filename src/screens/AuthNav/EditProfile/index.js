@@ -183,7 +183,7 @@ class EditProfileScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
-    // console.log(body , "bodyyyyyyyyyyyyyyy")
+    console.log(body , "bodyyyyyyyyyyyyyyy")
     const res = axios.post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body);
     res.then(res => {
       // console.log(res)
@@ -195,13 +195,17 @@ class EditProfileScreen extends Component {
   }
 
   handleAddSocialUrl = data => {
+    console.log("hiting social url")
     const social = this.state.socialUrl;
     social.push({ socialurl: "" });
     this.setState({ socialUrl: social });
   }
 
   handleSocialUrl = (data, index) => {
-    this.state.socialUrl[index].socialurl = data.nativeEvent.text;
+    if(data != ""){
+
+      this.state.socialUrl[index].socialurl = data.nativeEvent.text;
+    }
   }
 
   selectProfilePhoto = () => {
@@ -587,7 +591,8 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
                 {this.state.showCategories === true ? (
-                  <View style={[styles.formGroup1, { marginTop: -15 }]}>
+                  <View style={[styles.formGroupNew, { marginTop: 0}]}>
+                    <ScrollView>
                     {
                       this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
                         <TouchableOpacity style={styles.headSec} key={index}>
@@ -596,9 +601,9 @@ class EditProfileScreen extends Component {
                           </View>
                         </TouchableOpacity>
 
-                      )) : <Text>No data to show</Text>
+                      )) : <Text style={{textAlign: 'center'}}>No data to show</Text>
                     }
-
+                  </ScrollView>
                   </View>
                 ) : (
                     <></>
@@ -634,7 +639,8 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
                 {this.state.showSkills === true ? (
-                  <View style={[styles.formGroup1, { marginTop: -15 }]}>
+                  <View style={[styles.formGroupNew, { marginTop: 0 }]}>
+                    <ScrollView>
                     {
                       this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
                         <TouchableOpacity style={styles.headSec} key={index}>
@@ -643,8 +649,9 @@ class EditProfileScreen extends Component {
                           </View>
                         </TouchableOpacity>
 
-                      )) : <Text>no data</Text>
+                      )) : <Text style={{textAlign: 'center'}}>no data</Text>
                     }
+                    </ScrollView>
                   </View>
                 ) : (
                     <></>
@@ -667,13 +674,13 @@ class EditProfileScreen extends Component {
               mode="date"
               onConfirm={(date) => this.setState({startDate :  moment(date).format("YYYY-MM-DD")})}
               onCancel={() => this.setState({showStartDatePicker : false})}
-              minimumDate={new Date(this.state.startDate)}
+              minimumDate={this.state.startDate === "" ? new Date() : new Date(this.state.startDate)}
             />
                 ) : (
                     <></>
                   )}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { height: 45 }]}>
+                  <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
                     <Text style={styles.inputHead2}>
                       {this.state.startDate}
                     </Text>
@@ -703,17 +710,17 @@ class EditProfileScreen extends Component {
                   //   display="default"
                   // />
               <DateTimePickerModal
-              isVisible={this.state.showStartDatePicker}
+              isVisible={this.state.showEndDatePicker}
               mode="date"
               onConfirm={(date) => this.setState({endDate :  moment(date).format("YYYY-MM-DD")})}
               onCancel={() => this.setState({showEndDatePicker : false})}
-              minimumDate={new Date(this.state.startDate)}
+              minimumDate={this.state.endDate === "" ? new Date() : new Date(this.state.endDate)}
             />
                 ) : (
                     <></>
                   )}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { height: 45 }]}>
+                  <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
                     <Text style={styles.inputHead2}>{this.state.endDate}</Text>
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -744,7 +751,7 @@ class EditProfileScreen extends Component {
 
                 <Text style={styles.inputHead}>Social Url(s) *</Text>
 
-                {this.state.socialUrl.length > 50 ?
+                {this.state.socialUrl.length > 0 ?
                   this.state.socialUrl.map((data, index) => (
                     <View style={styles.formGroup11} key={index}>
                       <View style={[styles.formGroup1, this.state.socialUrl.length - 1 === index ? { width: '85%' } : { width: '100%' }]}>
@@ -827,13 +834,13 @@ class EditProfileScreen extends Component {
                   onPress={() => this.handleSubmitProfile()}
                   style={[styles.authBtn]}>
                   <Text style={styles.authBtnText}>Submit</Text>
-                  {this.state.showLoader && (
+                  {/* {this.state.showLoader && (
                     <ActivityIndicator
                       size="large"
                       color="#fff"
                       style={CommonStyles.loader}
                     />
-                  )}
+                  )} */}
                 </TouchableOpacity>
               </View>
             </View>

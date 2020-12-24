@@ -13,26 +13,26 @@ export default {
         flexDirection: 'row',
     },
     selectBtn: {
-        width: '45%',
+        width: '47%',
         backgroundColor: '#E4E4E4',
-        height: 40,
-        borderRadius: 40,
+        height: 50,
+        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 10,
         marginRight: 10,
-        flexDirection: 'row',
+        paddingHorizontal:10
     },
     ActiveSelectBtn: {
-        width: '45%',
+        width: '47%',
         backgroundColor: '#71b85f',
-        height: 40,
-        borderRadius: 40,
+        height: 50,
+        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 10,
         marginRight: 10,
-        flexDirection: 'row',
+        paddingHorizontal:10
     },
     selectBtnText: {
         fontSize: 12,
@@ -159,6 +159,9 @@ export default {
         fontSize: 14,
         letterSpacing: 1,
         fontFamily: 'Poppins-SemiBold',
+      },
+      scroll: {
+        height: deviceHeight - 84,
       },
 
 };

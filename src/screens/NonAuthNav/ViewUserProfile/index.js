@@ -21,10 +21,9 @@ import ViewWorkHistory from '../../../components/ViewWorkHistory';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
 import { connect } from 'react-redux';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 
-class ViewProfileScreen extends Component {
+class ViewUserProfileScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -35,7 +34,6 @@ class ViewProfileScreen extends Component {
         { key: 'third', title: 'Work History' },
       ],
       profiledataset: [],
-      showLoader: false,
     };
   }
 
@@ -44,22 +42,18 @@ class ViewProfileScreen extends Component {
   };
 
   componentDidMount = async () => {
-    this.setState({ showLoader: true })
     const { userDeatail } = this.props;
     await axios({
       url: API_URL + "expertProfile/" + userDeatail.slugname,
       method: "GET",
     })
       .then((response) => {
-        console.log(response, "viewwwwwwwwww")
+        console.log(response , "viewwwwwwwwww")
         this.setState({
-          profiledataset: response.data,
-          showLoader: false
+          profiledataset: response.data
         });
       })
-      .catch(() => {
-        this.setState({ showLoader: false })
-      });
+      .catch(() => { });
   };
 
   renderScene = ({ route }) => {
@@ -80,11 +74,6 @@ class ViewProfileScreen extends Component {
     const { userDeatail } = this.props;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
-        <Spinner
-          visible={this.state.showLoader}
-          animation="fade"
-          textContent={'Loading...'}
-        />
         <View style={CommonStyles.main}>
           {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
             <Header />
@@ -96,7 +85,8 @@ class ViewProfileScreen extends Component {
               <ImageBackground
                 source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
-                <TouchableOpacity style={CommonStyles.hanPosition}>
+                <TouchableOpacity style={CommonStyles.hanPosition}
+                onPress={() => this.props.navigation.openDrawer()}>
                   <Entypo name="menu" color="#71b85f" size={35} />
                 </TouchableOpacity>
                 <View style={styles.userImg}>
@@ -178,4 +168,4 @@ const mapStateToProps = (state) => {
     userDeatail: state.userData,
   };
 };
-export default connect(mapStateToProps, null)(ViewProfileScreen);
+export default connect(mapStateToProps, null)(ViewUserProfileScreen);

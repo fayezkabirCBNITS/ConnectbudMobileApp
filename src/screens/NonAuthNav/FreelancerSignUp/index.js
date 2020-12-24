@@ -9,12 +9,14 @@ import {
   Pressable,
   ActivityIndicator,
   TextInput,
+  Modal
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import CommonStatusBar from '../../../components/StatusBar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
 import { Icon, CheckBox } from 'react-native-elements';
 import Validator from '../../../config/Validator';
@@ -53,8 +55,17 @@ class FreelancerSignUpScreen extends Component {
       errors: {},
       isModalVisible: false,
       userEmail: '',
+      type: true,
     };
+    this.showHide = this.showHide.bind(this);
   }
+
+  showHide() {
+    this.setState({
+      type: this.state.type === false ? true : false,
+    });
+  }
+
   setUg = () => {
     this.setState({ ugChecked: true, pgChecked: false });
     this.setState({ courseType: 'Under Graduate' });
@@ -362,7 +373,7 @@ class FreelancerSignUpScreen extends Component {
                       placeholder="Enter Password"
                       style={styles.inputGroup}
                       keyboardType="default"
-                      secureTextEntry
+                      secureTextEntry={this.state.type}
                       placeholderTextColor={'#fff'}
                       value={this.state.fields.password}
                       onChangeText={(text) =>
@@ -371,7 +382,21 @@ class FreelancerSignUpScreen extends Component {
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
-                    <FontAwesome name="eye" size={20} color="#fff" />
+                  {this.state.type === false ? (
+                      <FontAwesome
+                        name="eye-slash"
+                        size={20}
+                        color="#fff"
+                        onPress={this.showHide}
+                      />
+                    ) : (
+                      <FontAwesome
+                        name="eye"
+                        size={20}
+                        color="#fff"
+                        onPress={this.showHide}
+                      />
+                    )}
                   </View>
                 </View>
                 <ErrorMsg errorMsg={this.state.errors['password']} />
