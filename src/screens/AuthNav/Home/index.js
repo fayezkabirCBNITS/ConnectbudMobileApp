@@ -92,14 +92,14 @@ class HomeScreen extends Component {
             </TouchableOpacity>
 
             <View style={CommonStyles.container}>
-              <View style={styles.loginHead}>
+              {/* <View style={styles.loginHead}>
                 <TouchableOpacity
                   onPress={() => this.RBSheet.open()}
                   style={styles.filterSec}
                   style={styles.mainLoginBtn}>
                   <Text style={styles.loginBtnText}>Login</Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <View style={styles.searchDropSec}>
                 <View style={styles.searchPicker}>
                     <Picker

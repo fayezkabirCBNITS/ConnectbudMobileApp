@@ -41,11 +41,11 @@ class HomeScreen extends Component {
     headerShown: false,
   };
   navigateToviewProfile = async () => {
-    this.props.navigation.navigate('ViewProfileScreen');
+    this.props.navigation.navigate('ViewUserProfileScreen');
   };
 
   navigateToProjectDetails = async () => {
-    this.props.navigation.navigate('ProjectDetailsFreelancer')
+    this.props.navigation.navigate('ProjectDetailsFreelancerNA')
   }
 
   updateUser = (user) => {
@@ -72,9 +72,9 @@ class HomeScreen extends Component {
         <View style={CommonStyles.main}>
           <StatusBar />
           <View style={CommonStyles.header}>
-            {/* <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
               <Entypo name="menu" color="#71b85f" size={35} />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <Image
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}
@@ -93,14 +93,7 @@ class HomeScreen extends Component {
             </TouchableOpacity>
 
             <View style={CommonStyles.container}>
-              {/* <View style={styles.loginHead}>
-                <TouchableOpacity
-                  onPress={() => this.RBSheet.open()}
-                  style={styles.filterSec}
-                  style={styles.mainLoginBtn}>
-                  <Text style={styles.loginBtnText}>Login</Text>
-                </TouchableOpacity>
-              </View> */}
+           
               <View style={[styles.searchDropSec, styles.marTop15]}>
                 <View style={styles.searchPicker}>
                   <Picker
