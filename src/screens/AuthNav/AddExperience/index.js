@@ -265,7 +265,7 @@ class AddExperienceScreen extends Component {
           </View>
           <View style={CommonStyles.container}>
             <KeyboardAvoidingView>
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollStyle}>
+            <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.portfolioHead}>Add Your Project Details</Text>
               <Text style={styles.inputHead}>* Project Title: </Text>
 
@@ -375,7 +375,7 @@ class AddExperienceScreen extends Component {
               </View>
               <TouchableOpacity
                 activeOpacity={0.9}
-                style={[styles.authBtn, { marginTop: 10, marginBottom: 10 }]}>
+                style={[styles.authBtn, { marginTop: 10, marginBottom: 100, }]}>
                 <Text style={styles.authBtnText}>Add</Text>
                 {this.state.showLoader && (
                   <ActivityIndicator

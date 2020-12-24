@@ -267,5 +267,8 @@ export default {
     fontFamily: 'Poppins-Regular',
     fontSize:15,
     paddingLeft:7 ,
-  }
+  },
+  scroll: {
+    height: deviceHeight - 84,
+  },
 };

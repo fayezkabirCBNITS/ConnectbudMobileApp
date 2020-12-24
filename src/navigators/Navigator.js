@@ -1,23 +1,23 @@
 import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 import HomeScreenAuth from '../screens/AuthNav/Home';
 import ProfileScreen from '../screens/AuthNav/Profile';
-import CategoryScreen from "./../screens/AuthNav/Category"
-import AddSkillScreen from "./../screens/AuthNav/AddSkill"
+import CategoryScreen from './../screens/AuthNav/Category';
+import AddSkillScreen from './../screens/AuthNav/AddSkill';
 import EditProfileScreen from '../screens/AuthNav/EditProfile';
 import StudentInner from '../screens/AuthNav/StudentInner';
 import EmployeeInner from '../screens/AuthNav/EmployeeInner';
-import PostedProjectByEmployee from "./../screens/AuthNav/PostedProjectByEmploy/index";
+import PostedProjectByEmployee from './../screens/AuthNav/PostedProjectByEmploy/index';
 import Sidebar from '../components/Sidebar/index';
-import ProjectDetailsFreelancer from "./../screens/AuthNav/ProjectDetailsFreelancer";
-import JobDetailsFreelancer from "./../screens/AuthNav/JobDetailsFreelancer";
-import TutorDetailsFreelancer from "./../screens/AuthNav/TutorDetailsFreelancer";
-import ProposalFromFreelancer from "./../screens/AuthNav/ProposalFromFreelancer"
+import ProjectDetailsFreelancer from './../screens/AuthNav/ProjectDetailsFreelancer';
+import JobDetailsFreelancer from './../screens/AuthNav/JobDetailsFreelancer';
+import TutorDetailsFreelancer from './../screens/AuthNav/TutorDetailsFreelancer';
+import ProposalFromFreelancer from './../screens/AuthNav/ProposalFromFreelancer';
 import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
-import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
-import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
+import AddPortfolioScreen from '../screens/AuthNav/AddPortfolioItem';
+import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile';
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
@@ -26,9 +26,9 @@ import AboutUs from '../screens/AuthNav/AboutUs';
 import FAQs from '../screens/AuthNav/FAQs';
 import TermsOfServices from '../screens/AuthNav/TermsOfServices';
 import PrivacyPolicy from '../screens/AuthNav/PrivacyPolicy';
-import ContactUs from '../screens/AuthNav/ContactUs'
+import ContactUs from '../screens/AuthNav/ContactUs';
 import ChatScreen from '../screens/AuthNav/Chat';
-import ChatListScreen  from '../screens/AuthNav/ChatList';
+import ChatListScreen from '../screens/AuthNav/ChatList';
 import NotificationScreen from '../screens/AuthNav/Notification';
 import BankDetailScreen from '../screens/AuthNav/BankDetails';
 import TransactionScreen from '../screens/AuthNav/Transactions';
@@ -46,19 +46,23 @@ import SignInScreen from '../screens/NonAuthNav/SignIn';
 import FreelancerSignUpScreen from '../screens/NonAuthNav/FreelancerSignUp';
 import HomeScreen from '../screens/NonAuthNav/Home';
 import SplashScreen from '../screens/splash';
+import ViewUserProfileScreen from '../screens/NonAuthNav/ViewUserProfile';
+import PostProjectNA from '../screens/NonAuthNav/PostProjectNA';
+import ProjectDetailsFreelancerNA from './../screens/NonAuthNav/ProjectDetailFreelancer';
+import OnlineClassesNA from '../components/OnlinCodingClassesNA/onlineClassesNA';
+import HomeWorkHelpNA from '../components/HomeWorkHelpNA/index';
 //non stack pages
 
 export const MainStack = createStackNavigator(
   {
-    
     HomeScreenAuth: {
-      screen: HomeScreenAuth
+      screen: HomeScreenAuth,
     },
     ProfileScreen: {
       screen: ProfileScreen,
     },
     EmployeeInner: {
-      screen: EmployeeInner
+      screen: EmployeeInner,
     },
     CategoryScreen: {
       screen: CategoryScreen,
@@ -70,88 +74,88 @@ export const MainStack = createStackNavigator(
       screen: EditProfileScreen,
     },
     StudentInner: {
-      screen: StudentInner
+      screen: StudentInner,
     },
-    PostedProjectByEmployee : {
-      screen:PostedProjectByEmployee
+    PostedProjectByEmployee: {
+      screen: PostedProjectByEmployee,
     },
-    ProjectDetailsFreelancer : {
-      screen : ProjectDetailsFreelancer
+    ProjectDetailsFreelancer: {
+      screen: ProjectDetailsFreelancer,
     },
-    TutorDetailsFreelancer : {
-      screen : TutorDetailsFreelancer
+    TutorDetailsFreelancer: {
+      screen: TutorDetailsFreelancer,
     },
-    JobDetailsFreelancer : {
-      screen : JobDetailsFreelancer
+    JobDetailsFreelancer: {
+      screen: JobDetailsFreelancer,
     },
-    ProposalFromFreelancer : {
-      screen : ProposalFromFreelancer
+    ProposalFromFreelancer: {
+      screen: ProposalFromFreelancer,
     },
     ViewProfileScreen: {
-      screen: ViewProfileScreen
+      screen: ViewProfileScreen,
     },
-    AddPortfolioScreen :{
-      screen : AddPortfolioScreen
+    AddPortfolioScreen: {
+      screen: AddPortfolioScreen,
     },
-    EmployeeProfileScreen : {
-      screen: EmployeeProfileScreen
+    EmployeeProfileScreen: {
+      screen: EmployeeProfileScreen,
     },
-    AddExperienceScreen:{
-      screen:AddExperienceScreen
+    AddExperienceScreen: {
+      screen: AddExperienceScreen,
     },
-    EditPostedProject:{
-      screen: EditPostedProject
+    EditPostedProject: {
+      screen: EditPostedProject,
     },
-    PostedProjectDetails:{
-      screen : PostedProjectDetails
+    PostedProjectDetails: {
+      screen: PostedProjectDetails,
     },
-    AssessmentQuestion:{
-      screen : AssessmentQuestion
+    AssessmentQuestion: {
+      screen: AssessmentQuestion,
     },
-    AboutUs:{
-      screen : AboutUs
+    AboutUs: {
+      screen: AboutUs,
     },
-    FAQs:{
-      screen : FAQs
+    FAQs: {
+      screen: FAQs,
     },
-    TermsOfServices:{
-      screen : TermsOfServices
+    TermsOfServices: {
+      screen: TermsOfServices,
     },
-    PrivacyPolicy:{
-      screen : PrivacyPolicy
+    PrivacyPolicy: {
+      screen: PrivacyPolicy,
     },
-    ContactUs : {
-      screen : ContactUs
+    ContactUs: {
+      screen: ContactUs,
     },
     ChatScreen: {
-      screen : ChatScreen
+      screen: ChatScreen,
     },
     ChatListScreen: {
-      screen : ChatListScreen
+      screen: ChatListScreen,
     },
     NotificationScreen: {
-      screen : NotificationScreen
+      screen: NotificationScreen,
     },
     BankDetailScreen: {
-      screen : BankDetailScreen
+      screen: BankDetailScreen,
     },
     TransactionScreen: {
-      screen : TransactionScreen
+      screen: TransactionScreen,
     },
     MyQuestionScreen: {
-      screen : MyQuestionScreen
+      screen: MyQuestionScreen,
     },
     FreeContactScreen: {
-      screen : FreeContactScreen
+      screen: FreeContactScreen,
     },
     EmpContactScreen: {
-      screen: EmpContactScreen
+      screen: EmpContactScreen,
     },
     BlogScreen: {
-      screen: BlogScreen
+      screen: BlogScreen,
     },
     HireStudentsScreen: {
-      screen: HireStudentsScreen
+      screen: HireStudentsScreen,
     },
     CheckoutScreen: {
       screen: CheckoutScreen
@@ -166,53 +170,76 @@ export const MainStack = createStackNavigator(
 
   {
     initialRouteName: 'HomeScreenAuth',
-  }
+  },
 );
 
 const AuthStackNav = createStackNavigator(
-    {
-      HomeScreen: {
-        screen: HomeScreen
-      },
-      
-      SignInScreen: {
-        screen: SignInScreen,
-      },
-      SignUpScreen: {
-            screen: SignUpScreen,
-      },
-      FreelancerSignUpScreen:{
-        screen:FreelancerSignUpScreen,
-      },
+  {
+    HomeScreen: {
+      screen: HomeScreen,
     },
-    {
-      initialRouteName: 'HomeScreen',
+
+    SignInScreen: {
+      screen: SignInScreen,
     },
-  );
+    SignUpScreen: {
+      screen: SignUpScreen,
+    },
+    FreelancerSignUpScreen: {
+      screen: FreelancerSignUpScreen,
+    },
+    OnlineClassesNA : {
+      screen : OnlineClassesNA
+    },
+    HomeWorkHelpNA:{
+      screen : HomeWorkHelpNA
+    },
+
+    ViewUserProfileScreen: {screen: ViewUserProfileScreen},
+    ProjectDetailsFreelancerNA: {screen: ProjectDetailsFreelancerNA},
+    PostProjectNA:{screen:PostProjectNA,},
+  },
+  {
+    initialRouteName: 'HomeScreen',
+  },
+);
 const DrawerStackNav = createDrawerNavigator(
   {
     MainStack: MainStack,
   },
   {
     contentComponent: (props) => <Sidebar {...props} />,
-    drawerWidth: "80%",
+    drawerWidth: '80%',
+  },
+);
+
+const DrawerStackNonAuthNav = createDrawerNavigator(
+  {
+    AuthStackNav: AuthStackNav,
+  },
+  {
+    contentComponent: (props) => <Sidebar {...props} />,
+    drawerWidth: '80%',
   },
 );
 
 const LoadingStack = createStackNavigator(
-    {
-        Loading:SplashScreen
-    },{
-        headerMode:null
-    }
-)
+  {
+    Loading: SplashScreen,
+  },
+  {
+    headerMode: null,
+  },
+);
 const AppContainer = createSwitchNavigator(
-    {
-        Loading:LoadingStack,
-        Auth:AuthStackNav,
-        Drawer:DrawerStackNav,
-    },{
-        initialRouteName:"Loading",
-    }
-)
+  {
+    Loading: LoadingStack,
+    //Auth: AuthStackNav,
+    Auth: DrawerStackNonAuthNav,
+    Drawer: DrawerStackNav,
+  },
+  {
+    initialRouteName: 'Loading',
+  },
+);
 export default createAppContainer(AppContainer);

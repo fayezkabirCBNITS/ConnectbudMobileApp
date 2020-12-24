@@ -51,7 +51,7 @@ class AddExperienceNew extends Component {
           <View style={CommonStyles.container}>
             <ScrollView
               showsVerticalScrollIndicator={false}
-              style={styles.scroll}>
+              >
               <View>
                 <Text style={styles.heading}>Add Your Project Details</Text>
 
