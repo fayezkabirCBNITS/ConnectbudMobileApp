@@ -9,6 +9,7 @@ import {
   Pressable,
   Image,
   ImageBackground,
+  Modal
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';

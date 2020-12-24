@@ -67,7 +67,7 @@ class ProfileScreen extends Component {
         <View style={CommonStyles.main}>
           <CommonStatusBar />
           <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-            {this.state.profiledataset.map((item, i) => (
+            { this.state.profiledataset.length > 0 ? this.state.profiledataset.map((item, i) => (
               <ImageBackground key={i}
                 source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
@@ -90,8 +90,8 @@ class ProfileScreen extends Component {
                   <FontAwesome name="camera" color="#71b85f" size={22} />
                 </TouchableOpacity>
               </ImageBackground>
-            ))}
-            {this.state.profiledataset.map((item, i) => (
+            )) :<Text>No data</Text>}
+            {this.state.profiledataset.length >0 ? this.state.profiledataset.map((item, i) => (
               <ScrollView
                 style={{flexDirection: 'row', marginTop: -70}}
                 showsHorizontalScrollIndicator={false}
@@ -114,7 +114,7 @@ class ProfileScreen extends Component {
                   <Text style={styles.userInfoDetails}>{item.department}</Text>
                 </View>
               </ScrollView>
-            ))}
+            )) : <Text>No data</Text>}
 
             <View style={styles.tabSec}>
               <TabView
