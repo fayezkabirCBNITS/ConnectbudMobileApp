@@ -46,6 +46,7 @@ export default {
     elevation: 4,
   },
   
+  
   formGroup11: {
     width: '100%',
     flexDirection: 'row',
@@ -257,5 +258,24 @@ export default {
   loader: {
     position: 'absolute',
     right: 15,
+  },
+  formGroupNew: {
+    width: '100%',
+    maxHeight: 150,
+    padding: 5,
+    marginBottom: 15,
+
+    backgroundColor: '#f8f8f8',
+    borderRadius: 5,
+    color: '#000',
+    fontSize: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
 };

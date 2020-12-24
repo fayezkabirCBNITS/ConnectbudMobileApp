@@ -38,7 +38,8 @@ import EmpContactScreen from '../screens/AuthNav/EmpContracts';
 import BlogScreen from '../screens/AuthNav/Blog';
 import HireStudentsScreen from '../screens/AuthNav/HireStudent';
 import CheckoutScreen from '../screens/AuthNav/CheckOut';
-import HiringConfirmation from '../screens/AuthNav/HiringConfirmation'
+import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
+import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
 //non stack pages
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
@@ -157,7 +158,10 @@ export const MainStack = createStackNavigator(
     },
     HiringConfirmation: {
       screen: HiringConfirmation
-    }     
+    }   ,
+    AddExperienceNew: {
+      screen : AddExperienceNew
+    },
   },
 
   {
