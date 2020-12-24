@@ -8,20 +8,21 @@ import {
   FlatList,
   Modal,
   Image,
-  AsyncStorage
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './style';
 import { Picker } from '@react-native-community/picker';
-import axios from 'axios';
-import { API_URL } from "../../config/url";
+import ApiUrl from '../../config/ApiUrl';
+import { makePostRequestMultipart } from '../../services/http-connectors';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class ViewWorkHistory extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       projectData: [],
       selectedProject: "All",
+      showLoader: false,
     };
   }
 
@@ -38,15 +39,12 @@ class ViewWorkHistory extends Component {
     body.append("page_type", "ongoing");
     body.append("user_id", this.props.freeId);
 
-    await axios({
-      url: API_URL + "fetchmilestones",
-      method: "POST",
-      data: body,
-    }).then((response) => {
+    let response = await makePostRequestMultipart(ApiUrl.FetchMilestones, false, body);
+    if (response) {
       this.setState({
-        projectData: response.data,
+        projectData: response,
       });
-    });
+    }
   };
 
   selectType = async (type) => {
@@ -57,6 +55,7 @@ class ViewWorkHistory extends Component {
   };
 
   filterProject = async () => {
+    this.setState({ showLoader: true })
     let body = new FormData();
     body.append("hirer_id", "");
     body.append("freelancer_id", "");
@@ -65,20 +64,18 @@ class ViewWorkHistory extends Component {
     body.append("page_type", "ongoing");
     body.append("user_id", this.props.freeId);
 
-    await axios({
-      url: API_URL + "fetchmilestones",
-      method: "POST",
-      data: body,
-    }).then((response) => {
-      if (response.data[0].message === "No data found") {
+    let response = await makePostRequestMultipart(ApiUrl.FetchMilestones, false, body);
+    if (response) {
+      this.setState({ showLoader: false })
+      if (response[0].message === "No data found") {
         this.setState({
-          projectData: response.data
+          projectData: response
         })
       } else {
         if (this.state.selectedProject === "In Progress") {
-          if (response.data.filter(data => data.contract_end === "false")) {
+          if (response.filter(data => data.contract_end === "false")) {
             this.setState({
-              projectData: response.data.filter(data => data.contract_end === "false"),
+              projectData: response.filter(data => data.contract_end === "false"),
             });
             console.log(this.state.projectData);
           } else {
@@ -88,9 +85,9 @@ class ViewWorkHistory extends Component {
             console.log(this.state.projectData);
           }
         } else if (this.state.selectedProject === "Completed") {
-          if (response.data.filter(data => data.contract_end === "true")) {
+          if (response.filter(data => data.contract_end === "true")) {
             this.setState({
-              projectData: response.data.filter(data => data.contract_end === "true"),
+              projectData: response.filter(data => data.contract_end === "true"),
             });
             console.log(this.state.projectData);
           } else {
@@ -101,17 +98,24 @@ class ViewWorkHistory extends Component {
           }
         } else {
           this.setState({
-            projectData: response.data,
+            projectData: response,
           });
         }
       }
-    });
+    } else {
+      this.setState({ showLoader: false })
+    }
   };
 
   render() {
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <Text style={styles.portfolioHead}>Project Details</Text>
           <View style={styles.formGroup1}>
             <View style={[styles.formSubGroup2, { width: '100%' }]}>
@@ -140,7 +144,7 @@ class ViewWorkHistory extends Component {
                         {value.details.map((item, index) => {
                           if (index < 1) {
                             return (
-                              <Text style={styles.itemTitle}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Type : <Text style={styles.itemContent}>{item.project_type}</Text>
                               </Text>
                             )
@@ -149,7 +153,7 @@ class ViewWorkHistory extends Component {
                         {value.details.map((item, index, arr) => {
                           if (arr.length - 1 === index) {
                             return (
-                              <Text style={styles.itemTitle}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Date : <Text style={styles.itemContent}>{item.start_date} - {item.end_date}</Text>
                               </Text>
                             )
@@ -158,11 +162,11 @@ class ViewWorkHistory extends Component {
                         {value.details.map((item, index, arr) => {
                           if (arr.length - 1 === index) {
                             return (
-                              <Text style={styles.itemTitle}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Technologies :{' '}
                                 {item.job_skills.map((obj, index) => {
                                   return (
-                                    <Text style={styles.itemContent}>{obj.label}</Text>
+                                    <Text style={styles.itemContent} key={index}>{obj.label}</Text>
                                   )
                                 })}
                               </Text>

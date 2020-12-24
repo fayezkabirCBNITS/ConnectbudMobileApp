@@ -219,7 +219,7 @@ class SignInScreen extends Component {
                       style={styles.inputGroup}
                       keyboardType="default"
                       placeholderTextColor={'#fff'}
-                      secureTextEntry
+                      secureTextEntry={this.state.type}
                       value={this.state.password}
                       onChangeText={this.handlePassword}
                     />

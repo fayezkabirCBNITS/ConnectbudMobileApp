@@ -8,20 +8,23 @@ import {
   FlatList,
   Modal,
   Image,
-  AsyncStorage
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './style';
 import { Picker } from '@react-native-community/picker';
-import axios from 'axios';
-import { API_URL } from "../../config/url";
+import ApiUrl from '../../config/ApiUrl';
+import { makePostRequestMultipart } from '../../services/http-connectors';
+import { connect } from "react-redux";
+import base64 from 'base-64';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class WorkHistory extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       projectData: [],
       selectedProject: "All",
+      showLoader: false,
     };
   }
 
@@ -36,17 +39,14 @@ class WorkHistory extends Component {
     body.append("job_id", "");
     body.append("type", "");
     body.append("page_type", "ongoing");
-    body.append("user_id", 2519);
+    body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
 
-    await axios({
-      url: API_URL + "fetchmilestones",
-      method: "POST",
-      data: body,
-    }).then((response) => {
+    let response = await makePostRequestMultipart(ApiUrl.FetchMilestones, false, body);
+    if (response) {
       this.setState({
-        projectData: response.data,
+        projectData: response,
       });
-    });
+    }
   };
 
   selectType = async (type) => {
@@ -57,28 +57,27 @@ class WorkHistory extends Component {
   };
 
   filterProject = async () => {
+    this.setState({ showLoader: true })
     let body = new FormData();
     body.append("hirer_id", "");
     body.append("freelancer_id", "");
     body.append("job_id", "");
     body.append("type", "");
     body.append("page_type", "ongoing");
-    body.append("user_id", 2519);
+    body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
 
-    await axios({
-      url: API_URL + "fetchmilestones",
-      method: "POST",
-      data: body,
-    }).then((response) => {
-      if (response.data[0].message === "No data found") {
+    let response = await makePostRequestMultipart(ApiUrl.FetchMilestones, false, body);
+    if (response) {
+      this.setState({ showLoader: false })
+      if (response[0].message === "No data found") {
         this.setState({
-          projectData: response.data
+          projectData: response
         })
       } else {
         if (this.state.selectedProject === "In Progress") {
-          if (response.data.filter(data => data.contract_end === "false")) {
+          if (response.filter(data => data.contract_end === "false")) {
             this.setState({
-              projectData: response.data.filter(data => data.contract_end === "false"),
+              projectData: response.filter(data => data.contract_end === "false"),
             });
             console.log(this.state.projectData);
           } else {
@@ -88,9 +87,9 @@ class WorkHistory extends Component {
             console.log(this.state.projectData);
           }
         } else if (this.state.selectedProject === "Completed") {
-          if (response.data.filter(data => data.contract_end === "true")) {
+          if (response.filter(data => data.contract_end === "true")) {
             this.setState({
-              projectData: response.data.filter(data => data.contract_end === "true"),
+              projectData: response.filter(data => data.contract_end === "true"),
             });
             console.log(this.state.projectData);
           } else {
@@ -101,17 +100,24 @@ class WorkHistory extends Component {
           }
         } else {
           this.setState({
-            projectData: response.data,
+            projectData: response,
           });
         }
       }
-    });
+    } else {
+      this.setState({ showLoader: false })
+    }
   };
 
   render() {
     return (
       <View style={CommonStyles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <Text style={styles.portfolioHead}>Project Details</Text>
           <View style={styles.formGroup1}>
             <View style={[styles.formSubGroup2, { width: '100%' }]}>
@@ -158,7 +164,7 @@ class WorkHistory extends Component {
                         {value.details.map((item, index, arr) => {
                           if (arr.length - 1 === index) {
                             return (
-                              <Text style={styles.itemTitle} key={index} key={index}>
+                              <Text style={styles.itemTitle} key={index}>
                                 Technologies :{' '}
                                 {item.job_skills.map((obj, index) => {
                                   return (
@@ -216,5 +222,9 @@ class WorkHistory extends Component {
     );
   }
 }
-
-export default WorkHistory;
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+export default connect(mapStateToProps, null)(WorkHistory);
