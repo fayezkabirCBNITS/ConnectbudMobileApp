@@ -10,6 +10,7 @@ import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
+import SyncStorage from 'sync-storage';
 
 
 class NotificationScreen extends Component {
@@ -17,6 +18,7 @@ class NotificationScreen extends Component {
     super();
     this.state = {
       notification: [],
+      loginType: '',
     };
   }
 
@@ -26,7 +28,9 @@ class NotificationScreen extends Component {
 
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
-    console.log(userDeatailResponse);
+    this.setState({
+      loginType: userDeatailResponse.userData.Flag,
+    })
     const body = {
       user_id: base64.decode(userDeatailResponse.userData.user_id),
     };
@@ -76,11 +80,11 @@ class NotificationScreen extends Component {
                           job_id: data.project_id,
                           receiver_id: data.sender_user_id,
                           sender_id: data.receiver_user_id,
-                          // name:item.name,
+                          name:data.sender_name,
                           user_image: data.notification_image,
-                          user_type: this.props.userDeatailResponse?.Flag,
-                          // room_id: item.room_id,
-                      })
+                          user_type: this.state.loginType,
+                          room_id: data.room_id,
+                      },  SyncStorage.set('room_id', data.project_id+'_'+data.sender_user_id))
                       }>
                       {data.notification_message}
                     </Text>

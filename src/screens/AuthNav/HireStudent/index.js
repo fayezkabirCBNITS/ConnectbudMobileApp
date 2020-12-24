@@ -160,7 +160,7 @@ class HireStudentsScreen extends Component {
                   </View>
                   <View style={styles.wrap}>
                     <Text style={styles.label}>Amount</Text>
-                    <TextInput style={styles.des} />
+                    <TextInput style={[styles.des, {paddingRight: 50,}]} />
                     <FontAwesome
                       name="dollar"
                       color="#71b85f"

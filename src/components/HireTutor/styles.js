@@ -179,7 +179,7 @@ export default {
     justifyContent: 'center'
   },
   skillTab: {
-    //width: '40%',
+    // width: '45%',
     backgroundColor: '#E4E4E4',
     paddingHorizontal: 10,
     height: 40,
@@ -206,14 +206,14 @@ export default {
   },
   skillText: {
     fontSize: 11,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-SemiBold',
     color: '#000',
     marginLeft:3,
     textAlign: "center",
   },
   ActiveSkillText: {
     fontSize: 11,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Bold',
     color: '#fff',
     marginLeft:3,
     textAlign: "center",

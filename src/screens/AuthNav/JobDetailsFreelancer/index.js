@@ -42,6 +42,7 @@ class JobDetailsFreelancer extends Component {
       jobDetails: [],
       jobSet: [],
       user_id: '',
+      showLoader: false,
     };
   }
 

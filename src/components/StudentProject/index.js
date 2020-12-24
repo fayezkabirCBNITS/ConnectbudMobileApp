@@ -1,78 +1,37 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity, Picker} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import DropDownPicker from 'react-native-custom-dropdown';
+// import DropDownPicker from 'react-native-custom-dropdown';
+import {Picker} from '@react-native-community/picker';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import axios from 'axios';
 import {API_URL} from '../../config/url';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 //for redux
-import {
-  // storeAccessToken,
-  // updateUserStatus,
-  // updateUserPaymentMethod,
-  // updateUserDetails,
-  updateJobId,
-} from '../../redux/actions/user-data';
+import { updateJobId } from '../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
 
-var items = [
-  {
-    id: 1,
-    name: 'JavaScript',
-  },
-  {
-    id: 2,
-    name: 'Java',
-  },
-  {
-    id: 3,
-    name: 'Ruby',
-  },
-  {
-    id: 4,
-    name: 'React Native',
-  },
-  {
-    id: 5,
-    name: 'PHP',
-  },
-  {
-    id: 6,
-    name: 'Python',
-  },
-  {
-    id: 7,
-    name: 'Go',
-  },
-  {
-    id: 8,
-    name: 'Swift',
-  },
-];
+
 class StudentProject extends Component {
   constructor() {
     super();
 
     this.state = {
       skillOptions: [],
-      selectedItems: [
-        {
-          id: 7,
-          name: 'Go',
-        },
-        {
-          id: 8,
-          name: 'Swift',
-        },
-      ],
       expertset: [],
       SearchSkill: [],
       user_id: '',
+      skills: [],
+      selectedSkills: '',
+      showLoader: false,
+      skillValuePlaceHolder: [],
     };
   }
 
@@ -84,6 +43,7 @@ class StudentProject extends Component {
     const {userDeatailResponse} = this.props;
     await this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
+      showLoader: true,
     });
     this.feedProjects(userDeatailResponse);
     this.SkillSearch();
@@ -98,6 +58,33 @@ class StudentProject extends Component {
     taglistbody.append('type', 'freelancer');
     taglistbody.append('skills', '');
     taglistbody.append('search_type', 'all');
+    taglistbody.append('offset', 15);
+
+    await axios({
+      url: API_URL + 'expert_jobsummary',
+      method: 'POST',
+      data: taglistbody,
+    })
+      .then((response) => {
+        this.setState({
+          // lodarStatus: false,
+          showLoader: false,
+          expertset: response.data,
+        });
+      })
+      .catch((error) => { });
+  };
+
+  resetProjects = async () => {
+    this.setState({
+      selectedSkills: '',
+      showLoader: true,
+    });
+    let taglistbody = new FormData();
+    taglistbody.append('user_id', this.state.user_id);
+    taglistbody.append('type', 'freelancer');
+    taglistbody.append('skills', '');
+    taglistbody.append('search_type', 'all');
     taglistbody.append('offset', '15');
 
     await axios({
@@ -109,6 +96,7 @@ class StudentProject extends Component {
         this.setState({
           // lodarStatus: false,
           expertset: response.data,
+          showLoader: false,
         });
         this.setState({isLoading: true});
       })
@@ -126,7 +114,8 @@ class StudentProject extends Component {
   SkillSearch = async () => {
     await axios.get(API_URL + 'keyskill/recruiter').then((response) => {
       this.setState({
-        skillOptions: response.data,
+        skillValuePlaceHolder: this.state.placeholder,
+        skills: this.state.skillValuePlaceHolder.concat(response.data),
       });
     });
   };
@@ -134,6 +123,7 @@ class StudentProject extends Component {
   SearchProject = async (data) => {
     await this.setState({
       SearchSkill: data,
+      showLoader: true,
     });
 
     if (this.state.SearchSkill !== null) {
@@ -142,7 +132,7 @@ class StudentProject extends Component {
       taglistbody.append('type', 'freelancer');
       taglistbody.append('skills', data);
       taglistbody.append('search_type', 'else');
-      taglistbody.append('offset', '5');
+      taglistbody.append('offset', 15);
 
       await axios({
         url: API_URL + 'expert_jobsummary',
@@ -152,12 +142,10 @@ class StudentProject extends Component {
         .then((response) => {
           this.setState({
             expertset: response.data,
+            showLoader: false,
           });
-          this.setState({isLoading: true});
         })
-        .catch((error) => {
-          this.setState({isLoading: false});
-        });
+        .catch((error) => { });
 
       // this.expertProjects;
     } else {
@@ -169,7 +157,7 @@ class StudentProject extends Component {
       taglistbody.append('type', 'freelancer');
       taglistbody.append('skills', '');
       taglistbody.append('search_type', 'all');
-      taglistbody.append('offset', '15');
+      taglistbody.append('offset', 15);
 
       await axios({
         url: API_URL + 'expert_jobsummary',
@@ -181,21 +169,23 @@ class StudentProject extends Component {
             // lodarStatus: false,
             expertset: response.data,
           });
-          this.setState({isLoading: true});
         })
-        .catch((error) => {
-          this.setState({isLoading: false});
-        });
+        .catch((error) => { });
     }
   };
 
-  expertProjects = async () => {
+  expertProjects = async (skill) => {
+    this.setState({
+      skillValuePlaceHolder: [{value: skill, label: skill}],
+      selectedSkills: skill,
+    });
+    console.log('sssssssssssssssss');
     let taglistbody = new FormData();
-    taglistbody.append('user_id', '2519');
+    taglistbody.append('user_id', this.state.user_id);
     taglistbody.append('type', 'freelancer');
-    taglistbody.append('skills', this.state.SearchSkill);
+    taglistbody.append('skills', skill);
     taglistbody.append('search_type', 'else');
-    taglistbody.append('offset', '0');
+    taglistbody.append('offset', 15);
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -203,41 +193,72 @@ class StudentProject extends Component {
       data: taglistbody,
     })
       .then((response) => {
+        console.log(response);
         this.setState({
           expertset: response.data,
         });
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => { });
   };
+
+  Method = async () => {
+    await this.setState({
+      expertset: this.props.TutorShowData,
+    });
+  };
+
+  catSkill = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  child = async () => {
+    await this.setState({
+      skillOptions: this.props.ChildSkills,
+    });
+  };
+
+  componentWillReceiveProps() {
+    if (this.props.TutorShowData.length > 0) {
+      this.Method();
+      this.catSkill();
+      this.child();
+    }
+  }
 
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <View>
-            <DropDownPicker
-              items={this.state.skillOptions}
-              controller={(instance) => (this.controller = instance)}
-              multiple={true}
-              // multipleText=
-              min={0}
-              max={10}
-              defaultValue={this.state.skills}
-              containerStyle={{height: 50, width: 400, marginRight: 10}}
-              itemStyle={{
-                justifyContent: 'flex-start',
-              }}
-              // onChangeItem={(item) =>
-              //   this.setState({
-              //     skills: item, // an array of the selected items
-              //   })
-              // }
-              onChangeItem={(item) => this.SearchProject(item)}
-              value={this.state.skills}
-            />
+            <Picker
+              style={{width: '100%', height: 45, color: '#3B1D25'}}
+              // selectedValue={this.state.selectedSkills}
+              onValueChange={(itemValue) => this.expertProjects(itemValue)}>
+              {this.state.skills.length > 0 ? (
+                this.state?.skills?.map((data) => {
+                  return <Picker.Item label={data.label} value={data.value} />;
+                })
+              ) : (
+                <></>
+              )}
+            </Picker>
+            {this.state.selectedSkills !== '' ? (
+              <TouchableOpacity style={styles.editBtn}>
+                {/* <MaterialIcons name="mode-edit" color="#fff" size={18} /> */}
+                <Text style={styles.editBtnText} onPress={this.resetProjects}>
+                  Reset
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.expertset.map((item, idx) => (

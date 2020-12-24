@@ -18,6 +18,12 @@ export default EndPoint = {
   RecrutierFeedPage:'recruiter_feedpage',
   RecrutierIntialSearch:'recruiter_initalsearch',
   FilterSkill:'categorised_skill',
+  FetchTutorCategory: 'keyskill/tutor',
+  FetchProjectCategory: 'keyskill/freelancer',
+  JobSummary: 'expert_jobsummary',
+  Four: '/course/four',
+  Ten: '/course/ten',
+  CourseSubmit: 'course_submit',
 
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove

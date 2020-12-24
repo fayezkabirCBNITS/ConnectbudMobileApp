@@ -28,12 +28,12 @@ export default {
     fontFamily: 'Poppins-SemiBold',
   },
   userInfoDetails: {
-    width: '67%',
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
   details: {
     flexDirection: 'row',
+    flexWrap : 'wrap',
     alignItems: 'flex-start',
   },
   skillSec: {

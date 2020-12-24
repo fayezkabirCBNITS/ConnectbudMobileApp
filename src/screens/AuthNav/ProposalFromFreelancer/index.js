@@ -19,6 +19,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import {
   Collapse,
   CollapseHeader,
@@ -43,6 +45,8 @@ class ProposalFromFreelancer extends Component {
       project_name: '',
       recID: '',
       reqStatus: '',
+      FrelancerType: '',
+      showLoader: false,
       job_id: this.props.navigation.state.params
         ? this.props.navigation.state.params.job_id
         : '',
@@ -59,6 +63,7 @@ class ProposalFromFreelancer extends Component {
     const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
+      showLoader: true,
     });
     //get chat
     let body1 = new FormData();
@@ -79,12 +84,15 @@ class ProposalFromFreelancer extends Component {
       data: body1,
     })
       .then(async (response) => {
-        console.log(response);
-        //    if (response.data[0].detail_type === "tutor") {
-        //      await this.setState({
-        //        FrelancerType: "tutor",
-        //      });
-        //    }
+        if (response.data[0].detail_type === 'tutor') {
+          await this.setState({
+            FrelancerType: 'tutor',
+          });
+        } else {
+          await this.setState({
+            FrelancerType: 'freelancer',
+          });
+        }
         await this.setState({
           recID: response.data[0].sender_id,
           reqStatus: response.data[0].request_status,
@@ -107,7 +115,7 @@ class ProposalFromFreelancer extends Component {
     taglistbody.append('method', 'get');
     taglistbody.append('resumefile', '');
     taglistbody.append('videolink', '');
-    taglistbody.append('type', 'freelancer');
+    taglistbody.append('type', this.state.FrelancerType);
 
     await axios({
       url: API_URL + 'freelancerproposal',
@@ -124,6 +132,7 @@ class ProposalFromFreelancer extends Component {
           jobskillset: response.data[0].job_skills,
           skillset: response.data[0].freelancer_skills,
           project_name: response.data[0].project_name,
+          showLoader: false,
         });
         //    if (this.state.FrelancerType === "tutor") {
         //      this.setState({
@@ -140,6 +149,9 @@ class ProposalFromFreelancer extends Component {
   };
 
   acceptRequest = async () => {
+    this.setState({
+      showLoader: true,
+    });
     const obj = {
       milestone_id: '',
       receiver_id: this.state.recID.toString(),
@@ -156,8 +168,11 @@ class ProposalFromFreelancer extends Component {
         },
       })
       .then((response) => {
+        this.setState({
+          showLoader: false,
+        });
         alert('Successfully accepted the proposal!');
-        this.props.navigation.navigate('ChatScreen');
+        this.props.navigation.navigate('ChatListScreen');
         this.setState({isLoading: false});
       })
       .catch((error) => {
@@ -172,6 +187,9 @@ class ProposalFromFreelancer extends Component {
   };
 
   acceptIgnore = async () => {
+    this.setState({
+      showLoader:true
+    })
     const obj = {
       milestone_id: '',
       receiver_id: this.state.recID.toString(),
@@ -189,6 +207,10 @@ class ProposalFromFreelancer extends Component {
         },
       })
       .then((response) => {
+        this.setState({
+          showLoader:false
+        })
+        this.props.navigation.navigate('ChatListScreen');
         alert('You ignored the proposal!');
       })
       .catch((error) => {
@@ -202,10 +224,83 @@ class ProposalFromFreelancer extends Component {
     // socket.send(JSON.stringify(payload));
   };
 
+  tutoracceptRequest = async () => {
+    this.setState({
+      showLoader:true
+    })
+    let body1 = new FormData();
+
+    body1.append('receiver_id', this.state.user_id);
+
+    const obj = {
+      freelancer_id: this.state.recID.toString(),
+      hirer_id: this.state.user_id,
+      job_id: this.state.job_id.toString(),
+      response: 'yes',
+      confirmation_type: 'proposal',
+    };
+
+    await axios
+      .post(API_URL + 'tutorproposal', obj, {
+        header: {
+          'content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        this.setState({
+          showLoader:false
+        })
+        this.props.navigation.navigate('ChatListScreen');
+        alert('Successfully accepted the proposal!');
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+  };
+
+  tutoracceptIgnore = async () => {
+    this.setState({
+      showLoader:true
+    })
+    let body1 = new FormData();
+
+    body1.append('receiver_id', this.state.user_id);
+
+    const obj = {
+      freelancer_id: this.state.recID.toString(),
+      hirer_id: this.state.user_id,
+      job_id: this.state.job_id.toString(),
+      response: 'no',
+      confirmation_type: 'proposal',
+    };
+
+    await axios
+      .post(API_URL + 'tutorproposal', obj, {
+        header: {
+          'content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        this.props.navigation.navigate('ChatListScreen');
+        alert('You ignored the proposal!');
+        this.setState({
+          showLoader:false
+        })
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+  };
+
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
+        <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <StatusBar
             backgroundColor="#60a84e"
             barStyle="light-content"
@@ -262,22 +357,43 @@ class ProposalFromFreelancer extends Component {
                       {this.state.reqStatus === 'accept' ? (
                         <></>
                       ) : (
-                        <View style={styles.btnWrapper}>
-                          <TouchableOpacity style={styles.accbtn}>
-                            <Text
-                              style={styles.btnText}
-                              onPress={() => this.acceptRequest()}>
-                              Accept
-                            </Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity style={styles.rejBtn}>
-                            <Text
-                              style={styles.btnText}
-                              onPress={() => this.acceptIgnore()}>
-                              Reject
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
+                        <>
+                          {this.state.FrelancerType === 'tutor' ? (
+                            <View style={styles.btnWrapper}>
+                              <TouchableOpacity style={styles.accbtn}>
+                                <Text
+                                  style={styles.btnText}
+                                  onPress={() => this.tutoracceptRequest()}>
+                                  Accept
+                                </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={styles.rejBtn}>
+                                <Text
+                                  style={styles.btnText}
+                                  onPress={() => this.tutoracceptIgnore()}>
+                                  Reject
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+                          ) : (
+                            <View style={styles.btnWrapper}>
+                              <TouchableOpacity style={styles.accbtn}>
+                                <Text
+                                  style={styles.btnText}
+                                  onPress={() => this.acceptRequest()}>
+                                  Accept
+                                </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={styles.rejBtn}>
+                                <Text
+                                  style={styles.btnText}
+                                  onPress={() => this.acceptIgnore()}>
+                                  Reject
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+                          )}
+                        </>
                       )}
                     </View>
                   </CollapseHeader>

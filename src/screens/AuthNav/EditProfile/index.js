@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  Modal,
   FlatList,
   ActivityIndicator,
   TextInput,
@@ -16,9 +17,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
 //import ImagePicker from 'react-native-image-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { withNavigation } from "react-navigation";
 import { updateslug, updateUserDetails } from "../../../redux/actions/user-data";
 import Connect, { connect } from "react-redux";
@@ -27,6 +30,7 @@ import axios from "axios";
 import base64 from 'base-64';
 import { BASE_URL } from "../../../config/ApiUrl"
 import index from '../TermsOfServices';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class EditProfileScreen extends Component {
   static navigationOptions = {
@@ -55,6 +59,7 @@ class EditProfileScreen extends Component {
       showLoader: false,
       showSkills: false,
       showCategories: false,
+      showLoader : false,
       info: "",
       skillsData: [
         { title: 'C' },
@@ -67,10 +72,13 @@ class EditProfileScreen extends Component {
       categories: [],
       listedCategory: [],
       listedSkill: [],
+      
+      showModal : false,
 
     };
   }
   componentDidMount = () => {
+    this.setState({showLoader : true})
     let body = new FormData();
     body.append("id", this.props.userDeatailResponse.row_id);
     body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
@@ -124,14 +132,16 @@ class EditProfileScreen extends Component {
         profileImageSource: responseObj.user_image
 
       })
+      this.setState({showLoader : false})
     })
   }
 
   handleSubmitProfile = data => {
+    this.setState({showLoader : true})
     console.log("hitting")
-    const categoryArr = this.state.categoriesData.map(item => item.label).join(', ');
-    const skillArr = this.state.skillsData.map(item => item.label).join(', ');
-    const socialArr = this.state.socialUrl.map(item => item.socialurl).join(', ');
+    const categoryArr = this.state.categoriesData.map(item => item.label.trim()).join(',');
+    const skillArr = this.state.skillsData.map(item => item.label.trim()).join(',');
+    const socialArr = this.state.socialUrl.map(item => item.socialurl.trim()).join(',');
 
     let body = new FormData();
     body.append("id", this.props.userDeatailResponse.row_id);
@@ -173,10 +183,13 @@ class EditProfileScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
-
+    // console.log(body , "bodyyyyyyyyyyyyyyy")
     const res = axios.post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body);
     res.then(res => {
+      // console.log(res)
       this.props.updateslug(base64.encode(res.data[0].slug_name));
+      this.setState({showLoader : false})
+      if(res.status === 200) this.props.navigation.navigate('ProfileScreen')
     });
 
   }
@@ -282,7 +295,7 @@ class EditProfileScreen extends Component {
       const selected = this.state.categoriesData.filter(itm => itm != item)
       this.setState({ categoriesData: selected, listedCategory: unselectedByUser })
     } else {
-      alert("you need to have atleast 1 Category")
+      this.setState({showModal : true})
     }
   }
   handleRemoveItemSkill = (item, index) => {
@@ -292,11 +305,32 @@ class EditProfileScreen extends Component {
       const selected = this.state.skillsData.filter(itm => itm != item)
       this.setState({ skillsData: selected, listedSkill: unselectedByUser })
     } else {
-      alert("you need to have atleast 1 skill")
+      this.setState({showModal : true})
     }
   }
+  
+  viewModal = (text , flag) => (
+    <Modal transparent={true} isVisible={true}>
+      <View style={CommonStyles.modalBg}>
+        <View style={CommonStyles.modalContent}>
+          {/* <Image
+            source={require('../../../assets/images/messageSend.png')}
+            style={CommonStyles.modalImg}
+          /> */}
+          <Text style={CommonStyles.modalText}>you need to have atleast 1 item !</Text>
+          {/* <Text style={CommonStyles.modalEmail}>
+            ravindra.kumar@cbnits.com
+                </Text> */}
+
+          <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({showModal : false})}>
+            <Entypo name="circle-with-cross" color="#71b85f" size={35} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  )
   render() {
-    // console.log(this.props.navigation.state.params.slugname);
+    // console.log(base64.decode(this.props.userDeatailResponse.slug) , "sligggggggggggggg");
     console.log(this.state, "66666666666666666666")
 
     // const renderSkillItems = ({ item }) => (
@@ -309,6 +343,13 @@ class EditProfileScreen extends Component {
     return (
       <View style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+          
+        <Spinner
+          visible={this.state.showLoader}
+          animation="fade"
+          textContent={'Loading...'}
+        />
+        {this.state.showModal ? this.viewModal() : null}
           <StatusBar
             backgroundColor="#60a84e"
             barStyle="light-content"
@@ -611,15 +652,23 @@ class EditProfileScreen extends Component {
 
                 <Text style={styles.inputHead}>Start Date *</Text>
                 {this.state.showStartDatePicker === true ? (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date(1598051730000)}
-                    placeholder="Select Start Date"
-                    mode={'date'}
-                    onChange={(data) => this.handleTextChange((data.timeStamp), "startDate")}
-                    is24Hour={true}
-                    display="default"
-                  />
+                  // <DateTimePicker
+                  //   testID="dateTimePicker"
+                  //   value={new Date(1598051730000)}
+                  //   placeholder="Select Start Date"
+                  //   mode={'date'}
+                  //   onChange={(data) => this.handleTextChange((data.timeStamp), "startDate")}
+                  //   is24Hour={true}
+                  //   display="default"
+                  // />
+                  
+              <DateTimePickerModal
+              isVisible={this.state.showStartDatePicker}
+              mode="date"
+              onConfirm={(date) => this.setState({startDate :  moment(date).format("YYYY-MM-DD")})}
+              onCancel={() => this.setState({showStartDatePicker : false})}
+              minimumDate={new Date(this.state.startDate)}
+            />
                 ) : (
                     <></>
                   )}
@@ -643,16 +692,23 @@ class EditProfileScreen extends Component {
 
                 <Text style={styles.inputHead}>End Date *</Text>
                 {this.state.showEndDatePicker === true ? (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={new Date(1598051730000)}
-                    dateFormat="day month year"
-                    placeholder="Select End Date"
-                    mode={'date'}
-                    is24Hour={true}
-                    onChange={(data) => this.handleTextChange((data.timeStamp), "endDate")}
-                    display="default"
-                  />
+                  // <DateTimePicker
+                  //   testID="dateTimePicker"
+                  //   value={new Date(1598051730000)}
+                  //   dateFormat="day month year"
+                  //   placeholder="Select End Date"
+                  //   mode={'date'}
+                  //   is24Hour={true}
+                  //   onChange={(data) => this.handleTextChange((data.timeStamp), "endDate")}
+                  //   display="default"
+                  // />
+              <DateTimePickerModal
+              isVisible={this.state.showStartDatePicker}
+              mode="date"
+              onConfirm={(date) => this.setState({endDate :  moment(date).format("YYYY-MM-DD")})}
+              onCancel={() => this.setState({showEndDatePicker : false})}
+              minimumDate={new Date(this.state.startDate)}
+            />
                 ) : (
                     <></>
                   )}
@@ -688,7 +744,7 @@ class EditProfileScreen extends Component {
 
                 <Text style={styles.inputHead}>Social Url(s) *</Text>
 
-                {this.state.socialUrl.length > 0 ?
+                {this.state.socialUrl.length > 50 ?
                   this.state.socialUrl.map((data, index) => (
                     <View style={styles.formGroup11} key={index}>
                       <View style={[styles.formGroup1, this.state.socialUrl.length - 1 === index ? { width: '85%' } : { width: '100%' }]}>
@@ -721,12 +777,13 @@ class EditProfileScreen extends Component {
                           placeholder="https://facebook.com/..."
                           style={styles.inputGroup}
                           keyboardType="default"
+                          onChange={(evt) => this.handleSocialUrl(evt, 0, "0")}
                         />
                       </View>
                     </View>
 
                     <View style={[styles.formSubGroup1, { marginLeft: 3, borderRadius: 5, height: 55, backgroundColor: '#71b85f', width: '15%', elevation: 4 }]}>
-                      <FontAwesome name="plus" size={25} color="#fff" />
+                      <FontAwesome name="plus" size={25} color="#fff" onPress={this.handleAddSocialUrl} />
                     </View>
                   </View>
                 }

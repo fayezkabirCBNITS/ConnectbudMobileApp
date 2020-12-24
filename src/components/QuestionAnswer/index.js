@@ -61,7 +61,7 @@ class QuestionAnswer extends Component {
                 style={styles.questionInput}
               />
               <TouchableOpacity style={styles.sendBtn}>
-                <Text style={styles.sendBtnText}>Send</Text>
+                <Text style={styles.sendBtnText}>Post</Text>
               </TouchableOpacity>
             </View>
 
