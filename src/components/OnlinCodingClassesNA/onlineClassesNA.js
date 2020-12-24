@@ -173,6 +173,7 @@ class OnlineCodingClasses extends Component {
             body.append('start_time', this.state.startTime);
             body.append('skills', this.state.tenSyllabus[0].skills);
             body.append('Number_of_classes', this.state.tenSyllabus[0].Number_of_classes);
+            body.append('page_type', 'landing');
             body.append('free_class', 0);
 
             let response = await makePostRequestMultipart(
@@ -184,10 +185,10 @@ class OnlineCodingClasses extends Component {
 
             if (response[0].hire_by == 'me') {
                 this.setState({ isModalVisible: true })
-                this.props.navigation.navigate('PostedProjectByEmployee')
+                // this.props.navigation.navigate('PostedProjectByEmployee')
             } else if (response[0].hire_by == 'connectbud') {
                 this.setState({ isModalVisible: true })
-                this.props.navigation.navigate('BankDetailScreen')
+                // this.props.navigation.navigate('BankDetailScreen')
             }
             this.clearForm()
 
@@ -229,6 +230,7 @@ class OnlineCodingClasses extends Component {
             body.append('start_time', this.state.startTime);
             body.append('skills', this.state.fourSyllabus[0].skills);
             body.append('Number_of_classes', this.state.fourSyllabus[0].Number_of_classes);
+            body.append('page_type', 'landing');
             body.append('free_class', 0);
 
             let response = await makePostRequestMultipart(
@@ -239,11 +241,11 @@ class OnlineCodingClasses extends Component {
             console.log('CourseSubmit-----', response);
 
             if (response[0].hire_by == 'me') {
-                alert('Successfully Posted ');
-                this.props.navigation.navigate('PostedProjectByEmployee')
+                this.setState({ isModalVisible: true })
+                // this.props.navigation.navigate('PostedProjectByEmployee')
             } else if (response[0].hire_by == 'connectbud') {
-                alert('Successfully Posted ');
-                this.props.navigation.navigate('BankDetailScreen')
+                this.setState({ isModalVisible: true })
+                // this.props.navigation.navigate('BankDetailScreen')
             }
             this.clearForm()
 
