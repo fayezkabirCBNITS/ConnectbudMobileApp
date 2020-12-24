@@ -46,6 +46,9 @@ class ChatListScreen extends Component {
       user_type: this.props.navigation.state.params
         ? this.props.navigation.state.params.user_type
         : '',
+      token: this.props.navigation.state.params
+        ? this.props.navigation.state.params.token
+        : '',
       room_id: '',
       showLoader: false,
       chatMessage: [],
@@ -53,6 +56,7 @@ class ChatListScreen extends Component {
       request_status: '',
       chatContent: '',
       file: '',
+      proposed_amount: '0',
     };
     const room_id = SyncStorage.get('room_id');
     let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${room_id}`;
@@ -89,7 +93,8 @@ class ChatListScreen extends Component {
           chatMessage: response.data,
           request_type: response.data[0].request_type,
           request_status: response.data[0].request_status,
-          room_id: response.data[0].room_id,
+          room_id: this.state.job_id+'_'+this.state.sender_id,
+          proposed_amount: response.data[0].proposed_amount
         });
         setTimeout(() => {
           if (this.refs && this.refs.scrollView) {
@@ -201,7 +206,12 @@ class ChatListScreen extends Component {
   }
 
   hireStudent = () => {
-    this.RBSheet.close(), this.props.navigation.navigate('HireStudentsScreen');
+    this.RBSheet.close(), this.props.navigation.navigate('HireStudentsScreen',{
+      proposed_amount:this.state.proposed_amount,
+      job_id:this.state.job_id,
+      token: this.state.token,
+      receiver_id: this.state.receiver_id
+    });
   };
   viewProposal = () => {
     this.RBSheet.close(),
@@ -242,11 +252,13 @@ class ChatListScreen extends Component {
                   <Text style={styles.editBtnText}>Proposal</Text>
                 </TouchableOpacity>): null} */}
 
+      {this.state.request_type === "proposal" && this.state.user_type === "Rg==" ?
             <TouchableOpacity
               onPress={() => this.RBSheet.open()}
               style={styles.menuVertical}>
               <Fontisto name="more-v-a" size={25} color="#fff" />
             </TouchableOpacity>
+            :null}
           </View>
 
           <RBSheet
