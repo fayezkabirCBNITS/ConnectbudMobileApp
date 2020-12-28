@@ -9,7 +9,8 @@ import {
   Pressable,
   Image,
   ImageBackground,
-  Modal
+  Modal,
+  Picker,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,10 +19,10 @@ import styles from './style';
 import CommonStatusBar from '../../../components/StatusBar';
 import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
-import {
-  makePostRequestMultipart,
-} from '../../../services/http-connectors';
+import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
+import {countryCodes} from '../../../config/countrycodes';
+import Toast from 'react-native-simple-toast';
 
 class SignUpScreen extends Component {
   constructor() {
@@ -32,15 +33,20 @@ class SignUpScreen extends Component {
         first_name: '',
         last_name: '',
         email: '',
-        //phone: '',
+        phone: '',
         password: '',
       },
-      //number: '',
+      number: '',
+      errOTP: false,
+      choosenIndex: 0,
+      countryCode: '+91',
       isSent: false,
       errors: {},
       type: true,
-      isModalVisible:false,
-      userEmail:'',
+      isModalVisible: false,
+      userEmail: '',
+      rowID: '',
+      // enableSignUp:true,
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -67,13 +73,65 @@ class SignUpScreen extends Component {
       ),
     });
   }
+  handleOTP = async (e) => {
+    await this.setState({
+      number: e,
+    });
+    // this.validateJobForm();
+  };
+  onSentOtp = async () => {
+    this.setState({isSent: !this.state.isSent});
 
-  onSentOtp = () => {
-    this.setState({isSent: true});
+    if (this.state.fields.phone.length < 10) {
+      Toast.show('Enter valid phone number', Toast.LONG);
+    }
+    if (this.state.fields.email.length < 10) {
+      Toast.show('Enter valid email address', Toast.LONG);
+    } else {
+      let body = new FormData();
+      body.append('emailid', this.state.fields.email);
+      body.append(
+        'phone_number',
+        this.state.countryCode + this.state.fields.phone,
+      );
+      let response = await makePostRequestMultipart(
+        ApiUrl.SENDSMS,
+        false,
+        body,
+      );
+      console.log('handle employee send sms-----', response);
+      if (response) {
+        Toast.show(response[0]?.message, Toast.LONG);
+        this.setState({rowID: response[0]?.rowid});
+        // this.setState({isSent: !this.state.isSent});
+        // this.setState({isModalVisible:true});
+      }
+    }
   };
 
-submituserRegistrationForm = async () => {
-  console.log('sgggg=========');
+  validateOtp = async () => {
+   // this.setState({isSent: !this.state.isSent});
+    if (this.state.enteredOTP.length > 2) {
+      let body = new FormData();
+      body.append('rowid', this.state.rowID);
+      body.append('entered_otp', this.state.number);
+      let response = await makePostRequestMultipart(
+        ApiUrl.VALIDATE_OTP,
+        false,
+        body,
+      );
+      console.log('handle employee validate -----', response);
+      if (response) {
+        Toast.show(response[0]?.message, Toast.LONG);
+        // this.setState({enableSignUp:false});
+        // this.setState({isModalVisible:true});
+      }
+    } else {
+      Toast.show('Enter valid OTP', Toast.LONG);
+    }
+  };
+
+  submituserRegistrationForm = async () => {
     this.setState({
       errors: Validator.validateForm(
         null,
@@ -82,26 +140,33 @@ submituserRegistrationForm = async () => {
       ),
     });
 
-    if(this.state.errors.formIsValid) {
-      console.log('sgggg=========2')
-    let body = new FormData();
-    body.append('username', this.state.fields.email);
-    body.append('password', this.state.fields.password);
-    body.append('email', this.state.fields.email);
-    body.append('first_name', this.state.fields.first_name);
-    body.append('last_name', this.state.fields.last_name);
-    let response = await makePostRequestMultipart(ApiUrl.EmployerSignUp,false,body);
-    console.log('handle employee Signup-----', response);
-    if (response) {
-      this.setState({userEmail:response?.email});
-      this.setState({isModalVisible:true});
+    if (this.state.errors.formIsValid) {
+      let body = new FormData();
+      body.append('username', this.state.fields.email);
+      body.append('password', this.state.fields.password);
+      body.append('email', this.state.fields.email);
+      body.append('first_name', this.state.fields.first_name);
+      body.append('last_name', this.state.fields.last_name);
+      body.append('registration_type', 'freelancer');
+      body.append('company_name', '');
+      
+
+      let response = await makePostRequestMultipart(
+        ApiUrl.EmployerSignUp,
+        false,
+        body,
+      );
+      console.log('handle employee Signup-----', response);
+      if (response) {
+        this.setState({userEmail: response?.email});
+        this.setState({isModalVisible: true});
+      }
     }
-  }
   };
-onDismissModel=()=>{
-  this.setState({isModalVisible:false});
-  this.props.navigation.navigate('HomeScreen')
-}
+  onDismissModel = () => {
+    this.setState({isModalVisible: false});
+    this.props.navigation.navigate('HomeScreen');
+  };
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -110,7 +175,9 @@ onDismissModel=()=>{
           <ImageBackground
             style={{width: '100%', height: '100%'}}
             source={require('../../../assets/images/authBg.jpg')}>
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps={'always'}>
               <View style={[styles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -173,30 +240,53 @@ onDismissModel=()=>{
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
-                  <FontAwesome name="at" size={20} color="#fff" />
+                    <FontAwesome name="at" size={20} color="#fff" />
                   </View>
                 </View>
                 <ErrorMsg errorMsg={this.state.errors['email']} />
 
-                {/* <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2Num}>
+                <View style={styles.formGroup1}>
+                  <View
+                    style={[styles.formSubGroup2Num, {flexDirection: 'row'}]}>
+                    <Picker
+                      style={{width: '40%', height: 45}}
+                      selectedValue={this.state.countryCode}
+                      onValueChange={(itemValue, itemPosition) =>
+                        this.setState({
+                          countryCode: itemValue,
+                          choosenIndex: itemPosition,
+                        })
+                      }>
+                      {countryCodes &&
+                        countryCodes.map((data, index) => {
+                          return (
+                            <Picker.Item
+                              key={data._id}
+                              label={data.name + ' (' + data.dial_code + ')'}
+                              value={data.dial_code}
+                            />
+                          );
+                        })}
+                    </Picker>
                     <TextInput
                       returnKeyType="done"
-                      placeholder="+ 91"
-                      style={styles.inputGroup}
+                      placeholder="Enter Phone Number"
+                      style={[styles.inputGroup, {width: '100%'}]}
                       placeholderTextColor={'#fff'}
                       keyboardType="number-pad"
-                      value={this.state.number}
-                      onChange={this.handleInputLastName}
+                      maxLength={13}
+                      value={this.state.fields.phone}
+                      onChangeText={(text) => this.handleChange(text, 'phone')}
                     />
                   </View>
                   <View style={styles.formSubGroupNum}>
                     <Pressable
-                      style={{ backgroundColor: '#595555', borderRadius: 40 }}>
+                      style={{backgroundColor: '#595555', borderRadius: 40}}>
                       <Text
                         style={{
                           paddingHorizontal: 10,
-                          paddingVertical: 5, fontSize: 12,
+                          paddingVertical: 5,
+                          fontSize: 12,
                           fontFamily: 'Poppins-Regular',
                           color: '#fff',
                         }}
@@ -207,6 +297,7 @@ onDismissModel=()=>{
                   </View>
                 </View>
 
+                <ErrorMsg errorMsg={this.state.errors['phone']} />
                 {this.state.isSent && (
                   <View style={styles.formGroup1}>
                     <View style={styles.formSubGroup2Num}>
@@ -217,25 +308,27 @@ onDismissModel=()=>{
                         placeholderTextColor={'#fff'}
                         keyboardType="default"
                         secureTextEntry
+                        //value={this.state.number}
+                        //onChange={this.handleInputLastName}
+                        onChangeText={this.handleOTP}
                       />
                     </View>
                     <View style={styles.formSubGroupNum}>
                       <Pressable
-                        style={{ backgroundColor: '#595555', borderRadius: 40 }}>
+                        style={{backgroundColor: '#595555', borderRadius: 40}}>
                         <Text
                           style={{
                             paddingHorizontal: 10,
                             paddingVertical: 5,
                             color: '#fff',
                           }}
-                        // onPress={()=>this.onSentOtp()}
-                        >
+                          onPress={() => this.validateOtp()}>
                           Verify
                         </Text>
                       </Pressable>
                     </View>
                   </View>
-                )} */}
+                )}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -294,6 +387,7 @@ onDismissModel=()=>{
             </View> */}
 
                 <Pressable
+                  // disabled={this.state.enableSignUp}
                   style={styles.signinBtn}
                   onPress={this.submituserRegistrationForm}>
                   <Text style={styles.signinText}>Sign Up</Text>
@@ -304,7 +398,9 @@ onDismissModel=()=>{
                   <Text
                     style={styles.signupText}
                     onPress={() =>
-                      this.props.navigation.navigate('SignInScreen', {userType: 'employee'})
+                      this.props.navigation.navigate('SignInScreen', {
+                        userType: 'employee',
+                      })
                     }>
                     Please Sign In
                   </Text>
@@ -313,7 +409,8 @@ onDismissModel=()=>{
             </ScrollView>
           </ImageBackground>
         </View>
-        {this.state.isModalVisible === true?<Modal transparent={true} isVisible={this.state.isModalVisible}>
+        {this.state.isModalVisible === true ? (
+          <Modal transparent={true} isVisible={this.state.isModalVisible}>
             <View style={CommonStyles.modalBg}>
               <View style={CommonStyles.modalContent}>
                 <Image
@@ -327,12 +424,17 @@ onDismissModel=()=>{
                   {this.state.userEmail}
                 </Text>
 
-                <TouchableOpacity style={CommonStyles.modalCross} onPress={this.onDismissModel}>
+                <TouchableOpacity
+                  style={CommonStyles.modalCross}
+                  onPress={this.onDismissModel}>
                   <Entypo name="circle-with-cross" color="#71b85f" size={35} />
                 </TouchableOpacity>
               </View>
             </View>
-          </Modal>:<></>}
+          </Modal>
+        ) : (
+          <></>
+        )}
       </SafeAreaView>
     );
   }
