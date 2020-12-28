@@ -74,6 +74,11 @@ class PostedProjectByEmployee extends Component {
       .catch((error) => {});
   };
 
+  nav = () => {
+    console.log("Clicked");
+    this.props.navigation.navigate('SearchProjectStudents')
+  }
+
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
@@ -118,7 +123,7 @@ class PostedProjectByEmployee extends Component {
                   </View>
                   <View style={styles.buttonWrapper}>
                     <View style={styles.findBtn}>
-                      <TouchableOpacity style={styles.actionBtn}>
+                      <TouchableOpacity style={styles.actionBtn} onPress={this.nav}>
                         <FontAwesome
                           name="search"
                           color="#fff"
