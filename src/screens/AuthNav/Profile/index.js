@@ -82,13 +82,13 @@ class ProfileScreen extends Component {
                     source={{ uri: item.user_image }}
                     style={CommonStyles.usrImage}
                   />
-                  <TouchableOpacity style={CommonStyles.userPhoto}>
+                  {/* <TouchableOpacity style={CommonStyles.userPhoto}>
                     <FontAwesome name="camera" color="#71b85f" size={22} />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
-                <TouchableOpacity style={styles.camPosition}>
+                {/* <TouchableOpacity style={styles.camPosition}>
                   <FontAwesome name="camera" color="#71b85f" size={22} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </ImageBackground>
             )) : <View style={styles.noDate}><Text style={styles.noDateText}>No data</Text></View>}
             {this.state.profiledataset.length >0 ? this.state.profiledataset.map((item, i) => (
