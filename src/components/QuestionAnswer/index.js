@@ -115,6 +115,7 @@ class QuestionAnswer extends Component {
             </TouchableOpacity> 
               ))}
 
+<View style={{marginBottom: 80}}></View>
           </View>
         </ScrollView>
       </View>

@@ -236,7 +236,7 @@ class StudentProject extends Component {
             animation="fade"
             textContent={'Loading...'}
           />
-          <View>
+          <View style={CommonStyles.container}>
             <Picker
               style={{width: '100%', height: 45, color: '#3B1D25'}}
               // selectedValue={this.state.selectedSkills}
@@ -272,21 +272,21 @@ class StudentProject extends Component {
                       <Text style={styles.boxTitle}>{item.job_title}</Text>
                       <Text style={styles.boxTexts}>{item.description}</Text>
                       <View style={[styles.flexstyle, styles.timeAgo]}>
-                        <Entypo name="time-slot" color="#000" size={15} />
+                        <Entypo name="time-slot" color="rgba(0,0,0,0.3)" size={15} />
                         <Text style={styles.iconText}>{item.posted_date}</Text>
                       </View>
                       <View style={[styles.flexstyle, styles.timeAgo]}>
-                        <FontAwesome name="tag" color="#000" size={15} />
+                        <FontAwesome name="tag" color="rgba(0,0,0,0.3)" size={15} />
                         <Text style={styles.iconText}>{item.key_skill}</Text>
                       </View>
                       <View style={[styles.flexstyle, styles.timeAgo]}>
-                        <FontAwesome name="user" color="#000" size={15} />
+                        <FontAwesome name="user" color="rgba(0,0,0,0.3)" size={15} />
                         <Text style={styles.iconText}>{item.match_number}</Text>
                       </View>
                       <View style={[styles.flexstyle, styles.timeAgo]}>
                         <FontAwesome
                           name="search-plus"
-                          color="#000"
+                          color="rgba(0,0,0,0.3)"
                           size={15}
                         />
                         <Text style={styles.iconText}>
@@ -306,6 +306,7 @@ class StudentProject extends Component {
                 </View>
               </TouchableOpacity>
             ))}
+            <View style={{marginBottom: 80}}></View>
           </ScrollView>
         </View>
       </SafeAreaView>
