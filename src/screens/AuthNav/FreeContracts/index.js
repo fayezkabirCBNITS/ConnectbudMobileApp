@@ -16,7 +16,6 @@ import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
 
-
 import Spinner from 'react-native-loading-spinner-overlay';
 
 class FreeContactScreen extends Component {
@@ -26,7 +25,7 @@ class FreeContactScreen extends Component {
       projectData: [],
       showLoader: false,
       user_id: '',
-      mileData: []
+      mileData: [],
     };
   }
 
@@ -38,40 +37,101 @@ class FreeContactScreen extends Component {
     const {userDeatailResponse} = this.props;
     this.setState({
       showLoader: true,
-      user_id : base64.decode(userDeatailResponse.userData.user_id),
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
     });
-      let body = new FormData();
-      body.append("hirer_id", "");
-      body.append("freelancer_id", "");
-      body.append("job_id", "");
-      body.append("type", "");
-      body.append("page_type", "ongoing");
-      body.append("user_id",  base64.decode(userDeatailResponse.userData.user_id));
+    let body = new FormData();
+    body.append('hirer_id', '');
+    body.append('freelancer_id', '');
+    body.append('job_id', '');
+    body.append('type', '');
+    body.append('page_type', 'ongoing');
+    body.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
 
-      await axios({
-        url: API_URL + "fetchmilestones",
-        method: "POST",
-        data: body,
-      }).then((response) => {
-        this.setState({
-          projectData: response.data,
-          mileData: response.data[0].details,
-        });
-        console.log((this.state.projectData));
+    await axios({
+      url: API_URL + 'fetchmilestones',
+      method: 'POST',
+      data: body,
+    }).then((response) => {
+      this.setState({
+        projectData: response.data,
+        mileData: response.data[0].details,
       });
+      console.log(this.state.mileData);
+    });
 
-      let taglist = new FormData();
-      taglist.append("user_id",  base64.decode(userDeatailResponse.userData.user_id));
+    let taglist = new FormData();
+    taglist.append(
+      'user_id',
+      base64.decode(userDeatailResponse.userData.user_id),
+    );
 
-      await axios({
-        url: API_URL + "freelancer_transaction",
-        method: "POST",
-        data: taglist,
-      }).then((res) => {
-        console.log((res));
-        // this.setState({
-        //   amount: res.data,
-        // });
+    await axios({
+      url: API_URL + 'freelancer_transaction',
+      method: 'POST',
+      data: taglist,
+    }).then((res) => {
+      console.log(res);
+      // this.setState({
+      //   amount: res.data,
+      // });
+    });
+  };
+
+  milestone = async () => {
+    let body = new FormData();
+    body.append("hirer_id", "");
+    body.append("freelancer_id", "");
+    body.append("job_id", "");
+    body.append("type", "");
+    body.append("page_type", "ongoing");
+    body.append("user_id", this.state.user_id);
+
+    await axios({
+      url: API_URL + "fetchmilestones",
+      method: "POST",
+      data: body,
+    }).then((response) => {
+      this.setState({
+        projectData: response.data,
+        mileData: response.data[0].details,
+      });
+    });
+  };
+
+  moneyRequest = async (mileId, Status) => {
+    console.log(mileId);
+    this.setState({
+      btnStatus: true,
+      SWAL : Status
+    });
+    const obj = {
+      milestone_id: mileId,
+      type: "freelancer",
+    };
+
+    await axios
+      .post(API_URL + "freelancer_redeem", obj, {
+        header: {
+          "content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        this.milestone();
+        // localStorage.setItem("acceptStatus", "true");
+        if(this.state.SWAL === "free"){
+          console.log("if called")
+          alert(
+            "your request for confirmation has been submitted successfully"
+          );
+        }
+        else{
+        alert(
+          "Successfully sent the request to release the money from escrow!"
+        );
+      }
+      })
+      .catch((error) => {
+        this.setState({ isLoading: false });
       });
   };
 
@@ -108,51 +168,93 @@ class FreeContactScreen extends Component {
               <Text style={styles.heading}>Ongoing Projects</Text>
               {/* project 1 */}
               <Collapse style={styles.collapse}>
-                {this.state.projectData.map((data,i) => (
-                <CollapseHeader>
-                  <View style={styles.questions}>
-                    <Text style={styles.questionsText}>Project Name :</Text>
-                    <Text style={styles.questionsTextGreen}>
-                      {data.job_name}
-                    </Text>
-                  </View>
-                </CollapseHeader>
+                {this.state.projectData.map((data, i) => (
+                  <CollapseHeader>
+                    <View style={styles.questions}>
+                      <Text style={styles.questionsText}>Project Name :</Text>
+                      <Text style={styles.questionsTextGreen}>
+                        {data.job_name}
+                      </Text>
+                    </View>
+                  </CollapseHeader>
                 ))}
                 <CollapseBody>
-{this.state.mileData.map((data,i)=> (
-                  <View style={styles.detailsSec}>
-                    <View style={styles.detailsField}>
-                      <Text style={styles.deatailsHdng}>Type of Project</Text>
-                      <Text style={styles.deatailsInfo}>{data.project_type}{data.milestone_number}</Text>
-                    </View>
-                    <View style={styles.detailsField}>
-                      <Text style={styles.deatailsHdng}>Project Timeline</Text>
-                      <Text style={styles.deatailsInfo}>{data.end_date}</Text>
-                    </View>
-                    <View style={styles.detailsField}>
-                      <Text style={styles.deatailsHdng}>Description</Text>
-                      <Text style={styles.deatailsInfo}>{data.description}</Text>
-                    </View>
-                    <View style={styles.detailsField}>
-                      <Text style={styles.deatailsHdng}>Amount</Text>
-                      <Text style={styles.deatailsInfo}>${data.amount}</Text>
-                    </View>
-                    <View style={styles.detailsField}>
-                      <Text style={styles.deatailsHdng}>Action</Text>
-                      <TouchableOpacity style={styles.paidBtn}>
-                        <Text style={styles.paidText}>$ {data.payment_status}</Text>
-                      </TouchableOpacity>
-                      {/* <TouchableOpacity style={styles.notPaidBtn}>
+                  {this.state.mileData.map((data, i) => (
+                    <View style={styles.detailsSec}>
+                      <View style={styles.detailsField}>
+                        <Text style={styles.deatailsHdng}>Type of Project</Text>
+                        <Text style={styles.deatailsInfo}>
+                          {data.project_type}
+                          {data.milestone_number}
+                        </Text>
+                      </View>
+                      <View style={styles.detailsField}>
+                        <Text style={styles.deatailsHdng}>
+                          Project Timeline
+                        </Text>
+                        <Text style={styles.deatailsInfo}>{data.end_date}</Text>
+                      </View>
+                      <View style={styles.detailsField}>
+                        <Text style={styles.deatailsHdng}>Description</Text>
+                        <Text style={styles.deatailsInfo}>
+                          {data.description}
+                        </Text>
+                      </View>
+                      <View style={styles.detailsField}>
+                        <Text style={styles.deatailsHdng}>Amount</Text>
+                        <Text style={styles.deatailsInfo}>${data.amount}</Text>
+                      </View>
+                      <View style={styles.detailsField}>
+                        <Text style={styles.deatailsHdng}>Action</Text>
+
+                        <TouchableOpacity style={styles.paidBtn}>
+                          {data.payment_status === 'Not paid' && (
+                            <Text style={styles.paidText}>Not paid</Text>
+                          )}
+
+                          {data.payment_status === 'Escrow' &&
+                            data.class_status !== 'free' && (
+                              <Text style={styles.paidText}
+                              onPress={() => {
+                                this.moneyRequest(
+                                  data.milestone_id
+                                );
+                              }}
+                              >
+                                Request to release money
+                              </Text>
+                            )}
+
+                          {data.payment_status === 'Escrow' &&
+                            data.class_status === 'free' && (
+                              <Text style={styles.paidText}>
+                                Request after completion
+                              </Text>
+                            )}
+
+                          {data.payment_status === 'Pending' && (
+                            <Text style={styles.paidText}>Pending</Text>
+                          )}
+
+                          {data.payment_status === 'Redeem' && (
+                            <Text style={styles.paidText}>Pending</Text>
+                          )}
+
+                          {data.payment_status === 'Paid' && (
+                            <Text style={styles.paidText}>Paid</Text>
+                          )}
+                        </TouchableOpacity>
+
+                        {/* <TouchableOpacity style={styles.notPaidBtn}>
                         <Text style={styles.paidText}>$ Not Paid</Text>
                       </TouchableOpacity> */}
+                      </View>
                     </View>
-                  </View>
                   ))}
                 </CollapseBody>
               </Collapse>
 
               {/* project 2 */}
-            
             </ScrollView>
           </View>
         </View>

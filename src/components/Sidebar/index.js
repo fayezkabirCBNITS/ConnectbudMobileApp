@@ -310,9 +310,9 @@ class Sidebar extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('TransactionScreen')
-                  // }
+                  onPress={() =>
+                    this.props.navigation.navigate('EmpContactScreen')
+                  }
                   style={styles.menuOptn}>
                   <MaterialIcons name="payment" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Contracts</Text>

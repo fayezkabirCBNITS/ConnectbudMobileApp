@@ -242,6 +242,7 @@ class HireStudentsScreen extends Component {
     await this.setState({
       timeline: this.state.Date,
     });
+    this.setState({ showStartDatePicker: false });
     //this.validateJobForm();
   };
   render() {
