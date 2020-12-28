@@ -77,7 +77,7 @@ export default {
         alignItems: 'center', marginLeft:3,borderRadius:5,height:55,backgroundColor:'#71b85f',width:'15%',elevation:4,
       },
       formSubGroup2: {
-        width: '80%',
+        width: '100%',
         // marginBottom : 10
       },
       inputHead: {

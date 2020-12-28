@@ -33,8 +33,8 @@ import axios from "axios";
 
 const width = Dimensions.get('window').width;
 class Animated_Item extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.animatedValue = new Animated.Value(0);
 
@@ -100,13 +100,14 @@ class Animated_Item extends Component {
             placeholder="http://facebook.com/..."
             style={styles.inputGroup}
             keyboardType="default"
+            onChange={(evt) => this.props.handleAdditionUrls(evt , "addition" , this.props.index)}//
           />
         </View>
-        <View style={styles.formSubGroup1}>
+        {/* <View style={styles.formSubGroup1}>
           <TouchableOpacity onPress={this.deleteItem}>
             <FontAwesome name="minus" size={25} color="#d7d7d8" />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </Animated.View>
     );
   }
@@ -123,7 +124,7 @@ class AddExperienceScreen extends Component {
       projectTitle: "",
       projectDecription: "",
       projectUrl: "",
-      additionalurls: [],
+      additionalurls: [{id : 0 , text : ""}],
     };
     this.addNewElement = false;
     this.index = 0;
@@ -142,9 +143,9 @@ class AddExperienceScreen extends Component {
     this.index += 1;
     this.setState({ disabled: false });
   };
-  add_New_View = () => {
+  add_New_View = (text) => {
     this.addNewElement = true;
-    const newlyAddedValue = { id: 'id_' + this.index, text: this.index + 1 };
+    const newlyAddedValue = { id: this.index+1, text: this.index + 1 };
 
     this.setState({
       disabled: true,
@@ -172,6 +173,9 @@ class AddExperienceScreen extends Component {
     );
   }
   handleSubmit = async () => {
+    let addtionUrl = this.state.additionalurls.concat(this.state.valueArray);
+    let combinedArr = addtionUrl.map((data) => data.text).join(",")
+    // console.log(combinedArr ,"yessssssssssssssss")
     let body = new FormData();
 
     body.append("id", this.state.id);
@@ -187,10 +191,10 @@ class AddExperienceScreen extends Component {
 
     //for Job
     body.append("experience_id", "")
-    body.append("experience", this.state.title);
-    body.append("description", this.state.experience);
-    body.append("projecturl", this.state.projecturl);
-    body.append("professionalurls", this.state.addprofurls.toString());
+    body.append("experience", this.state.projectTitle);
+    body.append("description", this.state.projectDecription);
+    body.append("projecturl", this.state.projectUrl);
+    body.append("professionalurls", combinedArr);
     body.append("employment_type", "");
     body.append("willing_to_relocate", "");
     body.append("country", "");
@@ -215,19 +219,22 @@ class AddExperienceScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
+    console.log(body , "bodyyyyyyyyyyy")
     await axios
       .post(
-        API_URL +
+        BASE_URL +
         "expertProfile/" +
-        this.props.match.params.name.split(" ").join("-"),
+        base64.decode(this.props.userDeatailResponse.slug),
         body
       )
       .then((res) => {
-        this.setState({});
+        if(res.status === 200) this.props.navigation.navigate('ProfileScreen')
+        console.log(res , "add experience response===")
+        // this.setState({});
 
-        this.props.history.push(
-          "/profile/" + this.props.match.params.name.split(" ").join("-")
-        );
+        // this.props.history.push(
+        //   "/profile/" + this.props.match.params.name.split(" ").join("-")
+        // );
       });
   };
 
@@ -243,6 +250,17 @@ class AddExperienceScreen extends Component {
       this.setState({ projectUrl: text.nativeEvent.text });
     }
   }
+
+  handleAdditionUrls = (text ,targetState ,  targetIndex) => {
+    if(targetState === "initial") {
+      this.state.additionalurls[0].text = text.nativeEvent.text;
+    }
+    else if(targetState === "addition") {
+      console.log("hello")
+      this.state.valueArray[targetIndex].text = text.nativeEvent.text;
+    }
+  }
+
   render() {
     console.log(this.state , "adddexperience stateeeeeeeeee")
     return (
@@ -342,6 +360,7 @@ class AddExperienceScreen extends Component {
                       placeholder="http://facebook.com/..."
                       style={styles.inputGroup}
                       keyboardType="default"
+                      onChange={(evt) => this.handleAdditionUrls(evt , "initial" , 0)}//addition
                     />
                   </View>
                 </View>
@@ -360,13 +379,16 @@ class AddExperienceScreen extends Component {
                     this.addNewElement && this.scrollView.scrollToEnd();
                   }}>
                   <View style={{ flex: 1, padding: 4 }}>
-                    {this.state.valueArray.map((ele) => {
+                    {this.state.valueArray.map((ele , index) => {
                       return (
                         <Animated_Item
                           key={ele.id}
                           item={ele}
                           deleteItem={(id) => this.remove_Selected_Item(id)}
                           afterAnimationComplete={this.afterAnimationComplete}
+                          handleAdditionUrls={this.handleAdditionUrls}
+                          index={index}
+                          
                         />
                       );
                     })}
@@ -374,6 +396,7 @@ class AddExperienceScreen extends Component {
                 </ScrollView>
               </View>
               <TouchableOpacity
+              onPress={this.handleSubmit}
                 activeOpacity={0.9}
                 style={[styles.authBtn, { marginTop: 10, marginBottom: 100, }]}>
                 <Text style={styles.authBtnText}>Add</Text>
