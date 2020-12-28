@@ -121,6 +121,7 @@ gotoPage = ()=>{
                 user_image: item.user_image,
                 user_type: this.props.userDeatailResponse?.Flag,
                 room_id: item.room_id,
+                token: item.token
             },  SyncStorage.set('room_id',item.job_id+'_'+item.receiver_id))
                   }>
                   <View style={styles.imgSec}>

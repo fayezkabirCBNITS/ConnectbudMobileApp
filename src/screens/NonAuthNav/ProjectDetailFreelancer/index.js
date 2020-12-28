@@ -28,21 +28,22 @@ import {
 } from '../../../redux/actions/user-data';
 import base64 from 'base-64';
 
-import Spinner from 'react-native-loading-spinner-overlay';
-
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
 
-class JobDetailsFreelancer extends Component {
+import Spinner from 'react-native-loading-spinner-overlay';
+
+class ProjectDetailsFreelancerNA extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Job: '',
       jobDetails: [],
       jobSet: [],
-      user_id: '',
+      btnStatus: '',
       showLoader: false,
+      user_id: '',
     };
   }
 
@@ -53,23 +54,24 @@ class JobDetailsFreelancer extends Component {
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
     this.setState({
-      showLoader: false,
-      user_id: base64.decode(userDeatailResponse.userData.user_id),
+      btnStatus: userDeatailResponse.userData.user_id,
+      showLoader: true,
+      user_id : base64.decode(userDeatailResponse.userData.user_id),
     });
     let taglistbody = new FormData();
     let body = new FormData();
     body.append('user_id', base64.decode(userDeatailResponse.userData.user_id));
-    body.append('type', 'recruiter');
+    body.append('type', 'freelancer');
     body.append('skills', '');
     body.append('search_type', 'all');
-    body.append('offset', '10');
+    body.append('offset', '0');
 
     taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
     taglistbody.append(
       'user_id',
       base64.decode(userDeatailResponse.userData.user_id),
     );
-    taglistbody.append('type', 'recruiter');
+    taglistbody.append('type', 'freelancer');
 
     await axios({
       url: API_URL + 'expert_jobdetails',
@@ -77,6 +79,7 @@ class JobDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
+        console.log(response);
         this.setState({
           jobDetails: response.data,
           showLoader: false,
@@ -98,7 +101,6 @@ class JobDetailsFreelancer extends Component {
         this.setState({
           jobSet: response.data,
         });
-
         this.setState({isLoading: true});
       })
       .catch((error) => {
@@ -106,23 +108,26 @@ class JobDetailsFreelancer extends Component {
       });
   };
 
-  PageNav = async (JobId) => {
-    this.props.updateJobId(JobId);
+  PageNav = async(JobId) => {
     this.setState({
       showLoader: true,
-    });
+    })
+    this.props.updateJobId(JobId);
     // this.props.navigation.navigate('ProjectDetailsFreelancer');
     let taglistbody = new FormData();
     let body = new FormData();
     body.append('user_id', this.state.user_id);
-    body.append('type', 'recruiter');
+    body.append('type', 'freelancer');
     body.append('skills', '');
     body.append('search_type', 'all');
-    body.append('offset', '10');
+    body.append('offset', '0');
 
     taglistbody.append('job_id', JobId);
-    taglistbody.append('user_id', this.state.user_id);
-    taglistbody.append('type', 'recruiter');
+    taglistbody.append(
+      'user_id',
+      this.state.user_id,
+    );
+    taglistbody.append('type', 'freelancer');
 
     await axios({
       url: API_URL + 'expert_jobdetails',
@@ -130,6 +135,7 @@ class JobDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
+        console.log(response);
         this.setState({
           jobDetails: response.data,
           showLoader: false,
@@ -163,7 +169,7 @@ class JobDetailsFreelancer extends Component {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
-          <Spinner
+        <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
@@ -174,7 +180,17 @@ class JobDetailsFreelancer extends Component {
             hidden={false}
             translucent={false}
           />
-          <Header />
+                    <View style={CommonStyles.header}>
+            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+              <Entypo name="menu" color="#71b85f" size={35} />
+            </TouchableOpacity>
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={CommonStyles.imageHdr}
+            />
+          </View>
+
+          {/* <Header /> */}
           <View style={[CommonStyles.container, styles.bgColorWhite]}>
             <ScrollView
               style={styles.scrolling}
@@ -186,7 +202,7 @@ class JobDetailsFreelancer extends Component {
                   <Text style={styles.courseDetails}>Course Details</Text>
                   <Text>
                     <Text style={styles.textSemibold}> Course Amount : </Text>{' '}
-                    <Text> {value.job_amount}</Text>
+                    <Text> {value.price_amount} USD</Text>
                   </Text>
                   {/* <Text>
                   <Text style={styles.textSemibold}> Course Duration : </Text>{' '}
@@ -200,13 +216,40 @@ class JobDetailsFreelancer extends Component {
                     <Text style={styles.textSemibold}> Course Syllabus : </Text>
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
-
-                  <TouchableOpacity
-                    style={styles.applyBtn}
-                    onPress={() =>
-                      this.props.navigation.navigate('AssessmentQuestion')
-                    }>
-                    <Text style={styles.applyBtnText}>Apply</Text>
+                  <TouchableOpacity style={styles.applyBtn}>
+                    {this.state.jobDetails.map((value, index) => {
+                      return (
+                        <>
+                          {value.pending_status === 'pending' ? (
+                            <Text style={styles.applyBtnText}>Waiting</Text>
+                          ) : (
+                            <>
+                              {this.state.btnStatus === '' ? (
+                                <Text
+                                  style={styles.applyBtnText}
+                                  onPress={() =>
+                                    this.props.navigation.navigate(
+                                      'SignInScreen',
+                                    )
+                                  }>
+                                  Apply
+                                </Text>
+                              ) : (
+                                <Text
+                                  style={styles.applyBtnText}
+                                  onPress={() =>
+                                    this.props.navigation.navigate(
+                                      'AssessmentQuestion',
+                                    )
+                                  }>
+                                  Apply
+                                </Text>
+                              )}
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
                   </TouchableOpacity>
                 </View>
               ))}
@@ -214,7 +257,7 @@ class JobDetailsFreelancer extends Component {
               <View style={styles.similarJobWrapper}>
                 <View style={styles.slimilarJob}>
                   <Text style={styles.similiarjobText}>
-                    Similar Jobs for me
+                    Similar projects for me
                   </Text>
                 </View>
                 {this.state.jobSet.map((item, idx) => (
@@ -249,21 +292,9 @@ class JobDetailsFreelancer extends Component {
     );
   }
 }
-
-// export default ProjectDetailsFreelancer;
-
 const mapStateToProps = (state) => {
   return {
     userDeatailResponse: state,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    //fetchCartData: () => dispatch(fetchCartData()),
-    //updateStoreId: (id) => dispatch(updateStoreId(id)),
-    //showLoader: (text) => dispatch(showLoader(text)),
-    // hideLoader: () => dispatch(hideLoader()),
   };
 };
 
@@ -276,4 +307,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatch)(JobDetailsFreelancer);
+export default connect(mapStateToProps, mapDispatch)(ProjectDetailsFreelancerNA);

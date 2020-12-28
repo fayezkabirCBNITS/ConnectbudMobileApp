@@ -92,7 +92,7 @@ export default {
   },
   loader: {
     position: 'absolute',
-    right: 30,
+    right: 15,
   },
 
 

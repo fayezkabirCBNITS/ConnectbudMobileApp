@@ -135,8 +135,10 @@ export default {
     borderRadius: 5,
     padding: 0,
     paddingHorizontal: 15,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection:"row",
+
   },
   wrap: {
     width: '100%',

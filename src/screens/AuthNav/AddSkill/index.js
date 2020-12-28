@@ -177,7 +177,7 @@ class AddskillScreen extends Component {
                       </CollapseHeader>
                       <CollapseBody>
                         <View style={styles.itemswrapper}>
-                          <ScrollView showsVerticalScrollIndicator={false}>
+                          <ScrollView nestedScrollEnabled showsVerticalScrollIndicator={false}>
                             {item.childskills.map((value, index) => {
                               return (
                                 <TouchableOpacity key={value.label} onPress={(e) => this.ChildTagList(e, value.label)}>

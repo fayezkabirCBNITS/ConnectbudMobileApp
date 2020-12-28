@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   View,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -8,7 +9,9 @@ import {
   SafeAreaView,
   Pressable,
 } from 'react-native';
-import CommonStyles from '../../../CommonStyles';
+import CommonStyles from '../../../../CommonStyles';
+import Entypo from 'react-native-vector-icons/Entypo';
+import StatusBar from '../../../components/StatusBar';
 import {ScrollView} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,23 +19,23 @@ import styles from './styles';
 import {Picker} from '@react-native-community/picker';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
-import ApiUrl from '../../config/ApiUrl';
+import ApiUrl from '../../../config/ApiUrl';
 import {
   makePostRequestMultipart,
   makeAuthGetRequest,
-} from '../../services/http-connectors';
-import ErrorMsg from '../../components/ErrorMsg';
+} from '../../../services/http-connectors';
+import ErrorMsg from '../../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
 import Toast from 'react-native-simple-toast';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-class PostProject extends Component {
+class PostProjectNA extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showLoader: false,
       showSkills: false,
-      skillValuePlaceHolder: [{value: 'Select Skills', label: 'Select skills'}],
+      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
       selectedSkills: [],
       selectedSkillIndex: null,
       title: '',
@@ -65,8 +68,6 @@ class PostProject extends Component {
   }
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    //this.state.skills.concat({value: data, label: data}).sort()
-    //this.setState({skills: response});
     this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
@@ -132,14 +133,13 @@ class PostProject extends Component {
     })
 
     let jobDescription = new FormData();
-    jobDescription.append('posted_by', base64.decode(this.props.userID));
+    jobDescription.append('posted_by','');
     jobDescription.append('job_name', this.state.title);
     jobDescription.append('description', this.state.des);
     jobDescription.append(
       'expertise_skill',
       JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
     );
-    // jobDescription.append("category", this.getSSLabel(this.state.SS));
     jobDescription.append('additional_skill',this.state.xtraSkill);
     jobDescription.append('price_unit', 'usd');
     jobDescription.append('price_amount', this.state.budget);
@@ -148,6 +148,8 @@ class PostProject extends Component {
       this.state.daySelect + this.state.monthSelect,
     );
     jobDescription.append('projects_for', 'All');
+    jobDescription.append('page_type', 'landing');
+
     console.log('post freelancer job=============', jobDescription);
 
     let response = await makePostRequestMultipart(
@@ -167,13 +169,13 @@ class PostProject extends Component {
         xtraSkill: '',
         budget: '',
       });
-      this.fireMail();
+     // this.fireMail();
       alert('Successfully posted the Project!');
-      // this.props.NavtoPostedpage();
-      this.props.navigation.navigate('PostedProjectByEmployee');
+      this.props.navigation.navigate('SignInScreen');
     }
   };
 
+  /*
   fireMail = async () => {
     let body = new FormData();
     body.append('job_id', this.state.JobID);
@@ -183,6 +185,7 @@ class PostProject extends Component {
     let response = await makePostRequestMultipart(ApiUrl.JobMail, false, body);
     console.log('handle fire mail-----', response);
   };
+  */
   onButtonSubmit = async () => {
     let dataSet = this.validateJobForm();
     if (this.state.selectedSkills.length === 0) {
@@ -198,7 +201,7 @@ class PostProject extends Component {
   };
   reverseAddSkills = async (index) => {
     // this.setState({})
-    await this.setState({
+    this.setState({
       selectedSkills: this.state.selectedSkills.filter((_, i) => i !== index),
     });
     let data = this.state.selectedSkills[index];
@@ -214,6 +217,18 @@ class PostProject extends Component {
   render() {
     return (
       <SafeAreaView style={CommonStyles.main}>
+                  <StatusBar />
+
+                  <View style={CommonStyles.header}>
+            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+              <Entypo name="menu" color="#71b85f" size={35} />
+            </TouchableOpacity>
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={CommonStyles.imageHdr}
+            />
+          </View>
+
         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
         <Spinner
             visible={this.state.showLoader}
@@ -420,8 +435,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //fetchCartData: () => dispatch(fetchCartData()),
-    //updateStoreId: (id) => dispatch(updateStoreId(id)),
     //showLoader: (text) => dispatch(showLoader(text)),
     // hideLoader: () => dispatch(hideLoader()),
   };
@@ -429,4 +442,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withNavigation(PostProject));
+)(withNavigation(PostProjectNA));
