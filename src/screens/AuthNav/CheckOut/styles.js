@@ -82,6 +82,15 @@ export default {
     fontSize: 18,
     fontFamily: 'Poppins-SemiBold',
   },
+  cvc: {
+    width: '30%',
+    height: 50,
+    padding: 0,
+    paddingHorizontal: 15,
+    color: '#000',
+    fontSize: 18,
+    fontFamily: 'Poppins-SemiBold',
+  },
   payBtn: {
     width: '100%',
     height: 50,
