@@ -26,5 +26,8 @@ export default EndPoint = {
   CourseSubmit: 'course_submit',
   FetchMilestones: 'fetchmilestones',
   PLACEHOLDER_SQUARE_IMAGE: require('../assets/images/userPro.jpg'),
+  UPDATE_ID:'updateid',
+  SENDSMS:'sendsms',
+  VALIDATE_OTP:'validate_otp',
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove
