@@ -91,14 +91,15 @@ export default {
 
     },
     subBtn: {
-        backgroundColor: '#E4E4E4',
-        borderRadius: 4,
+        //backgroundColor: '#E4E4E4',
+        //borderRadius: 4,
         // width: '30%', 
         alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        marginHorizontal: 3,
-        marginVertical: 3,
+        // paddingHorizontal: 10,
+        // paddingVertical: 5,
+        // marginHorizontal: 3,
+        // marginVertical: 3,
+        marginLeft: 5,
         color: 'rgba(59,29,37,0.5)',
     },
     subBtn1: {
@@ -127,5 +128,22 @@ export default {
         fontWeight: 'bold',
         letterSpacing: 1,
     },
-
+    subBtn2: {
+        backgroundColor: '#E4E4E4',
+        borderRadius: 5,
+        alignItems: 'center',
+        textAlignVertical: 'center',
+        marginBottom: 10,
+        marginRight: 10,
+        color: 'rgba(59,29,37,0.5)',
+    },
+    checkIcon: {
+        paddingHorizontal: 15, 
+        flexDirection: 'row', 
+        backgroundColor: '#E4E4E4', 
+        paddingVertical: 10, 
+        marginRight: 10, 
+        marginBottom: 10, 
+        borderRadius: 5
+    },
 }
