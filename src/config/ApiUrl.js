@@ -31,6 +31,8 @@ export default EndPoint = {
   InvitationMail: 'invitation_mail',
   JobDetails: 'job_details/',
   AddSkill: 'keyskill/else',
+  RecruiterProfile: 'recruiterProfile/',
+  PostedJob: 'my_postedjob',
   UPDATE_ID:'updateid',
   SENDSMS:'sendsms',
   VALIDATE_OTP:'validate_otp',
