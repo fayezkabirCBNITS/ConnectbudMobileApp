@@ -111,7 +111,7 @@ class TutoringJobs extends Component {
 
                           <Entypo
                             name="time-slot"
-                            color="#000"
+                            color="rgba(0,0,0,0.3)"
                             size={15}
                           />
                           <Text style={styles.iconText}>{item.posted_date}</Text>
@@ -120,7 +120,7 @@ class TutoringJobs extends Component {
 
                           <FontAwesome
                             name="tag"
-                            color="#000"
+                            color="rgba(0,0,0,0.3)"
                             size={15}
                           />
                           <Text style={styles.iconText}>{item.key_skill}</Text>
@@ -129,7 +129,7 @@ class TutoringJobs extends Component {
 
                           <FontAwesome
                             name="user"
-                            color="#000"
+                            color="rgba(0,0,0,0.3)"
                             size={15}
                           />
                           <Text style={styles.iconText}>{item.match_number}</Text>
@@ -138,7 +138,7 @@ class TutoringJobs extends Component {
 
                           <FontAwesome
                             name="search-plus"
-                            color="#000"
+                            color="rgba(0,0,0,0.3)"
                             size={15}
                           />
                           <Text style={styles.iconText}>{item.applied_number}</Text>
@@ -154,6 +154,7 @@ class TutoringJobs extends Component {
 
               ))
             }
+            <View style={{marginBottom: 80}}></View>
           </ScrollView>
         </View>
       </SafeAreaView>

@@ -312,7 +312,7 @@ class Portfolio extends Component {
 
         {/* {this.state.profiledataset.map((item, i) => (
           <> */}
-        <View>
+        <View style={{marginBottom: 100,}}>
           <WebView
             originWhitelist={['*']}
             source={{
