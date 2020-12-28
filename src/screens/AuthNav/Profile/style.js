@@ -55,7 +55,7 @@ export default {
   },
   tabSec: {
     width: '100%',
-    height: deviceHeight - 285,
+    height: deviceHeight - 240,
     marginTop: 20,
   },
   tab: {
@@ -98,4 +98,21 @@ export default {
     alignItems: 'center',
     backgroundColor: '#fff',
   },
+  noDate: {
+    width: '100%',
+    height: 125,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noDate2: {
+    width: '100%',
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noDateText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
+    color: '#000'
+  }
 };

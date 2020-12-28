@@ -133,4 +133,10 @@ modalCross: {
   top: 10,
   right: 10,
 },
+noData: {
+  fontFamily: 'Poppins-Regular',
+  color: '#000',
+  fontSize: 18,
+  textAlign: 'center'
+}
 };

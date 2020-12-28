@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './style';
@@ -162,13 +162,16 @@ class Overview extends Component {
               </View>
             ))}
             {this.state.profiledataset.map((item, i) => (
-              <View key={i}>
+              <View style={{marginBottom: 100,}} key={i}>
                 <Text style={styles.skillHead}>Info</Text>
                 <Text style={styles.skillText}>{item.about}</Text>
               </View>
             ))}
           </ScrollView>
-          : <Text>No Data</Text>}
+          : <View style={styles.noData}>
+          <Image source={require('../../assets/images/noData.png')} />
+          <Text style={styles.noDataText}>No Data Found</Text>
+        </View>}
 
       </View>
     );

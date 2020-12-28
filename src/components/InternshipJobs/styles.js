@@ -13,7 +13,7 @@ export default {
     },
     subjectWrapper : {
         justifyContent : "center",
-        alignItems : "center",
+        alignItems : "flex-start",
         flexDirection : "row",
         width : "100%",
         borderColor : "rgba(113,184,95,0.3)",
@@ -23,29 +23,37 @@ export default {
         borderRadius : 8
     },
     moneyContainer : {
-        borderColor : "rgba(113,184,95,0.5)",
-        borderWidth : 2,
+        borderColor : "rgba(113,184,95,1)",
+        borderWidth : 1,
         flexDirection : "row",
         alignItems : "center",
         justifyContent : "space-around",
         overflow : "hidden",
         borderRadius : 5,
-        marginTop : 15
+        marginTop : 15,
+        backgroundColor: '#fff'
     },
     inrtxt : {
         backgroundColor : "#71b85f",
         color: "#fff",
         width: "50%",
         textAlign : "center",
-        paddingVertical : 5
+        paddingVertical : 7,
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
+        textAlignVertical: 'center',
+        paddingTop: 10
     },
     usdText : {
         backgroundColor : "#fff",
         color: "#000",
         width: "50%",
         textAlign : "center",
-        paddingVertical : 5
-
+        paddingVertical : 7,
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
+        textAlignVertical: 'center',
+        paddingTop: 10
     },
     timeAgo : {
         marginBottom : 5,
@@ -56,7 +64,9 @@ export default {
         paddingLeft : 8
     },
     leftSection : {
-        width : "15%"
+        width : "15%",
+        alignItems: 'center',
+        marginTop: 4
     },
     boxTitle : {
         fontSize : 16,

@@ -28,9 +28,10 @@ import Connect, { connect } from "react-redux";
 import axios from "axios";
 
 import base64 from 'base-64';
-import { BASE_URL } from "../../../config/ApiUrl"
+import API_URL, { BASE_URL } from "../../../config/ApiUrl"
 import index from '../TermsOfServices';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ImagePicker from 'react-native-image-crop-picker';
 
 class EditProfileScreen extends Component {
   static navigationOptions = {
@@ -50,8 +51,13 @@ class EditProfileScreen extends Component {
       endDate: '',
       community: '',
       socialUrl: [{ socialurl: "" }],
-      profileImageSource: '',
-      coverImageSource: '../../../assets/images/bnr.jpg',
+      profileImageSource: Image.resolveAssetSource(
+        API_URL.PLACEHOLDER_SQUARE_IMAGE,
+      ).uri,
+      coverImageSource: Image.resolveAssetSource(
+        API_URL.PLACEHOLDER_SQUARE_IMAGE,
+      ).uri,
+      // coverImageSource: '../../../assets/images/bnr.jpg',
       profileImageToUpload: {},
       coverImageToUpload: {},
       showStartDatePicker: false,
@@ -59,7 +65,7 @@ class EditProfileScreen extends Component {
       showLoader: false,
       showSkills: false,
       showCategories: false,
-      showLoader : false,
+      showLoader: false,
       info: "",
       skillsData: [
         { title: 'C' },
@@ -72,13 +78,13 @@ class EditProfileScreen extends Component {
       categories: [],
       listedCategory: [],
       listedSkill: [],
-      
-      showModal : false,
+
+      showModal: false,
 
     };
   }
   componentDidMount = () => {
-    this.setState({showLoader : true})
+    this.setState({ showLoader: true })
     let body = new FormData();
     body.append("id", this.props.userDeatailResponse.row_id);
     body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
@@ -132,12 +138,12 @@ class EditProfileScreen extends Component {
         profileImageSource: responseObj.user_image
 
       })
-      this.setState({showLoader : false})
+      this.setState({ showLoader: false })
     })
   }
 
   handleSubmitProfile = data => {
-    this.setState({showLoader : true})
+    this.setState({ showLoader: true })
     console.log("hitting")
     const categoryArr = this.state.categoriesData.map(item => item.label.trim()).join(',');
     const skillArr = this.state.skillsData.map(item => item.label.trim()).join(',');
@@ -183,13 +189,13 @@ class EditProfileScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
-    console.log(body , "bodyyyyyyyyyyyyyyy")
+    console.log(body, "bodyyyyyyyyyyyyyyy")
     const res = axios.post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body);
     res.then(res => {
       // console.log(res)
       this.props.updateslug(base64.encode(res.data[0].slug_name));
-      this.setState({showLoader : false})
-      if(res.status === 200) this.props.navigation.navigate('ProfileScreen')
+      this.setState({ showLoader: false })
+      if (res.status === 200) this.props.navigation.navigate('ProfileScreen')
     });
 
   }
@@ -202,51 +208,66 @@ class EditProfileScreen extends Component {
   }
 
   handleSocialUrl = (data, index) => {
-    if(data != ""){
+    if (data != "") {
 
       this.state.socialUrl[index].socialurl = data.nativeEvent.text;
     }
   }
 
   selectProfilePhoto = () => {
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-      },
-    };
+
+    ImagePicker.openPicker({
+      multiple: false,
+      includeBase64: true,
+      mediaType: 'photo'
+    }).then(images => {
+      console.log("images---", images)
+      this.setState({ profileImageSource: "data:image/png;base64," + images.data });
+
+      let body = new FormData();
+      body.append("id", this.props.userDeatailResponse.row_id);
+      body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
+      body.append("image", this.state.profileImageSource);
+      body.append("flag", this.state.community == "Student" ? 'Y' : 'F');
+ 
+      const res = axios.post(`${BASE_URL}SaveProfileImage`, body);
+      res.then(res => {
+        console.log('ress=====>', res)
+      });
+    })
 
   };
 
   selectCoverPhoto = () => {
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-      },
-    };
-    // ImagePicker.showImagePicker(options, (showImage) => {
-    //   if (showImage.didCancel) {
-    //   } else if (showImage.error) {
-    //   } else if (showImage.customButton) {
-    //   } else {
-    //     this.setState({
-    //       coverImageToUpload: {
-    //         name: showImage.fileName,
-    //         type: showImage.type,
-    //         // path: showImage.path,
-    //         uri: showImage.uri,
-    //       },
-    //       coverImageSource: showImage.uri,
-    //     });
-    //   }
-    // });
+    // const options = {
+    //   quality: 1.0,
+    //   maxWidth: 500,
+    //   maxHeight: 500,
+    //   noData: true,
+    //   storageOptions: {
+    //     skipBackup: true,
+    //   },
+    // };
+
+    ImagePicker.openPicker({
+      multiple: false,
+      includeBase64: true,
+      mediaType: 'photo'
+    }).then(images => {
+      console.log("images---", images)
+      this.setState({ coverImageSource: "data:image/png;base64," + images.data });
+
+      let body = new FormData();
+      body.append("id", this.props.userDeatailResponse.row_id);
+      body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
+      body.append("image", this.state.coverImageSource);
+      body.append("flag", this.state.community == "Student" ? 'Y' : 'F');
+ 
+      const res = axios.post(`${BASE_URL}SaveCoverImage`, body);
+      res.then(res => {
+        console.log('ress=====>', res)
+      });
+    })
   };
 
   handleSkills = async () => {
@@ -299,7 +320,7 @@ class EditProfileScreen extends Component {
       const selected = this.state.categoriesData.filter(itm => itm != item)
       this.setState({ categoriesData: selected, listedCategory: unselectedByUser })
     } else {
-      this.setState({showModal : true})
+      this.setState({ showModal: true })
     }
   }
   handleRemoveItemSkill = (item, index) => {
@@ -309,11 +330,11 @@ class EditProfileScreen extends Component {
       const selected = this.state.skillsData.filter(itm => itm != item)
       this.setState({ skillsData: selected, listedSkill: unselectedByUser })
     } else {
-      this.setState({showModal : true})
+      this.setState({ showModal: true })
     }
   }
-  
-  viewModal = (text , flag) => (
+
+  viewModal = (text, flag) => (
     <Modal transparent={true} isVisible={true}>
       <View style={CommonStyles.modalBg}>
         <View style={CommonStyles.modalContent}>
@@ -326,7 +347,7 @@ class EditProfileScreen extends Component {
             ravindra.kumar@cbnits.com
                 </Text> */}
 
-          <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({showModal : false})}>
+          <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ showModal: false })}>
             <Entypo name="circle-with-cross" color="#71b85f" size={35} />
           </TouchableOpacity>
         </View>
@@ -347,13 +368,13 @@ class EditProfileScreen extends Component {
     return (
       <View style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-          
-        <Spinner
-          visible={this.state.showLoader}
-          animation="fade"
-          textContent={'Loading...'}
-        />
-        {this.state.showModal ? this.viewModal() : null}
+
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
+          {this.state.showModal ? this.viewModal() : null}
           <StatusBar
             backgroundColor="#60a84e"
             barStyle="light-content"
@@ -377,13 +398,13 @@ class EditProfileScreen extends Component {
             <View style={styles.container}>
               <View style={styles.uploadSec}>
                 <View style={styles.cover}>
-                  <Image
+                  {/* <Image
                     style={[CommonStyles.image]}
                     // source={require('../../../assets/images/bnr.jpg')}
                     source={{
                       uri: `${this.state.coverImageSource ? this.state.coverImageSource : "../../../assets/images/bnr.jpg"}`,
                     }}
-                  />
+                  /> */}
                   <Image
                     style={styles.uploadcoverImage}
                     source={{
@@ -398,14 +419,14 @@ class EditProfileScreen extends Component {
                 </View>
 
                 <View style={styles.logo}>
-                  <Image
+                  {/* <Image
                     style={[styles.image, { borderRadius: 55 }]}
                     // source={require('../../../assets/images/userPro.jpg')}
                     source={{
                       uri: `${this.state.profileImageSource ? this.state.profileImageSource : '../../../assets/images/userPro.jpg'}`,
                     }}
 
-                  />
+                  /> */}
                   <Image
                     style={styles.uploadImage}
                     source={{
@@ -591,19 +612,19 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
                 {this.state.showCategories === true ? (
-                  <View style={[styles.formGroupNew, { marginTop: 0}]}>
+                  <View style={[styles.formGroupNew, { marginTop: 0 }]}>
                     <ScrollView>
-                    {
-                      this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
-                        <TouchableOpacity style={styles.headSec} key={index}>
-                          <View style={styles.details}>
-                            <Text style={styles.inputHead}>{item.label}</Text>
-                          </View>
-                        </TouchableOpacity>
+                      {
+                        this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
+                          <TouchableOpacity style={styles.headSec} key={index}>
+                            <View style={styles.details}>
+                              <Text style={styles.inputHead}>{item.label}</Text>
+                            </View>
+                          </TouchableOpacity>
 
-                      )) : <Text style={{textAlign: 'center'}}>No data to show</Text>
-                    }
-                  </ScrollView>
+                        )) : <Text style={{ textAlign: 'center' }}>No data to show</Text>
+                      }
+                    </ScrollView>
                   </View>
                 ) : (
                     <></>
@@ -624,7 +645,7 @@ class EditProfileScreen extends Component {
                           size={20}
                           color="black"
                           style={styles.marginRight3}
-                          onPress={() => this.handleRemoveItemSkill(item , i)}
+                          onPress={() => this.handleRemoveItemSkill(item, i)}
                         />
                       </View>
                     ))}
@@ -641,16 +662,16 @@ class EditProfileScreen extends Component {
                 {this.state.showSkills === true ? (
                   <View style={[styles.formGroupNew, { marginTop: 0 }]}>
                     <ScrollView>
-                    {
-                      this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
-                        <TouchableOpacity style={styles.headSec} key={index}>
-                          <View style={styles.details}>
-                            <Text style={styles.inputHead}>{item.label}</Text>
-                          </View>
-                        </TouchableOpacity>
+                      {
+                        this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
+                          <TouchableOpacity style={styles.headSec} key={index}>
+                            <View style={styles.details}>
+                              <Text style={styles.inputHead}>{item.label}</Text>
+                            </View>
+                          </TouchableOpacity>
 
-                      )) : <Text style={{textAlign: 'center'}}>no data</Text>
-                    }
+                        )) : <Text style={{ textAlign: 'center' }}>no data</Text>
+                      }
                     </ScrollView>
                   </View>
                 ) : (
@@ -668,14 +689,14 @@ class EditProfileScreen extends Component {
                   //   is24Hour={true}
                   //   display="default"
                   // />
-                  
-              <DateTimePickerModal
-              isVisible={this.state.showStartDatePicker}
-              mode="date"
-              onConfirm={(date) => this.setState({startDate :  moment(date).format("YYYY-MM-DD")})}
-              onCancel={() => this.setState({showStartDatePicker : false})}
-              minimumDate={this.state.startDate === "" ? new Date() : new Date(this.state.startDate)}
-            />
+
+                  <DateTimePickerModal
+                    isVisible={this.state.showStartDatePicker}
+                    mode="date"
+                    onConfirm={(date) => this.setState({ startDate: moment(date).format("YYYY-MM-DD") })}
+                    onCancel={() => this.setState({ showStartDatePicker: false })}
+                    minimumDate={this.state.startDate === "" ? new Date() : new Date(this.state.startDate)}
+                  />
                 ) : (
                     <></>
                   )}
@@ -709,13 +730,13 @@ class EditProfileScreen extends Component {
                   //   onChange={(data) => this.handleTextChange((data.timeStamp), "endDate")}
                   //   display="default"
                   // />
-              <DateTimePickerModal
-              isVisible={this.state.showEndDatePicker}
-              mode="date"
-              onConfirm={(date) => this.setState({endDate :  moment(date).format("YYYY-MM-DD")})}
-              onCancel={() => this.setState({showEndDatePicker : false})}
-              minimumDate={this.state.endDate === "" ? new Date() : new Date(this.state.endDate)}
-            />
+                  <DateTimePickerModal
+                    isVisible={this.state.showEndDatePicker}
+                    mode="date"
+                    onConfirm={(date) => this.setState({ endDate: moment(date).format("YYYY-MM-DD") })}
+                    onCancel={() => this.setState({ showEndDatePicker: false })}
+                    minimumDate={this.state.endDate === "" ? new Date() : new Date(this.state.endDate)}
+                  />
                 ) : (
                     <></>
                   )}

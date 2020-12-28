@@ -68,4 +68,16 @@ export default {
     color: '#000',
     textAlign: "center"
   },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 470,
+  },
+  noDataText: {
+    marginTop: 15,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
 };
