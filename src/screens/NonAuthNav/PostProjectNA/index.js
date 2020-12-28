@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Modal,
   SafeAreaView,
   Pressable,
 } from 'react-native';
@@ -17,6 +18,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import {Picker} from '@react-native-community/picker';
+import {updateTmpPostJob} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
 import ApiUrl from '../../../config/ApiUrl';
@@ -51,8 +53,9 @@ class PostProjectNA extends Component {
       JobID: '',
       Skill: '',
       showAdditional: false,
-      xtraSkill:'',
+      xtraSkill: '',
       showLoader: false,
+      isModalVisible: false,
     };
   }
 
@@ -126,21 +129,24 @@ class PostProjectNA extends Component {
     });
     return formIsValid;
   };
-
+  onDismissModel = () => {
+    this.setState({isModalVisible: false});
+    this.props.navigation.navigate('SignInScreen', {userType: 'employee'});
+  };
   postProject = async () => {
     this.setState({
       showLoader: false,
-    })
+    });
 
     let jobDescription = new FormData();
-    jobDescription.append('posted_by','');
+    jobDescription.append('posted_by', '');
     jobDescription.append('job_name', this.state.title);
     jobDescription.append('description', this.state.des);
     jobDescription.append(
       'expertise_skill',
       JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
     );
-    jobDescription.append('additional_skill',this.state.xtraSkill);
+    jobDescription.append('additional_skill', this.state.xtraSkill);
     jobDescription.append('price_unit', 'usd');
     jobDescription.append('price_amount', this.state.budget);
     jobDescription.append(
@@ -160,6 +166,16 @@ class PostProjectNA extends Component {
     console.log('handle freelancer post a job-----', response);
 
     if (response) {
+      /*
+      
+    {
+        "message": "Job Posted",
+        "skill_set": "PHP",
+        "job_id": 914,
+        "user_id": ""
+    }
+]
+      */
       this.setState({
         JobID: response[0].job_id,
         Skill: response[0].skill_set,
@@ -169,9 +185,21 @@ class PostProjectNA extends Component {
         xtraSkill: '',
         budget: '',
       });
-     // this.fireMail();
-      alert('Successfully posted the Project!');
-      this.props.navigation.navigate('SignInScreen');
+      // this.fireMail();
+      //alert('Successfully posted the Project!');
+      if (response[0].message === 'Job Posted' && response[0]?.job_id) {
+        let tmpJobObj = {
+          tmpJobID: response[0].job_id,
+          tmpSkillSet: response[0].skill_set,
+          hire_by: null,
+        };
+        console.log('tmp post redux data========', tmpJobObj);
+        this.props.updateTmpPostJob(tmpJobObj);
+        //this.props.navigation.navigate('SignInScreen');
+
+        //  modal dismiss navigate login
+        this.setState({isModalVisible: true});
+      }
     }
   };
 
@@ -193,8 +221,8 @@ class PostProjectNA extends Component {
     } else {
       if (dataSet === true) {
         this.setState({
-          showLoader: true
-        })
+          showLoader: true,
+        });
         this.postProject();
       }
     }
@@ -210,27 +238,31 @@ class PostProjectNA extends Component {
     });
     this.setState({skills: this.state.skills.sort()});
   };
-  
-  handleAdditionalSkill =async()=>{
-    this.setState({showAdditional:!this.state.showAdditional});
+
+  handleAdditionalSkill = async () => {
+    this.setState({showAdditional: !this.state.showAdditional});
   };
   render() {
     return (
       <SafeAreaView style={CommonStyles.main}>
-                  <StatusBar />
+        <StatusBar />
 
-                  <View style={CommonStyles.header}>
-            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
-            </TouchableOpacity>
-            <Image
-              source={require('../../../assets/images/logo.png')}
-              style={CommonStyles.imageHdr}
-            />
-          </View>
+        <View style={CommonStyles.header}>
+          <TouchableOpacity
+            style={CommonStyles.hambarIcon}
+            onPress={() => this.props.navigation.openDrawer()}>
+            <Entypo name="menu" color="#71b85f" size={35} />
+          </TouchableOpacity>
+          <Image
+            source={require('../../../assets/images/logo.png')}
+            style={CommonStyles.imageHdr}
+          />
+        </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-        <Spinner
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps={'always'}>
+          <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
@@ -303,40 +335,46 @@ class PostProjectNA extends Component {
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
                 <View style={styles.formPicker}>
-                <Picker
-                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular'}}
-
-                  selectedValue={this.state.skills}
-                  onValueChange={(itemValue, itemIndex) =>
-                    this.setState({
-                      selectedSkills: [...this.state.selectedSkills, itemValue],
-                      skills: this.state.skills.filter(
-                        (_, i) => i !== itemIndex,
-                      ),
-                    })
-                  }>
-                  {this.state.skills.length > 0 ? (
-                    this.state?.skills?.map((data) => {
-                      return (
-                        <Picker.Item label={data.label} value={data.value} />
-                      );
-                    })
-                  ) : (
-                    <></>
-                  )}
-                </Picker>
+                  <Picker
+                    style={{
+                      width: '100%',
+                      height: 55,
+                      color: '#000',
+                      fontFamily: 'Poppins-Regular',
+                    }}
+                    selectedValue={this.state.skills}
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.setState({
+                        selectedSkills: [
+                          ...this.state.selectedSkills,
+                          itemValue,
+                        ],
+                        skills: this.state.skills.filter(
+                          (_, i) => i !== itemIndex,
+                        ),
+                      })
+                    }>
+                    {this.state.skills.length > 0 ? (
+                      this.state?.skills?.map((data) => {
+                        return (
+                          <Picker.Item label={data.label} value={data.value} />
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </Picker>
                 </View>
-                  <TouchableOpacity
-                   onPress={this.handleAdditionalSkill}
-                  style={{marginLeft: 'auto'}}
-                   >
-                    <AntDesign
-                      name="plussquare"
-                      size={55}
-                      color="#60a84e"
-                      style={{marginLeft: 10}}
-                    />
-                    </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.handleAdditionalSkill}
+                  style={{marginLeft: 'auto'}}>
+                  <AntDesign
+                    name="plussquare"
+                    size={55}
+                    color="#60a84e"
+                    style={{marginLeft: 10}}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -368,7 +406,9 @@ class PostProjectNA extends Component {
             ) : (
               <></>
             )}
-            <Text style={[styles.inputHead, {marginTop: 30}]}>Project Budget *</Text>
+            <Text style={[styles.inputHead, {marginTop: 30}]}>
+              Project Budget *
+            </Text>
             <View style={styles.projectView}>
               <View
                 style={[styles.formGroup, {width: '45%', flexWrap: 'wrap'}]}>
@@ -418,14 +458,35 @@ class PostProjectNA extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        {this.state.isModalVisible === true ? (
+          <Modal transparent={true} isVisible={this.state.isModalVisible}>
+            <View style={CommonStyles.modalBg}>
+              <View style={CommonStyles.modalContent}>
+                <Image
+                  source={require('../../../assets/images/messageSend.png')}
+                  style={CommonStyles.modalImg}
+                />
+                <Text style={CommonStyles.modalText}>
+                  Please login or signup for complete your job post request
+                </Text>
+                <Text style={CommonStyles.modalEmail}>{''}</Text>
+
+                <TouchableOpacity
+                  style={CommonStyles.modalCross}
+                  onPress={this.onDismissModel}>
+                  <Entypo name="circle-with-cross" color="#71b85f" size={35} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+        ) : (
+          <></>
+        )}
       </SafeAreaView>
     );
   }
 }
 
-// export default PostProject;
-
-// export default PostInternship;
 const mapStateToProps = (state) => {
   return {
     userDeatailResponse: state.userData,
@@ -435,8 +496,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //showLoader: (text) => dispatch(showLoader(text)),
-    // hideLoader: () => dispatch(hideLoader()),
+    updateTmpPostJob: (data) => dispatch(updateTmpPostJob(data)),
   };
 };
 export default connect(

@@ -31,5 +31,8 @@ export default EndPoint = {
   InvitationMail: 'invitation_mail',
   JobDetails: 'job_details/',
   AddSkill: 'keyskill/else',
+  UPDATE_ID:'updateid',
+  SENDSMS:'sendsms',
+  VALIDATE_OTP:'validate_otp',
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove
