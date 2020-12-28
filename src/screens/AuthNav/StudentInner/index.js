@@ -10,7 +10,7 @@ import StudentProject from '../../../components/StudentProject';
 import InternshipJobs from '../../../components/InternshipJobs';
 import QuestionAnswer from '../../../components/QuestionAnswer';
 import Header from '../../../components/Header';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Filter from '../../../components/Filter';
 
@@ -137,7 +137,7 @@ class StudentInner extends Component {
                 renderTabBar={(props) => {
                   return (
                     <TabBar
-                      tabStyle={{ width: 'auto' }}
+                      tabStyle={{ width: 'auto',}}
                       scrollEnabled={true}
                       {...props}
                       renderLabel={({ route, focused, color }) => (
@@ -147,8 +147,8 @@ class StudentInner extends Component {
                       )}
                       indicatorStyle={styles.indicator}
                       style={styles.tab}
-                      inactiveColor={'#a5a5b4'}
-                      activeColor={'#6e83e3'}
+                      // inactiveColor={'#a5a5b4'}
+                      // activeColor={'#6e83e3'}
                     />
                   );
                 }}
@@ -156,12 +156,14 @@ class StudentInner extends Component {
             </View>
           </ScrollView>
           {this.state.index != 3 && (
+            <View style={{width: '100%', paddingHorizontal: '5%', height: 90, alignItems: 'flex-end', justifyContent: 'center', position: 'absolute', bottom: 0}}>
             <TouchableOpacity
               onPress={() => this.RBSheet.open()}
               style={styles.filterSec}>
-              <MaterialIcons name="filter-list" color="#71b85f" size={40} />
-              <Text style={styles.filterText}>Filter</Text>
+              <AntDesign name="filter" color="#fff" size={30} />
+              {/* <Text style={styles.filterText}>Filter</Text> */}
             </TouchableOpacity>
+            </View>
           )}
 
           <RBSheet

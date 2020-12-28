@@ -90,7 +90,7 @@ class ProfileScreen extends Component {
                   <FontAwesome name="camera" color="#71b85f" size={22} />
                 </TouchableOpacity>
               </ImageBackground>
-            )) :<Text>No data</Text>}
+            )) : <View style={styles.noDate}><Text style={styles.noDateText}>No data</Text></View>}
             {this.state.profiledataset.length >0 ? this.state.profiledataset.map((item, i) => (
               <ScrollView
                 style={{flexDirection: 'row', marginTop: -70}}
@@ -114,7 +114,7 @@ class ProfileScreen extends Component {
                   <Text style={styles.userInfoDetails}>{item.department}</Text>
                 </View>
               </ScrollView>
-            )) : <Text>No data</Text>}
+            )) : <View style={styles.noDate2}><Text style={styles.noDateText}>No data</Text></View>}
 
             <View style={styles.tabSec}>
               <TabView
