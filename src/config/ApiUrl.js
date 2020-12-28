@@ -24,6 +24,7 @@ export default EndPoint = {
   Four: '/course/four',
   Ten: '/course/ten',
   CourseSubmit: 'course_submit',
-  FetchMilestones: 'fetchmilestones'
+  FetchMilestones: 'fetchmilestones',
+  PLACEHOLDER_SQUARE_IMAGE: require('../assets/images/userPro.jpg'),
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove

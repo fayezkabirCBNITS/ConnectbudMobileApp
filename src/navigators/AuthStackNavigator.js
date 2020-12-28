@@ -37,6 +37,7 @@ import FreeContactScreen from '../screens/AuthNav/FreeContracts';
 import EmpContactScreen from '../screens/AuthNav/EmpContracts';
 import BlogScreen from '../screens/AuthNav/Blog';
 import HireStudentsScreen from '../screens/AuthNav/HireStudent';
+import AddExperienceScreenNew from "./../screens/AuthNav/AddExperienceNew"
 
 
 export const MainStack = createStackNavigator(
@@ -87,7 +88,7 @@ export const MainStack = createStackNavigator(
       screen: EmployeeProfileScreen
     },
     AddExperienceScreen:{
-      screen:AddExperienceScreen
+      screen:AddExperienceScreenNew
     },
     EditPostedProject:{
       screen: EditPostedProject

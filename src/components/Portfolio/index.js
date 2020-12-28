@@ -24,6 +24,7 @@ import { withNavigation } from 'react-navigation';
 import { connect } from "react-redux";
 import base64 from 'base-64';
 import { BASE_URL } from "../../config/ApiUrl";
+import {makePostRequestMultipart} from '../../services/http-connectors';
 import DocumentPicker from 'react-native-document-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -60,9 +61,13 @@ class Portfolio extends Component {
           profiledataset: response.data,
         });
       })
-      .catch(() => { });
+      .catch(() => {
+        this.setState({showLoader : false}) });
   };
-  cvhandleSubmit = async (url) => {
+  cvhandleSubmit = async (url) => {let headers = {
+    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
+  };
     let body = new FormData();
 
     body.append("id", this.state.id);
@@ -104,6 +109,7 @@ class Portfolio extends Component {
     body.append("portfolio_category", "");
     body.append("portfolio_link", "");
     body.append("image", "");
+    body.append("device", "mobile");
 
 
     console.log(body, "addd doccccccccc")
@@ -112,10 +118,21 @@ class Portfolio extends Component {
         BASE_URL +
         "expertProfile/" +
         base64.decode(this.props.userDeatailResponse.slug),
-        body
+        body ,
+        { 
+          headers : headers
+        }
       ).then((res) => {
+        console.log(res , 'file upload')
         this.setState({showModal : true});
       })
+    // let response = await makePostRequestMultipart(
+    //   `expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`,
+    //   false,
+    //   body,
+    // );
+    // response.then((res) => console.log(res , "upload file"))
+    // console.log(res , "upload file")
   }
 
   handleAddNewDocument = async data => {
@@ -125,19 +142,20 @@ class Portfolio extends Component {
         type: [DocumentPicker.types.allFiles],
       });
       console.log(
-        res.uri,
-        res.type, // mime type
-        res.name,
-        res.size
+        // res.uri,
+        // res.type, // mime type
+        // res.name,
+        // res.size
+        res
       );
 
-      if (res.size < 2000000 && res.type === "application/pdf" || res.type === "application/msword") {
+      // if (res.size < 2000000 && res.type === "application/pdf" || res.type === "application/msword") {
         // alert('yes now it can be upload')
-        this.cvhandleSubmit({ uri: res.uri, type: res.type, filename: res.name, size: res.size });
+        this.cvhandleSubmit({ uri: res.uri, type: res.type, name: res.name});
 
-      } else {
-        alert('Size should be less than 2Mb')
-      }
+      // } else {
+      //   alert('Size should be less than 2Mb')
+      // }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
@@ -183,7 +201,7 @@ class Portfolio extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading}>
             <Text style={styles.portfolioHead}>Portfolio</Text>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddPortfolioScreen')}>
               <Text style={styles.addPortfolio}>+ Add Portfolio</Text>
             </TouchableOpacity>
           </View>
@@ -215,7 +233,7 @@ class Portfolio extends Component {
                         {value.category}
                       </Text>
                     </View>
-                    <TouchableOpacity style={styles.editBtn}>
+                    <TouchableOpacity style={styles.editBtn} onPress={()=>console.log(value , "===============")}>
                       <MaterialIcons name="mode-edit" color="#fff" size={18} />
                       <Text style={styles.editBtnText}>Edit</Text>
                     </TouchableOpacity>
@@ -274,7 +292,12 @@ class Portfolio extends Component {
         <View style={CommonStyles.container}>
           <View style={styles.portHeading2}>
             <Text style={styles.portfolioHead}>Uploaded Videos</Text>
-            <TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() =>
+              launchImageLibrary({mediaType: 'video'}, (response) => {
+                console.log(response);
+              })}
+              >
               <Text style={styles.addPortfolio}>+ Add Video</Text>
             </TouchableOpacity>
           </View>
