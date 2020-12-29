@@ -246,24 +246,24 @@ class PostInternship extends Component {
             keyboardShouldPersistTaps={'always'}>
             <Text
               style={{
-                fontWeight: 'bold',
-                fontSize: 15,
+                fontFamily: 'Poppins-SemiBold',
+                fontSize: 18,
                 padding: 20,
                 marginBottom: -10,
               }}>
               Create Your Job Posting
             </Text>
-            <View
+            {/* <View
               style={{
                 borderBottomColor: 'rgba(59,29,37,0.5)',
                 borderBottomWidth: 1,
                 width: '90%',
                 marginHorizontal: '5%',
               }}
-            />
+            /> */}
 
-            <Text style={[styles.title, {marginTop: 20}]}>Job Details</Text>
-            <View style={{marginHorizontal: '5%', marginVertical: '2%'}}>
+            <Text style={styles.title}>Job Details</Text>
+            <View style={{marginHorizontal: '5%'}}>
               <TextInput
                 returnKeyType="done"
                 placeholder="* Title [max 100 Chars]"
@@ -279,7 +279,7 @@ class PostInternship extends Component {
               <></>
             )}
 
-            <View style={{marginHorizontal: '5%', marginVertical: '2%'}}>
+            <View style={{marginHorizontal: '5%',}}>
               <TextInput
                 returnKeyType="done"
                 placeholder="* Company Name [max 40 Chars]"
@@ -311,7 +311,7 @@ class PostInternship extends Component {
             ) : (
               <></>
             )}
-            <Text style={[styles.title]}>Skills </Text>
+            <Text style={[styles.title, {marginTop: 15}]}>Skills </Text>
 
             {this.state.selectedSkills.length > 0 ? (
               this.state.selectedSkills?.map((data, index) => {
@@ -412,7 +412,7 @@ class PostInternship extends Component {
               <></>
             )}
 
-            <Text style={styles.title}>Location</Text>
+            <Text style={[styles.title, {marginTop: 15, marginBottom: -5}]}>Location</Text>
             <View style={styles.skillView1}>
               <View style={[styles.formGroup1]}>
                 <Picker

@@ -91,9 +91,9 @@ class PostedProjectByEmployee extends Component {
           />
           <Header />
           <View style={[CommonStyles.container, styles.bgColorWhite]}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
               {this.state.jobSet.map((value, index) => (
-                <View style={styles.boxWrapper}>
+                <View style={styles.boxWrapper}>                  
                   <View>
                     <Text style={styles.boxtitle}>{value.job_name}</Text>
                     <Text style={styles.boxtext}>{value.description}</Text>
@@ -105,14 +105,14 @@ class PostedProjectByEmployee extends Component {
                           <Text>{item.label}</Text>
                         </View>
                       ))}
-                      <View>
+                      {/* <View>
                         <Text>{value.posted_date}</Text>
-                      </View>
+                      </View> */}
                     </View>
                   </View>
                   <View style={styles.inrUsd}>
-                    <Text style={styles.usd}>{value.price_amount} USD</Text>
-                    <Text style={styles.inr}>
+                    <Text style={styles.usdText}>{value.price_amount} USD</Text>
+                    <Text style={styles.inrtxt}>
                       {value.price_amount * 75} INR
                     </Text>
                   </View>
@@ -134,13 +134,16 @@ class PostedProjectByEmployee extends Component {
                       <TouchableOpacity style={styles.editBtn}>
                         <FontAwesome5
                           name="edit"
-                          color="#000"
+                          color="#71b85f"
                           size={28}
                           style={styles.findIcon}
                         />
                       </TouchableOpacity>
                     </View>
                   </View>
+                  <View style={{marginTop: 10, alignItems: 'flex-end'}}>
+                        <Text>{value.posted_date}</Text>
+                      </View>
                 </View>
               ))}
 
