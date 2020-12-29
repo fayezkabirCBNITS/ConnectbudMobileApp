@@ -4,6 +4,7 @@ import {
   UPDATE_VIEWPROFILE,
   LOGOUT,
   UPDATE_SLUG,
+  UPDATE_POSTJOB,
 
   // UPDATE_CARD_TOKEN,
   // UPDATE_USER_VERIFICATION_STATUS,
@@ -77,7 +78,14 @@ export const updateslug = (slugName) => {
     },
   };
 };
-
+export const updateTmpPostJob = (jobData) => {
+  return {
+    type: UPDATE_POSTJOB,
+    payload: {
+      jobData,
+    },
+  };
+};
 
 //update job id
 export const updateJobId = (jobId) => {

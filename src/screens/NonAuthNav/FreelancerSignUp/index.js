@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -9,22 +9,22 @@ import {
   Pressable,
   ActivityIndicator,
   TextInput,
-  Modal
+  Picker,
+  Modal,
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import CommonStatusBar from '../../../components/StatusBar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
-import { Icon, CheckBox } from 'react-native-elements';
+import {Icon, CheckBox} from 'react-native-elements';
 import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
-import {
-  makePostRequestMultipart,
-} from '../../../services/http-connectors';
+import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
+import {countryCodes} from '../../../config/countrycodes';
 
 class FreelancerSignUpScreen extends Component {
   static navigationOptions = {
@@ -38,7 +38,7 @@ class FreelancerSignUpScreen extends Component {
         first_name: '',
         last_name: '',
         //email: '',
-        //phone: '',
+        phone: '',
         password: '',
         major: '',
         //enrollment: '',
@@ -56,6 +56,13 @@ class FreelancerSignUpScreen extends Component {
       isModalVisible: false,
       userEmail: '',
       type: true,
+      //
+      isSent: false,
+      number: '',
+      errOTP: false,
+      choosenIndex: 0,
+      countryCode: '+91',
+      //
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -67,19 +74,19 @@ class FreelancerSignUpScreen extends Component {
   }
 
   setUg = () => {
-    this.setState({ ugChecked: true, pgChecked: false });
-    this.setState({ courseType: 'Under Graduate' });
+    this.setState({ugChecked: true, pgChecked: false});
+    this.setState({courseType: 'Under Graduate'});
   };
 
   setPg = () => {
-    this.setState({ pgChecked: true, ugChecked: false });
-    this.setState({ courseType: 'Post Graduate' });
+    this.setState({pgChecked: true, ugChecked: false});
+    this.setState({courseType: 'Post Graduate'});
   };
 
   handleChange(value, name) {
     let fields = this.state.fields;
     fields[name] = value;
-    this.setState({ fields });
+    this.setState({fields});
     this.setState({
       errors: Validator.validateForm(
         name,
@@ -117,16 +124,72 @@ class FreelancerSignUpScreen extends Component {
         console.log('handle validate college email -----', response);
         if (response && response[0].message) {
           Toast.show(response[0].message, Toast.LONG);
-          this.setState({ showCollegeName: false });
+          this.setState({showCollegeName: false});
         } else if (response && response[0]?.collegeName) {
           Toast.show(response[0].collegeName, Toast.LONG);
-          this.setState({ showCollegeName: true });
-          this.setState({ college: response[0].collegeName });
+          this.setState({showCollegeName: true});
+          this.setState({college: response[0].collegeName});
         } else {
           Toast.show(response[0].message, Toast.LONG);
-          this.setState({ showCollegeName: true });
+          this.setState({showCollegeName: true});
         }
       }
+    }
+  };
+
+  handleOTP = async (e) => {
+    await this.setState({
+      number: e,
+    });
+    // this.validateJobForm();
+  };
+  onSentOtp = async () => {
+    this.setState({isSent: !this.state.isSent});
+
+    if (this.state.fields.phone.length < 10) {
+      Toast.show('Enter valid phone number', Toast.LONG);
+    }
+    if (this.state.email.length < 10) {
+      Toast.show('Enter valid email address', Toast.LONG);
+    } else {
+      let body = new FormData();
+      body.append('emailid', this.state.email);
+      body.append(
+        'phone_number',
+        this.state.countryCode + this.state.fields.phone,
+      );
+      let response = await makePostRequestMultipart(
+        ApiUrl.SENDSMS,
+        false,
+        body,
+      );
+      console.log('handle freelancer send sms-----', response);
+      if (response) {
+        Toast.show(response[0]?.message, Toast.LONG);
+        this.setState({rowID: response[0]?.rowid});
+      }
+    }
+  };
+
+  validateOtp = async () => {
+    this.setState({isSent: !this.state.isSent});
+    if (this.state.enteredOTP.length > 2) {
+      let body = new FormData();
+      body.append('rowid', this.state.rowID);
+      body.append('entered_otp', this.state.number);
+      let response = await makePostRequestMultipart(
+        ApiUrl.VALIDATE_OTP,
+        false,
+        body,
+      );
+      console.log('handle freelancer validate -----', response);
+      if (response) {
+        Toast.show(response[0]?.message, Toast.LONG);
+        // this.setState({enableSignUp:false});
+        // this.setState({isModalVisible:true});
+      }
+    } else {
+      Toast.show('Enter valid OTP', Toast.LONG);
     }
   };
 
@@ -141,14 +204,14 @@ class FreelancerSignUpScreen extends Component {
       ),
     });
     if (this.state.email === '') {
-      this.setState({ errEmail: true });
+      this.setState({errEmail: true});
     } else if (
       this.state.ugChecked === false &&
       this.state.pgChecked === false
     ) {
-      this.setState({ errCourseType: true });
+      this.setState({errCourseType: true});
     } else if (this.state.college === '') {
-      this.setState({ errCollege: true });
+      this.setState({errCollege: true});
     } else if (this.state.errors.formIsValid) {
       let body = new FormData();
       body.append('username', this.state.email);
@@ -159,9 +222,9 @@ class FreelancerSignUpScreen extends Component {
       body.append('collegeName', this.state.college);
       body.append('major', this.state.fields.major);
       body.append('course_type', this.state.courseType);
-      this.setState({ errEmail: false });
-      this.setState({ errCollege: false });
-      this.setState({ errCourseType: false });
+      this.setState({errEmail: false});
+      this.setState({errCollege: false});
+      this.setState({errCourseType: false});
       console.log('handle formdata -----', body);
 
       let response = await makePostRequestMultipart(
@@ -171,26 +234,26 @@ class FreelancerSignUpScreen extends Component {
       );
       console.log('handle freelancer Signup-----', response);
       if (response) {
-        this.setState({ userEmail: response?.email });
-        this.setState({ isModalVisible: true });
+        this.setState({userEmail: response?.email});
+        this.setState({isModalVisible: true});
+        Toast.show(response.msg, Toast.LONG);
       } else {
         //alert('The email or password you have entered is invalid!');
-        // Toast.show(response.msg, Toast.LONG);
+        //
       }
-
     }
   };
   onDismissModel = () => {
-    this.setState({ isModalVisible: false });
-    this.props.navigation.navigate('HomeScreen')
-  }
+    this.setState({isModalVisible: false});
+    this.props.navigation.navigate('HomeScreen');
+  };
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={styles.main}>
           <CommonStatusBar />
           <ImageBackground
-            style={{ width: styles.deviceWidth, height: styles.deviceHeight }}
+            style={{width: styles.deviceWidth, height: styles.deviceHeight}}
             source={require('../../../assets/images/authBg.jpg')}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={[styles.container, styles.inputDiv]}>
@@ -273,8 +336,8 @@ class FreelancerSignUpScreen extends Component {
                 {this.state.errEmail === true ? (
                   <ErrorMsg errorMsg="Invalid Email Address" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 {this.state.showCollegeName === true ? (
                   <>
@@ -304,14 +367,14 @@ class FreelancerSignUpScreen extends Component {
                     {this.state.errCollege === true ? (
                       <ErrorMsg errorMsg="Enter College Name" />
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
 
                     {/* <ErrorMsg errorMsg={this.state.errors['college']} /> */}
                   </>
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -343,7 +406,7 @@ class FreelancerSignUpScreen extends Component {
                     uncheckedIcon="circle-thin"
                     checkedColor="#fff"
                     containerStyle={styles.radio}
-                    textStyle={{ color: 'white', fontSize: 13 }}
+                    textStyle={{color: 'white', fontSize: 13}}
                     checked={this.state.ugChecked}
                     onPress={this.setUg}
                   />
@@ -354,7 +417,7 @@ class FreelancerSignUpScreen extends Component {
                     uncheckedIcon="circle-thin"
                     checkedColor="#fff"
                     containerStyle={styles.radio}
-                    textStyle={{ color: 'white', fontSize: 13 }}
+                    textStyle={{color: 'white', fontSize: 13}}
                     checked={this.state.pgChecked}
                     onPress={this.setPg}
                   />
@@ -363,8 +426,93 @@ class FreelancerSignUpScreen extends Component {
                 {this.state.errCourseType === true ? (
                   <ErrorMsg errorMsg="Select Course Type" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
+
+                <View style={styles.formGroup1}>
+                  <View
+                    style={[styles.formSubGroup2Num, {flexDirection: 'row'}]}>
+                    <Picker
+                      style={{width: '40%', height: 45}}
+                      selectedValue={this.state.countryCode}
+                      onValueChange={(itemValue, itemPosition) =>
+                        this.setState({
+                          countryCode: itemValue,
+                          choosenIndex: itemPosition,
+                        })
+                      }>
+                      {countryCodes &&
+                        countryCodes.map((data, index) => {
+                          return (
+                            <Picker.Item
+                              key={data._id}
+                              label={data.name + ' (' + data.dial_code + ')'}
+                              value={data.dial_code}
+                            />
+                          );
+                        })}
+                    </Picker>
+                    <TextInput
+                      returnKeyType="done"
+                      placeholder="Enter Phone Number"
+                      style={[styles.inputGroup, {width: '100%'}]}
+                      placeholderTextColor={'#fff'}
+                      keyboardType="number-pad"
+                      maxLength={13}
+                      value={this.state.fields.phone}
+                      onChangeText={(text) => this.handleChange(text, 'phone')}
+                    />
+                  </View>
+                  <View style={styles.formSubGroupNum}>
+                    <Pressable
+                      style={{backgroundColor: '#595555', borderRadius: 40}}>
+                      <Text
+                        style={{
+                          paddingHorizontal: 10,
+                          paddingVertical: 5,
+                          fontSize: 12,
+                          fontFamily: 'Poppins-Regular',
+                          color: '#fff',
+                        }}
+                        onPress={this.onSentOtp}>
+                        Send Otp
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+
+                <ErrorMsg errorMsg={this.state.errors['phone']} />
+                {this.state.isSent && (
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2Num}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="Enter OTP"
+                        style={styles.inputGroup}
+                        placeholderTextColor={'#fff'}
+                        keyboardType="default"
+                        secureTextEntry
+                        //value={this.state.number}
+                        //onChange={this.handleInputLastName}
+                        onChangeText={this.handleOTP}
+                      />
+                    </View>
+                    <View style={styles.formSubGroupNum}>
+                      <Pressable
+                        style={{backgroundColor: '#595555', borderRadius: 40}}>
+                        <Text
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 5,
+                            color: '#fff',
+                          }}
+                          onPress={() => this.validateOtp()}>
+                          Verify
+                        </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                )}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -382,7 +530,7 @@ class FreelancerSignUpScreen extends Component {
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
-                  {this.state.type === false ? (
+                    {this.state.type === false ? (
                       <FontAwesome
                         name="eye-slash"
                         size={20}
@@ -407,33 +555,49 @@ class FreelancerSignUpScreen extends Component {
 
                 <Text style={styles.signupAcnt}>
                   Already have an account?{' '}
-                  <Text style={styles.signupText} onPress={() => this.props.navigation.navigate('SignInScreen', { userType: 'student' })}>
+                  <Text
+                    style={styles.signupText}
+                    onPress={() =>
+                      this.props.navigation.navigate('SignInScreen', {
+                        userType: 'student',
+                      })
+                    }>
                     Please Sign In
                   </Text>
                 </Text>
               </View>
             </ScrollView>
           </ImageBackground>
-          {this.state.isModalVisible === true ? <Modal transparent={true} isVisible={this.state.isModalVisible}>
-            <View style={CommonStyles.modalBg}>
-              <View style={CommonStyles.modalContent}>
-                <Image
-                  source={require('../../../assets/images/messageSend.png')}
-                  style={CommonStyles.modalImg}
-                />
-                <Text style={CommonStyles.modalText}>
-                  A verification link send to your email id
-                </Text>
-                <Text style={CommonStyles.modalEmail}>
-                  {this.state.userEmail}
-                </Text>
+          {this.state.isModalVisible === true ? (
+            <Modal transparent={true} isVisible={this.state.isModalVisible}>
+              <View style={CommonStyles.modalBg}>
+                <View style={CommonStyles.modalContent}>
+                  <Image
+                    source={require('../../../assets/images/messageSend.png')}
+                    style={CommonStyles.modalImg}
+                  />
+                  <Text style={CommonStyles.modalText}>
+                    A verification link send to your email id
+                  </Text>
+                  <Text style={CommonStyles.modalEmail}>
+                    {this.state.userEmail}
+                  </Text>
 
-                <TouchableOpacity style={CommonStyles.modalCross} onPress={this.onDismissModel}>
-                  <Entypo name="circle-with-cross" color="#71b85f" size={35} />
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={CommonStyles.modalCross}
+                    onPress={this.onDismissModel}>
+                    <Entypo
+                      name="circle-with-cross"
+                      color="#71b85f"
+                      size={35}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          </Modal> : <></>}
+            </Modal>
+          ) : (
+            <></>
+          )}
         </View>
       </SafeAreaView>
     );

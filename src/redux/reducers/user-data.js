@@ -11,6 +11,7 @@ import {
   UPDATE_VIEWPROFILE,
   LOGOUT,
   UPDATE_SLUG,
+  UPDATE_POSTJOB,
 } from '../actions/action-types';
 
 const initialState = {
@@ -24,7 +25,7 @@ const initialState = {
   // accountStatus: "",
   // accessToken: "",
   // id: null,
-  
+
   openAppFirstTime: true,
 
   Flag: '',
@@ -40,11 +41,16 @@ const initialState = {
   userDetails: [],
   JOBID: '',
   slugname: '',
-  view_user_id: ''
+  view_user_id: '',
+  // tmpPostJob: {
+  //   tmpJob: '',
+  //   tmpSkillSet: '',
+  // },
+  tmpPostJob:{},
 };
 
 export const userDataReducer = (state = initialState, action) => {
-  let newState = { ...state };
+  let newState = {...state};
 
   switch (action.type) {
     case UPDATE_USER_JOBID: {
@@ -56,10 +62,21 @@ export const userDataReducer = (state = initialState, action) => {
       newState.view_user_id = action.payload.user_id;
       break;
     }
-    case UPDATE_SLUG : {
+    case UPDATE_SLUG: {
       newState.slug = action.payload.slugName;
       break;
-      
+    }
+    case UPDATE_POSTJOB: {
+      newState.tmpPostJob = action.payload.jobData;
+      // newState.tmpPostJob.tmpSkillSet = action.payload.jobData.tmpSkillSet;
+      console.log('reducer==============', action.payload.jobData);
+      console.log('reducer2==============', newState.tmpPostJob);
+
+      // newState.tmpPostJob={
+      //   tmpJob: action.payload.jobData.tmpJobID,
+      //   tmpSkillSet:action.payload.jobData.tmpSkillSet,
+      // }
+      break;
     }
     // case UPDATE_USER_VERIFICATION_STATUS: {
     //   newState.isUserVerified = action.payload.isUserVerified;
@@ -91,16 +108,16 @@ export const userDataReducer = (state = initialState, action) => {
         ? action.payload.userData[0].Status
         : newState.Status;
 
-      newState.Token  = action.payload.userData[0].Token
+      newState.Token = action.payload.userData[0].Token
         ? action.payload.userData[0].Token
         : newState.Token;
 
       newState.expert_type = action.payload.userData[0].expert_type
-
         ? action.payload.userData[0].expert_type
         : newState.expert_type;
 
-      newState.freeclass_available = action.payload.userData[0].freeclass_available
+      newState.freeclass_available = action.payload.userData[0]
+        .freeclass_available
         ? action.payload.userData[0].freeclass_available
         : newState.freeclass_available;
 

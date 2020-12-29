@@ -49,7 +49,7 @@ class AddPortfolioScreen extends Component {
             portfolioDescription: "",
             selectedCategory: "",
             liveUrl: "",
-            portfolioId : ""
+            portfolioId: ""
         }
     }
     componentDidMount = () => {
@@ -58,70 +58,68 @@ class AddPortfolioScreen extends Component {
         const { navigation } = this.props;
         this.focusListener = navigation.addListener('didFocus', () => {
             // if(true) {
-            if(this.props.navigation.state.params) {
+            if (this.props.navigation.state.params) {
+                let body = new FormData();
 
-            
+                body.append("id", this.state.id);
+                body.append("user_id", this.state.userID);
 
-            let body = new FormData();
+                //For Edit Intro
+                body.append("first_name", "");
+                body.append("last_name", "");
+                body.append("category", "");
+                body.append("skills", "");
+                body.append("socialurls", "");
 
-            body.append("id", this.state.id);
-            body.append("user_id", this.state.userID);
+                //for Job
+                body.append("experience_id", "");
+                body.append("experience", "");
+                body.append("description", "");
+                body.append("projecturl", "");
+                body.append("professionalurls", "");
+                body.append("employment_type", "");
+                body.append("willing_to_relocate", "");
+                body.append("country", "");
+                body.append("city", "");
+                body.append("resumefile", "");
+                body.append("videoresume", "");
 
-            //For Edit Intro
-            body.append("first_name", "");
-            body.append("last_name", "");
-            body.append("category", "");
-            body.append("skills", "");
-            body.append("socialurls", "");
+                // For Education
+                body.append("department", "");
+                body.append("title", "");
+                body.append("type", "");
+                body.append("location", "");
+                body.append("startDate", "");
+                body.append("endDate", "");
+                body.append("community", "");
 
-            //for Job
-            body.append("experience_id", "");
-            body.append("experience", "");
-            body.append("description", "");
-            body.append("projecturl", "");
-            body.append("professionalurls", "");
-            body.append("employment_type", "");
-            body.append("willing_to_relocate", "");
-            body.append("country", "");
-            body.append("city", "");
-            body.append("resumefile", "");
-            body.append("videoresume", "");
-
-            // For Education
-            body.append("department", "");
-            body.append("title", "");
-            body.append("type", "");
-            body.append("location", "");
-            body.append("startDate", "");
-            body.append("endDate", "");
-            body.append("community", "");
-
-            //For Portfolio
-            body.append("portfolio_name", "");
-            body.append("portfolio_des", "");
-            body.append("portfolio_category", "");
-            body.append("portfolio_link", "");
-            body.append("image", "");
-            body.append("portfolio_id", this.props.navigation.state.params.portfolioID)
-            body.append("devices" , "mobile");
+                //For Portfolio
+                body.append("portfolio_name", "");
+                body.append("portfolio_des", "");
+                body.append("portfolio_category", "");
+                body.append("portfolio_link", "");
+                body.append("image", "");
+                body.append("portfolio_id", this.props.navigation.state.params.portfolioID)
+                body.append("devices", "mobile");
 
 
-            console.log(body, "add portfolio bodyyyy")
-            axios
-                .post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body)
-                .then((res) => {
-                    if (res.status === 200) this.props.navigation.navigate('ProfileScreen')
-                    const response = res.data[0].portfolio[0];
-                    this.setState({
-                        porfolioTitle : response.title,portfolioDescription : response.description , portfolioId : response.id,
-                        liveUrl : response.link,profileImageSource : response.image, selectedCategory : response.category
-                    })
-                    console.log(res.data[0].portfolio, "add portfolio")
-                });
-            }else {
+                console.log(body, "add portfolio bodyyyy")
+                axios
+                    .post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body)
+                    .then((res) => {
+                        
+                        const response = res.data[0].portfolio[0];
+                        this.setState({
+                            porfolioTitle: response.title, portfolioDescription: response.description, portfolioId: response.id,
+                            liveUrl: response.link, profileImageSource: response.image, selectedCategory: response.category
+                        })
+                        console.log(res.data[0].portfolio, "add portfolio")
+                    });
+            } else {
 
             }
-        });
+        }
+        );
 
     }
     static navigationOptions = {
@@ -170,7 +168,7 @@ class AddPortfolioScreen extends Component {
         body.append("portfolio_link", this.state.liveUrl);
         body.append("image", this.state.profileImageSource);
         (body.append("portfolio_id", this.state.portfolioId));
-        body.append("devices" , "mobile");
+        body.append("devices", "mobile");
 
 
         console.log(body, "add portfolio bodyyyy")
@@ -213,7 +211,7 @@ class AddPortfolioScreen extends Component {
     }
 
     render() {
-        console.log(this.state , "stateeeeeeeeeeeeeeeee")
+        console.log(this.state, "stateeeeeeeeeeeeeeeee")
         const renderCountryItems = ({ item }) => (
             <TouchableOpacity style={styles.headSec}>
                 <View style={styles.details}>

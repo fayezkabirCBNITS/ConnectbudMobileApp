@@ -29,7 +29,9 @@ class ChatScreen extends Component {
     super();
     this.state = {
       chatList: [],
-      showLoader:false
+      showLoader:false,
+      projectBtn: true,
+      internshipBtn: false,
     };
   }
 
@@ -60,6 +62,15 @@ class ChatScreen extends Component {
 gotoPage = ()=>{
   
 }
+
+
+showProject = () => {
+  this.setState({projectBtn: true, internshipBtn: false});
+} 
+showInternship = () => {
+  this.setState({projectBtn: false, internshipBtn: true});
+} 
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -97,17 +108,17 @@ gotoPage = ()=>{
                 <Fontisto name="search" color="#71b85f" size={20} />
               </View>
             </View> */}
-            <TouchableOpacity style={styles.tabSlct}>
+            <TouchableOpacity onPress={()=> this.showProject()} style={this.state.projectBtn ? styles.tabSlct : styles.tab}>
               <Text style={styles.tabText}>Project</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.tab}>
+            <TouchableOpacity onPress={()=> this.showInternship()} style={this.state.internshipBtn ? styles.tabSlct : styles.tab}>
               <Text style={styles.tabText}>Internship / Job</Text>
             </TouchableOpacity>
           </View>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={CommonStyles.container}>
-            
+          {this.state.projectBtn ?
+            <View style={CommonStyles.container}>            
               {this.state.chatList.length > 0 ? (this.state.chatList.map((item, i) => (
                 <TouchableOpacity
                   key={i}
@@ -150,6 +161,53 @@ gotoPage = ()=>{
                 </TouchableOpacity>
               ))): <View style={styles.noChat}><Text style={styles.userChat2}>No chat found</Text></View>}
             </View>
+
+
+
+
+            : <View style={CommonStyles.container}>            
+              {this.state.chatList.length > 0 ? (this.state.chatList.map((item, i) => (
+                <TouchableOpacity
+                  key={i}
+                  style={styles.chatCard}
+                  onPress={() =>
+                this.props.navigation.navigate('ChatListScreen',{
+                job_id: item.job_id,
+                receiver_id: item.receiver_id,
+                sender_id: base64.decode(this.props.userDeatailResponse.user_id),
+                name:item.name,
+                user_image: item.user_image,
+                user_type: this.props.userDeatailResponse?.Flag,
+                room_id: item.room_id,
+                token: item.token
+            },  SyncStorage.set('room_id',item.job_id+'_'+item.receiver_id))
+                  }>
+                  <View style={styles.imgSec}>
+                    <Image source={{uri: item.user_image}} style={styles.chatImage} />
+                    {item.status === "True" ? <View style={styles.online} />  : null }
+                  </View>
+
+                  <View style={styles.details}>
+                    <Text style={styles.userName}>{item.name}</Text>
+                    <Text
+                      style={styles.userChat}
+                      numberOfLines={1}
+                      ellipsizeMode="tail">
+                      {item.last_message}
+                    </Text>
+                  </View>
+
+                  <View style={styles.count}>
+                    <Text style={styles.chatTime}>{item.chatTime}</Text>
+                    {item.read_status === "false"  ? 
+                    (<View style={styles.unread}>
+                      {/* <Text style={styles.unreadText}>25</Text> */}
+                    </View>)
+                    : null}
+                  </View>
+                </TouchableOpacity>
+              ))): <View style={styles.noChat}><Text style={styles.userChat2}>No chat found</Text></View>}
+            </View>}
           </ScrollView>
         </View>
       </SafeAreaView>

@@ -279,7 +279,7 @@ class PostInternship extends Component {
               <></>
             )}
 
-            <View style={{marginHorizontal: '5%',}}>
+            <View style={{marginHorizontal: '5%', marginVertical: 15}}>
               <TextInput
                 returnKeyType="done"
                 placeholder="* Company Name [max 40 Chars]"
@@ -294,7 +294,7 @@ class PostInternship extends Component {
             ) : (
               <></>
             )}
-            <View style={{marginHorizontal: '5%', marginVertical: '2%'}}>
+            <View style={{marginHorizontal: '5%',}}>
               <TextInput
                 returnKeyType="done"
                 placeholder="* Description [max 500 Chars]"
@@ -344,7 +344,7 @@ class PostInternship extends Component {
               <View style={[styles.formGroup01]}>
               <View style={styles.formPicker}>
                 <Picker
-                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular'}}
+                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular',}}
                   selectedValue={this.state.skills}
                   onValueChange={(itemValue, itemIndex) =>
                     //this.setState({ selectedSkills:this.state.selectedSkills.push(itemValue) })

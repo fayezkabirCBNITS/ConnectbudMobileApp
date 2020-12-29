@@ -20,7 +20,7 @@ import AddPortfolioScreen from '../screens/AuthNav/AddPortfolioItem';
 import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile';
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
-import PostedProjectDetails from '../screens/AuthNav/PostedProjectDetails';
+import SearchProjectStudents from '../screens/AuthNav/SearchProjectStudents';
 import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
 import AboutUs from '../screens/AuthNav/AboutUs';
 import FAQsScreen from '../screens/AuthNav/FAQs';
@@ -107,8 +107,8 @@ export const MainStack = createStackNavigator(
     EditPostedProject: {
       screen: EditPostedProject,
     },
-    PostedProjectDetails: {
-      screen: PostedProjectDetails,
+    SearchProjectStudents:{
+      screen : SearchProjectStudents
     },
     AssessmentQuestion: {
       screen: AssessmentQuestion,

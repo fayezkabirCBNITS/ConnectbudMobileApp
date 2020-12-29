@@ -32,7 +32,7 @@ class PostProject extends Component {
     this.state = {
       showLoader: false,
       showSkills: false,
-      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
+      skillValuePlaceHolder: [{value: 'Select Skills', label: 'Select skills'}],
       selectedSkills: [],
       selectedSkillIndex: null,
       title: '',
@@ -198,7 +198,7 @@ class PostProject extends Component {
   };
   reverseAddSkills = async (index) => {
     // this.setState({})
-    this.setState({
+    await this.setState({
       selectedSkills: this.state.selectedSkills.filter((_, i) => i !== index),
     });
     let data = this.state.selectedSkills[index];

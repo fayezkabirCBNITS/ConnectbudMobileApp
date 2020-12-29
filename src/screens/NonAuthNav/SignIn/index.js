@@ -15,12 +15,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CommonStatusBar from '../../../components/StatusBar';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ApiUrl from '../../../config/ApiUrl';
-import {makePostRequest} from '../../../services/http-connectors';
+import {
+  makePostRequest,
+  makePostRequestMultipart,
+} from '../../../services/http-connectors';
 import styles from './singInstyle';
 import base64 from 'base-64';
 import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
 
 class SignInScreen extends Component {
   constructor(props) {
@@ -29,10 +32,11 @@ class SignInScreen extends Component {
       showLoader: false,
       username: '',
       password: '',
+      userId: '',
       errors: {},
       type: true,
-      deviceTokenId: "",
-      devicetype:""
+      deviceTokenId: '',
+      devicetype: '',
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -41,30 +45,30 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     var _this = this;
-    PushNotification.configure({     
+    PushNotification.configure({
       onRegister: function (token) {
-        console.log("TOKEN:", token.token);
-        if(token){
-            _this.setState({deviceTokenId : token.token, devicetype: token.os})
+        console.log('TOKEN:', token.token);
+        if (token) {
+          _this.setState({deviceTokenId: token.token, devicetype: token.os});
         }
       },
 
       onNotification: function (notification) {
-        console.log("NOTIFICATION:", notification);  
+        console.log('NOTIFICATION:', notification);
       },
       onAction: function (notification) {
-        console.log("ACTION:", notification);
+        console.log('ACTION:', notification);
         // console.log("NOTIFICATION:", notification);
         // process the action
       },
-      onRegistrationError: function(err) {
-        console.error("err.message", err);
+      onRegistrationError: function (err) {
+        console.error('err.message', err);
       },
       popInitialNotification: true,
       requestPermissions: true,
-    })
+    });
   }
   handleSkills = async () => {
     this.setState({showSkills: !this.state.showSkills});
@@ -92,7 +96,7 @@ class SignInScreen extends Component {
     let dataSet = this.validateForm();
     if (dataSet === true) {
       this.userLogin();
-      
+
       // Toast.show('submit action', Toast.LONG);
     }
   };
@@ -134,7 +138,7 @@ class SignInScreen extends Component {
         password: base64.encode(this.state.password),
         login_type: base64.encode('normal'),
         deviceTokenId: this.state.deviceTokenId,
-        devicetype: this.state.devicetype
+        devicetype: this.state.devicetype,
       };
     } else if (this.props.navigation.state.params.userType === 'employee') {
       obj = {
@@ -142,7 +146,7 @@ class SignInScreen extends Component {
         password: base64.encode(this.state.password),
         login_type: base64.encode('employer'),
         deviceTokenId: this.state.deviceTokenId,
-        devicetype: this.state.devicetype
+        devicetype: this.state.devicetype,
       };
     }
     ///
@@ -153,13 +157,24 @@ class SignInScreen extends Component {
       //Toast.show(response.msg, Toast.LONG);
       this.props.updateUserDetails(response);
       console.log('resdtlres============', response[0]?.Flag);
+      this.setState({userId: response[0]?.user_id});
+
       {
         response[0]?.Flag === 'WQ=='
           ? this.props.navigation.navigate('StudentInner')
           : response[0]?.Flag === 'Rg=='
-          ? this.props.navigation.navigate('EmployeeInner')
-          : null;
+          ? // ? (this.props.userDeatailResponse?.tmpPostJob && this.props.userDeatailResponse?.tmpPostJob?.tmpJobID)
+            this.validateLogin()
+          : // ? this.props.navigation.navigate('EmployeeInner')
+            null;
       }
+      // {
+      //   response[0]?.Flag === 'WQ=='
+      //     ? this.props.navigation.navigate('StudentInner')
+      //     : response[0]?.Flag === 'Rg=='
+      //     ? this.props.navigation.navigate('EmployeeInner')
+      //     : null;
+      // }
     } else {
       this.setState({showLoader: false});
       alert('The email or password you have entered is invalid!');
@@ -167,13 +182,36 @@ class SignInScreen extends Component {
     }
     ///
   };
-  handleSignUp =()=>{
-    if (this.props.navigation.state.params.userType === 'student') {
-      this.props.navigation.navigate('FreelancerSignUpScreen')
-    } else if (this.props.navigation.state.params.userType === 'employee') {
-      this.props.navigation.navigate('SignUpScreen')
+  validateLogin = async () => {
+    if (this.props.userDeatailResponse?.tmpPostJob.hasOwnProperty('tmpJobID')) {
+      let jobDescription = new FormData();
+      jobDescription.append('user_id', this.state.userId);
+      jobDescription.append(
+        'job_id',
+        this.props.userDeatailResponse?.tmpPostJob?.tmpJobID,
+      );
+      jobDescription.append('hire_by', this.props.userDeatailResponse?.tmpPostJob?.hire_by);
+      let response = await makePostRequestMultipart(
+        ApiUrl.UPDATE_ID,
+        false,
+        jobDescription,
+      );
+      console.log('handle freelancer post a job-----', response);
+      if (response && response[0].message === 'success') {
+        alert('Job posted Successfully');
+        this.props.navigation.navigate('EmployeeInner');
+      }
+    } else {
+      this.props.navigation.navigate('EmployeeInner');
     }
-  }
+  };
+  handleSignUp = () => {
+    if (this.props.navigation.state.params.userType === 'student') {
+      this.props.navigation.navigate('FreelancerSignUpScreen');
+    } else if (this.props.navigation.state.params.userType === 'employee') {
+      this.props.navigation.navigate('SignUpScreen');
+    }
+  };
 
   render() {
     return (
@@ -183,7 +221,9 @@ class SignInScreen extends Component {
           <ImageBackground
             style={{width: '100%', height: '100%'}}
             source={require('../../../assets/images/authBg.jpg')}>
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps={'always'}>
               <View style={[CommonStyles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -252,17 +292,16 @@ class SignInScreen extends Component {
                 <Pressable
                   style={styles.signinBtn}
                   onPress={this.submitLogin}
-                  disabled={this.state.showLoader}
-                >
+                  disabled={this.state.showLoader}>
                   {this.state.showLoader === true ? (
-                      <ActivityIndicator
-                        size="small"
-                        color="#fff"
+                    <ActivityIndicator
+                      size="small"
+                      color="#fff"
                       // style={CommonStyles.loader}
-                      />
+                    />
                   ) : (
-                      <Text style={styles.signinText}>Sign In </Text>
-                    )}
+                    <Text style={styles.signinText}>Sign In </Text>
+                  )}
                 </Pressable>
                 <View style={styles.iconDiv}>
                   <Image
@@ -280,11 +319,7 @@ class SignInScreen extends Component {
                 </View>
                 <Text style={styles.signupAcnt}>
                   Don't have an account?{' '}
-                  <Text
-                    style={styles.signupText}
-                    onPress={
-                      this.handleSignUp
-                    }>
+                  <Text style={styles.signupText} onPress={this.handleSignUp}>
                     Sign Up
                   </Text>
                 </Text>
@@ -297,10 +332,10 @@ class SignInScreen extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => {
   return {
     userDeatailResponse: state.userData,
+    //updateTmpPostJob: state.jobData,
   };
 };
 const mapDispatchToProps = (dispatch) => {
