@@ -39,6 +39,17 @@ export default {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  menuOptn3: {
+    width: '100%',
+    // height: 60,
+    paddingHorizontal: '5%',
+    paddingVertical: 7,
+    alignItems: 'center',
+    borderBottomColor: 'rgba(255,255,255,0.2)',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   menuOptnText: {
     width: '80%',
     fontFamily: 'Poppins-Regular',
