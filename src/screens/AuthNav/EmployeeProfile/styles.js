@@ -131,6 +131,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     color: '#71b85f',
     fontSize: 18,
+    textAlign: 'right'
   },
   projTitle: {
     fontFamily: 'Poppins-SemiBold',
@@ -146,5 +147,22 @@ export default {
     paddingVertical: 15,    
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(113,184,95,0.3)',
-  }
+  },
+  aboutText: {
+    fontFamily: 'Poppins-Regular',
+    color: 'rgba(0,0,0,0.5)',
+    fontSize: 16,
+  },
+  noDataImg: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 470,
+  },
+  noDataImgText: {
+    marginTop: 15,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
 };
