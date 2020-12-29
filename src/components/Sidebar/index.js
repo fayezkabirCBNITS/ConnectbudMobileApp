@@ -178,15 +178,15 @@ class Sidebar extends Component {
                   />
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.menuOptn}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('MyQuestionsScreen')
-                  // }
+                  onPress={() =>
+                    this.props.navigation.navigate('MyQuestionsScreen')
+                  }
                 >
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() => this.props.navigation.navigate('ContactUs')}>
@@ -318,14 +318,14 @@ class Sidebar extends Component {
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('EditProfileScreen')
-                  // }
+                {/* <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('MyQuestionScreen')
+                  }
                   style={styles.menuOptn}>
                   <AntDesign name="contacts" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <Collapse
                   onToggle={() =>
                     this.setState({pressed: !this.state.pressed})

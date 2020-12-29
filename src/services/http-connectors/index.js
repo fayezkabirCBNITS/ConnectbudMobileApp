@@ -264,7 +264,7 @@ export const makePutRequest = async (url, attachToken = false, params = {}) => {
 
   let headers = {
     Accept: "application/json",
-    "Content-Type": "application/json",
+    "Content-Type": 'multipart/form-data',
   };
   let isValid = false;
   if (attachToken) {
@@ -280,7 +280,7 @@ export const makePutRequest = async (url, attachToken = false, params = {}) => {
       fetch(CONNECTBUD_API_BASE_URL+url, {
         method: "PUT",
         headers: headers,
-        body: JSON.stringify(params),
+        body: params,
       })
       .then(
         async (res) => {
@@ -324,7 +324,7 @@ export const makeDeleteRequest = async (
   console.log("url :>> ", url);
   let headers = {
     Accept: "application/json",
-    "Content-Type": "application/json",
+    "Content-Type": 'multipart/form-data',
   };
   let isValid = false;
   if (attachToken) {
@@ -340,7 +340,7 @@ export const makeDeleteRequest = async (
       fetch(CONNECTBUD_API_BASE_URL+url, {
         method: "DELETE",
         headers: headers,
-        body: JSON.stringify(params),
+        body: params,
         strictErrors: true,
       })
       .then(

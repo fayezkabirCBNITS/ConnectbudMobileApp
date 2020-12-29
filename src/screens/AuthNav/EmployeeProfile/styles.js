@@ -129,6 +129,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     color: '#71b85f',
     fontSize: 18,
+    textAlign: 'right'
   },
   projTitle: {
     fontFamily: 'Poppins-SemiBold',

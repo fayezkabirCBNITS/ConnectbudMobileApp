@@ -36,5 +36,10 @@ export default EndPoint = {
   UPDATE_ID:'updateid',
   SENDSMS:'sendsms',
   VALIDATE_OTP:'validate_otp',
+  SaveProfileImage: 'SaveProfileImage',
+  SaveCoverImage: 'SaveCoverImage',
+  QuestionAnswer: 'Questions/MyQuestions',
+  FetchQuestion: 'Questions/fetchQuestion/',
+  FeedQuestions: 'Questions/feedQuestions',
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove

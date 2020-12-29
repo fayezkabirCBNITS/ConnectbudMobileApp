@@ -19,6 +19,7 @@ import { makePostRequestMultipart } from '../../../services/http-connectors';
 import { connect } from 'react-redux';
 import base64 from 'base-64';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ReadMore from 'react-native-read-more-text';
 
 
 class EmployeeProfileScreen extends Component {
@@ -36,8 +37,10 @@ class EmployeeProfileScreen extends Component {
   };
 
   componentDidMount = async () => {
+    this.props.navigation.addListener('didFocus', () => { this.updateData(); });
     this.setState({ showLoader: true });
     this.allPost();
+
     const { userData } = this.props;
 
     let body = new FormData();
@@ -82,6 +85,31 @@ class EmployeeProfileScreen extends Component {
     }
   };
 
+  updateData = async () => {
+    console.log("update hit");
+    this.setState({ showLoader: true });
+    const { userData } = this.props;
+    let body = new FormData();
+
+    body.append("id", userData.row_id);
+    body.append("user_id", base64.decode(userData.user_id));
+    body.append("first_name", "");
+    body.append("last_name", "");
+    body.append("company_name", "");
+    body.append("designation", "");
+    body.append("country", "");
+    body.append("city", "");
+    body.append("about", "");
+
+    let response = await makePostRequestMultipart(ApiUrl.RecruiterProfile + base64.decode(userData.slug), false, body);
+    if (response) {
+      this.setState({
+        profiledataset: response,
+        showLoader: false
+      });
+    }
+  }
+
   allPost = async () => {
     const { userData } = this.props;
 
@@ -112,6 +140,22 @@ class EmployeeProfileScreen extends Component {
       }
     }
   };
+
+  _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={styles.readMore} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+
+  _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={styles.readMore} onPress={handlePress}>
+        Read less
+      </Text>
+    );
+  }
 
   render() {
     const { userData } = this.props;
@@ -171,7 +215,7 @@ class EmployeeProfileScreen extends Component {
               <View style={[CommonStyles.container, styles.marTop30]}>
                 <View style={styles.hdngSec}>
                   <Text style={styles.hdngText}>Your Details</Text>
-                  <TouchableOpacity style={styles.editBtn}>
+                  <TouchableOpacity style={styles.editBtn} onPress={() => this.props.navigation.navigate('EmployeeEditProfileScreen', { slugname: base64.decode(userData.slug) })}>
                     <MaterialIcons name="mode-edit" color="#fff" size={18} />
                     <Text style={styles.editBtnText}>Edit</Text>
                   </TouchableOpacity>
@@ -243,9 +287,15 @@ class EmployeeProfileScreen extends Component {
                         return (
                           <View style={styles.project}>
                             <Text style={styles.projTitle}>{index + 1}. {value.job_name}</Text>
-                            <Text style={styles.projDetails}>{value.description}</Text>
+
                             <TouchableOpacity style={{ marginLeft: 'auto' }}>
-                              <Text style={styles.readMore}>Read more</Text>
+                              <ReadMore
+                                numberOfLines={3}
+                                renderTruncatedFooter={this._renderTruncatedFooter}
+                                renderRevealedFooter={this._renderRevealedFooter}
+                              >
+                                <Text style={styles.projDetails}>{value.description}</Text>
+                              </ReadMore>
                             </TouchableOpacity>
                           </View>
                         )
@@ -276,9 +326,14 @@ class EmployeeProfileScreen extends Component {
                           return (
                             <View style={styles.project}>
                               <Text style={styles.projTitle}>{index + 1}. {value.job_title}</Text>
-                              <Text style={styles.projDetails}>{value.description}</Text>
                               <TouchableOpacity style={{ marginLeft: 'auto' }}>
-                                <Text style={styles.readMore}>Read more</Text>
+                                <ReadMore
+                                  numberOfLines={3}
+                                  renderTruncatedFooter={this._renderTruncatedFooter}
+                                  renderRevealedFooter={this._renderRevealedFooter}
+                                >
+                                  <Text style={styles.projDetails}>{value.description}</Text>
+                                </ReadMore>
                               </TouchableOpacity>
                             </View>
                           )
