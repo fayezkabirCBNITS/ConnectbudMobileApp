@@ -151,6 +151,8 @@ gotoPage = ()=>{
               ))): <View style={styles.noChat}><Text style={styles.userChat2}>No chat found</Text></View>}
             </View>
           </ScrollView>
+          {/* START */}
+{/* END */}
         </View>
       </SafeAreaView>
     );

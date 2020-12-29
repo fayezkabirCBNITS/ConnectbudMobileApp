@@ -240,7 +240,7 @@ class EmpContactScreen extends Component {
                               {value.payment_status === 'Escrow' &&
                                 value.class_status !== 'free' && (
                                   <Text style={styles.paidText}>
-                                    Money in Escrow
+                                    Escrowed
                                   </Text>
                                 )}
                               {value.payment_status === 'Escrow' &&
