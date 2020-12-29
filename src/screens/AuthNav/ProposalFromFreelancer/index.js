@@ -329,7 +329,7 @@ class ProposalFromFreelancer extends Component {
                       {this.state.questionset.map((data, index) => (
                         <>
                           <View key={index} style={styles.quesAns}>
-                            <Text>{data.question}</Text>
+                            <Text>Q.{data.question}</Text>
                             <Text>{data.answer}</Text>
                           </View>
                         </>

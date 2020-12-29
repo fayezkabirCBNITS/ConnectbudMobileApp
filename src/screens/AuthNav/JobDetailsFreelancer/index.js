@@ -204,7 +204,9 @@ class JobDetailsFreelancer extends Component {
                   <TouchableOpacity
                     style={styles.applyBtn}
                     onPress={() =>
-                      this.props.navigation.navigate('AssessmentQuestion')
+                      this.props.navigation.navigate('AssessmentQuestion',{
+                        pageStatus : "job"
+                      })
                     }>
                     <Text style={styles.applyBtnText}>Apply</Text>
                   </TouchableOpacity>
