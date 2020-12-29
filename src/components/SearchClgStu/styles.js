@@ -68,10 +68,10 @@ export default {
         flexDirection: 'row',
     },
     title: {
-        fontWeight: 'bold',
-        fontSize: 14,
-        marginLeft: 20,
-        marginTop: 10,
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 18,
+        paddingHorizontal: '5%',
+        marginTop: 18,
         marginBottom:10,
     },
     filterSec: {

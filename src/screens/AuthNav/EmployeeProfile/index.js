@@ -56,18 +56,27 @@ class EmployeeProfileScreen extends Component {
               showsHorizontalScrollIndicator={false}
               horizontal>
               <View style={styles.details}>
-                <Text style={styles.userInfoHead}>Name</Text>
-                <Text style={styles.userInfoDetails}>John Eheeler</Text>
+                <FontAwesome name="user" color="#71b85f" size={30} />
+                <View style={{marginLeft: 10}}>
+                  <Text style={styles.userInfoHead}>Name</Text>
+                  <Text style={styles.userInfoDetails}>John Eheeler</Text>
+                </View>
               </View>
 
               <View style={styles.details}>
+              <FontAwesome name="briefcase" color="#71b85f" size={30} />
+              <View style={{marginLeft: 10}}>
                 <Text style={styles.userInfoHead}>Designation</Text>
                 <Text style={styles.userInfoDetails}>Hiring Manager</Text>
+                </View>
               </View>
 
-              <View style={styles.details}>
+              <View style={styles.details}>                
+              <FontAwesome name="building" color="#71b85f" size={30} />
+              <View style={{marginLeft: 10}}>
                 <Text style={styles.userInfoHead}>Company Name</Text>
                 <Text style={styles.userInfoDetails}>CBNITS</Text>
+                </View>
               </View>
             </ScrollView>
 

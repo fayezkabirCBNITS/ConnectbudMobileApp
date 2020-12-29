@@ -33,6 +33,7 @@ export default {
     fontFamily: 'Poppins-Regular',
     fontSize: 17,
     color: '#fff',
+    marginTop: 3
   },
   content: {
     padding: 10,
@@ -50,11 +51,11 @@ export default {
     height: 100,
   },
   knowMoreBtn: {
-    width: '60%',
+    width: '70%',
     height: 40,
     borderColor: 'rgba(113,184,95,0.8)',
     borderWidth: 1,
-    marginLeft: 'auto',
+    marginRight: 'auto',
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',

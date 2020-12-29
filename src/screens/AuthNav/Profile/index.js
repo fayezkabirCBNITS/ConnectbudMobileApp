@@ -98,20 +98,29 @@ class ProfileScreen extends Component {
                 key={i}
                 horizontal>
                 <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>Name</Text>
-                  <Text style={styles.userInfoDetails}>
-                    {item.first_name} {item.last_name}
-                  </Text>
+                  <FontAwesome name="user" color="#71b85f" size={30} />
+                  <View style={{marginLeft: 10}}>
+                    <Text style={styles.userInfoHead}>Name</Text>
+                    <Text style={styles.userInfoDetails}>
+                      {item.first_name} {item.last_name}
+                    </Text>
+                  </View>
                 </View>
 
                 <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>College</Text>
-                  <Text style={styles.userInfoDetails}>{item.college}</Text>
+                  <FontAwesome name="bank" color="#71b85f" size={30} />
+                  <View style={{marginLeft: 10}}>
+                    <Text style={styles.userInfoHead}>College</Text>
+                    <Text style={styles.userInfoDetails}>{item.college}</Text>
+                  </View>
                 </View>
 
                 <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>Department</Text>
-                  <Text style={styles.userInfoDetails}>{item.department}</Text>
+                  <FontAwesome name="graduation-cap" color="#71b85f" size={30} />
+                  <View style={{marginLeft: 10}}>
+                    <Text style={styles.userInfoHead}>Department</Text>
+                    <Text style={styles.userInfoDetails}>{item.department}</Text>
+                  </View>
                 </View>
               </ScrollView>
             )) : <View style={styles.noDate2}><Text style={styles.noDateText}>No data</Text></View>}
