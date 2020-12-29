@@ -24,7 +24,7 @@ import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import SearchProjectStudents from '../screens/AuthNav/SearchProjectStudents';
 import AssessmentQuestion from '../screens/AuthNav/AssessmentQuestion';
 import AboutUs from '../screens/AuthNav/AboutUs';
-import FAQs from '../screens/AuthNav/FAQs';
+import FAQsScreen from '../screens/AuthNav/FAQs';
 import TermsOfServices from '../screens/AuthNav/TermsOfServices';
 import PrivacyPolicy from '../screens/AuthNav/PrivacyPolicy';
 import ContactUs from '../screens/AuthNav/ContactUs';
@@ -41,6 +41,7 @@ import HireStudentsScreen from '../screens/AuthNav/HireStudent';
 import CheckoutScreen from '../screens/AuthNav/CheckOut';
 import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
 import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
+import JobListingScreen from '../screens/AuthNav/JobListing';
 //non stack pages
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
@@ -119,8 +120,8 @@ export const MainStack = createStackNavigator(
     AboutUs: {
       screen: AboutUs,
     },
-    FAQs: {
-      screen: FAQs,
+    FAQsScreen: {
+      screen: FAQsScreen,
     },
     TermsOfServices: {
       screen: TermsOfServices,
@@ -169,6 +170,9 @@ export const MainStack = createStackNavigator(
     }   ,
     AddExperienceNew: {
       screen : AddExperienceNew
+    },
+    JobListingScreen: {
+      screen : JobListingScreen
     },
   },
 

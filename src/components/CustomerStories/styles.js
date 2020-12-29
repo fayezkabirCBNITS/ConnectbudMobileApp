@@ -26,14 +26,15 @@ export default {
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
     color: '#000',
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingHorizontal: '5%',
   },
   feedback: {
     width: '100%',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     color: '#000',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   wrap: {
     width: '100%',

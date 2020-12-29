@@ -9,8 +9,8 @@ export default {
     marginLeft: 15,
   },
   image: {
-    width: '100%',
-    height: 150,
+    width: '50%',
+    height: 75,
     borderRadius: 5,
     overflow: 'hidden',
   },
@@ -40,11 +40,11 @@ export default {
     padding: 10,
     paddingVertical: 20,
     alignItems: 'center',
-    borderRadius: 7
+    borderRadius: 7,
   },
   marTop20: {
     marginTop: 20,
     justifyContent: 'center',
     height: 55,
-  }
+  },
 };

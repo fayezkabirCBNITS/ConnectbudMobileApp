@@ -24,7 +24,7 @@ class ContactUs extends Component {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Header />
                         <View style={{ marginHorizontal: '5%', marginTop: 20 }}>
-                            <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+                            <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 20 }}>
                                 Contact Us
                             </Text>
 
@@ -53,7 +53,7 @@ class ContactUs extends Component {
                                     keyboardType="default"
                                     numberOfLines={5}
                                     multiline={true}
-                                    style={styles.formGroup}
+                                    style={styles.formGroup2}
                                 />
                             </View>
 

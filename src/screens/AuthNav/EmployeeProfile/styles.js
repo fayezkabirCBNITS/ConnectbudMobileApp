@@ -47,7 +47,9 @@ export default {
     borderRadius: 7,
     marginTop: 10,
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgba(255,255,255,1)',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   camPosition: {
     position: 'absolute',
