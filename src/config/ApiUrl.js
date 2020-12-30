@@ -41,5 +41,7 @@ export default EndPoint = {
   QuestionAnswer: 'Questions/MyQuestions',
   FetchQuestion: 'Questions/fetchQuestion/',
   FeedQuestions: 'Questions/feedQuestions',
+  JobChatting: 'job_chatting',
+  CloseJob: 'job_end',
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove
