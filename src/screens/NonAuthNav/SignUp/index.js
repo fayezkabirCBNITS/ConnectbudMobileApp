@@ -11,6 +11,7 @@ import {
   ImageBackground,
   Modal,
   Picker,
+  TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,6 +24,8 @@ import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
 import {countryCodes} from '../../../config/countrycodes';
 import Toast from 'react-native-simple-toast';
+
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class SignUpScreen extends Component {
   constructor() {
@@ -46,6 +49,7 @@ class SignUpScreen extends Component {
       isModalVisible: false,
       userEmail: '',
       rowID: '',
+      showLoader: false,
       // enableSignUp:true,
     };
     this.showHide = this.showHide.bind(this);
@@ -110,7 +114,7 @@ class SignUpScreen extends Component {
   };
 
   validateOtp = async () => {
-   // this.setState({isSent: !this.state.isSent});
+    // this.setState({isSent: !this.state.isSent});
     if (this.state.enteredOTP.length > 2) {
       let body = new FormData();
       body.append('rowid', this.state.rowID);
@@ -133,6 +137,7 @@ class SignUpScreen extends Component {
 
   submituserRegistrationForm = async () => {
     this.setState({
+      showLoader: true,
       errors: Validator.validateForm(
         null,
         this.state.fields,
@@ -141,6 +146,7 @@ class SignUpScreen extends Component {
     });
 
     if (this.state.errors.formIsValid) {
+      console.log('calllllllllllllllllllllllllll');
       let body = new FormData();
       body.append('username', this.state.fields.email);
       body.append('password', this.state.fields.password);
@@ -149,7 +155,6 @@ class SignUpScreen extends Component {
       body.append('last_name', this.state.fields.last_name);
       body.append('registration_type', 'freelancer');
       body.append('company_name', '');
-      
 
       let response = await makePostRequestMultipart(
         ApiUrl.EmployerSignUp,
@@ -159,18 +164,22 @@ class SignUpScreen extends Component {
       console.log('handle employee Signup-----', response);
       if (response) {
         this.setState({userEmail: response?.email});
-        this.setState({isModalVisible: true});
+        this.setState({isModalVisible: true, showLoader: false});
+        alert('A verification link sent to your email id');
+        this.props.navigation.navigate('SignInScreen');
       }
     }
   };
-  onDismissModel = () => {
-    this.setState({isModalVisible: false});
-    this.props.navigation.navigate('HomeScreen');
-  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={styles.main}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <CommonStatusBar />
           <ImageBackground
             style={{width: '100%', height: '100%'}}
@@ -245,7 +254,7 @@ class SignUpScreen extends Component {
                 </View>
                 <ErrorMsg errorMsg={this.state.errors['email']} />
 
-                <View style={styles.formGroup1}>
+                {/* <View style={styles.formGroup1}>
                   <View
                     style={[styles.formSubGroup2Num, {flexDirection: 'row'}]}>
                     <Picker
@@ -295,9 +304,9 @@ class SignUpScreen extends Component {
                       </Text>
                     </Pressable>
                   </View>
-                </View>
+                </View> */}
 
-                <ErrorMsg errorMsg={this.state.errors['phone']} />
+                {/* <ErrorMsg errorMsg={this.state.errors['phone']} />
                 {this.state.isSent && (
                   <View style={styles.formGroup1}>
                     <View style={styles.formSubGroup2Num}>
@@ -328,7 +337,7 @@ class SignUpScreen extends Component {
                       </Pressable>
                     </View>
                   </View>
-                )}
+                )} */}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -409,7 +418,7 @@ class SignUpScreen extends Component {
             </ScrollView>
           </ImageBackground>
         </View>
-        {this.state.isModalVisible === true ? (
+        {/* {this.state.isModalVisible === true ? (
           <Modal transparent={true} isVisible={this.state.isModalVisible}>
             <View style={CommonStyles.modalBg}>
               <View style={CommonStyles.modalContent}>
@@ -434,7 +443,7 @@ class SignUpScreen extends Component {
           </Modal>
         ) : (
           <></>
-        )}
+        )} */}
       </SafeAreaView>
     );
   }

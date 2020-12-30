@@ -26,6 +26,9 @@ import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
 import {countryCodes} from '../../../config/countrycodes';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
+
 class FreelancerSignUpScreen extends Component {
   static navigationOptions = {
     headerShown: false,
@@ -62,6 +65,7 @@ class FreelancerSignUpScreen extends Component {
       errOTP: false,
       choosenIndex: 0,
       countryCode: '+91',
+      showLoader: false,
       //
     };
     this.showHide = this.showHide.bind(this);
@@ -197,6 +201,7 @@ class FreelancerSignUpScreen extends Component {
     // this.setState({showLoader: true});
     console.log('sgggg=========');
     this.setState({
+      showLoader: true,
       errors: Validator.validateForm(
         null,
         this.state.fields,
@@ -235,7 +240,9 @@ class FreelancerSignUpScreen extends Component {
       console.log('handle freelancer Signup-----', response);
       if (response) {
         this.setState({userEmail: response?.email});
-        this.setState({isModalVisible: true});
+        this.setState({isModalVisible: true, showLoader: false});
+        alert('A verification link sent to your email id');
+        this.props.navigation.navigate('SignInScreen');
         Toast.show(response.msg, Toast.LONG);
       } else {
         //alert('The email or password you have entered is invalid!');
@@ -243,14 +250,19 @@ class FreelancerSignUpScreen extends Component {
       }
     }
   };
-  onDismissModel = () => {
-    this.setState({isModalVisible: false});
-    this.props.navigation.navigate('HomeScreen');
-  };
+  // onDismissModel = () => {
+  //   this.setState({isModalVisible: false});
+  //   this.props.navigation.navigate('HomeScreen');
+  // };
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={styles.main}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <CommonStatusBar />
           <ImageBackground
             style={{width: styles.deviceWidth, height: styles.deviceHeight}}
@@ -429,7 +441,7 @@ class FreelancerSignUpScreen extends Component {
                   <></>
                 )}
 
-                <View style={styles.formGroup1}>
+                {/* <View style={styles.formGroup1}>
                   <View
                     style={[styles.formSubGroup2Num, {flexDirection: 'row'}]}>
                     <Picker
@@ -479,9 +491,9 @@ class FreelancerSignUpScreen extends Component {
                       </Text>
                     </Pressable>
                   </View>
-                </View>
+                </View> */}
 
-                <ErrorMsg errorMsg={this.state.errors['phone']} />
+                {/* <ErrorMsg errorMsg={this.state.errors['phone']} />
                 {this.state.isSent && (
                   <View style={styles.formGroup1}>
                     <View style={styles.formSubGroup2Num}>
@@ -512,7 +524,7 @@ class FreelancerSignUpScreen extends Component {
                       </Pressable>
                     </View>
                   </View>
-                )}
+                )} */}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -568,7 +580,7 @@ class FreelancerSignUpScreen extends Component {
               </View>
             </ScrollView>
           </ImageBackground>
-          {this.state.isModalVisible === true ? (
+          {/* {this.state.isModalVisible === true ? (
             <Modal transparent={true} isVisible={this.state.isModalVisible}>
               <View style={CommonStyles.modalBg}>
                 <View style={CommonStyles.modalContent}>
@@ -597,7 +609,7 @@ class FreelancerSignUpScreen extends Component {
             </Modal>
           ) : (
             <></>
-          )}
+          )} */}
         </View>
       </SafeAreaView>
     );

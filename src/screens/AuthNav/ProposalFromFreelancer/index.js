@@ -60,6 +60,7 @@ class ProposalFromFreelancer extends Component {
     headerShown: false,
   };
   componentDidMount = async () => {
+    console.log("LLLLLLLLLLLLLLLLLLLLLl");
     const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -84,6 +85,7 @@ class ProposalFromFreelancer extends Component {
       data: body1,
     })
       .then(async (response) => {
+        console.log(response);
         if (response.data[0].detail_type === 'tutor') {
           await this.setState({
             FrelancerType: 'tutor',
@@ -97,9 +99,6 @@ class ProposalFromFreelancer extends Component {
           recID: response.data[0].sender_id,
           reqStatus: response.data[0].request_status,
         });
-
-        //    localStorage.setItem("slug", response.data[0].job_slug);
-        //    this.setState({ isLoading: false });
       })
       .catch((error) => {
         this.setState({isLoading: false});
@@ -117,12 +116,60 @@ class ProposalFromFreelancer extends Component {
     taglistbody.append('videolink', '');
     taglistbody.append('type', this.state.FrelancerType);
 
+    console.log(taglistbody);
+
     await axios({
       url: API_URL + 'freelancerproposal',
       method: 'POST',
       data: taglistbody,
     })
-      .then((response) => {
+      .then(async (response) => {
+        if(this.state.FrelancerType === ""){
+          // START GETCHAT 
+          let body1 = new FormData();
+          body1.append(
+            'sender_id',
+            base64.decode(userDeatailResponse.userData.user_id),
+          );
+          body1.append(
+            'login_userid',
+            base64.decode(userDeatailResponse.userData.user_id),
+          );
+          body1.append('receiver_id', this.state.receiver_id);
+          body1.append('job_id', this.state.job_id);
+          body1.append('type', 'recruiter');
+          await axios({
+            url: API_URL + 'chat/getChat',
+            method: 'POST',
+            data: body1,
+          })
+            .then(async (response) => {
+              await this.setState({
+                reqStatus: response.data[0].request_status,
+              });
+      
+              //    localStorage.setItem("slug", response.data[0].job_slug);
+              //    this.setState({ isLoading: false });
+            })
+            .catch((error) => {
+              this.setState({isLoading: false});
+            });
+          // END GETCHAT 
+        this.setState({
+          questionset: response.data.sort(function (a, b) {
+            if (a.expert_Name < b.expert_Name) return -1;
+            else if (a.expert_Name > b.expert_Name) return 1;
+            return 0;
+          }),
+          jobskillset: response.data[0].job_skills,
+          skillset: response.data[0].freelancer_skills,
+          project_name: response.data[0].project_name,
+          showLoader: false,
+          FrelancerType: "recruiter",
+          recID: response.data[0].freelancer_id,
+        });
+      }
+      else{
         this.setState({
           questionset: response.data.sort(function (a, b) {
             if (a.expert_Name < b.expert_Name) return -1;
@@ -134,6 +181,7 @@ class ProposalFromFreelancer extends Component {
           project_name: response.data[0].project_name,
           showLoader: false,
         });
+      }
         //    if (this.state.FrelancerType === "tutor") {
         //      this.setState({
         //        file: response.data[0].resumefile,
@@ -156,11 +204,12 @@ class ProposalFromFreelancer extends Component {
       milestone_id: '',
       receiver_id: this.state.recID.toString(),
       sender_id: this.state.user_id,
-      job_type: 'freelancer',
+      job_type: this.state.FrelancerType,
       job_id: this.state.job_id.toString(),
       status: 'yes',
       confirmation_type: 'proposal',
     };
+    console.log(obj);
     await axios
       .post(API_URL + 'confirmation', obj, {
         header: {
@@ -194,7 +243,7 @@ class ProposalFromFreelancer extends Component {
       milestone_id: '',
       receiver_id: this.state.recID.toString(),
       sender_id: this.state.user_id,
-      job_type: 'freelancer',
+      job_type: this.state.FrelancerType,
       job_id: this.state.job_id.toString(),
       status: 'no',
       confirmation_type: 'proposal',
