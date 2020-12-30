@@ -5,11 +5,12 @@ import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import axios from "axios";
 import { API_URL } from "../../config/url";
+import { withNavigation } from 'react-navigation'
 // import { Link } from "react-router-dom";
 
 class PopularServies extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       categoryList: [],
     };
@@ -27,26 +28,6 @@ class PopularServies extends Component {
     });
   };
 
-  // storeCategory = async (tagName, PageType) => {
-  //   if (PageType === "coding") {
-  //     localStorage.setItem("LoginStatus", "landingTutor");
-  //     localStorage.setItem("LoginPageType", "Coding");
-  //     localStorage.setItem("Category","Coding");
-  //     localStorage.setItem("AccountType","tutor");
-
-  //   } else if (PageType === "mentoring") {
-  //     localStorage.setItem("LoginStatus", "landingTutor");
-  //     localStorage.setItem("LoginPageType", "Homework");
-  //     localStorage.setItem("Category","Homework");
-  //     localStorage.setItem("AccountType","tutor");
-  //   } else {
-  //     localStorage.setItem("LoginStatus", "landingProject");
-  //     localStorage.setItem("Category","Software Development");
-  //     localStorage.setItem("AccountType","freelancer");
-  //   }
-  //   await localStorage.setItem("category", tagName);
-  // };
-
   render() {
     return (
       <View>
@@ -54,21 +35,14 @@ class PopularServies extends Component {
           {this.state.categoryList.map((item, i) => {
             if (i < 4) {
               return (
-                // <Link
-                //   to="/landing-projects"
-                //   onClick={() =>
-                //     this.storeCategory(item.tagName, item.type)
-                //   }
-                // >
-                  <TouchableOpacity key={i} style={styles.popSec}>
-                    <Image source={{uri: item.description}} style={styles.image}/>
-                    
-                    <View style={styles.marTop20}>
-                      <Text style={styles.smText}>{item.tagName}</Text>
-                      {/* <Text style={styles.lgText}>{item.lgText}</Text> */}
-                    </View>
-                  </TouchableOpacity>
-                //</Link>
+                <TouchableOpacity key={i} style={styles.popSec} onPress={() => this.props.navigation.navigate('LatestProjectList', {tagName : item.tagName})}>
+                  <Image source={{ uri: item.description }} style={styles.image} />
+
+                  <View style={styles.marTop20}>
+                    <Text style={styles.smText}>{item.tagName}</Text>
+                    {/* <Text style={styles.lgText}>{item.lgText}</Text> */}
+                  </View>
+                </TouchableOpacity>
               );
             }
           })}
@@ -78,4 +52,4 @@ class PopularServies extends Component {
   }
 }
 
-export default PopularServies;
+export default withNavigation(PopularServies);

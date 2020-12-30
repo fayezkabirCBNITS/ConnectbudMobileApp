@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { View, Image, StatusBar, Linking, Platform } from 'react-native';
-import { NavigationActions, StackActions } from 'react-navigation';
+import React, {Component} from 'react';
+import {View, Image, StatusBar, Linking, Platform} from 'react-native';
+import {NavigationActions, StackActions} from 'react-navigation';
 import CommonStyles from '../../CommonStyles';
-import { deepClone } from '../services/helper-methods';
-import { connect } from 'react-redux';
-import { changeAppOpenStatus } from '../redux/actions/user-data';
-import base64 from "base-64";
+import {deepClone} from '../services/helper-methods';
+import {connect} from 'react-redux';
+import {changeAppOpenStatus} from '../redux/actions/user-data';
+import base64 from 'base-64';
 
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deepLinking: false,
-      userID: ""
+      userID: '',
+      userType: '',
     };
-
   }
 
   handleOpenURL(event) {
@@ -24,39 +24,52 @@ class SplashScreen extends Component {
   }
 
   async componentDidMount() {
-
     if (Platform.OS === 'android') {
       await Linking.getInitialURL().then((url) => {
         if (url) {
-          let id = url.split("?")[1];
-          this.setState({ deepLinking: true, userID: base64.decode(id) });
+          let id = url.split('?')[1];
+          let type = url.split('?')[2];
+
+          console.log(type);
+          this.setState({
+            deepLinking: true,
+            userID: base64.decode(id),
+            userStatus: base64.decode(type),
+          });
         }
       });
     }
 
     if (this.state.deepLinking === false) {
-      const { userData } = deepClone(this.props);
+      const {userData} = deepClone(this.props);
+      console.log(userData);
       setTimeout(() => {
         if (userData && userData?.Token && userData?.Token.length) {
-
           console.log('open false :>> ');
           this.props.changeAppOpenStatus(false);
           {
             userData?.Flag === 'WQ=='
               ? this.props.navigation.navigate('StudentInner')
               : userData?.Flag === 'Rg=='
-                ? this.props.navigation.navigate('EmployeeInner')
-                : null;
+              ? this.props.navigation.navigate('EmployeeInner')
+              : null;
           }
         } else {
           this.props.changeAppOpenStatus(true);
           console.log('open true :>> ');
-          this.props.navigation.navigate('HomeScreen')
+          this.props.navigation.navigate('HomeScreen');
           // this.resetStack();
         }
       }, 3000);
+    } else if (this.state.userStatus === 'employer') {
+      this.props.navigation.navigate('SignInScreen', {
+        userID: this.state.userID,
+        userStatus: "employer"
+      });
     } else {
-      this.props.navigation.navigate('CategoryScreen', {userID : this.state.userID});
+      this.props.navigation.navigate('CategoryScreen', {
+        userID: this.state.userID,
+      });
     }
   }
   componentWillUnmount() {

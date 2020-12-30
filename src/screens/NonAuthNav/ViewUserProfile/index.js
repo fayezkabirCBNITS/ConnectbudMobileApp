@@ -43,8 +43,10 @@ class ViewUserProfileScreen extends Component {
 
   componentDidMount = async () => {
     const { userDeatail } = this.props;
+    const { params } = this.props.navigation.state;
+    console.log('prop===>',params.username)
     await axios({
-      url: API_URL + "expertProfile/" + userDeatail.slugname,
+      url: API_URL + "expertProfile/" + params.username,
       method: "GET",
     })
       .then((response) => {
@@ -58,11 +60,12 @@ class ViewUserProfileScreen extends Component {
 
   renderScene = ({ route }) => {
     const { userDeatail } = this.props;
+    const { params } = this.props.navigation.state;
     switch (route.title) {
       case 'Overview':
-        return <ViewOverview slugname={userDeatail.slugname} />;
+        return <ViewOverview slugname={params.username} />;
       case 'Portfolio':
-        return <ViewPortfolio slugname={userDeatail.slugname} />
+        return <ViewPortfolio slugname={params.username} />
       case 'Work History':
         return <ViewWorkHistory freeId={userDeatail.view_user_id} />;
       default:
@@ -71,6 +74,7 @@ class ViewUserProfileScreen extends Component {
   };
 
   render() {
+ 
     const { userDeatail } = this.props;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>

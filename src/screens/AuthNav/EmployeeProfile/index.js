@@ -197,18 +197,27 @@ class EmployeeProfileScreen extends Component {
                 key={i}
                 horizontal>
                 <View style={styles.details}>
+                  <FontAwesome name="user" color="#71b85f" size={30} />
+                  <View style={{marginLeft: 10}}>
                   <Text style={styles.userInfoHead}>Name</Text>
                   <Text style={styles.userInfoDetails}>{item.first_name + " " + item.last_name}</Text>
+                  </View>
                 </View>
 
                 <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>Designation</Text>
-                  <Text style={styles.userInfoDetails}>{item.designation}</Text>
+                  <FontAwesome name="briefcase" color="#71b85f" size={30} />
+                  <View style={{marginLeft: 10}}>
+                    <Text style={styles.userInfoHead}>Designation</Text>
+                    <Text style={styles.userInfoDetails}>{item.designation}</Text>
+                  </View>
                 </View>
 
                 <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>Company Name</Text>
-                  <Text style={styles.userInfoDetails}>{item.company_name}</Text>
+                  <FontAwesome name="building" color="#71b85f" size={30} />
+                  <View style={{marginLeft: 10}}>
+                    <Text style={styles.userInfoHead}>Company Name</Text>
+                    <Text style={styles.userInfoDetails}>{item.company_name}</Text>
+                  </View>
                 </View>
               </ScrollView>
 
