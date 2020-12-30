@@ -54,6 +54,8 @@ import PostProjectNA from '../screens/NonAuthNav/PostProjectNA';
 import ProjectDetailsFreelancerNA from './../screens/NonAuthNav/ProjectDetailFreelancer';
 import OnlineClassesNA from '../components/OnlinCodingClassesNA/onlineClassesNA';
 import HomeWorkHelpNA from '../components/HomeWorkHelpNA/index';
+import SearchClgStuNA from '../screens/NonAuthNav/SearchClgStuNA';
+import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA'
 //non stack pages
 
 export const MainStack = createStackNavigator(
@@ -207,6 +209,12 @@ const AuthStackNav = createStackNavigator(
       screen : HomeWorkHelpNA
     },
 
+    SearchClgStuNA : {
+      screen : SearchClgStuNA
+    },
+    StudentProjectNA :{
+      screen : StudentProjectNA
+    },
     ViewUserProfileScreen: {screen: ViewUserProfileScreen},
     ProjectDetailsFreelancerNA: {screen: ProjectDetailsFreelancerNA},
     PostProjectNA:{screen:PostProjectNA,},

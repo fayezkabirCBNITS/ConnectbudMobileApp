@@ -5,11 +5,12 @@ import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import axios from "axios";
 import { API_URL } from "../../config/url";
+import {withNavigation} from 'react-navigation'
 // import { Link } from "react-router-dom";
 
 class PopularServies extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       categoryList: [],
     };
@@ -26,6 +27,20 @@ class PopularServies extends Component {
       });
     });
   };
+
+  onPageNavigate = (tagName) =>{
+    if(tagName === "Homework"){
+      this.props.navigation.navigate('HomeWorkHelpNA')
+    }else if(tagName === "Software Development"){
+      this.props.navigation.navigate('PostProjectNA')
+    }else if(tagName === "Online Coding"){
+      this.props.navigation.navigate('OnlineClassesNA')
+    }else if(tagName === "Design"){
+      this.props.navigation.navigate('PostProjectNA')
+    }else{
+
+    }
+  }
 
   // storeCategory = async (tagName, PageType) => {
   //   if (PageType === "coding") {
@@ -60,7 +75,7 @@ class PopularServies extends Component {
                 //     this.storeCategory(item.tagName, item.type)
                 //   }
                 // >
-                  <TouchableOpacity key={i} style={styles.popSec}>
+                  <TouchableOpacity key={i} style={styles.popSec} onPress={()=>this.onPageNavigate(item.tagName)}>
                     <Image source={{uri: item.description}} style={styles.image}/>
                     
                     <View style={styles.marTop20}>
@@ -78,4 +93,4 @@ class PopularServies extends Component {
   }
 }
 
-export default PopularServies;
+export default withNavigation(PopularServies);

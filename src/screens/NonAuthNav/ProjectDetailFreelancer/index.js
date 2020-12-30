@@ -53,6 +53,7 @@ class ProjectDetailsFreelancerNA extends Component {
 
   componentDidMount = async () => {
     const {userDeatailResponse} = this.props;
+    const {params} = this.props.navigation.state;
     this.setState({
       btnStatus: userDeatailResponse.userData.user_id,
       showLoader: true,
@@ -66,7 +67,7 @@ class ProjectDetailsFreelancerNA extends Component {
     body.append('search_type', 'all');
     body.append('offset', '0');
 
-    taglistbody.append('job_id', userDeatailResponse.userData.JOBID);
+    taglistbody.append('job_id', params.JobId);
     taglistbody.append(
       'user_id',
       base64.decode(userDeatailResponse.userData.user_id),
@@ -109,10 +110,11 @@ class ProjectDetailsFreelancerNA extends Component {
   };
 
   PageNav = async(JobId) => {
+    const {params} = this.props.navigation.state;
     this.setState({
       showLoader: true,
     })
-    this.props.updateJobId(JobId);
+    this.props.updateJobId(params.JobId);
     // this.props.navigation.navigate('ProjectDetailsFreelancer');
     let taglistbody = new FormData();
     let body = new FormData();
@@ -122,7 +124,7 @@ class ProjectDetailsFreelancerNA extends Component {
     body.append('search_type', 'all');
     body.append('offset', '0');
 
-    taglistbody.append('job_id', JobId);
+    taglistbody.append('job_id', params.JobId);
     taglistbody.append(
       'user_id',
       this.state.user_id,
