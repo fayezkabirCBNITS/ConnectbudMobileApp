@@ -28,6 +28,9 @@ class ChatListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
       job_id: this.props.navigation.state.params
         ? this.props.navigation.state.params.job_id
         : '',
@@ -79,7 +82,11 @@ class ChatListScreen extends Component {
     body.append('login_userid', this.state.sender_id);
     body.append('receiver_id', this.state.receiver_id);
     body.append('job_id', this.state.job_id);
-    body.append('type', 'freelancer');
+    if (this.state.pageStatus === 'projectlist') {
+      body.append('type', 'freelancer');
+    } else {
+      body.append('type', 'recruiter');
+    }
 
     axios({
       url: API_URL + 'chat/getChat',
@@ -93,8 +100,8 @@ class ChatListScreen extends Component {
           chatMessage: response.data,
           request_type: response.data[0].request_type,
           request_status: response.data[0].request_status,
-          room_id: this.state.job_id+'_'+this.state.sender_id,
-          proposed_amount: response.data[0].proposed_amount
+          room_id: this.state.job_id + '_' + this.state.sender_id,
+          proposed_amount: response.data[0].proposed_amount,
         });
         setTimeout(() => {
           if (this.refs && this.refs.scrollView) {
@@ -206,12 +213,13 @@ class ChatListScreen extends Component {
   }
 
   hireStudent = () => {
-    this.RBSheet.close(), this.props.navigation.navigate('HireStudentsScreen',{
-      proposed_amount:this.state.proposed_amount,
-      job_id:this.state.job_id,
-      token: this.state.token,
-      receiver_id: this.state.receiver_id
-    });
+    this.RBSheet.close(),
+      this.props.navigation.navigate('HireStudentsScreen', {
+        proposed_amount: this.state.proposed_amount,
+        job_id: this.state.job_id,
+        token: this.state.token,
+        receiver_id: this.state.receiver_id,
+      });
   };
   viewProposal = () => {
     this.RBSheet.close(),
@@ -252,13 +260,14 @@ class ChatListScreen extends Component {
                   <Text style={styles.editBtnText}>Proposal</Text>
                 </TouchableOpacity>): null} */}
 
-      {this.state.request_type === "proposal" && this.state.user_type === "Rg==" ?
-            <TouchableOpacity
-              onPress={() => this.RBSheet.open()}
-              style={styles.menuVertical}>
-              <Fontisto name="more-v-a" size={25} color="#fff" />
-            </TouchableOpacity>
-            :null}
+            {this.state.request_type === 'proposal' &&
+            this.state.user_type === 'Rg==' ? (
+              <TouchableOpacity
+                onPress={() => this.RBSheet.open()}
+                style={styles.menuVertical}>
+                <Fontisto name="more-v-a" size={25} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
           </View>
 
           <RBSheet
@@ -274,11 +283,16 @@ class ChatListScreen extends Component {
               },
             }}>
             <View style={styles.btmSheet}>
-              <TouchableOpacity
-                onPress={this.hireStudent}
-                style={styles.loginBtn}>
-                <Text style={styles.loginBtnText2}>Hire Student</Text>
-              </TouchableOpacity>
+              {this.state.pageStatus === 'joblist' ? (
+                <></>
+              ) : (
+                <TouchableOpacity
+                  onPress={this.hireStudent}
+                  style={styles.loginBtn}>
+                  <Text style={styles.loginBtnText2}>Hire Student</Text>
+                </TouchableOpacity>
+              )}
+
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate('ProposalFromFreelancer', {
