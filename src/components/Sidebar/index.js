@@ -178,15 +178,15 @@ class Sidebar extends Component {
                   />
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.menuOptn}
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('MyQuestionsScreen')
-                  // }
+                  onPress={() =>
+                    this.props.navigation.navigate('MyQuestionsScreen')
+                  }
                 >
                   <AntDesign name="questioncircle" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   style={styles.menuOptn}
                   onPress={() => this.props.navigation.navigate('ContactUs')}>
@@ -302,7 +302,7 @@ class Sidebar extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.navigation.navigate('PostedProjectByEmployee')
+                    this.props.navigation.navigate('JobListingScreen')
                   }
                   style={styles.menuOptn}>
                   <FontAwesome name="bank" color="#fff" size={25} />
@@ -318,14 +318,14 @@ class Sidebar extends Component {
                   <Text style={styles.menuOptnText}>Contracts</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                  // onPress={() =>
-                  //   this.props.navigation.navigate('EditProfileScreen')
-                  // }
+                {/* <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('MyQuestionScreen')
+                  }
                   style={styles.menuOptn}>
                   <AntDesign name="contacts" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>My Question</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <Collapse
                   onToggle={() =>
                     this.setState({pressed: !this.state.pressed})
@@ -402,7 +402,7 @@ class Sidebar extends Component {
               <ScrollView>
                 <View>
                 <TouchableOpacity
-                    style={styles.menuOptn}
+                    style={styles.menuOptn3}
                     onPress={() =>
                       this.props.navigation.navigate(
                         'HomeScreen',
@@ -414,7 +414,7 @@ class Sidebar extends Component {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={styles.menuOptn}
+                    style={styles.menuOptn3}
                     onPress={() =>
                       this.props.navigation.navigate(
                         'PostProjectNA',
@@ -425,17 +425,17 @@ class Sidebar extends Component {
                     </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.menuOptn} onPress={()=>this.props.navigation.navigate('HomeWorkHelpNA')}>
+                  <TouchableOpacity style={styles.menuOptn3} onPress={()=>this.props.navigation.navigate('HomeWorkHelpNA')}>
                     <Text style={styles.menuOptnText}>
                       Tutoring & Homework help
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.menuOptn} onPress={()=>this.props.navigation.navigate('OnlineClassesNA')}>
+                  <TouchableOpacity style={styles.menuOptn3} onPress={()=>this.props.navigation.navigate('OnlineClassesNA')}>
                     <Text style={styles.menuOptnText}>Coding classes</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={styles.menuOptn}
+                    style={styles.menuOptn3}
                     onPress={() =>
                       this.props.navigation.navigate(
                         'PostProjectNA',
@@ -444,7 +444,7 @@ class Sidebar extends Component {
                     <Text style={styles.menuOptnText}>Design</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.menuOptn}
+                    style={styles.menuOptn3}
                     onPress={() =>
                       this.props.navigation.navigate(
                         'PostProjectNA',
@@ -454,7 +454,7 @@ class Sidebar extends Component {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={styles.menuOptn}
+                    style={styles.menuOptn3}
                     onPress={() =>
                       this.props.navigation.navigate(
                         'PostProjectNA',
@@ -463,7 +463,7 @@ class Sidebar extends Component {
                     <Text style={styles.menuOptnText}>Music & Arts</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={styles.menuOptn}
+                    style={styles.menuOptn3}
                     onPress={() =>
                       this.props.navigation.navigate(
                         'PostProjectNA',

@@ -5,10 +5,11 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
     title: {
-        color: 'rgba(59,20,37,0.5)',
-        fontSize: 14,
-        fontWeight: 'bold',
+        color: 'rgba(0,0,0,0.5)',
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
         paddingHorizontal: 20,
+        marginBottom: 10,
     },
     flastListHead: {
         color: 'rgba(59,29,37,0.5)',

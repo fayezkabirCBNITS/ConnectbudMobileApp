@@ -24,6 +24,7 @@ import base64 from 'base-64';
 import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import PushNotification from 'react-native-push-notification';
+import {ThemeContext} from 'react-navigation';
 
 class SignInScreen extends Component {
   constructor(props) {
@@ -49,18 +50,14 @@ class SignInScreen extends Component {
     var _this = this;
     PushNotification.configure({
       onRegister: function (token) {
-        console.log('TOKEN:', token.token);
         if (token) {
           _this.setState({deviceTokenId: token.token, devicetype: token.os});
         }
       },
 
       onNotification: function (notification) {
-        console.log('NOTIFICATION:', notification);
       },
       onAction: function (notification) {
-        console.log('ACTION:', notification);
-        // console.log("NOTIFICATION:", notification);
         // process the action
       },
       onRegistrationError: function (err) {
@@ -151,14 +148,16 @@ class SignInScreen extends Component {
     }
     ///
     let response = await makePostRequest(ApiUrl.LOGIN, false, obj);
-    console.log('handleLogin response-----', response);
-    if (response) {
+    if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
       this.props.updateUserDetails(response);
-      console.log('resdtlres============', response[0]?.Flag);
+      {
+        response.error === 'You are signed up as Employer'
+          ? alert('You are signed up as Employer')
+          : null;
+      }
       this.setState({userId: response[0]?.user_id});
-
       {
         response[0]?.Flag === 'WQ=='
           ? this.props.navigation.navigate('StudentInner')
@@ -168,13 +167,9 @@ class SignInScreen extends Component {
           : // ? this.props.navigation.navigate('EmployeeInner')
             null;
       }
-      // {
-      //   response[0]?.Flag === 'WQ=='
-      //     ? this.props.navigation.navigate('StudentInner')
-      //     : response[0]?.Flag === 'Rg=='
-      //     ? this.props.navigation.navigate('EmployeeInner')
-      //     : null;
-      // }
+    } else if (response.error !== '') {
+      this.setState({showLoader: false});
+      alert(response.error);
     } else {
       this.setState({showLoader: false});
       alert('The email or password you have entered is invalid!');
@@ -190,13 +185,15 @@ class SignInScreen extends Component {
         'job_id',
         this.props.userDeatailResponse?.tmpPostJob?.tmpJobID,
       );
-      jobDescription.append('hire_by', this.props.userDeatailResponse?.tmpPostJob?.hire_by);
+      jobDescription.append(
+        'hire_by',
+        this.props.userDeatailResponse?.tmpPostJob?.hire_by,
+      );
       let response = await makePostRequestMultipart(
         ApiUrl.UPDATE_ID,
         false,
         jobDescription,
       );
-      console.log('handle freelancer post a job-----', response);
       if (response && response[0].message === 'success') {
         alert('Job posted Successfully');
         this.props.navigation.navigate('EmployeeInner');

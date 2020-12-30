@@ -351,7 +351,7 @@ async fetchFilterList(userIds) {
         <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
           <View style={CommonStyles.main}>
             <Text style={styles.title}>
-              Search, Connect, Hire( Use talent search to find college students{' '}
+              Search, Connect, Hire Use talent search to find college students
             </Text>
             <View>
               {this.state.selectedSkills.length > 0 ? (
@@ -446,7 +446,7 @@ async fetchFilterList(userIds) {
             </View>
 
             <Text style={styles.title}>College Student List</Text>
-            <TouchableOpacity style={{marginTop: -5}}>
+            <TouchableOpacity style={{marginTop: -5,}}>
               <ScrollView>
                 {this.state.FreelancerSet.map((item, i) => {
                   return (

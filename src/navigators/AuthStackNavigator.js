@@ -17,7 +17,8 @@ import TutorDetailsFreelancer from "./../screens/AuthNav/TutorDetailsFreelancer"
 import ProposalFromFreelancer from "./../screens/AuthNav/ProposalFromFreelancer"
 import ViewProfileScreen from '../screens/AuthNav/ViewProfile';
 import AddPortfolioScreen from "../screens/AuthNav/AddPortfolioItem";
-import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile'
+import EmployeeProfileScreen from '../screens/AuthNav/EmployeeProfile';
+import EmployeeEditProfileScreen from '../screens/AuthNav/EmployeeEditProfile';
 import AddExperienceScreen from '../screens/AuthNav/AddExperience';
 import EditPostedProject from '../screens/AuthNav/EditPostedProject';
 import SearchProjectStudents from '../screens/AuthNav/SearchProjectStudents';
@@ -86,6 +87,9 @@ export const MainStack = createStackNavigator(
     },
     EmployeeProfileScreen : {
       screen: EmployeeProfileScreen
+    },
+    EmployeeEditProfileScreen : {
+      screen: EmployeeEditProfileScreen
     },
     AddExperienceScreen:{
       screen:AddExperienceScreenNew

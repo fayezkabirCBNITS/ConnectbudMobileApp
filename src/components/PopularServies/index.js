@@ -62,6 +62,7 @@ class PopularServies extends Component {
                 // >
                   <TouchableOpacity key={i} style={styles.popSec}>
                     <Image source={{uri: item.description}} style={styles.image}/>
+                    
                     <View style={styles.marTop20}>
                       <Text style={styles.smText}>{item.tagName}</Text>
                       {/* <Text style={styles.lgText}>{item.lgText}</Text> */}

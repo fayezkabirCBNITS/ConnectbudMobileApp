@@ -6,13 +6,13 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
     formGroup: {
         width: '100%',
+        height: 50,
         marginBottom: 5,
         backgroundColor: '#f8f8f8',
         borderRadius: 4,
         fontSize: 16,
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
         borderColor: 'rgba(59,29,37,0.5)',
-        flexDirection: 'row',
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -21,12 +21,31 @@ export default {
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        textAlignVertical: 'top',
+        textAlignVertical: 'center',
     },
+    formGroup2: {
+      width: '100%',
+      height: 100,
+      marginBottom: 5,
+      backgroundColor: '#f8f8f8',
+      borderRadius: 4,
+      fontSize: 16,
+      paddingHorizontal: 15,
+      borderColor: 'rgba(59,29,37,0.5)',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+      textAlignVertical: 'top',
+  },
     authBtn: {
-        width: '50%',
-        marginHorizontal: '8%',
-        height: 46,
+        width: '55%',
+        // marginHorizontal: '8%',
+        height: 50,
         borderRadius: 40,
         backgroundColor: '#71b85f',
         alignItems: 'center',
@@ -36,9 +55,10 @@ export default {
       },
       authBtnText: {
         color: '#fff',
-        fontSize: 14,
-        fontWeight:'bold',
+        fontSize: 18,
+        fontFamily:'Poppins-SemiBold',
         letterSpacing: 1,
+        marginTop: 4
       },
 }
 
