@@ -72,7 +72,7 @@ export default {
   label: {
     fontSize: 14,
     fontWeight: '500',
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'Poppins-Bold',
     letterSpacing: 1,
     width: 'auto',
     color: '#fff',
@@ -81,7 +81,7 @@ export default {
   label2: {
     fontSize: 14,
     fontWeight: '500',
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'Poppins-Bold',
     letterSpacing: 1,
     width: 'auto',
     color: '#71b85f',

@@ -23,6 +23,7 @@ import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
 import {countryCodes} from '../../../config/countrycodes';
 import Toast from 'react-native-simple-toast';
+// import RNPickerSelect from 'react-native-picker-select';
 
 class SignUpScreen extends Component {
   constructor() {
@@ -248,6 +249,24 @@ class SignUpScreen extends Component {
                 <View style={styles.formGroup1}>
                   <View
                     style={[styles.formSubGroup2Num, {flexDirection: 'row'}]}>
+                      {/*
+                      <RNPickerSelect
+                      onValueChange={(itemValue) => this.setState({ countryCode: itemValue })}
+                      items={
+                        this.state.countryCode && this.state.countryCode.map((s, i) => {
+                          let StringObj = s.name.toString()
+                          return { label: StringObj, value: s }
+                        }
+                        )}
+                      placeholder={{
+                        label: 'Select country',
+                        value: null,
+                      }}
+                      textInputProps={{color:'black',textAlign:'center',fontSize:15}}
+
+                    />
+                    */}
+                    {/*}
                     <Picker
                       style={{width: '40%', height: 45}}
                       selectedValue={this.state.countryCode}
@@ -267,7 +286,7 @@ class SignUpScreen extends Component {
                             />
                           );
                         })}
-                    </Picker>
+                    </Picker>*/}
                     <TextInput
                       returnKeyType="done"
                       placeholder="Enter Phone Number"
