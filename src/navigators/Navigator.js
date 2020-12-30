@@ -41,6 +41,7 @@ import CheckoutScreen from '../screens/AuthNav/CheckOut';
 import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
 import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
 import JobListingScreen from '../screens/AuthNav/JobListing';
+import LatestProjectList from '../screens/AuthNav/LatestProjectList';
 //non stack pages
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
@@ -169,6 +170,9 @@ export const MainStack = createStackNavigator(
     },
     JobListingScreen: {
       screen : JobListingScreen
+    },
+    LatestProjectList: {
+      screen: LatestProjectList
     },
   },
 
