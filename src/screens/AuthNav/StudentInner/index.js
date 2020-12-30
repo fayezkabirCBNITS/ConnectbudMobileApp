@@ -8,7 +8,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import TutoringJobs from '../../../components/TutoringJobs';
 import StudentProject from '../../../components/StudentProject';
 import InternshipJobs from '../../../components/InternshipJobs';
-import QuestionAnswer from '../../../components/QuestionAnswer';
+// import QuestionAnswer from '../../../components/QuestionAnswer';
 import Header from '../../../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -26,7 +26,7 @@ class StudentInner extends Component {
         { key: 'first', title: 'Tutoring Jobs' },
         { key: 'second', title: 'Project' },
         { key: 'third', title: 'Interships / Jobs' },
-        { key: 'forth', title: 'Questions & Answers' },
+        // { key: 'forth', title: 'Questions & Answers' },
       ],
       tutorexpertset: [],
       skillOptions: [],
@@ -108,8 +108,8 @@ class StudentInner extends Component {
           Child={this.state.skillOptions}
           tutorsetFilterData={this.state.filterdata}
           navigateToDetailsJob={this.navigateToDetailsJob} />;
-      case 'Questions & Answers':
-        return <QuestionAnswer />;
+      // case 'Questions & Answers':
+      //   return <QuestionAnswer />;
       default:
         return null;
     }

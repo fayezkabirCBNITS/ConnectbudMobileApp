@@ -1,4 +1,12 @@
+const React = require('react-native');
+const {Dimensions} = React;
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
+
 export default {
+    scroll: {
+        height: deviceHeight - 84,
+      },
     bgColorWhite : {
         backgroundColor : "#fff"
     },
@@ -15,16 +23,18 @@ export default {
         marginTop : 10
     },
     subJectDaysCombo : {
-        justifyContent : "space-between",
+        // justifyContent : "space-between",
         alignItems : "center",
-        flexDirection :"row"
+        flexDirection :"row",
+        flexWrap: 'wrap'
     },
     subject : {
         paddingHorizontal :20,
         paddingVertical : 10,
         borderRadius : 25,
-        backgroundColor : "rgba(0,0,0,0.2)",
-        marginRight : 8
+        backgroundColor : "rgba(0,0,0,0.1)",
+        marginRight : 8,
+        marginBottom : 8
     },
     inrUsd: {
         borderColor : "#71b85f",
@@ -36,19 +46,27 @@ export default {
         borderRadius : 8,
         overflow : "hidden"
     },
-    inr : {
+    inrtxt : {
         backgroundColor : "#71b85f",
-        width : "50%",
-        paddingHorizontal : 10,
-        paddingVertical : 10,
-        textAlign : "center"
+        color: "#fff",
+        width: "50%",
+        textAlign : "center",
+        paddingVertical : 7,
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
+        textAlignVertical: 'center',
+        paddingTop: 10
     },
-    usd : {
+    usdText : {
         backgroundColor : "#fff",
-        width : "50%",
-        paddingHorizontal : 10,
-        paddingVertical : 10,
-        textAlign : "center"
+        color: "#000",
+        width: "50%",
+        textAlign : "center",
+        paddingVertical : 7,
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
+        textAlignVertical: 'center',
+        paddingTop: 10
     },
     boxtitle : {
         fontSize : 18,

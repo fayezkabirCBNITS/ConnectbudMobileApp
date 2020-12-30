@@ -25,6 +25,9 @@ class AssessmentQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page_status: this.props.navigation.state.params
+        ? this.props.navigation.state.params.pageStatus
+        : '',
       jobDetails: [],
       skillSet: [],
       priceAmount: '',
@@ -117,7 +120,13 @@ class AssessmentQuestion extends Component {
       'user_id',
       base64.decode(userDeatailResponse.userData.user_id),
     );
-    taglistbody.append('type', 'freelancer');
+    if (this.state.page_status === 'job') {
+      taglistbody.append('type', 'recruiter');
+    } else {
+      taglistbody.append('type', 'freelancer');
+    }
+
+    console.log(taglistbody);
 
     await axios({
       url: API_URL + 'expert_jobdetails',
@@ -125,11 +134,26 @@ class AssessmentQuestion extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        this.setState({
-          jobDetails: response.data,
-          priceAmount: response.data[0].price_amount,
-          skillSet: response.data[0].key_skill,
-        });
+        console.log(response);
+        if (response.data[0].message === 'No data found') {
+          this.setState({
+            jobDetails: response.data,
+            skillSet: response.data[0].key_skill,
+          });
+        } else if (this.state.page_status === 'job') {
+          this.setState({
+            jobDetails: response.data,
+            priceAmount: response.data[0].job_amount.toString(),
+            skillSet: response.data[0].key_skill,
+          });
+        } else {
+          this.setState({
+            jobDetails: response.data,
+            priceAmount: response.data[0].price_amount.toString(),
+            skillSet: response.data[0].key_skill,
+          });
+        }
+
         this.setState({isLoading: true});
       })
       .catch((error) => {
@@ -145,7 +169,11 @@ class AssessmentQuestion extends Component {
       });
       let body = new FormData();
       body.append('method', 'Post');
-      body.append('type', 'freelancer');
+      if (this.state.page_status === 'job') {
+        body.append('type', 'recruiter');
+      } else {
+        body.append('type', 'freelancer');
+      }
       body.append('job_id', jobId);
       body.append('freelancer_id', this.state.user_id);
       body.append('hirer_id', hirerId);
@@ -159,7 +187,7 @@ class AssessmentQuestion extends Component {
       }
       body.append('resumefile', '');
       body.append('videolink', '');
-
+      console.log(body);
       await axios({
         url: API_URL + 'freelancerproposal',
         method: 'POST',
@@ -257,7 +285,7 @@ class AssessmentQuestion extends Component {
                 keyboardType="default"
                 style={styles.inputBox}
                 numberOfLines={1}
-                value={this.state.priceAmount.toString()}
+                value={this.state.priceAmount}
                 onChangeText={(e) => this.handleCTC(e)}
               />
             </View>
@@ -284,7 +312,13 @@ class AssessmentQuestion extends Component {
 
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableOpacity style={[styles.authBtn]}>
-                <Text style={styles.authBtnText}>CANCEL</Text>
+                <Text
+                  style={styles.authBtnText}
+                  onPress={() =>
+                    this.props.navigation.navigate('StudentInner')
+                  }>
+                  CANCEL
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.authBtn]}>
                 {this.state.jobDetails.map((value, index) => {
