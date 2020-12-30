@@ -37,7 +37,7 @@ class SearchProjectStudents extends Component {
     });
     let body = new FormData();
     body.append("job_id", this.props.navigation.state.params.jobId);
-    body.append("type", "freelancer");
+    body.append("type", this.props.navigation.state.params.type);
     body.append("offset", this.state.count);
 
     let response = await makePostRequestMultipart(ApiUrl.JobRelatedCandidates, false, body);
@@ -57,7 +57,7 @@ class SearchProjectStudents extends Component {
     let body = new FormData();
     body.append("user_id", user_id);
     body.append("job_id", jobID);
-    body.append("type", "freelancer");
+    body.append("type", this.props.navigation.state.params.type);
 
     let response = await makePostRequestMultipart(ApiUrl.InvitationMail, false, body);
     if (response) {
@@ -65,7 +65,7 @@ class SearchProjectStudents extends Component {
       this.setState({
         btnStatus: false,
       });
-      Toast.show("Invitation sent successfully! Find this candidate in chat section.", Toast.SHORT, Toast.CENTER);
+      Toast.show("Invitation sent successfully! Find this candidate in chat section.", Toast.LONG, Toast.CENTER);
     }
   };
 

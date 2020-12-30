@@ -90,7 +90,7 @@ class PostedProjectByEmployee extends Component {
       if (response[0].message === "No Candidates Found") {
         Toast.show("Sorry! No College Students Found", Toast.SHORT);
       } else {
-        this.props.navigation.navigate('SearchProjectStudents', { jobId: jobId, jobName: jobName })
+        this.props.navigation.navigate('SearchProjectStudents', { jobId: jobId, jobName: jobName, type: "freelancer" })
       }
     }
   };
@@ -229,7 +229,6 @@ class PostedProjectByEmployee extends Component {
   };
 
   JobEditForm = () => {
-    console.log("hit");
     let dataSet = this.validateJobForm();
     if (dataSet === true) {
       this.editJob();
