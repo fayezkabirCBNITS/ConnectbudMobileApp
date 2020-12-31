@@ -134,14 +134,14 @@ export default {
     textAlign: 'right'
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: 14,
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 18,
     marginBottom: 15,
   },
   inputHead: {
     color: 'rgba(59,29,37,0.5)',
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 5,
   },
   flastListHead: {
@@ -162,7 +162,7 @@ export default {
     backgroundColor: '#f8f8f8',
     borderRadius: 4,
     fontSize: 16,
-    marginHorizontal: '5%',
+    // marginHorizontal: '5%',
     // borderWidth: 1,
     borderColor: 'rgba(59,29,37,0.5)',
     shadowColor: '#000',
@@ -184,19 +184,19 @@ export default {
   //     marginVertical:10,
   // },
   skillView: {
-    width: '90%',
+    width: '100%',
     height: 60,
     alignContent: 'center',
-    marginHorizontal: '5%',
+    // marginHorizontal: '5%',
     // flexDirection: 'row'
   },
   skillView1: {
-    width: '90%',
+    width: '100%',
     height: 60,
     alignContent: 'center',
     display: 'flex',
     flexDirection: 'row',
-    marginHorizontal: '5%',
+    // marginHorizontal: '5%',
     marginVertical: 10,
   },
   radio: {
@@ -223,6 +223,7 @@ export default {
     shadowRadius: 2.62,
     elevation: 4,
     textAlignVertical: 'top',
+    paddingHorizontal: 15
   },
 
   formGroup01: {
@@ -351,7 +352,7 @@ export default {
     margin: 5,
   },
   skillText: {
-    fontSize: 11,
+    fontSize: 14,
     fontFamily: 'Poppins-Regular',
     color: '#000',
     marginLeft: 3,
@@ -366,5 +367,31 @@ export default {
   errorText: {
     width: '100%',
     color: '#fc0303',
+  },
+  modalContent: {
+    width: '90%',
+    height: deviceHeight - 200,
+    // paddingVertical: 30,
+    // paddingHorizontal: 25,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalContent2: {
+    width: '90%',
+    minHeight: 200,
+    maxHeight: deviceHeight - 200,
+    // paddingVertical: 30,
+    // paddingHorizontal: 25,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalCross: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 };

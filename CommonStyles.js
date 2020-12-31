@@ -122,6 +122,14 @@ modalContent: {
   borderRadius: 10,
   alignItems: 'center',
 },
+modalContent2: {
+  width: '100%',
+  height: deviceHeight - 150,
+  // padding: 10,
+  backgroundColor: '#fff',
+  borderRadius: 10,
+  alignItems: 'center',
+},
 modalBg: {
   flex: 1,
   backgroundColor: '#000000aa',

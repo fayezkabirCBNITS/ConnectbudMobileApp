@@ -364,9 +364,11 @@ class PostedProjectByEmployee extends Component {
             </ScrollView>
           </View>
 
-          <Modal visible={this.state.show} style={CommonStyles.modalBg}>
-            <ScrollView>
-              <View style={styles.form}>
+          <Modal visible={this.state.show} transparent={true}>
+            <View style={CommonStyles.modalBg}>
+            <View style={styles.modalContent}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+            <View style={{width: '100%', marginVertical: 20}}>
                 <Text style={styles.title}>Edit Your Posted Project</Text>
 
                 <Text style={styles.inputHead}>*Project Title</Text>
@@ -422,7 +424,7 @@ class PostedProjectByEmployee extends Component {
                               styles.skillTab,
                               { backgroundColor: '#71b85f', flexDirection: 'row' },
                             ]}>
-                            <Text style={[styles.skillText, { color: '#fff' }]}>
+                            <Text style={[styles.skillText, { color: '#fff', marginRight: 10 }]}>
                               {data}
                             </Text>
                             <FontAwesome name="close" size={20} color="#fff" />
@@ -534,7 +536,7 @@ class PostedProjectByEmployee extends Component {
                 </View>
                 <Text style={styles.errorText}>{this.state.errors.ctc}</Text>
 
-                <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ show: false, showAdditional: false })}>
+                <TouchableOpacity style={styles.modalCross} onPress={() => this.setState({ show: false, showAdditional: false })}>
                   <Entypo name="circle-with-cross" color="#71b85f" size={35} />
                 </TouchableOpacity>
 
@@ -549,7 +551,9 @@ class PostedProjectByEmployee extends Component {
                 </View>
 
               </View>
-            </ScrollView>
+              </ScrollView>
+            </View>
+            </View>
           </Modal>
 
         </View>
