@@ -84,7 +84,7 @@ export default {
         //color: 'rgba(59,29,37,0.5)',
         fontSize: 14,
         marginBottom: 5,
-        fontFamily: 'Poppins-SemiBold',
+        fontFamily: 'Poppins-Regular',
         color:'#000000'
       },
       inputGroup: {

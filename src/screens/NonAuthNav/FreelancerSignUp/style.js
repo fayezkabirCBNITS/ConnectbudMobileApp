@@ -107,7 +107,7 @@ export default {
      
       },
       formSubGroup2Num: {
-        width: '75%',
+        width: '80%',
       },
       inputHead: {
         color: '#fff',

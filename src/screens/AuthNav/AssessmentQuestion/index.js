@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
@@ -12,7 +13,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Divider, ProgressBar, Colors} from 'react-native-paper';
-import Header from '../../../components/Header';
+import HeaderTop from '../../../components/Header';
+import {Header} from 'react-navigation-stack';
 
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
@@ -212,16 +214,22 @@ class AssessmentQuestion extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Header.HEIGHT + 0}
+          behavior="padding"
+          style={{flex: 1}}
+        >
           <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
           />
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Header />
+           <HeaderTop />
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+           
             <View>
               <Text style={styles.Heading}>Assessment Questions</Text>
-              <Divider style={styles.divider} />
+              {/* <Divider style={styles.divider} /> */}
 
               <Text style={styles.quesHead}>
                 Q : *Why should you be hired for this tutoring job?
@@ -324,7 +332,7 @@ class AssessmentQuestion extends Component {
                 {this.state.jobDetails.map((value, index) => {
                   return (
                     <Text
-                      style={styles.authBtnText}
+                      style={[styles.authBtnText, {color: '#fff'}]}
                       onPress={() =>
                         this.onSubmit(value.id, value.user_id, value.token)
                       }>
@@ -335,6 +343,7 @@ class AssessmentQuestion extends Component {
               </TouchableOpacity>
             </View>
           </ScrollView>
+          </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
     );

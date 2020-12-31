@@ -10,7 +10,8 @@ import {
     ImageBackground,
     TextInput,
     FlatList,
-    ActivityIndicator
+    ActivityIndicator,
+    KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -28,6 +29,7 @@ import API_URL, { BASE_URL } from "../../../config/ApiUrl";
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import axios from "axios";
+import {Header} from 'react-navigation-stack'
 
 class AddPortfolioScreen extends Component {
     constructor(props) {
@@ -239,6 +241,11 @@ class AddPortfolioScreen extends Component {
                         <View style={{ width: 35 }}></View>
                     </View>
                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+                    <KeyboardAvoidingView
+                        keyboardVerticalOffset={Header.HEIGHT + 90}
+                        behavior="padding"
+                        style={{flex: 1}}
+                    >
                         <Text style={styles.headText}>Add a portfolio item</Text>
 
                         <View style={styles.formInput}>
@@ -268,7 +275,7 @@ class AddPortfolioScreen extends Component {
                         <View style={styles.skillView1}>
                             <View style={[styles.formGroup1]}>
                                 <Picker
-                                    style={{ width: '100%', height: 45, color: '#3B1D25' }}
+                                    style={styles.picker}
                                     selectedValue={this.state.selectedCategory}
                                     onValueChange={(itemValue, itemIndex) =>
                                         this.setState({ selectedCategory: itemValue })
@@ -370,7 +377,7 @@ class AddPortfolioScreen extends Component {
                                 )}
                             </TouchableOpacity>
                         </View>
-
+                    </KeyboardAvoidingView>
                     </ScrollView>
                 </View>
             </SafeAreaView>

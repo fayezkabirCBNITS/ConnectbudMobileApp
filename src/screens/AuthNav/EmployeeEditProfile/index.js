@@ -9,6 +9,8 @@ import {
   FlatList,
   ActivityIndicator,
   TextInput,
+  SafeAreaView,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import styles from './style';
@@ -27,6 +29,7 @@ import { connect } from 'react-redux';
 import base64 from 'base-64';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Header} from 'react-navigation-stack'
 
 class EmployeeEditProfileScreen extends Component {
   static navigationOptions = {
@@ -239,7 +242,7 @@ class EmployeeEditProfileScreen extends Component {
 
   render() {
     return (
-      <View style={CommonStyles.safeAreaView}>
+      <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
 
           <Spinner
@@ -267,6 +270,10 @@ class EmployeeEditProfileScreen extends Component {
 
           <ScrollView
             showsVerticalScrollIndicator={false}>
+              <KeyboardAvoidingView
+                keyboardVerticalOffset = {Header.HEIGHT + 0}
+                style = {{ flex: 1 }}
+                behavior = "padding" >
             <View style={styles.container}>
               <View style={styles.uploadSec}>
                 <View style={styles.cover}>
@@ -395,9 +402,9 @@ class EmployeeEditProfileScreen extends Component {
                 <Text style={styles.inputHead}>*Country</Text>
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                  <View style={[styles.formSubGroup2, { width: '100%', height: 50, overflow: 'hidden' }]}>
                     <Picker
-                      style={{ width: '100%', height: 45 }}
+                      style={{ width: '100%', height: 45, marginTop: -84 }}
                       selectedValue={this.state.country}
                       onValueChange={(itemValue, itemIndex) =>
                         this.selectCountry(itemValue)
@@ -414,9 +421,9 @@ class EmployeeEditProfileScreen extends Component {
                 <Text style={styles.inputHead}>*Current City</Text>
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                  <View style={[styles.formSubGroup2, { width: '100%',  height: 50, overflow: 'hidden'}]}>
                     <Picker
-                      style={{ width: '100%', height: 45 }}
+                      style={{ width: '100%', height: 45, marginTop: -84 }}
                       selectedValue={this.state.city}
                       enabled={this.state.country !== "" ? true : false}
                       onValueChange={(itemValue, itemIndex) =>
@@ -470,9 +477,10 @@ class EmployeeEditProfileScreen extends Component {
                 </TouchableOpacity>
               </View>
             </View>
+            </KeyboardAvoidingView>
           </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -1,5 +1,5 @@
 const React = require('react-native');
-const {Dimensions} = React;
+const {Dimensions, Platform} = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -27,9 +27,16 @@ export default {
   },
   countryPicker: {
     width: '100%',
+    height: 50,
     borderColor: 'rgba(113,184,95,0.7)',
     borderWidth: 1,
     borderRadius: 5,
+    overflow: 'hidden',
+  },
+  picker: {
+    width: '100%',
+    height: 50,
+    marginTop: Platform.OS === 'ios' ? -84 : 0,
   },
   marVer20: {
     marginVertical: 20,
@@ -44,7 +51,7 @@ export default {
     paddingHorizontal: 15,
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   marBtm0: {
     marginBottom: 0,
@@ -71,9 +78,11 @@ export default {
   },
   accountType: {
     width: '100%',
+    height: 50,
     backgroundColor: '#fff',
     borderRadius: 5,
-    marginBottom: 15,
+    marginBottom: 10,
+    overflow: 'hidden'
   },
   errorText: {
     width: '100%',

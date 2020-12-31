@@ -10,15 +10,15 @@ export default {
         padding: 10,
       },
       title: {
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 18,
         marginBottom: 15,
       },
       inputHead: {
         color: 'rgba(59,29,37,0.5)',
-        fontSize: 14,
-        fontWeight: 'bold',
-        marginBottom: 5,
+        fontSize: 16,
+        fontFamily: 'Poppins-Regular',
+        marginBottom: 10,
       },
       flastListHead:{
         color: 'rgba(59,29,37,0.5)',
@@ -76,7 +76,8 @@ export default {
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
       elevation: 4,
-      textAlignVertical: 'top'
+      textAlignVertical: 'top',
+      overflow: 'hidden'
   },
     flatList:{
         width: '85%',
@@ -92,7 +93,8 @@ export default {
     inputGroup: {
         color: '#3B1D25',
         height: 45,
-        fontSize: 15,
+        fontSize: 17,
+        paddingHorizontal: 15,
       },
       formSubGroup1: {
         width: '20%',
@@ -113,7 +115,7 @@ export default {
       },
       authBtnText: {
         color: '#fff',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight:'bold',
         letterSpacing: 1,
       },

@@ -1,5 +1,5 @@
 const React = require('react-native');
-const { Dimensions } = React;
+const { Dimensions, Platform } = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -22,16 +22,18 @@ export default {
     color: '#60a84e',
     fontWeight: 'bold',
     padding: 20,
-    fontSize: 16
+    paddingBottom: 0,
+    fontSize: 18
   },
   formGroup: {
     width: '100%',
+    height: 50,
     backgroundColor: '#f8f8f8',
     borderRadius: 4,
     fontSize: 16,
     borderColor: 'rgba(59,29,37,0.5)',
     shadowColor: '#000',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     elevation: 4,
     textAlignVertical: 'top'
   },
@@ -83,6 +85,7 @@ export default {
 
     elevation: 4,
     textAlignVertical: 'top',
+    overflow: 'hidden'
   },
   details: {
     width: '100%',
@@ -136,5 +139,10 @@ export default {
     marginRight: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  picker: {
+    width: '100%',
+    height: 50,
+    marginTop: Platform.OS === 'ios' ? -80 : 0,
+  },
 }

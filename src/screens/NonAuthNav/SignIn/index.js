@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Image,
   ActivityIndicator,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -25,6 +26,7 @@ import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import PushNotification from 'react-native-push-notification';
 import {ThemeContext} from 'react-navigation';
+import {Header} from 'react-navigation-stack'
 
 class SignInScreen extends Component {
   constructor(props) {
@@ -221,6 +223,10 @@ class SignInScreen extends Component {
             <ScrollView
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps={'always'}>
+                <KeyboardAvoidingView
+                  keyboardVerticalOffset = {Header.HEIGHT + 160}
+                  style = {{ flex: 1 }}
+                  behavior = "padding" >
               <View style={[CommonStyles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -321,6 +327,7 @@ class SignInScreen extends Component {
                   </Text>
                 </Text>
               </View>
+              </KeyboardAvoidingView>
             </ScrollView>
           </ImageBackground>
         </View>

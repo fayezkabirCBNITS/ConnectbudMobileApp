@@ -11,6 +11,7 @@ import {
   TextInput,
   Picker,
   Modal,
+  KeyboardAvoidingView
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
@@ -25,6 +26,7 @@ import ApiUrl from '../../../config/ApiUrl';
 import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
 import {countryCodes} from '../../../config/countrycodes';
+import {Header} from 'react-navigation-stack'
 
 class FreelancerSignUpScreen extends Component {
   static navigationOptions = {
@@ -256,6 +258,10 @@ class FreelancerSignUpScreen extends Component {
             style={{width: styles.deviceWidth, height: styles.deviceHeight}}
             source={require('../../../assets/images/authBg.jpg')}>
             <ScrollView showsVerticalScrollIndicator={false}>
+            <KeyboardAvoidingView
+              keyboardVerticalOffset = {Header.HEIGHT + 0}
+              style = {{ flex: 1 }}
+              behavior = "padding" >
               <View style={[styles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -431,9 +437,10 @@ class FreelancerSignUpScreen extends Component {
 
                 <View style={styles.formGroup1}>
                   <View
-                    style={[styles.formSubGroup2Num, {flexDirection: 'row'}]}>
+                    style={[styles.formSubGroup2Num, {flexDirection: 'row', height: 50, overflow: 'hidden'}]}>
                     <Picker
-                      style={{width: '40%', height: 45}}
+                      style={{width: '45%', height: 45, marginTop: -87, color: '#fff'}}
+                      textStyle={{fontSize: 12, color: '#fff'}}
                       selectedValue={this.state.countryCode}
                       onValueChange={(itemValue, itemPosition) =>
                         this.setState({
@@ -566,6 +573,7 @@ class FreelancerSignUpScreen extends Component {
                   </Text>
                 </Text>
               </View>
+              </KeyboardAvoidingView>
             </ScrollView>
           </ImageBackground>
           {this.state.isModalVisible === true ? (

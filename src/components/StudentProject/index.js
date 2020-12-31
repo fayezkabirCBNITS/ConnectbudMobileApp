@@ -236,9 +236,9 @@ class StudentProject extends Component {
             animation="fade"
             textContent={'Loading...'}
           />
-          <View style={CommonStyles.container}>
+          <View style={[CommonStyles.container, {height: 45, overflow: 'hidden', marginTop: 20}]}>
             <Picker
-              style={{width: '100%', height: 45, color: '#3B1D25'}}
+              style={{width: '100%', height: 45, color: '#3B1D25', marginTop: -88}}
               // selectedValue={this.state.selectedSkills}
               onValueChange={(itemValue) => this.expertProjects(itemValue)}>
               {this.state.skills.length > 0 ? (

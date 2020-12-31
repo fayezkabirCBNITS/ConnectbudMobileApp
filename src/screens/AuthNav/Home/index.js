@@ -23,6 +23,8 @@ import WhyHire from '../../../components/WhyHire';
 import HowWorks from '../../../components/HowWorks';
 import LatestProjects from '../../../components/LatestProjects';
 import CustomerStories from '../../../components/CustomerStories';
+import { Searchbar } from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class HomeScreen extends Component {
   constructor() {
@@ -30,6 +32,7 @@ class HomeScreen extends Component {
     this.state = {
       user: '',
       showSearchBar: false,
+      firstQuery: '',
     };
   }
 
@@ -63,6 +66,7 @@ class HomeScreen extends Component {
   }
 
   render() {
+    const { firstQuery } = this.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -100,10 +104,10 @@ class HomeScreen extends Component {
                   <Text style={styles.loginBtnText}>Login</Text>
                 </TouchableOpacity>
               </View> */}
-              <View style={styles.searchDropSec}>
+              <View style={[styles.searchDropSec, {marginTop: 15}]}>
                 <View style={styles.searchPicker}>
                     <Picker
-                      style={{color: '#71b85f',}}
+                      style={{color: '#71b85f', marginTop: -84}}
                       selectedValue={this.state.user}
                       onValueChange={this.updateUser}>
                       <Picker.Item label="College Students" value="College Students" />
@@ -114,17 +118,27 @@ class HomeScreen extends Component {
                   <FontAwesome name="search" color="#fff" size={22} />
                 </TouchableOpacity>
               </View>
-                {this.state.showSearchBar && (
-                  <View style={styles.searchBar}>
-                  <TextInput
+              {this.state.showSearchBar && (
+                <View style={styles.searchBar}>
+                  {/* <TextInput
                     placeholder='Search for "Name, Skills & Colleges"'
                     style={styles.searchInput}
                   />
-                  <View style={styles.searchIcon}>
-                    <Fontisto name="search" color="#000" size={20} />
-                  </View>                
+                  <TouchableOpacity style={styles.searchIcon}>
+                    <Fontisto name="search" color="#fff" size={20} />
+                  </TouchableOpacity> */}
+                  <Searchbar
+                    placeholder="Search"
+                    onChangeText={query => { this.setState({ firstQuery: query }); }}
+                    value={firstQuery}
+                    inputStyle={styles.searchInput}
+                    style={styles.search}
+                  />
+                  <TouchableOpacity style={styles.searchPos}>
+                    <AntDesign name="search1" size={25} color="#000" />
+                  </TouchableOpacity>
                 </View>
-                )} 
+              )}
               </View>
             <View style={styles.marVer15}>
               <View style={CommonStyles.container}>

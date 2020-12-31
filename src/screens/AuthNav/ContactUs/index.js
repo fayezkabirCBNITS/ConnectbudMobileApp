@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity,ActivityIndicator } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity,ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import styles from './styles'
 import CommonStyle from '../../../../CommonStyles'
 import { ScrollView } from 'react-native-gesture-handler';
-import Header from '../../../components/Header';
+import HeaderTop from '../../../components/Header';
 import AntDesign from "react-native-vector-icons/AntDesign";
+import {Header} from 'react-navigation-stack'
 
 
 class ContactUs extends Component {
@@ -21,14 +22,19 @@ class ContactUs extends Component {
         return (
             <SafeAreaView style={CommonStyle.safeAreaView}>
                 <View style={CommonStyle.main}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        <Header />
+                <HeaderTop />
+                    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+                    <KeyboardAvoidingView
+                        keyboardVerticalOffset = {Header.HEIGHT + 90} 
+                        style = {{ flex: 1 }}
+                        behavior = "padding" >
+                        
                         <View style={{ marginHorizontal: '5%', marginTop: 20 }}>
                             <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 20 }}>
                                 Contact Us
                             </Text>
 
-                            <View style={{ marginVertical: '2%', marginTop: 20 }}>
+                            <View style={{ marginVertical: '2%', marginTop: 10 }}>
                                 <TextInput
                                     returnKeyType="done"
                                     placeholder="* Enter your user name"
@@ -70,6 +76,7 @@ class ContactUs extends Component {
                                 )}
                             </TouchableOpacity>
                         </View>
+                        </KeyboardAvoidingView>
                     </ScrollView>
                 </View>
             </SafeAreaView>

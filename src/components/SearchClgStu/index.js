@@ -362,14 +362,14 @@ async fetchFilterList(userIds) {
                       <View
                         style={[
                           styles.formSubGroup22,
-                          {flexWrap: 'wrap', flexDirection: 'row'},
+                          {flexWrap: 'wrap', flexDirection: 'row', paddingHorizontal: 15},
                         ]}>
                         <View
                           style={[
                             styles.skillTab,
                             {backgroundColor: '#71b85f', flexDirection: 'row'},
                           ]}>
-                          <Text style={[styles.skillText, {color: '#fff'}]}>
+                          <Text style={[styles.skillText, {color: '#fff', marginRight: 10}]}>
                             {data}
                           </Text>
                           <FontAwesome name="close" size={20} color="#fff" />
@@ -390,8 +390,9 @@ async fetchFilterList(userIds) {
                         height: 55,
                         color: '#000',
                         fontFamily: 'Poppins-Regular',
-                        borderColor: 'rgba(113,184,95,0.3)',
-                        borderWidth: 1,
+                        // borderColor: 'rgba(113,184,95,0.3)',
+                        // borderWidth: 1,
+                        marginTop: -80
                       }}
                       selectedValue={this.state.skills}
                       onValueChange={(itemValue, itemIndex) =>
@@ -430,6 +431,8 @@ async fetchFilterList(userIds) {
                       alignItems: 'center',
                       height: 55,
                       width: 55,
+                      borderRadius: 55/2
+                      
                     }}
                     //style={{marginLeft: 'auto'}}
                   >

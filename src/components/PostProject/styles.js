@@ -77,6 +77,7 @@ export default {
     shadowRadius: 2.62,
     elevation: 4,
     textAlignVertical: 'top',
+    overflow: 'hidden'
   },
   flatList: {
     width: '85%',

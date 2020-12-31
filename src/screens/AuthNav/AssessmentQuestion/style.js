@@ -6,8 +6,9 @@ const deviceWidth = Dimensions.get('window').width;
 export default {
     Heading: {
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 18,
         padding: 20,
+        paddingBottom: 0,
     },
     divider: {
         backgroundColor: 'rgba(59,29,37,0.5)',
@@ -20,7 +21,7 @@ export default {
         marginVertical: '5%',
         marginHorizontal: '5%',
         color: 'rgba(59,20,37,0.5)',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 'bold',
     },
     inputBox:{
@@ -29,7 +30,8 @@ export default {
         borderWidth: 1, 
         borderRadius: 4, 
         paddingHorizontal: 10,
-        marginHorizontal: '5%'
+        marginHorizontal: '5%',
+        height: 55,
 
         // textAlignVertical: 'top', 
         // marginHorizontal: '5%',
@@ -88,6 +90,9 @@ export default {
         width: '100%',
         color: '#fc0303',
         marginLeft: 14,
+      },
+      scroll: {
+        height: deviceHeight - 84,
       },
 }
 

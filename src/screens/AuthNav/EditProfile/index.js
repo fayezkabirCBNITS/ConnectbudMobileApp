@@ -9,6 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
   TextInput,
+  SafeAreaView
 } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import styles from './style';
@@ -366,7 +367,7 @@ class EditProfileScreen extends Component {
     //   </TouchableOpacity>
     // );
     return (
-      <View style={CommonStyles.safeAreaView}>
+      <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
 
           <Spinner
@@ -867,7 +868,7 @@ class EditProfileScreen extends Component {
             </View>
           </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

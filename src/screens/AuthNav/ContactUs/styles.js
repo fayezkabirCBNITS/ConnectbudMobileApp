@@ -4,6 +4,9 @@ const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
 export default {
+  scroll: {
+    height: deviceHeight - 84,
+  },
     formGroup: {
         width: '100%',
         height: 50,

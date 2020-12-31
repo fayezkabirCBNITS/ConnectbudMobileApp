@@ -270,7 +270,7 @@ class PostedProjectByEmployee extends Component {
 
   render() {
     return (
-      <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
+      <SafeAreaView style={[CommonStyles.safeAreaView]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
           <Spinner
             visible={this.state.showLoader}

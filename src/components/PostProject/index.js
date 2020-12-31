@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   Pressable,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -25,6 +26,7 @@ import ErrorMsg from '../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
 import Toast from 'react-native-simple-toast';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {Header} from "react-navigation-stack"
 
 class PostProject extends Component {
   constructor(props) {
@@ -215,6 +217,10 @@ class PostProject extends Component {
     return (
       <SafeAreaView style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset = {Header.HEIGHT + 110}
+          style = {{ flex: 1 }}
+          behavior = "padding" >
         <Spinner
             visible={this.state.showLoader}
             animation="fade"
@@ -289,7 +295,7 @@ class PostProject extends Component {
               <View style={[styles.formGroup1]}>
                 <View style={styles.formPicker}>
                 <Picker
-                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular'}}
+                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular', marginTop: -81}}
 
                   selectedValue={this.state.skills}
                   onValueChange={(itemValue, itemIndex) =>
@@ -402,6 +408,7 @@ class PostProject extends Component {
               )} */}
             </TouchableOpacity>
           </View>
+          </KeyboardAvoidingView>
         </ScrollView>
       </SafeAreaView>
     );

@@ -21,7 +21,7 @@ import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Header from '../../../components/Header';
+// import Header from '../../../components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import { withNavigation } from "react-navigation";
@@ -30,6 +30,7 @@ import { connect } from "react-redux";
 import base64 from 'base-64';
 import { BASE_URL } from "../../../config/ApiUrl"
 import axios from "axios";
+import {Header} from 'react-navigation-stack';
 
 const width = Dimensions.get('window').width;
 class Animated_Item extends Component {
@@ -282,8 +283,13 @@ class AddExperienceScreen extends Component {
             <View style={{ width: 35 }}></View>
           </View>
           <View style={CommonStyles.container}>
-            <KeyboardAvoidingView>
+              
             <ScrollView showsVerticalScrollIndicator={false}>
+              <KeyboardAvoidingView
+                  keyboardVerticalOffset={Header.HEIGHT + 90}
+                  behavior="padding"
+                  style={{flex: 1}}
+                >
             <Text style={styles.portfolioHead}>Add Your Project Details</Text>
               <Text style={styles.inputHead}>* Project Title: </Text>
 
@@ -408,9 +414,9 @@ class AddExperienceScreen extends Component {
                   />
                 )}
               </TouchableOpacity>
-            </ScrollView>
+              </KeyboardAvoidingView>
+            </ScrollView>      
             
-            </KeyboardAvoidingView>
           </View>
         </View>
       </SafeAreaView>

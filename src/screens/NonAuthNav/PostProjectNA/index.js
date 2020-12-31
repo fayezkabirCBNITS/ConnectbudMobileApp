@@ -9,6 +9,7 @@ import {
   Modal,
   SafeAreaView,
   Pressable,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -30,6 +31,7 @@ import ErrorMsg from '../../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
 import Toast from 'react-native-simple-toast';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {Header} from 'react-navigation-stack';
 
 class PostProjectNA extends Component {
   constructor(props) {
@@ -262,6 +264,10 @@ class PostProjectNA extends Component {
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps={'always'}>
+            <KeyboardAvoidingView
+              keyboardVerticalOffset = {Header.HEIGHT + 90}
+              style = {{ flex: 1 }}
+              behavior = "padding" >
           <Spinner
             visible={this.state.showLoader}
             animation="fade"
@@ -320,7 +326,7 @@ class PostProjectNA extends Component {
                           styles.skillTab,
                           {backgroundColor: '#71b85f', flexDirection: 'row'},
                         ]}>
-                        <Text style={[styles.skillText, {color: '#fff'}]}>
+                        <Text style={[styles.skillText, {color: '#fff', marginRight: 10, fontSize: 16}]}>
                           {data}
                         </Text>
                         <FontAwesome name="close" size={20} color="#fff" />
@@ -339,6 +345,7 @@ class PostProjectNA extends Component {
                     style={{
                       width: '100%',
                       height: 55,
+                      marginTop: -79,
                       color: '#000',
                       fontFamily: 'Poppins-Regular',
                     }}
@@ -457,6 +464,7 @@ class PostProjectNA extends Component {
               )} */}
             </TouchableOpacity>
           </View>
+          </KeyboardAvoidingView>
         </ScrollView>
         {this.state.isModalVisible === true ? (
           <Modal transparent={true} isVisible={this.state.isModalVisible}>

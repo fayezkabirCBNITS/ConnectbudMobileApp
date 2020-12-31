@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  KeyboardAvoidingView
 } from 'react-native';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
@@ -14,10 +15,10 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 import {Picker} from '@react-native-community/picker';
-
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
 import {connect} from 'react-redux';
+import {Header} from 'react-navigation-stack';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -217,16 +218,24 @@ class BankDetailScreen extends Component {
           {/* header section end */}
 
           <View style={CommonStyles.container}>
+
+          
+
+
             <ScrollView
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>
+                <KeyboardAvoidingView
+                  keyboardVerticalOffset = {Header.HEIGHT + 90} 
+                  style = {{ flex: 1 }}
+                  behavior = "padding" >
               <Text style={styles.heading}>Enter Bank Details</Text>
 
               <View style={styles.slctCntry}>
                 <Text style={styles.slctCntryText}>Select Country</Text>
                 <View style={styles.countryPicker}>
                   <Picker
-                    style={{width: '100%', height: 45}}
+                    style={styles.picker}
                     selectedValue={this.state.country}
                     onValueChange={(itemValue, itemIndex) =>
                       this.setState({country: itemValue})
@@ -254,7 +263,7 @@ class BankDetailScreen extends Component {
                   <Text style={styles.slctCntryText}>Account Type *</Text>
                   <View style={styles.accountType}>
                     <Picker
-                      style={{width: '100%', height: 50}}
+                      style={styles.picker}
                       selectedValue={this.state.accountType}
                       onValueChange={(itemValue, itemIndex) =>
                         this.setState({accountType: itemValue})
@@ -300,6 +309,7 @@ class BankDetailScreen extends Component {
                   <Text style={styles.submitBtnText}>Submit</Text>
                 </TouchableOpacity>
               </View>
+            </KeyboardAvoidingView>
             </ScrollView>
           </View>
         </View>

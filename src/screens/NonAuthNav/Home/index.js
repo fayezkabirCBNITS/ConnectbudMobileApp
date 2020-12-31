@@ -94,10 +94,10 @@ class HomeScreen extends Component {
 
             <View style={CommonStyles.container}>
            
-              <View style={[styles.searchDropSec, styles.marTop15]}>
+              <View style={[styles.searchDropSec, styles.marTop15,]}>
                 <View style={styles.searchPicker}>
                   <Picker
-                    style={{color: '#71b85f'}}
+                    style={{color: '#71b85f', marginTop: -84}}
                     selectedValue={this.state.user}
                     onValueChange={this.updateUser}>
                     <Picker.Item

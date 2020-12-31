@@ -50,7 +50,7 @@ export default {
           margin:5,
       },
       skillText: {
-        fontSize: 11,
+        fontSize: 14,
         fontFamily: 'Poppins-Regular',
         color: '#000',
         marginLeft:3,
@@ -152,7 +152,8 @@ export default {
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        textAlignVertical: 'top'
+        textAlignVertical: 'top',
+        overflow: 'hidden'
     },
       formGroup01: {
         width: '100%',
@@ -184,6 +185,7 @@ export default {
     boxTitle: {
         fontSize: 15,
         fontFamily: 'Poppins-SemiBold',
+        marginBottom: 10
     },
     iconText: {
         //marginLeft: 10,

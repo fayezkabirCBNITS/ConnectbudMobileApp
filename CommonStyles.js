@@ -138,5 +138,8 @@ noData: {
   color: '#000',
   fontSize: 18,
   textAlign: 'center'
+},
+keyboard: {
+  flex: 1,
 }
 };

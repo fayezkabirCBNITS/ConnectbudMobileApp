@@ -1,5 +1,5 @@
 const React = require('react-native');
-const {Dimensions} = React;
+const {Dimensions, Platform} = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -118,6 +118,7 @@ export default {
     borderColor: '#71b85f',
     borderWidth: 1,
     borderRadius: 5,
+    overflow: 'hidden',
   },
   dropSerachIcon: {
     width: '15%',
@@ -176,5 +177,6 @@ export default {
     position: 'absolute',
     top: 12,
     left: 15,
+    opacity: Platform.OS === 'ios' ? 0 : 1,
   },
 };

@@ -11,6 +11,7 @@ import {
   ImageBackground,
   Modal,
   Picker,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,6 +24,7 @@ import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
 import {countryCodes} from '../../../config/countrycodes';
 import Toast from 'react-native-simple-toast';
+import {Header} from 'react-navigation-stack'
 // import RNPickerSelect from 'react-native-picker-select';
 
 class SignUpScreen extends Component {
@@ -179,6 +181,10 @@ class SignUpScreen extends Component {
             <ScrollView
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps={'always'}>
+                <KeyboardAvoidingView
+                  keyboardVerticalOffset = {Header.HEIGHT + 90} 
+                  style = {{ flex: 1 }}
+                  behavior = "padding" >
               <View style={[styles.container, styles.inputDiv]}>
                 <View style={styles.logo}>
                   <Image
@@ -425,6 +431,7 @@ class SignUpScreen extends Component {
                   </Text>
                 </Text>
               </View>
+              </KeyboardAvoidingView>
             </ScrollView>
           </ImageBackground>
         </View>

@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -26,6 +27,7 @@ import {
 import ErrorMsg from '../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
 import Toast from 'react-native-simple-toast';
+import {Header} from 'react-navigation-stack'
 class PostInternship extends Component {
   constructor(props) {
     super(props);
@@ -244,6 +246,10 @@ class PostInternship extends Component {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps={'always'}>
+              <KeyboardAvoidingView
+                keyboardVerticalOffset = {Header.HEIGHT + 0}
+                style = {{ flex: 1 }}
+                behavior = "padding" >
             <Text
               style={{
                 fontFamily: 'Poppins-SemiBold',
@@ -321,7 +327,7 @@ class PostInternship extends Component {
                     <View
                       style={[
                         styles.formSubGroup22,
-                        {flexWrap: 'wrap', flexDirection: 'row'},
+                        {flexWrap: 'wrap', flexDirection: 'row', paddingHorizontal: 15},
                       ]}>
                       <View
                         style={[
@@ -344,7 +350,7 @@ class PostInternship extends Component {
               <View style={[styles.formGroup01]}>
               <View style={styles.formPicker}>
                 <Picker
-                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular',}}
+                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular', marginTop: -81}}
                   selectedValue={this.state.skills}
                   onValueChange={(itemValue, itemIndex) =>
                     //this.setState({ selectedSkills:this.state.selectedSkills.push(itemValue) })
@@ -397,6 +403,7 @@ class PostInternship extends Component {
                       height: 100,
                       justifyContent: 'flex-start',
                       textAlignVertical: 'top',
+                      padding: 15,
                     },
                   ]}
                   keyboardType="default"
@@ -416,7 +423,7 @@ class PostInternship extends Component {
             <View style={styles.skillView1}>
               <View style={[styles.formGroup1]}>
                 <Picker
-                  style={{width: '100%', height: 45, color: '#3B1D25'}}
+                  style={{width: '100%', height: 45, color: '#3B1D25', marginTop: -82}}
                   selectedValue={this.state.countryValue}
                   onValueChange={(itemValue, itemIndex) =>
                     //this.setState({countryValue: itemValue})
@@ -440,7 +447,7 @@ class PostInternship extends Component {
                 <View style={styles.skillView1}>
                   <View style={[styles.formGroup1]}>
                     <Picker
-                      style={{width: '100%', height: 45, color: '#3B1D25'}}
+                      style={{width: '100%', height: 45, color: '#3B1D25', marginTop: -82}}
                       selectedValue={this.state.cityValue}
                       onValueChange={(itemValue, itemIndex) =>
                         this.setState({cityValue: itemValue})
@@ -507,7 +514,7 @@ class PostInternship extends Component {
             <View style={styles.skillView1}>
               <View style={[styles.formGroup1]}>
                 <Picker
-                  style={{width: '100%', height: 45, color: '#3B1D25'}}
+                  style={{width: '100%', height: 45, color: '#3B1D25', marginTop: -84}}
                   selectedValue={this.state.jobType}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({jobType: itemValue})
@@ -584,6 +591,7 @@ class PostInternship extends Component {
                 />
               )}
             </TouchableOpacity>
+            </KeyboardAvoidingView>
           </ScrollView>
         </View>
       </SafeAreaView>

@@ -13,7 +13,7 @@ export default {
     marginVertical: '2%',
   },
   subHeadText: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Regular',
     marginBottom: 10,
     fontSize: 16,
   },
@@ -55,7 +55,7 @@ export default {
     marginLeft: 20,
   },
   collapseTitleText: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Regular',
   },
   CollapseBody: {
     alignItems: 'center',

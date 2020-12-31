@@ -21,7 +21,8 @@ export default {
       justifyContent:'space-between',
       alignItems:'center',
       alignSelf:'flex-start',
-      justifyContent:'flex-start'
+      justifyContent:'flex-start',
+      paddingHorizontal: 15
   },
   formGroup: {
     width: '90%',
@@ -74,10 +75,12 @@ export default {
   },
     formGroup1: {
         width: '100%',
+        height: 50,
         marginBottom: 5,
         backgroundColor: '#f8f8f8',
         borderRadius: 4,
         fontSize: 16,
+        paddingHorizontal: 15,
         
         borderColor: 'rgba(59,29,37,0.5)',
         flexDirection: 'row',
@@ -90,6 +93,7 @@ export default {
         shadowRadius: 2.62,
         elevation: 4,
         textAlignVertical: 'top',
+        overflow: 'hidden'
     },
     
     formGroup01: {
@@ -126,7 +130,8 @@ export default {
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    textAlignVertical: 'top'
+    textAlignVertical: 'top',
+    overflow: 'hidden'
 },
     formSubGroup1: {
         width: '20%',
@@ -218,11 +223,12 @@ export default {
           margin:5,
       },
       skillText: {
-        fontSize: 11,
+        fontSize: 14,
         fontFamily: 'Poppins-Regular',
         color: '#000',
         marginLeft:3,
         textAlign: "center",
+        marginRight: 10,
       },
 }
 
