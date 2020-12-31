@@ -25,7 +25,7 @@ class LatestProjectList extends Component {
     const {params} = this.props.navigation.state;
     let body = new FormData();
     body.append('user_id', '1222');
-    body.append('type', 'freelancer');
+    body.append('type', params.tagName === 'Homework' ? 'tutor' : 'freelancer');
     body.append('relevant', '');
     body.append('search_type', 'filter');
     body.append('category', params.tagName);
@@ -61,13 +61,13 @@ class LatestProjectList extends Component {
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('NotificationScreen')
               }
               style={CommonStyles.bellIcon}>
               <Feather name="bell" color="#71b85f" size={30} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           {/* header section end */}
           <View style={CommonStyles.container}>

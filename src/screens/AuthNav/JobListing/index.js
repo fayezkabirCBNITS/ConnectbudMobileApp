@@ -161,13 +161,15 @@ class JobListingScreen extends Component {
       //   city: "*City",
       // });
     } else if (country === "India") {
-      unit = "INR";
+      unit = "USD";
+      //unit = "INR";
       this.state.isSponser = true;
       // this.setState({
       //   city: "*City",
       // });
     } else {
-      unit = "INR";
+      unit = "USD";
+      //unit = "INR";
       this.state.isSponser = true;
     }
     this.handleUnit(unit);
