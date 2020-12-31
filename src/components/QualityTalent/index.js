@@ -3,10 +3,11 @@ import { View, Text, Image, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
-import axios from "axios";
-import { API_URL } from "../../config/url";
+import ApiUrl from '../../config/ApiUrl';
+import { makePostRequestMultipart } from '../../services/http-connectors';
 import { updateViewProfile } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
+import { withNavigation } from 'react-navigation';
 
 class QualityTalent extends Component {
   constructor() {
@@ -25,22 +26,17 @@ class QualityTalent extends Component {
     let body = new FormData();
     body.append("user_id", "");
 
-    await axios({
-      url: API_URL + "feedexpertlist",
-      method: "POST",
-      data: body,
-    })
-      .then((response) => {
-        this.setState({
-          expertset: response.data,
-        });
-      })
-      .catch((error) => { });
+    let response = await makePostRequestMultipart(ApiUrl.FeedExpertlist, false, body);
+    if (response) {
+      this.setState({
+        expertset: response,
+      });
+    }
   };
 
   viewProfile = async (slug, user_id) => {
     this.props.updateViewProfile(slug, user_id);
-    this.props.navigateToviewProfile();
+    this.props.navigation.navigate('ViewUserProfileScreen', { username: slug, user_id: user_id });
   };
 
 
@@ -72,4 +68,4 @@ const mapDispatchToProps = (dispatch) => {
     updateViewProfile: (slug, user_id) => dispatch(updateViewProfile(slug, user_id)),
   };
 };
-export default connect(null, mapDispatchToProps)(QualityTalent);
+export default connect(null, mapDispatchToProps)(withNavigation(QualityTalent));

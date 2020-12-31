@@ -151,7 +151,8 @@ class PostInternship extends Component {
       if (countryValue === 'All') {
         this.setState({showCity: false, showVisa: true, currencyType: 'USD'});
       } else if (countryValue === 'India') {
-        this.setState({showCity: true, showVisa: false, currencyType: 'INR'});
+        this.setState({showCity: true, showVisa: false, currencyType: 'USD'});
+        //this.setState({showCity: true, showVisa: false, currencyType: 'INR'});
       } else if (countryValue === 'USA') {
         this.setState({showCity: true, showVisa: true, currencyType: 'USD'});
       }

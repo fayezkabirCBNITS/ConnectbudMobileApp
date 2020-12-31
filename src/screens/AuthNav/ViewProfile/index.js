@@ -25,8 +25,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 
 class ViewProfileScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       index: 0,
       routes: [
@@ -44,14 +44,13 @@ class ViewProfileScreen extends Component {
   };
 
   componentDidMount = async () => {
+    const { params } = this.props.navigation.state;
     this.setState({ showLoader: true })
-    const { userDeatail } = this.props;
     await axios({
-      url: API_URL + "expertProfile/" + userDeatail.slugname,
+      url: API_URL + "expertProfile/" + params.slugname,
       method: "GET",
     })
       .then((response) => {
-        console.log(response, "viewwwwwwwwww")
         this.setState({
           profiledataset: response.data,
           showLoader: false
@@ -63,12 +62,13 @@ class ViewProfileScreen extends Component {
   };
 
   renderScene = ({ route }) => {
+    const { params } = this.props.navigation.state;
     const { userDeatail } = this.props;
     switch (route.title) {
       case 'Overview':
-        return <ViewOverview slugname={userDeatail.slugname} />;
+        return <ViewOverview slugname={params.slugname} />;
       case 'Portfolio':
-        return <ViewPortfolio slugname={userDeatail.slugname} />
+        return <ViewPortfolio slugname={params.slugname} />
       case 'Work History':
         return <ViewWorkHistory freeId={userDeatail.view_user_id} />;
       default:
