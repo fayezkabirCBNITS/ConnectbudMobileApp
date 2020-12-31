@@ -143,13 +143,13 @@ export default {
         flexDirection : "row"
     },
     form: {
-        marginTop:20,
-        marginHorizontal: 10,
-        padding: 10,
+        // marginTop:20,
+        // marginHorizontal: 10,
+        // padding: 10,
       },
       title: {
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 18,
         marginBottom: 15,
       },
       inputHead: {
@@ -231,6 +231,8 @@ export default {
         color: '#3B1D25',
         height: 45,
         fontSize: 15,
+        paddingHorizontal: 15,
+        fontFamily: 'Poppins-Regular'
       },
       formSubGroup1: {
         width: '20%',
@@ -291,7 +293,7 @@ export default {
         margin:5,
     },
     skillText: {
-      fontSize: 11,
+      fontSize: 14,
       fontFamily: 'Poppins-Regular',
       color: '#000',
       marginLeft:3,
@@ -302,5 +304,20 @@ export default {
       alignItems : "center", 
       justifyContent : "center", 
       paddingHorizontal: 50
-    }
+    },
+    modalContent: {
+      width: '90%',
+      height: deviceHeight - 200,
+      // paddingVertical: 30,
+      // paddingHorizontal: 25,
+      paddingHorizontal: 20,
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    modalCross: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+    },
 }
