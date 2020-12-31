@@ -577,10 +577,10 @@ class JobListingScreen extends Component {
                       {value.active_status === "true" ? (
                         <>
                           <View style={styles.btnSec}>
-                            <TouchableOpacity style={styles.btn50} onPress={() => this.JobShowModal(value.id)}>
+                            {/* <TouchableOpacity style={styles.btn50} onPress={() => this.JobShowModal(value.id)}>
                               <AntDesign name="delete" color="#fff" size={18} />
                               <Text style={styles.btn50Text}>Close Job</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                             <TouchableOpacity style={styles.btn50} onPress={() => this.ShowModal(value.slug, value.id)}>
                               <FontAwesome name="edit" color="#fff" size={18} />
                               <Text style={styles.btn50Text}>Edit Job</Text>
@@ -935,13 +935,13 @@ class JobListingScreen extends Component {
                   if (value.message !== "No data found") {
                     return (
                       <View style={{alignItems: 'flex-start'}}>
-                        {/* {this.state.btnStatus === true && value.name === "None" ? (
+                        {this.state.btnStatus === true && value.name === "None" ? (
                             <>
                               <CheckBox
                                 center
                                 title={value.name}
-                                checkedIcon="dot-circle-o"
-                                uncheckedIcon="circle-thin"
+                                // checkedIcon="dot-circle-o"
+                                // uncheckedIcon="circle-thin"
                                 checkedColor="grey"
                                 containerStyle={styles.radio}
                                 textStyle={{ color: 'grey', fontSize: 13 }}
@@ -977,34 +977,7 @@ class JobListingScreen extends Component {
                                   />
                                   )}
                               </>
-                            )} */}
-                            <CheckBox
-                                center
-                                title={value.name}
-                                checkedColor="grey"
-                                containerStyle={styles.radio}
-                                textStyle={{ color: 'grey', fontSize: 13 }}
-                                onPress={(e) => this.CourseType(e, value.id, value.name)}
-                                disabled={this.state.btnStatus}
-                              />
-                              <CheckBox
-                                center
-                                title={value.name}
-                                checkedColor="grey"
-                                containerStyle={styles.radio}
-                                textStyle={{ color: 'grey', fontSize: 13 }}
-                                onPress={(e) => this.CourseType(e, value.id, value.name)}
-                                disabled={this.state.btnStatus}
-                              />
-                              <CheckBox
-                                center
-                                title={value.name}
-                                checkedColor="grey"
-                                containerStyle={styles.radio}
-                                textStyle={{ color: 'grey', fontSize: 13 }}
-                                onPress={(e) => this.CourseType(e, value.id, value.name)}
-                                disabled={this.state.btnStatus}
-                              />
+                            )}
                             </View>
                           );
                             } else {
