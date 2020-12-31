@@ -615,13 +615,15 @@ class JobListingScreen extends Component {
             </ScrollView>
           </View>
 
-          <Modal visible={this.state.show} style={CommonStyles.modalBg}>
-            <ScrollView>
-              <View style={styles.form}>
+          <Modal visible={this.state.show} transparent={true}>
+          <View style={CommonStyles.modalBg}>
+          <View style={styles.modalContent}>
+          <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+          <View style={{width: '100%', marginVertical: 20}}>
                 <Text style={styles.title}>Edit Your Posted Job</Text>
 
                 <Text style={styles.inputHead}>*Job Title</Text>
-                <View style={{ marginHorizontal: '5%' }}>
+                <View>
                   <TextInput
                     returnKeyType="done"
                     placeholder="*Title [Max 100 Chars.]"
@@ -635,7 +637,7 @@ class JobListingScreen extends Component {
                 <Text style={styles.errorText}>{this.state.errors.title} {this.state.errors.titleChara}</Text>
 
                 <Text style={styles.inputHead}>Company Name</Text>
-                <View style={{ marginHorizontal: '5%', marginVertical: 15 }}>
+                <View style={{ marginVertical: 15 }}>
                   <TextInput
                     returnKeyType="done"
                     placeholder="Company name [Max 40 Chars.]"
@@ -648,7 +650,7 @@ class JobListingScreen extends Component {
                 </View>
 
                 <Text style={styles.inputHead}>*Job Description</Text>
-                <View style={{ marginHorizontal: '5%', }}>
+                <View>
                   <TextInput
                     returnKeyType="done"
                     placeholder="*Descriptions [Max 5000 Chars.]"
@@ -679,7 +681,7 @@ class JobListingScreen extends Component {
                               styles.skillTab,
                               { backgroundColor: '#71b85f', flexDirection: 'row' },
                             ]}>
-                            <Text style={[styles.skillText, { color: '#fff' }]}>
+                            <Text style={[styles.skillText, { color: '#fff', marginRight: 10 }]}>
                               {data}
                             </Text>
                             <FontAwesome name="close" size={20} color="#fff" />
@@ -850,7 +852,7 @@ class JobListingScreen extends Component {
 
                 <View
                   style={{
-                    marginHorizontal: '5%',
+                    // marginHorizontal: '5%',
                     display: 'flex',
                     flexDirection: 'row',
                     marginVertical: 10,
@@ -892,7 +894,7 @@ class JobListingScreen extends Component {
                 </View>
                 <Text style={styles.errorText}>{this.state.errors.ctc}</Text>
 
-                <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ show: false, showAdditional: false })}>
+                <TouchableOpacity style={styles.modalCross} onPress={() => this.setState({ show: false, showAdditional: false })}>
                   <Entypo name="circle-with-cross" color="#71b85f" size={35} />
                 </TouchableOpacity>
 
@@ -907,12 +909,16 @@ class JobListingScreen extends Component {
                 </View>
 
               </View>
-            </ScrollView>
+              </ScrollView>
+            </View>
+            </View>
           </Modal>
 
-          <Modal visible={this.state.showJob} style={CommonStyles.modalBg}>
-            <ScrollView>
-              <View style={styles.form}>
+          <Modal visible={this.state.showJob} transparent={true}>
+            <View style={CommonStyles.modalBg}>
+            <View style={styles.modalContent2}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+            <View style={{width: '100%', marginVertical: 20}}>
                 <Text style={styles.title}>Close Your Posted Job</Text>
                 {this.state.jobChat.map((value, index) => {
                   if (value.message !== "No data found" && index < 1) {
@@ -926,8 +932,8 @@ class JobListingScreen extends Component {
                 {this.state.jobChat.map((value, index) => {
                   if (value.message !== "No data found") {
                     return (
-                      <View style={[styles.formrow]}>
-                        {this.state.btnStatus === true && value.name === "None" ? (
+                      <View style={{alignItems: 'flex-start'}}>
+                        {/* {this.state.btnStatus === true && value.name === "None" ? (
                             <>
                               <CheckBox
                                 center
@@ -947,8 +953,8 @@ class JobListingScreen extends Component {
                                   <CheckBox
                                     center
                                     title={value.name}
-                                    checkedIcon="dot-circle-o"
-                                    uncheckedIcon="circle-thin"
+                                    // checkedIcon="dot-circle-o"
+                                    // uncheckedIcon="circle-thin"
                                     checkedColor="grey"
                                     containerStyle={styles.radio}
                                     textStyle={{ color: 'grey', fontSize: 13 }}
@@ -959,8 +965,8 @@ class JobListingScreen extends Component {
                                   <CheckBox
                                     center
                                     title={value.name}
-                                    checkedIcon="dot-circle-o"
-                                    uncheckedIcon="circle-thin"
+                                    // checkedIcon="dot-circle-o"
+                                    // uncheckedIcon="circle-thin"
                                     checkedColor="grey"
                                     containerStyle={styles.radio}
                                     textStyle={{ color: 'grey', fontSize: 13 }}
@@ -969,7 +975,34 @@ class JobListingScreen extends Component {
                                   />
                                   )}
                               </>
-                            )}
+                            )} */}
+                            <CheckBox
+                                center
+                                title={value.name}
+                                checkedColor="grey"
+                                containerStyle={styles.radio}
+                                textStyle={{ color: 'grey', fontSize: 13 }}
+                                onPress={(e) => this.CourseType(e, value.id, value.name)}
+                                disabled={this.state.btnStatus}
+                              />
+                              <CheckBox
+                                center
+                                title={value.name}
+                                checkedColor="grey"
+                                containerStyle={styles.radio}
+                                textStyle={{ color: 'grey', fontSize: 13 }}
+                                onPress={(e) => this.CourseType(e, value.id, value.name)}
+                                disabled={this.state.btnStatus}
+                              />
+                              <CheckBox
+                                center
+                                title={value.name}
+                                checkedColor="grey"
+                                containerStyle={styles.radio}
+                                textStyle={{ color: 'grey', fontSize: 13 }}
+                                onPress={(e) => this.CourseType(e, value.id, value.name)}
+                                disabled={this.state.btnStatus}
+                              />
                             </View>
                           );
                             } else {
@@ -979,7 +1012,7 @@ class JobListingScreen extends Component {
                             }
                           })}
 
-                        <TouchableOpacity style={CommonStyles.modalCross} onPress={this.JobHideModal}>
+                        <TouchableOpacity style={styles.modalCross} onPress={this.JobHideModal}>
                           <Entypo name="circle-with-cross" color="#71b85f" size={35} />
                         </TouchableOpacity>
 
@@ -994,12 +1027,16 @@ class JobListingScreen extends Component {
                         </View>
 
                       </View>
-            </ScrollView>
+                      </ScrollView>
+            </View>
+            </View>
           </Modal>
         
-          <Modal visible={this.state.selectJob} style={CommonStyles.modalBg}>
-            <ScrollView>
-              <View style={styles.form}>
+          <Modal visible={this.state.selectJob} transparent={true}>
+            <View style={CommonStyles.modalBg}>
+            <View style={styles.modalContent2}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+            <View style={{width: '100%', marginVertical: 20}}>
                 <Text style={styles.title}>Selected College Students</Text>
                 {this.state.jobChat.map((value, index) => {
                   if (value.message !== "No data found") {
@@ -1020,7 +1057,9 @@ class JobListingScreen extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-            </ScrollView>
+              </ScrollView>
+            </View>
+            </View>
           </Modal>
         </View>
       </SafeAreaView>
