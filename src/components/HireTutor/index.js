@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -9,17 +9,17 @@ import {
   FlatList,
   ActivityIndicator,
   TextInput,
-  Modal
+  Modal,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Antdesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
-import { Picker } from '@react-native-community/picker';
+import {Picker} from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
@@ -27,8 +27,8 @@ import {
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import {connect} from 'react-redux';
+import {withNavigation} from 'react-navigation';
 import base64 from 'base-64';
 import OnlineCodingClasses from '../OnlinCodingClasses/onlineClasses';
 
@@ -61,11 +61,13 @@ class HireTutor extends Component {
       selectedSkillIndex: null,
       skills: [],
       filteredSkills: [],
-      skillValuePlaceHolder: [{ value: 'Select Skill', label: 'Select skill' }],
-      datePlaceHolder: [{ value: 'Select Date', label: 'Select date' }],
+      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
+      datePlaceHolder: [{value: 'Select Date', label: 'Select date'}],
       selectedDate: [],
       selectedDateIndex: null,
-      isModalVisible: false
+      isModalVisible: false,
+      classCount: '',
+      amount: '',
     };
   }
 
@@ -85,9 +87,9 @@ class HireTutor extends Component {
 
   onActiveBtn = (test) => {
     if (test == 'cb') {
-      this.setState({ ConnectBud: 'connectbud' });
+      this.setState({ConnectBud: 'connectbud'});
     } else if (test == 'he') {
-      this.setState({ ConnectBud: 'me' });
+      this.setState({ConnectBud: 'me'});
     }
     this.setState({
       showActiveTabBtn: !this.state.showActiveTabBtn,
@@ -99,32 +101,45 @@ class HireTutor extends Component {
   };
 
   hideDatePicker = () => {
-    this.setState({ showDatePicker: false });
+    this.setState({showDatePicker: false});
   };
 
-  handleConfirm = (date) => {
+  handleConfirm = async (date) => {
+    await this.setState({
+      selectedDate: [
+        ...this.state.selectedDate,
+        moment(date).format('MM/DD/YYYY'),
+      ],
+    });
+    await this.setState({
+      classCount: this.state.selectedDate.length,
+    });
     this.setState({
-      selectedDate: [...this.state.selectedDate, moment(date).format('MM/DD/YYYY')],
-    })
+      amount: this.state.classCount * 5,
+    });
+    console.log(this.state.classCount);
+
+    console.log(this.state.amount);
+
     // this.setState({ startDate: date });
     this.hideDatePicker();
   };
 
   hideTimePicker = () => {
-    this.setState({ showTimePicker: false });
+    this.setState({showTimePicker: false});
   };
 
   handleTimeConfirm = (time) => {
-    this.setState({ startTime: time });
+    this.setState({startTime: time});
     this.hideTimePicker();
   };
 
   hideEndTimePicker = () => {
-    this.setState({ showTimePicker: false });
+    this.setState({showTimePicker: false});
   };
 
   handleEndTimeConfirm = (time) => {
-    this.setState({ endTime: time });
+    this.setState({endTime: time});
     this.hideEndTimePicker();
   };
 
@@ -135,7 +150,7 @@ class HireTutor extends Component {
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
     // this.setState({subjectSkills: response});
-    this.setState({ skills: this.state.skillValuePlaceHolder.concat(response) });
+    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
   reverseAddSkills = async (index) => {
@@ -145,32 +160,44 @@ class HireTutor extends Component {
     });
     let data = this.state.selectedSkills[index];
     await this.setState({
-      skills: this.state.skills.concat({ value: data, label: data }).sort(),
+      skills: this.state.skills.concat({value: data, label: data}).sort(),
     });
-    this.setState({ skills: this.state.skills.sort() });
+    this.setState({skills: this.state.skills.sort()});
+  };
+
+  onhandleSubmit = async () => {
+    console.log(this.state.amount);
+    if (this.state.totalCost >= this.state.amount) {
+      this.handleSubmit();
+    } else {
+      alert(
+        `Your minimum charge is ${this.state.amount}$` +
+          `Please pay the money to complete your submission process.`,
+      );
+    }
   };
 
   handleSubmit = async () => {
     if (this.state.selectedSkills === '') {
-      this.setState({ errSelectedSkills: true });
+      this.setState({errSelectedSkills: true});
       return;
     } else if (this.state.gradeValue === '') {
-      this.setState({ errgradeValue: true });
+      this.setState({errgradeValue: true});
       return;
     } else if (this.state.selectedDate === '') {
-      this.setState({ errselectedDate: true });
+      this.setState({errselectedDate: true});
       return;
     } else if (this.state.startTime === '') {
-      this.setState({ errstartTime: true });
+      this.setState({errstartTime: true});
       return;
     } else if (this.state.endTime === '') {
-      this.setState({ errendTime: true });
+      this.setState({errendTime: true});
       return;
     } else if (this.state.totalCost === '') {
-      this.setState({ errTotalCost: true });
+      this.setState({errTotalCost: true});
       return;
     } else if (this.state.ConnectBud === '') {
-      this.setState({ errConnectBud: true });
+      this.setState({errConnectBud: true});
       return;
     } else {
       this.setState({
@@ -183,14 +210,23 @@ class HireTutor extends Component {
         errConnectBud: false,
       });
 
-      const date = JSON.stringify(this.state.selectedDate).replace(/[\[\]']+/g, '');
+      const date = JSON.stringify(this.state.selectedDate).replace(
+        /[\[\]']+/g,
+        '',
+      );
       let body = new FormData();
       body.append('user_id', base64.decode(this.props.userID));
       body.append('hire_by', this.state.ConnectBud);
-      body.append('skills', JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''));
-      body.append('job_name', JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''));
+      body.append(
+        'skills',
+        JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
+      );
+      body.append(
+        'job_name',
+        JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
+      );
       body.append('total_amount', this.state.totalCost);
-      body.append('Number_of_classes', 1);
+      body.append('Number_of_classes', this.state.classCount);
       body.append('date', date.replace(/['"]+/g, ''));
       body.append('start_time', this.state.startTime);
       body.append('end_time', this.state.endTime);
@@ -205,25 +241,24 @@ class HireTutor extends Component {
       console.log('Homeork details-----', response);
 
       if (response[0].hire_by == 'me') {
-        this.setState({ isModalVisible: true })
+        this.setState({isModalVisible: true});
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        this.setState({ isModalVisible: true })
+        this.setState({isModalVisible: true});
         this.props.navigation.navigate('BankDetailScreen');
       }
-
     }
   };
 
   render() {
-    console.log('seledate', this.state.selectedDate)
+    console.log('seledate', this.state.selectedDate);
     return (
       <View style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.form}>
             <Text style={styles.inputHead}>What type of session is it</Text>
 
-            <View style={[styles.formSubGroup2, { flexDirection: 'row' }]}>
+            <View style={[styles.formSubGroup2, {flexDirection: 'row'}]}>
               <View
                 style={
                   this.state.OnlineTab == true
@@ -268,18 +303,22 @@ class HireTutor extends Component {
                   this.state.selectedSkills?.map((data, index) => {
                     return (
                       <TouchableOpacity
-                        onPress={() => this.reverseAddSkills(index)} key={index}>
+                        onPress={() => this.reverseAddSkills(index)}
+                        key={index}>
                         <View
                           style={[
                             styles.formSubGroup22,
-                            { flexWrap: 'wrap', flexDirection: 'row' },
+                            {flexWrap: 'wrap', flexDirection: 'row'},
                           ]}>
                           <View
                             style={[
                               styles.skillTab,
-                              { backgroundColor: '#71b85f', flexDirection: 'row' },
+                              {
+                                backgroundColor: '#71b85f',
+                                flexDirection: 'row',
+                              },
                             ]}>
-                            <Text style={[styles.skillText, { color: '#fff' }]}>
+                            <Text style={[styles.skillText, {color: '#fff'}]}>
                               {data}
                             </Text>
                             <FontAwesome name="close" size={20} color="#fff" />
@@ -289,16 +328,23 @@ class HireTutor extends Component {
                     );
                   })
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
                     <Picker
-                      style={{ width: '100%', height: 45, fontFamily: 'Poppins-Regular' }}
+                      style={{
+                        width: '100%',
+                        height: 45,
+                        fontFamily: 'Poppins-Regular',
+                      }}
                       selectedValue={this.state.skills}
                       onValueChange={(itemValue, itemIndex) =>
                         this.setState({
-                          selectedSkills: [...this.state.selectedSkills, itemValue],
+                          selectedSkills: [
+                            ...this.state.selectedSkills,
+                            itemValue,
+                          ],
                           skills: this.state.skills.filter(
                             (_, i) => i !== itemIndex,
                           ),
@@ -307,51 +353,77 @@ class HireTutor extends Component {
                       {this.state.skills.length > 0 ? (
                         this.state?.skills?.map((data, idx) => {
                           return (
-                            <Picker.Item label={data.label} value={data.value} key={idx} />
+                            <Picker.Item
+                              label={data.label}
+                              value={data.value}
+                              key={idx}
+                            />
                           );
                         })
                       ) : (
-                          <></>
-                        )}
+                        <></>
+                      )}
                     </Picker>
                   </View>
                 </View>
                 {this.state.errSelectedSkills === true ? (
                   <ErrorMsg errorMsg="Please select subject" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <Text style={styles.inputHead}>What is your grade level</Text>
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
                     <Picker
-                      style={{ width: '100%', height: 45 }}
+                      style={{width: '100%', height: 45}}
                       selectedValue={this.state.gradeValue}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ gradeValue: itemValue })
+                        this.setState({gradeValue: itemValue})
                       }>
                       <Picker.Item label="Select Grade" value="TH" />
                       <Picker.Item label="Kindergaten" value="Kindergaten" />
                       <Picker.Item label="1st Grade" value="1st Grade" />
                       <Picker.Item label="2nd Grade" value="2nd Grade" />
+                      <Picker.Item label="3rd Grade" value="3rd Grade" />
+                      <Picker.Item label="4th Grade" value="4th Grade" />
+                      <Picker.Item label="5th Grade" value="5th Grade" />
+                      <Picker.Item label="6th Grade" value="6th Grade" />
+                      <Picker.Item label="7th Grade" value="7th Grade" />
+                      <Picker.Item label="8th Grade" value="8th Grade" />
+                      <Picker.Item label="9th Grade" value="9th Grade" />
+                      <Picker.Item label="10th Grade" value="10th Grade" />
+                      <Picker.Item label="11th Grade" value="11th Grade" />
+                      <Picker.Item label="12th Grade" value="12th Grade" />
+                      <Picker.Item
+                        label="1st yr./Freshman"
+                        value="1st yr./Freshman"
+                      />
+                      <Picker.Item
+                        label="2nd yr./Sophomore"
+                        value="2nd yr./Sophomore"
+                      />
+                      <Picker.Item
+                        label="3rd yr./Junior"
+                        value="3rd yr./Junior"
+                      />
+                      <Picker.Item
+                        label="4th yr./Senior"
+                        value="4th yr./Senior"
+                      />
                     </Picker>
                   </View>
                 </View>
                 {this.state.errgradeValue === true ? (
                   <ErrorMsg errorMsg="Please select grade" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <Text style={styles.inputHead}>Hire By</Text>
 
-                <View
-                  style={[
-                    styles.formSubGroup2,
-                    { flexDirection: 'row' },
-                  ]}>
+                <View style={[styles.formSubGroup2, {flexDirection: 'row'}]}>
                   <View
                     style={
                       this.state.showActiveTabBtn == true
@@ -388,8 +460,8 @@ class HireTutor extends Component {
                 {this.state.errConnectBud === true ? (
                   <ErrorMsg errorMsg="Please select one" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <Text style={styles.inputHead}>When is it :</Text>
                 <Text style={styles.inputHead}>Date</Text>
@@ -402,15 +474,25 @@ class HireTutor extends Component {
                 />
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { flexDirection: 'row', flexWrap: 'wrap' }]}>
-                    {this.state.selectedDate.length > 0 && this.state.selectedDate ? this.state.selectedDate.map((dt, i) =>
-                      <Text style={styles.inputHead2} key={i}>
-                        {JSON.stringify(dt).replace(/[\[\]']+/g, '')}
-                      </Text>) : (<Text style={styles.dateField}>Select Date</Text>)}
+                  <View
+                    style={[
+                      styles.formSubGroup2,
+                      {flexDirection: 'row', flexWrap: 'wrap'},
+                    ]}>
+                    {this.state.selectedDate.length > 0 &&
+                    this.state.selectedDate ? (
+                      this.state.selectedDate.map((dt, i) => (
+                        <Text style={styles.inputHead2} key={i}>
+                          {JSON.stringify(dt).replace(/[\[\]']+/g, '')}
+                        </Text>
+                      ))
+                    ) : (
+                      <Text style={styles.dateField}>Select Date</Text>
+                    )}
                   </View>
                   <View style={styles.formSubGroup1}>
                     <TouchableOpacity
-                      onPress={() => this.setState({ showDatePicker: true })}>
+                      onPress={() => this.setState({showDatePicker: true})}>
                       <FontAwesome name="calendar" size={25} color="#d7d7d8" />
                     </TouchableOpacity>
                   </View>
@@ -418,8 +500,8 @@ class HireTutor extends Component {
                 {this.state.errstartDate === true ? (
                   <ErrorMsg errorMsg="Please select date" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <Text style={styles.inputHead}>Time</Text>
                 {/* <DateTimePickerModal
@@ -439,12 +521,12 @@ class HireTutor extends Component {
                 </View>
               </View> */}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
                     <Picker
-                      style={{ width: '100%', height: 45 }}
+                      style={{width: '100%', height: 45}}
                       selectedValue={this.state.startTime}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ startTime: itemValue })
+                        this.setState({startTime: itemValue})
                       }>
                       <Picker.Item label="Select Start Time" value="TH" />
                       <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -501,8 +583,8 @@ class HireTutor extends Component {
                 {this.state.errstartTime === true ? (
                   <ErrorMsg errorMsg="Please select start time" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 {/* <DateTimePickerModal
                 isVisible={this.state.showEndTimePicker}
@@ -522,12 +604,12 @@ class HireTutor extends Component {
               </View> */}
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
                     <Picker
-                      style={{ width: '100%', height: 45 }}
+                      style={{width: '100%', height: 45}}
                       selectedValue={this.state.endTime}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ endTime: itemValue })
+                        this.setState({endTime: itemValue})
                       }>
                       <Picker.Item label="Select End Time" value="TH" />
                       <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -584,8 +666,8 @@ class HireTutor extends Component {
                 {this.state.errendTime === true ? (
                   <ErrorMsg errorMsg="Please select end time" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
 
                 <Text style={styles.inputHead}>Total Cost</Text>
                 <View style={styles.formGroup1}>
@@ -597,10 +679,11 @@ class HireTutor extends Component {
                       keyboardType="number-pad"
                       value={this.state.totalCost}
                       onChange={(e) =>
-                        this.setState({ totalCost: e.nativeEvent.text })
+                        this.setState({totalCost: e.nativeEvent.text})
                       }
                     />
                   </View>
+
                   <View style={styles.formSubGroup1}>
                     <FontAwesome name="dollar" size={25} color="#d7d7d8" />
                   </View>
@@ -608,12 +691,13 @@ class HireTutor extends Component {
                 {this.state.errTotalCost === true ? (
                   <ErrorMsg errorMsg="Please enter total cost" />
                 ) : (
-                    <></>
-                  )}
+                  <></>
+                )}
+                <Text>*Charges = $5/class/hr.</Text>
 
                 <TouchableOpacity
                   activeOpacity={0.9}
-                  onPress={() => this.handleSubmit()}
+                  onPress={() => this.onhandleSubmit()}
                   style={[styles.authBtn]}>
                   <Text style={styles.authBtnText}>Submit</Text>
                   {this.state.showLoader && (
@@ -632,9 +716,15 @@ class HireTutor extends Component {
                   <Antdesign name="checkcircle" size={60} color="#71b85f" />
                   <Text style={CommonStyles.modalText}>
                     Successfully Posted
-                </Text>
-                  <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ isModalVisible: false })}>
-                    <Entypo name="circle-with-cross" color="#71b85f" size={35} />
+                  </Text>
+                  <TouchableOpacity
+                    style={CommonStyles.modalCross}
+                    onPress={() => this.setState({isModalVisible: false})}>
+                    <Entypo
+                      name="circle-with-cross"
+                      color="#71b85f"
+                      size={35}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>

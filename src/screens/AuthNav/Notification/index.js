@@ -63,7 +63,8 @@ class NotificationScreen extends Component {
             <ScrollView
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>
-                {this.state.loginType === "WQ==" ? (<>
+              {this.state.loginType === 'WQ==' ? (
+                <>
                   {this.state.notification.map((data, i) => (
                     <TouchableOpacity style={styles.head}>
                       <View style={styles.wrapper}>
@@ -73,59 +74,97 @@ class NotificationScreen extends Component {
                             style={CommonStyles.image}
                           />
                         </View>
-                        {data.notification_type === "HIRE" ? (<>
-                          <Text
-                          style={styles.notiText}
-                          onPress={() =>
-                            this.props.navigation.navigate(
-                              'HiringConfirmation',
-                              {
-                                job_id: data.project_id,
-                                receiver_id: data.sender_user_id,
-                                sender_id: data.receiver_user_id,
-                                name: data.sender_name,
-                                user_image: data.notification_image,
-                                user_type: this.state.loginType,
-                                room_id: data.room_id,
-                              },
-                              SyncStorage.set(
-                                'room_id',
-                                data.project_id + '_' + data.sender_user_id,
-                              ),
-                            )
-                          }>
-                          {data.notification_message}
-                        </Text>
-                        </>) : (
-                        <Text
-                          style={styles.notiText}
-                          onPress={() =>
-                            this.props.navigation.navigate(
-                              'ChatListScreen',
-                              {
-                                job_id: data.project_id,
-                                receiver_id: data.sender_user_id,
-                                sender_id: data.receiver_user_id,
-                                name: data.sender_name,
-                                user_image: data.notification_image,
-                                user_type: this.state.loginType,
-                                room_id: data.room_id,
-                              },
-                              SyncStorage.set(
-                                'room_id',
-                                data.project_id + '_' + data.sender_user_id,
-                              ),
-                            )
-                          }>
-                          {data.notification_message}
-                        </Text>
+                        {data.notification_type === 'HIRE' ? (
+                          <>
+                            <Text
+                              style={styles.notiText}
+                              onPress={() =>
+                                this.props.navigation.navigate(
+                                  'HiringConfirmation',
+                                  {
+                                    job_id: data.project_id,
+                                    receiver_id: data.sender_user_id,
+                                    sender_id: data.receiver_user_id,
+                                    name: data.sender_name,
+                                    user_image: data.notification_image,
+                                    user_type: this.state.loginType,
+                                    room_id: data.room_id,
+                                  },
+                                  SyncStorage.set(
+                                    'room_id',
+                                    data.project_id + '_' + data.sender_user_id,
+                                  ),
+                                )
+                              }>
+                              {data.notification_message}
+                            </Text>
+                          </>
+                        ) : (
+                          <>
+                            {data.type === 'job' ? (
+                              <Text
+                                style={styles.notiText}
+                                onPress={() =>
+                                  this.props.navigation.navigate(
+                                    'ChatListScreen',
+                                    {
+                                      job_id: data.job_id,
+                                      receiver_id: data.sender_user_id,
+                                      sender_id: data.receiver_user_id,
+                                      name: data.sender_name,
+                                      user_image: data.notification_image,
+                                      user_type: this.state.loginType,
+                                      room_id: data.room_id,
+                                      page_status: 'joblist',
+                                    },
+                                    SyncStorage.set(
+                                      'room_id',
+                                      data.project_id +
+                                        '_' +
+                                        data.sender_user_id,
+                                    ),
+                                  )
+                                }>
+                                {data.notification_message}
+                              </Text>
+                            ) : (
+                              <Text
+                                style={styles.notiText}
+                                onPress={() =>
+                                  this.props.navigation.navigate(
+                                    'ChatListScreen',
+                                    {
+                                      job_id: data.project_id,
+                                      receiver_id: data.sender_user_id,
+                                      sender_id: data.receiver_user_id,
+                                      name: data.sender_name,
+                                      user_image: data.notification_image,
+                                      user_type: this.state.loginType,
+                                      room_id: data.room_id,
+                                      page_status: 'projectlist',
+                                    },
+                                    SyncStorage.set(
+                                      'room_id',
+                                      data.project_id +
+                                        '_' +
+                                        data.sender_user_id,
+                                    ),
+                                  )
+                                }>
+                                {data.notification_message}
+                              </Text>
+                            )}
+                          </>
                         )}
                       </View>
-                      <Text style={styles.notiTime}>{data.notification_time}</Text>
+                      <Text style={styles.notiTime}>
+                        {data.notification_time}
+                      </Text>
                     </TouchableOpacity>
                   ))}
-                </>) : (
-                  <>
+                </>
+              ) : (
+                <>
                   {this.state.notification.map((data, i) => (
                     <TouchableOpacity style={styles.head}>
                       <View style={styles.wrapper}>
@@ -135,35 +174,63 @@ class NotificationScreen extends Component {
                             style={CommonStyles.image}
                           />
                         </View>
-                        <Text
-                          style={styles.notiText}
-                          onPress={() =>
-                            this.props.navigation.navigate(
-                              'ChatListScreen',
-                              {
-                                job_id: data.project_id,
-                                receiver_id: data.sender_user_id,
-                                sender_id: data.receiver_user_id,
-                                name: data.sender_name,
-                                user_image: data.notification_image,
-                                user_type: this.state.loginType,
-                                room_id: data.room_id,
-                              },
-                              SyncStorage.set(
-                                'room_id',
-                                data.project_id + '_' + data.sender_user_id,
-                              ),
-                            )
-                          }>
-                          {data.notification_message}
-                        </Text>
+                        {data.type === 'job' ? (
+                          <Text
+                            style={styles.notiText}
+                            onPress={() =>
+                              this.props.navigation.navigate(
+                                'ChatListScreen',
+                                {
+                                  job_id: data.job_id,
+                                  receiver_id: data.sender_user_id,
+                                  sender_id: data.receiver_user_id,
+                                  name: data.sender_name,
+                                  user_image: data.notification_image,
+                                  user_type: this.state.loginType,
+                                  room_id: data.room_id,
+                                  page_status: 'joblist',
+                                },
+                                SyncStorage.set(
+                                  'room_id',
+                                  data.project_id + '_' + data.sender_user_id,
+                                ),
+                              )
+                            }>
+                            {data.notification_message}
+                          </Text>
+                        ) : (
+                          <Text
+                            style={styles.notiText}
+                            onPress={() =>
+                              this.props.navigation.navigate(
+                                'ChatListScreen',
+                                {
+                                  job_id: data.project_id,
+                                  receiver_id: data.sender_user_id,
+                                  sender_id: data.receiver_user_id,
+                                  name: data.sender_name,
+                                  user_image: data.notification_image,
+                                  user_type: this.state.loginType,
+                                  room_id: data.room_id,
+                                  page_status: 'projectlist',
+                                },
+                                SyncStorage.set(
+                                  'room_id',
+                                  data.project_id + '_' + data.sender_user_id,
+                                ),
+                              )
+                            }>
+                            {data.notification_message}
+                          </Text>
+                        )}
                       </View>
-                      <Text style={styles.notiTime}>{data.notification_time}</Text>
+                      <Text style={styles.notiTime}>
+                        {data.notification_time}
+                      </Text>
                     </TouchableOpacity>
                   ))}
-                  </>
-                )}
-              
+                </>
+              )}
             </ScrollView>
           </View>
         </View>

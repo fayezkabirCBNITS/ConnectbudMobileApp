@@ -4,10 +4,11 @@ import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from './styles';
 import { Item } from 'native-base';
-import axios from "axios";
-import { API_URL } from "../../config/url";
+import ApiUrl from '../../config/ApiUrl';
+import { makePostRequestMultipart } from '../../services/http-connectors';
 import { updateJobId } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
+import { withNavigation } from 'react-navigation';
 
 class LatestProjects extends Component {
   constructor() {
@@ -26,22 +27,17 @@ class LatestProjects extends Component {
     let body = new FormData();
     body.append("type", "freelancer");
 
-    axios({
-      url: API_URL + "projects",
-      method: "POST",
-      data: body,
-    })
-      .then((response) => {
-        this.setState({
-          projectSet: response.data,
-        });
-      })
-      .catch((error) => { });
+    let response = await makePostRequestMultipart(ApiUrl.LandingProjects, false, body);
+    if (response) {
+      this.setState({
+        projectSet: response,
+      });
+    }
   };
 
   viewProject = (Id) => {
     this.props.updateJobId(Id);
-    this.props.navigateToProjectDetails();
+    this.props.navigation.navigate('ProjectDetailsFreelancerNA', { JobId: Id });
   };
 
   render() {
@@ -78,4 +74,4 @@ const mapDispatchToProps = (dispatch) => {
     updateJobId: (data) => dispatch(updateJobId(data)),
   };
 };
-export default connect(null, mapDispatchToProps)(LatestProjects);
+export default connect(null, mapDispatchToProps)(withNavigation(LatestProjects));

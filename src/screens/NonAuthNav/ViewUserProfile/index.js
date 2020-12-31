@@ -21,6 +21,7 @@ import ViewWorkHistory from '../../../components/ViewWorkHistory';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
 import { connect } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 class ViewUserProfileScreen extends Component {
@@ -34,6 +35,7 @@ class ViewUserProfileScreen extends Component {
         { key: 'third', title: 'Work History' },
       ],
       profiledataset: [],
+      showLoader: false,
     };
   }
 
@@ -42,20 +44,22 @@ class ViewUserProfileScreen extends Component {
   };
 
   componentDidMount = async () => {
-    const { userDeatail } = this.props;
     const { params } = this.props.navigation.state;
-    console.log('prop===>',params.username)
+    this.setState({ showLoader: true })
     await axios({
       url: API_URL + "expertProfile/" + params.username,
       method: "GET",
     })
       .then((response) => {
-        console.log(response , "viewwwwwwwwww")
+        console.log(response, "viewwwwwwwwww")
         this.setState({
-          profiledataset: response.data
+          profiledataset: response.data,
+          showLoader: false
         });
       })
-      .catch(() => { });
+      .catch(() => {
+        this.setState({ showLoader: false })
+      });
   };
 
   renderScene = ({ route }) => {
@@ -74,10 +78,15 @@ class ViewUserProfileScreen extends Component {
   };
 
   render() {
- 
+
     const { userDeatail } = this.props;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
+        <Spinner
+          visible={this.state.showLoader}
+          animation="fade"
+          textContent={'Loading...'}
+        />
         <View style={CommonStyles.main}>
           {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
             <Header />
@@ -90,7 +99,7 @@ class ViewUserProfileScreen extends Component {
                 source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
                 <TouchableOpacity style={CommonStyles.hanPosition}
-                onPress={() => this.props.navigation.openDrawer()}>
+                  onPress={() => this.props.navigation.openDrawer()}>
                   <Entypo name="menu" color="#71b85f" size={35} />
                 </TouchableOpacity>
                 <View style={styles.userImg}>

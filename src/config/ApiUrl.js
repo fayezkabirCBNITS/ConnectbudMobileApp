@@ -43,5 +43,8 @@ export default EndPoint = {
   FeedQuestions: 'Questions/feedQuestions',
   JobChatting: 'job_chatting',
   CloseJob: 'job_end',
+  FeedExpertlist: 'feedexpertlist',
+  LandingProjects: 'projects',
+  LandingProjectDetails: 'expert_jobdetails',
 };
 export const BASE_URL ="https://api.connectbud.com/"   //do not remove
