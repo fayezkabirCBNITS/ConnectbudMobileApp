@@ -63,14 +63,13 @@ class ViewProfileScreen extends Component {
 
   renderScene = ({ route }) => {
     const { params } = this.props.navigation.state;
-    const { userDeatail } = this.props;
     switch (route.title) {
       case 'Overview':
         return <ViewOverview slugname={params.slugname} />;
       case 'Portfolio':
         return <ViewPortfolio slugname={params.slugname} />
       case 'Work History':
-        return <ViewWorkHistory freeId={userDeatail.view_user_id} />;
+        return <ViewWorkHistory freeId={params.user_id} />;
       default:
         return null;
     }
@@ -96,9 +95,9 @@ class ViewProfileScreen extends Component {
               <ImageBackground
                 source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
-                <TouchableOpacity style={CommonStyles.hanPosition}>
+                {/* <TouchableOpacity style={CommonStyles.hanPosition}>
                   <Entypo name="menu" color="#71b85f" size={35} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={styles.userImg}>
                   <Image
                     source={{ uri: item.user_image }}
