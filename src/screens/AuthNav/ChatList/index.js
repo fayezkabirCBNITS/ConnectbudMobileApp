@@ -88,6 +88,8 @@ class ChatListScreen extends Component {
       body.append('type', 'recruiter');
     }
 
+    console.log(body);
+
     axios({
       url: API_URL + 'chat/getChat',
       method: 'POST',
