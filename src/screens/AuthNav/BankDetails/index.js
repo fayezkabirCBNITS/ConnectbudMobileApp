@@ -67,8 +67,8 @@ class BankDetailScreen extends Component {
 
     let taglistbody = new FormData();
     this.setState({
-      user_id: base64.decode(userDeatailResponse.userData.user_id)
-    })
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
+    });
 
     taglistbody.append(
       'user_id',
@@ -98,11 +98,11 @@ class BankDetailScreen extends Component {
   };
 
   onButtonSubmit = async () => {
-    this.setState({
-      showLoader: true,
-    });
     let dataSet = this.validateJobForm();
     if (dataSet === true) {
+      this.setState({
+        showLoader: true,
+      });
       this.bankDetails();
     }
   };
@@ -189,7 +189,7 @@ class BankDetailScreen extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-        <Spinner
+          <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
@@ -271,7 +271,11 @@ class BankDetailScreen extends Component {
                 </Text>
 
                 <View>
-                  <Text style={styles.slctCntryText}>Routing Number *</Text>
+                  {this.state.country === 'India' ? (
+                    <Text style={styles.slctCntryText}>IFSC Number *</Text>
+                  ) : (
+                    <Text style={styles.slctCntryText}>Routing Number *</Text>
+                  )}
                   <TextInput
                     placeholder="Enter Code"
                     style={styles.input}
