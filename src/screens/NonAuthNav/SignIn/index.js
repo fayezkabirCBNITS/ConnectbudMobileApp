@@ -9,7 +9,9 @@ import {
   ImageBackground,
   Image,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking,
+  Platform
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -26,6 +28,9 @@ import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import PushNotification from 'react-native-push-notification';
 import {ThemeContext} from 'react-navigation';
+
+import {deepClone} from '../../../services/helper-methods';
+
 
 
 // import {
@@ -77,6 +82,9 @@ class SignInScreen extends Component {
       type: true,
       deviceTokenId: '',
       devicetype: '',
+      deepLinking: false,
+      userID: '',
+      userType: '',
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -85,8 +93,49 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
-  componentDidMount() {
-    console.log(this.state.social_type);
+  
+
+ componentDidMount= async() => {
+  //  START 
+//   const { navigation } = this.props;
+//     this.focusListener = navigation.addListener('didFocus', async() => {
+//   if (Platform.OS === 'android') {
+//     await Linking.getInitialURL().then((url) => {
+//       console.log("ssssssssssssssssssss");
+//       console.log(url);
+//       if (url) {
+//         console.log("awaitttttttttttttttttt");
+//         let id = url.split('?')[1];
+//         let type = url.split('?')[2];
+
+//         console.log(type);
+//         this.setState({
+//           deepLinking: true,
+//           userID: base64.decode(id),
+//           userStatus: base64.decode(type),
+//         });
+//       }
+//     });
+//   }
+
+//   if (this.state.deepLinking === false) {
+//     const {userData} = deepClone(this.props);
+//     console.log("ifffffffffffffFFFFFFFFFFFFFFFFFFFFFFFFFF");
+//   } else if (this.state.userStatus === 'employer') {
+//     this.props.navigation.navigate('SignInScreen', {
+//       userID: this.state.userID,
+//       userStatus: "employer"
+//     });
+//   } else {
+//     this.props.navigation.navigate('CategoryScreen', {
+//       userID: this.state.userID,
+//     });
+//   }
+// });
+
+
+  // END 
+    // console.log(this.state.social_type);
     if (this.state.user_type === 'employer') {
       let body1 = new FormData();
       body1.append('user_id', this.state.user_id);

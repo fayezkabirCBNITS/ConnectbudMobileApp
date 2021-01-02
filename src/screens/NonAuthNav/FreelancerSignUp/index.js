@@ -201,7 +201,6 @@ class FreelancerSignUpScreen extends Component {
     // this.setState({showLoader: true});
     console.log('sgggg=========');
     this.setState({
-      showLoader: true,
       errors: Validator.validateForm(
         null,
         this.state.fields,
@@ -218,6 +217,9 @@ class FreelancerSignUpScreen extends Component {
     } else if (this.state.college === '') {
       this.setState({errCollege: true});
     } else if (this.state.errors.formIsValid) {
+      this.setState({
+      showLoader: true,
+      })
       let body = new FormData();
       body.append('username', this.state.email);
       body.append('password', this.state.fields.password);
@@ -245,8 +247,6 @@ class FreelancerSignUpScreen extends Component {
         this.props.navigation.navigate('SignInScreen');
         Toast.show(response.msg, Toast.LONG);
       } else {
-        //alert('The email or password you have entered is invalid!');
-        //
       }
     }
   };

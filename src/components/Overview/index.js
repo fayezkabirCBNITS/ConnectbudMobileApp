@@ -44,7 +44,7 @@ class Overview extends Component {
         method: "GET",
       })
         .then((response) => {
-          console.log(response.data.data, "overview")
+          console.log("overview",response);
           this.setState({
             profiledataset: response.data,
           });
