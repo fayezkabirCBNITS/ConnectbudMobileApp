@@ -69,6 +69,7 @@ class TutoringJobs extends Component {
 
   componentWillReceiveProps() {
     if (this.props.TutorShowData.length > 0) {
+      console.log("tutor called");
       this.Method();
       this.catSkill();
       this.child();

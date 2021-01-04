@@ -51,7 +51,7 @@ class InternshipJobs extends Component {
 
   Method = async () => {
     await this.setState({
-      jobexpertSet: this.props.TutorShowData,
+      jobexpertSet: this.props.JobShowData,
     });
   };
 
@@ -68,7 +68,10 @@ class InternshipJobs extends Component {
   };
 
   componentWillReceiveProps() {
-    if (this.props.TutorShowData.length > 0) {
+    console.log(this.props.JobShowData.length);
+    if (this.props.JobShowData.length > 0) {
+      console.log("tutor job called");
+
       this.Method();
       this.catSkill();
       this.child();

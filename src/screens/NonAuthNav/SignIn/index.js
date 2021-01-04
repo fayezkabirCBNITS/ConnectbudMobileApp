@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Linking,
-  Platform
+  Platform,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -31,11 +31,7 @@ import {ThemeContext} from 'react-navigation';
 
 import {deepClone} from '../../../services/helper-methods';
 
-
 import {withNavigation} from 'react-navigation';
-
-
-
 
 // import {
 //   LoginButton,
@@ -45,21 +41,19 @@ import {withNavigation} from 'react-navigation';
 //   GraphRequestManager,
 // } from 'react-native-fbsdk';
 
-
 import {
   GoogleSignin,
   GoogleSigninButton,
-  statusCodes
-} from "@react-native-community/google-signin";
+  statusCodes,
+} from '@react-native-community/google-signin';
 
 GoogleSignin.configure({
-  scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+  scopes: ['https://www.googleapis.com/auth/drive.readonly'],
   webClientId:
-  "367228152991-ft3qki8h4dls21t36j1tpne39gidbltt.apps.googleusercontent.com",
+    '367228152991-ft3qki8h4dls21t36j1tpne39gidbltt.apps.googleusercontent.com',
   offlineAccess: true,
-  forceCodeForRefreshToken: true
+  forceCodeForRefreshToken: true,
 });
-
 
 import axios from 'axios';
 
@@ -97,61 +91,17 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
-  conponentDidUpdate = () => {
-    location.reload();
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
-    console.log("callllllllllllllllllleddddddddddddddddddddddddddd");
-    })
-  }
+ 
 
-  componentWillMount = () => {
-    console.log("callllllllllllllllllleddddddddddddddddddddddddddd");
-  }
-
-  
-
- componentDidMount= async() => {
-
-  //  START 
-  const { navigation } = this.props;
-    this.focusListener = navigation.addListener('didFocus', async() => {
-  if (Platform.OS === 'android') {
-    await Linking.getInitialURL().then((url) => {
-      console.log("ssssssssssssssssssss");
-      console.log(url);
-      if (url) {
-        console.log("awaitttttttttttttttttt");
-        let id = url.split('?')[1];
-        let type = url.split('?')[2];
-
-        console.log(type);
-        this.setState({
-          deepLinking: true,
-          userID: base64.decode(id),
-          userStatus: base64.decode(type),
-        });
-      }
+  componentDidMount = async () => {
+    console.log("kllllllllllllllll")
+    //  START
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('willFocus', async () => {
+      console.log('kkkkkkkkkkkkkkkk');
     });
-  }
 
-  if (this.state.deepLinking === false) {
-    const {userData} = deepClone(this.props);
-    console.log("ifffffffffffffFFFFFFFFFFFFFFFFFFFFFFFFFF");
-  } else if (this.state.userStatus === 'employer') {
-    this.props.navigation.navigate('SignInScreen', {
-      userID: this.state.userID,
-      userStatus: "employer"
-    });
-  } else {
-    this.props.navigation.navigate('CategoryScreen', {
-      userID: this.state.userID,
-    });
-  }
-});
-
-
-  // END 
+    // END
     // console.log(this.state.social_type);
     if (this.state.user_type === 'employer') {
       let body1 = new FormData();
@@ -187,7 +137,7 @@ class SignInScreen extends Component {
       popInitialNotification: true,
       requestPermissions: true,
     });
-  }
+  };
   handleSkills = async () => {
     this.setState({showSkills: !this.state.showSkills});
   };
@@ -347,7 +297,7 @@ class SignInScreen extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo, "userInfo");
+      console.log(userInfo, 'userInfo');
       var google_data = JSON.stringify(userInfo);
       let name = userInfo.user.name;
       let first_name = userInfo.user.givenName;
@@ -355,26 +305,25 @@ class SignInScreen extends Component {
       let email = userInfo.user.email;
       let picture = userInfo.user.photo;
       let provider_id = userInfo.user.id;
-      let provider = "google";
+      let provider = 'google';
 
       // this.sociallogin(email,name,provider_id,picture,provider);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
-        console.log("SIGN_IN_CANCELLED-error", error);
+        console.log('SIGN_IN_CANCELLED-error', error);
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
-        console.log("IN_PROGRESS-error", error);
+        console.log('IN_PROGRESS-error', error);
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        console.log("PLAY_SERVICES_NOT_AVAILABLE-error", error);
+        console.log('PLAY_SERVICES_NOT_AVAILABLE-error', error);
       } else {
         // some other error happened
-        console.log("other-error", error);
+        console.log('other-error', error);
       }
     }
   };
-
 
   // faceBookLogin = async () => {
   //   LoginManager.logOut();
@@ -513,20 +462,20 @@ class SignInScreen extends Component {
                 {this.state.social_type === 'employee' ? (
                   <View style={styles.iconDiv}>
                     <TouchableOpacity>
-                    <Image
-                      source={require('../../../assets/images/fb.png')}
-                      style={styles.iconImg}
-                    />
+                      <Image
+                        source={require('../../../assets/images/fb.png')}
+                        style={styles.iconImg}
+                      />
                     </TouchableOpacity>
                     <Image
                       source={require('../../../assets/images/g.png')}
                       style={styles.iconImg}
                     />
                     <TouchableOpacity onPress={this.signInFirst}>
-                    <Image
-                      source={require('../../../assets/images/google.png')}
-                      style={styles.iconImg}
-                    />
+                      <Image
+                        source={require('../../../assets/images/google.png')}
+                        style={styles.iconImg}
+                      />
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -559,4 +508,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)((withNavigation(SignInScreen)));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withNavigation(SignInScreen));

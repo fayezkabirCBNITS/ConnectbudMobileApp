@@ -203,7 +203,7 @@ class StudentProject extends Component {
 
   Method = async () => {
     await this.setState({
-      expertset: this.props.TutorShowData,
+      expertset: this.props.ProjectShowData,
     });
   };
 
@@ -220,7 +220,9 @@ class StudentProject extends Component {
   };
 
   componentWillReceiveProps() {
-    if (this.props.TutorShowData.length > 0) {
+    console.log(this.props.ProjectShowData.length);
+
+    if (this.props.ProjectShowData.length > 0) {
       this.Method();
       this.catSkill();
       this.child();
