@@ -24,6 +24,9 @@ import SyncStorage from 'sync-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
+import {updateJobId} from '../../../redux/actions/user-data';
+import {connect} from 'react-redux';
+
 class ChatListScreen extends Component {
   constructor(props) {
     super(props);
@@ -60,6 +63,7 @@ class ChatListScreen extends Component {
       chatContent: '',
       file: '',
       proposed_amount: '0',
+      ProjectType:'',
     };
     const room_id = SyncStorage.get('room_id');
     let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${room_id}`;
@@ -96,7 +100,6 @@ class ChatListScreen extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response);
         this.setState({showLoader: false});
         this.setState({
           chatMessage: response.data,
@@ -104,7 +107,9 @@ class ChatListScreen extends Component {
           request_status: response.data[0].request_status,
           room_id: this.state.job_id + '_' + this.state.sender_id,
           proposed_amount: response.data[0].proposed_amount,
+          ProjectType: response.data[0].detail_type,
         });
+        console.log(this.state.chatMessage);
         setTimeout(() => {
           if (this.refs && this.refs.scrollView) {
             this.refs.scrollView.scrollToEnd(true);
@@ -228,6 +233,28 @@ class ChatListScreen extends Component {
       this.props.navigation.navigate('ProposalFromFreelancer');
   };
 
+  PageNav = async () => {
+    // await AsyncStorage.setItem('ProjectJobId' , JobId);
+    // this.props.navigateToDetails();
+    if(this.state.ProjectType === "normal"){
+    this.props.navigation.navigate('ProjectDetailsFreelancer', {
+      page_status: 'invitation',
+    });
+  }
+    else if(this.state.ProjectType === "tutor"){
+      this.props.navigation.navigate('TutorDetailsFreelancer', {
+        page_status: 'invitation',
+      });
+    }
+    else{
+      this.props.navigation.navigate('JobDetailsFreelancer', {
+        page_status: 'invitation',
+      });
+    }
+    console.log(this.state.job_id);
+    this.props.updateJobId(this.state.job_id);
+  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -262,6 +289,39 @@ class ChatListScreen extends Component {
                   <Text style={styles.editBtnText}>Proposal</Text>
                 </TouchableOpacity>): null} */}
 
+            {this.state.request_type === 'invitation' &&
+            this.state.user_type === 'WQ==' ? (
+              <TouchableOpacity
+                onPress={() => this.RBSSheet.open()}
+                style={styles.menuVertical}>
+                <Fontisto name="more-v-a" size={25} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
+
+            <RBSheet
+              ref={(ref) => {
+                this.RBSSheet = ref;
+              }}
+              height={170}
+              openDuration={600}
+              customStyles={{
+                container: {
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              }}>
+              <View style={styles.btmSheet}>
+                {this.state.request_type === 'invitation' &&
+                this.state.user_type === 'WQ==' ? (
+                  <TouchableOpacity
+                    onPress={() => this.PageNav()}
+                    style={styles.loginBtn2}>
+                    <Text style={styles.loginBtnText2}>View Proposal</Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </RBSheet>
+
             {this.state.request_type === 'proposal' &&
             this.state.user_type === 'Rg==' ? (
               <TouchableOpacity
@@ -285,7 +345,8 @@ class ChatListScreen extends Component {
               },
             }}>
             <View style={styles.btmSheet}>
-              {this.state.pageStatus === 'joblist' ? (
+              {this.state.pageStatus === 'joblist' &&
+              this.state.user_type === 'Rg==' ? (
                 <></>
               ) : (
                 <TouchableOpacity
@@ -386,4 +447,21 @@ class ChatListScreen extends Component {
   }
 }
 
-export default ChatListScreen;
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //storeAccessToken: (token) => dispatch(storeAccessToken(token)),
+    //updateUserStatus: (status) => dispatch(updateUserStatus(status)),
+    updateJobId: (data) => dispatch(updateJobId(data)),
+    //updateUserPaymentMethod: (data) => dispatch(updateUserPaymentMethod(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatListScreen);
+
+// export default ChatListScreen;

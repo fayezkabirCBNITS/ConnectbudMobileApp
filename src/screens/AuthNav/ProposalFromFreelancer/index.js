@@ -95,10 +95,20 @@ class ProposalFromFreelancer extends Component {
             FrelancerType: 'freelancer',
           });
         }
+
+        if(response.data[0].type === "invitation"){
+          await this.setState({
+            recID: response.data[0].receiver_id,
+            reqStatus: response.data[0].request_status,
+          });
+        }
+        else{
         await this.setState({
           recID: response.data[0].sender_id,
           reqStatus: response.data[0].request_status,
         });
+      }
+        console.log("sandipppppppppp",this.state.recID);
       })
       .catch((error) => {
         this.setState({isLoading: false});
@@ -197,6 +207,7 @@ class ProposalFromFreelancer extends Component {
   };
 
   acceptRequest = async () => {
+    console.log("called accept request");
     this.setState({
       showLoader: true,
     });
@@ -217,6 +228,7 @@ class ProposalFromFreelancer extends Component {
         },
       })
       .then((response) => {
+        console.log(response);
         this.setState({
           showLoader: false,
         });

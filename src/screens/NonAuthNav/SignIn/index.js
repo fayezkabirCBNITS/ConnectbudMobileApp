@@ -32,6 +32,10 @@ import {ThemeContext} from 'react-navigation';
 import {deepClone} from '../../../services/helper-methods';
 
 
+import {withNavigation} from 'react-navigation';
+
+
+
 
 // import {
 //   LoginButton,
@@ -93,45 +97,58 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
+  conponentDidUpdate = () => {
+    location.reload();
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+    console.log("callllllllllllllllllleddddddddddddddddddddddddddd");
+    })
+  }
+
+  componentWillMount = () => {
+    console.log("callllllllllllllllllleddddddddddddddddddddddddddd");
+  }
+
   
 
  componentDidMount= async() => {
+
   //  START 
-//   const { navigation } = this.props;
-//     this.focusListener = navigation.addListener('didFocus', async() => {
-//   if (Platform.OS === 'android') {
-//     await Linking.getInitialURL().then((url) => {
-//       console.log("ssssssssssssssssssss");
-//       console.log(url);
-//       if (url) {
-//         console.log("awaitttttttttttttttttt");
-//         let id = url.split('?')[1];
-//         let type = url.split('?')[2];
+  const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', async() => {
+  if (Platform.OS === 'android') {
+    await Linking.getInitialURL().then((url) => {
+      console.log("ssssssssssssssssssss");
+      console.log(url);
+      if (url) {
+        console.log("awaitttttttttttttttttt");
+        let id = url.split('?')[1];
+        let type = url.split('?')[2];
 
-//         console.log(type);
-//         this.setState({
-//           deepLinking: true,
-//           userID: base64.decode(id),
-//           userStatus: base64.decode(type),
-//         });
-//       }
-//     });
-//   }
+        console.log(type);
+        this.setState({
+          deepLinking: true,
+          userID: base64.decode(id),
+          userStatus: base64.decode(type),
+        });
+      }
+    });
+  }
 
-//   if (this.state.deepLinking === false) {
-//     const {userData} = deepClone(this.props);
-//     console.log("ifffffffffffffFFFFFFFFFFFFFFFFFFFFFFFFFF");
-//   } else if (this.state.userStatus === 'employer') {
-//     this.props.navigation.navigate('SignInScreen', {
-//       userID: this.state.userID,
-//       userStatus: "employer"
-//     });
-//   } else {
-//     this.props.navigation.navigate('CategoryScreen', {
-//       userID: this.state.userID,
-//     });
-//   }
-// });
+  if (this.state.deepLinking === false) {
+    const {userData} = deepClone(this.props);
+    console.log("ifffffffffffffFFFFFFFFFFFFFFFFFFFFFFFFFF");
+  } else if (this.state.userStatus === 'employer') {
+    this.props.navigation.navigate('SignInScreen', {
+      userID: this.state.userID,
+      userStatus: "employer"
+    });
+  } else {
+    this.props.navigation.navigate('CategoryScreen', {
+      userID: this.state.userID,
+    });
+  }
+});
 
 
   // END 
@@ -542,4 +559,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)((withNavigation(SignInScreen)));
