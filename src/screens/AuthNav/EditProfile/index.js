@@ -136,9 +136,9 @@ class EditProfileScreen extends Component {
         location: responseObj.location, categoriesData: responseObj.category, skillsData: responseObj.skills,
         startDate: (responseObj.startDate), endDate: (responseObj.endDate), community: responseObj.community,
         socialUrl: responseObj.socialurls, info: responseObj.about, coverImageSource: responseObj.cover_image,
-        profileImageSource: responseObj.user_image
-
+        profileImageSource: responseObj.user_image,
       })
+      console.log(this.state.typeValue);
       this.setState({ showLoader: false })
     })
   }
@@ -302,8 +302,9 @@ class EditProfileScreen extends Component {
       this.setState({ major: text.nativeEvent.text })
     } else if (targetState === "currentEnrollment") {
       this.setState({ currentEnrollment: text.nativeEvent.text })
-    } else if (targetState === "typeValue") {
+    } else if (targetState === "type") {
       this.setState({ typeValue: text.nativeEvent.text })
+      console.log(this.state.typeValue);
     } else if (targetState === "location") {
       this.setState({ location: text.nativeEvent.text })
     } else if (targetState === "community") {
@@ -481,7 +482,7 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
 
-                <Text style={styles.inputHead}>College *</Text>
+                <Text style={styles.inputHead}>College </Text>
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -491,8 +492,8 @@ class EditProfileScreen extends Component {
                       defaultValue={this.state.college}
                       style={styles.inputGroup}
                       onChange={(evt) => this.handleTextChange(evt, "college")}
-
                       keyboardType="default"
+                      editable= {false}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -526,7 +527,7 @@ class EditProfileScreen extends Component {
                   </View>
                 </View>
 
-                <Text style={styles.inputHead}>Current Enrollment *</Text>
+                <Text style={styles.inputHead}>Current Enrollment</Text>
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -537,6 +538,7 @@ class EditProfileScreen extends Component {
                       keyboardType="default"
                       onChange={(evt) => this.handleTextChange(evt, "currentEnrollment")}
                       defaultValue={this.state.currentEnrollment}
+                      editable={false}
                     />
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -555,11 +557,12 @@ class EditProfileScreen extends Component {
                       style={{ width: '100%', height: 45 }}
                       selectedValue={this.state.typeValue}
                       onValueChange={(itemValue, itemIndex) =>
-                        // this.setState({ itemValue: itemValue })
-                        this.handleTextChange(itemValue, "type")
+                        this.setState({ typeValue: itemValue })
+                        // console.log(itemValue)
+                        // this.handleTextChange(itemValue, "type")
                       }>
-                      <Picker.Item label="Full Timer" value="FT" />
-                      <Picker.Item label="Part Timer" value="PT" />
+                      <Picker.Item label="Full Timer" value="Full Timer" />
+                      <Picker.Item label="Part Timer" value="Part Timer" />
                     </Picker>
                   </View>
                 </View>

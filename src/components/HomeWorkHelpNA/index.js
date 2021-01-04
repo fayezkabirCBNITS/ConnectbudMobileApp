@@ -328,6 +328,23 @@ class HomeWorkHelp extends Component {
                       <Picker.Item label="Kindergaten" value="Kindergaten" />
                       <Picker.Item label="1st Grade" value="1st Grade" />
                       <Picker.Item label="2nd Grade" value="2nd Grade" />
+                      <Picker.Item label="3rd Grade" value="3rd Grade" />
+                      <Picker.Item label="4th Grade" value="4th Grade" />
+                      <Picker.Item label="5th Grade" value="5th Grade" />
+                      <Picker.Item label="6th Grade" value="6th Grade" />
+                      <Picker.Item label="7th Grade" value="7th Grade" />
+                      <Picker.Item label="8th Grade" value="8th Grade" />
+                      <Picker.Item label="9th Grade" value="9th Grade" />
+                      <Picker.Item label="10th Grade" value="10th Grade" />
+                      <Picker.Item label="11th Grade" value="11th Grade" />
+                      <Picker.Item label="12th Grade" value="12th Grade" />
+                      <Picker.Item label="1st yr./Freshman" value="1st yr./Freshman" />
+                      <Picker.Item label="2nd yr./Sophomore" value="2nd yr./Sophomore" />
+                      <Picker.Item label="3rd yr./Junior" value="3rd yr./Junior" />
+                      <Picker.Item label="4th yr./Senior" value="4th yr./Senior" />
+
+
+
                     </Picker>
                   </View>
                 </View>
@@ -575,6 +592,8 @@ class HomeWorkHelp extends Component {
                 ) : (
                   <></>
                 )}
+                  <Text>*Charges = $5/class/hr.</Text>
+
 
                 <TouchableOpacity
                   activeOpacity={0.9}

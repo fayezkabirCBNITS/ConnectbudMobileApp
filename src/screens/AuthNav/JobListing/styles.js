@@ -162,7 +162,7 @@ export default {
     backgroundColor: '#f8f8f8',
     borderRadius: 4,
     fontSize: 16,
-    marginHorizontal: '5%',
+    // marginHorizontal: '5%',
     // borderWidth: 1,
     borderColor: 'rgba(59,29,37,0.5)',
     shadowColor: '#000',

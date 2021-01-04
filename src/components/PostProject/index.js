@@ -168,6 +168,8 @@ class PostProject extends Component {
         selectedSkills: '',
         xtraSkill: '',
         budget: '',
+        monthSelect: '',
+        
       });
       this.fireMail();
       alert('Successfully posted the Project!');
@@ -208,6 +210,8 @@ class PostProject extends Component {
       skills: this.state.skills.concat({value: data, label: data}).sort(),
     });
     this.setState({skills: this.state.skills.sort()});
+    this.fetchSkills();
+
   };
   
   handleAdditionalSkill =async()=>{

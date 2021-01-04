@@ -453,7 +453,7 @@ async fetchFilterList(userIds) {
               <ScrollView>
                 {this.state.FreelancerSet.map((item, i) => {
                   return (
-                    <TouchableOpacity style={{marginTop: -5}}>
+                    <TouchableOpacity style={{marginTop: -5}} onPress={() => this.props.navigation.navigate('ViewProfileScreen', { slugname: item.slug, user_id: item.user_id})}>
                       <View style={CommonStyles.container}>
                         <View style={styles.subjectWrapper}>
                           <View style={[styles.leftSection]}>

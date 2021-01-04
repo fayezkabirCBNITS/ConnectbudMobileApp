@@ -28,6 +28,10 @@ import ErrorMsg from '../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
 import Toast from 'react-native-simple-toast';
 import {Header} from 'react-navigation-stack'
+import Spinner from 'react-native-loading-spinner-overlay';
+
+
+
 class PostInternship extends Component {
   constructor(props) {
     super(props);
@@ -68,6 +72,8 @@ class PostInternship extends Component {
       errCityName: false,
       visaType: 'no',
       additionalName: '',
+      showLoader: false,
+
     };
   }
 
@@ -153,7 +159,8 @@ class PostInternship extends Component {
       if (countryValue === 'All') {
         this.setState({showCity: false, showVisa: true, currencyType: 'USD'});
       } else if (countryValue === 'India') {
-        this.setState({showCity: true, showVisa: false, currencyType: 'INR'});
+        this.setState({showCity: true, showVisa: false, currencyType: 'USD'});
+        //this.setState({showCity: true, showVisa: false, currencyType: 'INR'});
       } else if (countryValue === 'USA') {
         this.setState({showCity: true, showVisa: true, currencyType: 'USD'});
       }
@@ -200,6 +207,9 @@ class PostInternship extends Component {
         errJobType: false,
         errPrice: false,
       });
+      this.setState({
+        showLoader : true,
+      })
 
       let body = new FormData();
       body.append('user_id', base64.decode(this.props.userID));
@@ -227,8 +237,20 @@ class PostInternship extends Component {
       );
       console.log('handle post a job-----', response);
       if (response) {
+        this.setState({
+        showLoader : false,
+        selectedSkills: '',
+        cityValue:'',
+        countryValue:'',
+        price: '',
+        jobType: '',
+        jobTitle: '',
+        jobDescription: '',
+        companyName:'',
+        })
         if (response && response[0].message) {
           Toast.show(response[0].message, Toast.LONG);
+          this.props.navigation.navigate('JobListingScreen');
         }
       } else {
         //alert('The email or password you have entered is invalid!');
@@ -243,6 +265,11 @@ class PostInternship extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+        <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps={'always'}>

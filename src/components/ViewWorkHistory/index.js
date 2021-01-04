@@ -118,9 +118,9 @@ class ViewWorkHistory extends Component {
           />
           <Text style={styles.portfolioHead}>Project Details</Text>
           <View style={styles.formGroup1}>
-            <View style={[styles.formSubGroup2, { width: '100%' }]}>
+            <View style={[styles.formSubGroup2, { width: '100%', overflow: 'hidden', height: 50, }]}>
               <Picker
-                style={{ width: '100%', height: 45 }}
+                style={{ width: '100%', height: 45, marginTop: -80 }}
                 selectedValue={this.state.selectedProject}
                 onValueChange={(itemValue) => this.selectType(itemValue)}
               >

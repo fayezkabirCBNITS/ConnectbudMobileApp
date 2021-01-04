@@ -19,6 +19,19 @@ export default {
     borderColor: 'rgba(255,255,255,0.2)',
     borderWidth: 1,
   },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 500,
+    marginTop: 60,
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
   deatailsInfo: {
     width: '50%',
     fontFamily: 'Poppins-Regular',

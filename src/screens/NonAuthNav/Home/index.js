@@ -37,6 +37,7 @@ class HomeScreen extends Component {
       showSearchBar: false,
       firstQuery: '',
     };
+    console.log(this.props);
   }
 
   static navigationOptions = {

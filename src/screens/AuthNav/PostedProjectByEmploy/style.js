@@ -143,9 +143,9 @@ export default {
         flexDirection : "row"
     },
     form: {
-        marginTop:20,
-        marginHorizontal: 10,
-        padding: 10,
+        // marginTop:20,
+        // marginHorizontal: 10,
+        // padding: 10,
       },
       title: {
         fontFamily: 'Poppins-SemiBold',
@@ -294,7 +294,7 @@ export default {
         margin:5,
     },
     skillText: {
-      fontSize: 11,
+      fontSize: 14,
       fontFamily: 'Poppins-Regular',
       color: '#000',
       marginLeft:3,

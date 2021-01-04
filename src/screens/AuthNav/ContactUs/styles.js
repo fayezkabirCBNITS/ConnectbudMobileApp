@@ -63,5 +63,10 @@ export default {
         letterSpacing: 1,
         marginTop: 4
       },
+      errorText: {
+        width: '100%',
+        color: '#fc0303',
+        marginLeft: 14,
+      },
 }
 

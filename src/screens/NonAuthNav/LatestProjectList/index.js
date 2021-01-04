@@ -25,7 +25,7 @@ class LatestProjectList extends Component {
     const {params} = this.props.navigation.state;
     let body = new FormData();
     body.append('user_id', '1222');
-    body.append('type', 'freelancer');
+    body.append('type', params.tagName === 'Homework' ? 'tutor' : 'freelancer');
     body.append('relevant', '');
     body.append('search_type', 'filter');
     body.append('category', params.tagName);
@@ -45,7 +45,6 @@ class LatestProjectList extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
-    console.log(params.tagName)
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -61,13 +60,13 @@ class LatestProjectList extends Component {
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('NotificationScreen')
               }
               style={CommonStyles.bellIcon}>
               <Feather name="bell" color="#71b85f" size={30} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           {/* header section end */}
           <View style={CommonStyles.container}>
@@ -89,7 +88,7 @@ class LatestProjectList extends Component {
                       <Text style={styles.hdng}>
                         {item.job_title}
                       </Text>
-                      <TouchableOpacity style={styles.applyBtn}>
+                      <TouchableOpacity style={styles.applyBtn} onPress={() => this.props.navigation.navigate('SignInScreen', { userType: 'student'})}>
                         <Text style={styles.applyBtnText}>Apply</Text>
                       </TouchableOpacity>
                     </View>
@@ -98,7 +97,7 @@ class LatestProjectList extends Component {
                     </Text>
                     <View style={[styles.flexstyle, styles.moneyContainer]}>
                       <Text style={styles.usdText}>{item.price_amount} {item.price_unit}</Text>
-                      <Text style={styles.inrtxt}>{item.price_amount * 73} INR</Text>
+                      <Text style={styles.inrtxt}>{item.price_amount * 75} INR</Text>
                     </View>
                   </View>
                 ))

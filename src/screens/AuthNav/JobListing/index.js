@@ -162,13 +162,15 @@ class JobListingScreen extends Component {
       //   city: "*City",
       // });
     } else if (country === "India") {
-      unit = "INR";
+      unit = "USD";
+      //unit = "INR";
       this.state.isSponser = true;
       // this.setState({
       //   city: "*City",
       // });
     } else {
-      unit = "INR";
+      unit = "USD";
+      //unit = "INR";
       this.state.isSponser = true;
     }
     this.handleUnit(unit);
@@ -576,10 +578,10 @@ class JobListingScreen extends Component {
                       {value.active_status === "true" ? (
                         <>
                           <View style={styles.btnSec}>
-                            <TouchableOpacity style={styles.btn50} onPress={() => this.JobShowModal(value.id)}>
+                            {/* <TouchableOpacity style={styles.btn50} onPress={() => this.JobShowModal(value.id)}>
                               <AntDesign name="delete" color="#fff" size={18} />
                               <Text style={styles.btn50Text}>Close Job</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                             <TouchableOpacity style={styles.btn50} onPress={() => this.ShowModal(value.slug, value.id)}>
                               <FontAwesome name="edit" color="#fff" size={18} />
                               <Text style={styles.btn50Text}>Edit Job</Text>
@@ -857,7 +859,7 @@ class JobListingScreen extends Component {
 
                 <View
                   style={{
-                    marginHorizontal: '5%',
+                    // marginHorizontal: '5%',
                     display: 'flex',
                     flexDirection: 'row',
                     marginVertical: 10,
@@ -943,13 +945,13 @@ class JobListingScreen extends Component {
                   if (value.message !== "No data found") {
                     return (
                       <View style={{alignItems: 'flex-start'}}>
-                        {/* {this.state.btnStatus === true && value.name === "None" ? (
+                        {this.state.btnStatus === true && value.name === "None" ? (
                             <>
                               <CheckBox
                                 center
                                 title={value.name}
-                                checkedIcon="dot-circle-o"
-                                uncheckedIcon="circle-thin"
+                                // checkedIcon="dot-circle-o"
+                                // uncheckedIcon="circle-thin"
                                 checkedColor="grey"
                                 containerStyle={styles.radio}
                                 textStyle={{ color: 'grey', fontSize: 13 }}
@@ -963,8 +965,8 @@ class JobListingScreen extends Component {
                                   <CheckBox
                                     center
                                     title={value.name}
-                                    checkedIcon="dot-circle-o"
-                                    uncheckedIcon="circle-thin"
+                                    // checkedIcon="dot-circle-o"
+                                    // uncheckedIcon="circle-thin"
                                     checkedColor="grey"
                                     containerStyle={styles.radio}
                                     textStyle={{ color: 'grey', fontSize: 13 }}
@@ -975,8 +977,8 @@ class JobListingScreen extends Component {
                                   <CheckBox
                                     center
                                     title={value.name}
-                                    checkedIcon="dot-circle-o"
-                                    uncheckedIcon="circle-thin"
+                                    // checkedIcon="dot-circle-o"
+                                    // uncheckedIcon="circle-thin"
                                     checkedColor="grey"
                                     containerStyle={styles.radio}
                                     textStyle={{ color: 'grey', fontSize: 13 }}
@@ -985,7 +987,7 @@ class JobListingScreen extends Component {
                                   />
                                   )}
                               </>
-                            )} */}
+                            )}
                             <CheckBox
                                 center
                                 title={value.name}

@@ -172,6 +172,11 @@ class SignUpScreen extends Component {
         this.props.navigation.navigate('SignInScreen');
       }
     }
+    else{
+      this.setState({
+        showLoader: false
+      })
+    }
   };
 
   render() {
