@@ -9,7 +9,8 @@ import {
   ImageBackground,
   Image,
   ActivityIndicator,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableOpacity
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -28,10 +29,48 @@ import PushNotification from 'react-native-push-notification';
 import {ThemeContext} from 'react-navigation';
 import {Header} from 'react-navigation-stack'
 
+
+// import {
+//   LoginButton,
+//   AccessToken,
+//   LoginManager,
+//   GraphRequest,
+//   GraphRequestManager,
+// } from 'react-native-fbsdk';
+
+
+// import {
+//   GoogleSignin,
+//   GoogleSigninButton,
+//   statusCodes
+// } from "@react-native-community/google-signin";
+
+// GoogleSignin.configure({
+//   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+//   webClientId:
+//   "367228152991-ft3qki8h4dls21t36j1tpne39gidbltt.apps.googleusercontent.com",
+//   offlineAccess: true,
+//   forceCodeForRefreshToken: true
+// });
+
+
+import axios from 'axios';
+
+import {API_URL} from '../../../config/url';
+
 class SignInScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user_id: this.props.navigation.state.params
+        ? this.props.navigation.state.params.userID
+        : '',
+      user_type: this.props.navigation.state.params
+        ? this.props.navigation.state.params.userStatus
+        : '',
+      social_type: this.props.navigation.state.params
+        ? this.props.navigation.state.params.userType
+        : '',
       showLoader: false,
       username: '',
       password: '',
@@ -49,6 +88,23 @@ class SignInScreen extends Component {
   };
 
   componentDidMount() {
+    console.log(this.state.social_type);
+    if (this.state.user_type === 'employer') {
+      let body1 = new FormData();
+      body1.append('user_id', this.state.user_id);
+      body1.append('type', 'yes');
+      body1.append('registration_type', 'freelancer');
+      console.log(body1);
+      axios({
+        url: API_URL + 'recruiterVerification',
+        method: 'POST',
+        data: body1,
+      })
+        .then((response) => {
+          console.log('verify', response);
+        })
+        .catch((error) => {});
+    }
     var _this = this;
     PushNotification.configure({
       onRegister: function (token) {
@@ -57,8 +113,7 @@ class SignInScreen extends Component {
         }
       },
 
-      onNotification: function (notification) {
-      },
+      onNotification: function (notification) {},
       onAction: function (notification) {
         // process the action
       },
@@ -129,6 +184,7 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
+    console.log(this.props.navigation.state.params.userType);
     this.setState({showLoader: true});
     let obj = {};
     if (this.props.navigation.state.params.userType === 'student') {
@@ -147,9 +203,20 @@ class SignInScreen extends Component {
         deviceTokenId: this.state.deviceTokenId,
         devicetype: this.state.devicetype,
       };
+      console.log(obj);
+    } else if (this.state.user_type === 'employer') {
+      obj = {
+        username: base64.encode(this.state.username),
+        password: base64.encode(this.state.password),
+        login_type: base64.encode('employer'),
+        deviceTokenId: this.state.deviceTokenId,
+        devicetype: this.state.devicetype,
+      };
+      console.log(obj);
     }
     ///
     let response = await makePostRequest(ApiUrl.LOGIN, false, obj);
+    console.log('login', response);
     if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
@@ -211,6 +278,83 @@ class SignInScreen extends Component {
       this.props.navigation.navigate('SignUpScreen');
     }
   };
+
+  signInFirst = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo, "userInfo");
+      var google_data = JSON.stringify(userInfo);
+      let name = userInfo.user.name;
+      let first_name = userInfo.user.givenName;
+      let last_name = userInfo.user.familyName;
+      let email = userInfo.user.email;
+      let picture = userInfo.user.photo;
+      let provider_id = userInfo.user.id;
+      let provider = "google";
+
+      // this.sociallogin(email,name,provider_id,picture,provider);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        console.log("SIGN_IN_CANCELLED-error", error);
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+        console.log("IN_PROGRESS-error", error);
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        console.log("PLAY_SERVICES_NOT_AVAILABLE-error", error);
+      } else {
+        // some other error happened
+        console.log("other-error", error);
+      }
+    }
+  };
+
+
+  // faceBookLogin = async () => {
+  //   LoginManager.logOut();
+  //   console.log("faceBookLogin");
+  //   try {
+  //   const userInfo = await LoginManager.logInWithPermissions(["public_profile", "email"]);
+  //   console.log(userInfo);
+  //   if (userInfo.isCancelled) {
+  //     console.log("Login cancelled");
+  //   } else {
+  //     console.log(
+  //       "Login success with permissions: " +
+  //       userInfo
+  //     );
+  //     AccessToken.getCurrentAccessToken().then(
+  //       (data) => {
+  //         let accessToken = data.accessToken.toString();
+  //         console.log("accesstoken",accessToken);
+  //         if(accessToken) {
+  //           fetch('https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' + accessToken)
+  //           .then((response) => response.json())
+  //           .then((json) => {
+  //             console.log("userdetails",json);
+
+  //             let email = json.email;
+  //             let name = json.name;
+  //             let provider_id = json.id;
+  //             let picture = json.picture.data.url;
+  //             let provider = "facebook";
+
+  //             this.sociallogin(email,name,provider_id,picture,provider);
+  //           })
+  //           .catch(() => {
+  //             reject('ERROR GETTING DATA FROM FACEBOOK')
+  //           })
+  //         }
+  //       }
+  //     )
+  //   }
+  // } catch (error) {
+  //   console.log("signin error",error);
+  //   Toast.show("Something went wrong!");
+  // }
+  // }
 
   render() {
     return (
@@ -306,20 +450,30 @@ class SignInScreen extends Component {
                     <Text style={styles.signinText}>Sign In </Text>
                   )}
                 </Pressable>
-                <View style={styles.iconDiv}>
-                  <Image
-                    source={require('../../../assets/images/fb.png')}
-                    style={styles.iconImg}
-                  />
-                  <Image
-                    source={require('../../../assets/images/g.png')}
-                    style={styles.iconImg}
-                  />
-                  <Image
-                    source={require('../../../assets/images/google.png')}
-                    style={styles.iconImg}
-                  />
-                </View>
+                {this.state.social_type === 'employee' ? (
+                  <View style={styles.iconDiv}>
+                    <TouchableOpacity>
+                    <Image
+                      source={require('../../../assets/images/fb.png')}
+                      style={styles.iconImg}
+                    />
+                    </TouchableOpacity>
+                    <Image
+                      source={require('../../../assets/images/g.png')}
+                      style={styles.iconImg}
+                    />
+                    <TouchableOpacity
+                    // onPress={this.signInFirst}
+                    >
+                    <Image
+                      source={require('../../../assets/images/google.png')}
+                      style={styles.iconImg}
+                    />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <></>
+                )}
                 <Text style={styles.signupAcnt}>
                   Don't have an account?{' '}
                   <Text style={styles.signupText} onPress={this.handleSignUp}>

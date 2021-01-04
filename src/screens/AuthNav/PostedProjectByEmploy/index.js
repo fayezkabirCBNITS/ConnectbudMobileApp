@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -17,7 +18,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Header from '../../../components/Header';
+import HeaderTop from '../../../components/Header';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -28,6 +29,7 @@ import { connect } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import { Picker } from '@react-native-community/picker';
 import ErrorMsg from '../../../components/ErrorMsg';
+import {Header} from 'react-navigation-stack'
 
 class PostedProjectByEmployee extends Component {
   constructor(props) {
@@ -90,7 +92,7 @@ class PostedProjectByEmployee extends Component {
       if (response[0].message === "No Candidates Found") {
         Toast.show("Sorry! No College Students Found", Toast.SHORT);
       } else {
-        this.props.navigation.navigate('SearchProjectStudents', { jobId: jobId, jobName: jobName })
+        this.props.navigation.navigate('SearchProjectStudents', { jobId: jobId, jobName: jobName, type: "freelancer" })
       }
     }
   };
@@ -229,7 +231,6 @@ class PostedProjectByEmployee extends Component {
   };
 
   JobEditForm = () => {
-    console.log("hit");
     let dataSet = this.validateJobForm();
     if (dataSet === true) {
       this.editJob();
@@ -283,7 +284,7 @@ class PostedProjectByEmployee extends Component {
             hidden={false}
             translucent={false}
           />
-          <Header />
+          <HeaderTop />
           <View style={[CommonStyles.container, styles.bgColorWhite]}>
             <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
               {this.state.jobSet.map((value, index) => (
@@ -365,9 +366,15 @@ class PostedProjectByEmployee extends Component {
             </ScrollView>
           </View>
 
-          <Modal visible={this.state.show} style={CommonStyles.modalBg}>
-            <ScrollView>
-              <View style={styles.form}>
+          <Modal visible={this.state.show} transparent={true}>
+            <View style={CommonStyles.modalBg}>
+            <View style={styles.modalContent}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+            <KeyboardAvoidingView
+              // keyboardVerticalOffset = {Header.HEIGHT + 0}
+              style = {{ flex: 1 }}
+              behavior = "padding" >
+              <View style={{width: '100%', marginVertical: 20}}>
                 <Text style={styles.title}>Edit Your Posted Project</Text>
 
                 <Text style={styles.inputHead}>*Project Title</Text>
@@ -423,7 +430,7 @@ class PostedProjectByEmployee extends Component {
                               styles.skillTab,
                               { backgroundColor: '#71b85f', flexDirection: 'row' },
                             ]}>
-                            <Text style={[styles.skillText, { color: '#fff' }]}>
+                            <Text style={[styles.skillText, { color: '#fff', marginRight: 10, fontSize: 14 }]}>
                               {data}
                             </Text>
                             <FontAwesome name="close" size={20} color="#fff" />
@@ -439,7 +446,7 @@ class PostedProjectByEmployee extends Component {
                   <View style={[styles.formGroup1]}>
                     <View style={styles.formPicker}>
                       <Picker
-                        style={{ width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular' }}
+                        style={{ width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular', marginTop: -80 }}
                         selectedValue={this.state.skills}
                         onValueChange={(itemValue, itemIndex) => this.handleInputSkills(itemValue, itemIndex)}
                       >
@@ -535,7 +542,7 @@ class PostedProjectByEmployee extends Component {
                 </View>
                 <Text style={styles.errorText}>{this.state.errors.ctc}</Text>
 
-                <TouchableOpacity style={CommonStyles.modalCross} onPress={() => this.setState({ show: false, showAdditional: false })}>
+                <TouchableOpacity style={styles.modalCross} onPress={() => this.setState({ show: false, showAdditional: false })}>
                   <Entypo name="circle-with-cross" color="#71b85f" size={35} />
                 </TouchableOpacity>
 
@@ -550,7 +557,10 @@ class PostedProjectByEmployee extends Component {
                 </View>
 
               </View>
+              </KeyboardAvoidingView>
             </ScrollView>
+            </View>
+            </View>
           </Modal>
 
         </View>

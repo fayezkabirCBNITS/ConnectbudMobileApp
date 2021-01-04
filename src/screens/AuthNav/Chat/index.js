@@ -29,6 +29,7 @@ class ChatScreen extends Component {
     super();
     this.state = {
       chatList: [],
+      jobchatList: [],
       showLoader:false,
       projectBtn: true,
       internshipBtn: false,
@@ -58,10 +59,48 @@ class ChatScreen extends Component {
       .catch((error) => {
         this.setState({showLoader: false});
        });
+
+       let body = new FormData();
+       body.append("sender_id", base64.decode(this.props.userDeatailResponse.user_id));
+       body.append("type", "recruiter");
+       axios({
+         url: API_URL + "chat/chattedUsers",
+         method: "POST",
+         data: body,
+       })
+         .then((response) => {
+           this.setState({showLoader: false});
+           this.setState({
+             jobchatList: response.data,
+           });
+         })
+         .catch((error) => {
+           this.setState({showLoader: false});
+          });
   }
 gotoPage = ()=>{
   
 }
+
+// jobList = async() => {
+//   let body = new FormData();
+//     body.append("sender_id", base64.decode(this.props.userDeatailResponse.user_id));
+//     body.append("type", "recruiter");
+//     axios({
+//       url: API_URL + "chat/chattedUsers",
+//       method: "POST",
+//       data: body,
+//     })
+//       .then((response) => {
+//         this.setState({showLoader: false});
+//         this.setState({
+//           jobchatList: response.data,
+//         });
+//       })
+//       .catch((error) => {
+//         this.setState({showLoader: false});
+//        });
+// }
 
 
 showProject = () => {
@@ -132,7 +171,8 @@ showInternship = () => {
                 user_image: item.user_image,
                 user_type: this.props.userDeatailResponse?.Flag,
                 room_id: item.room_id,
-                token: item.token
+                token: item.token,
+                page_status: 'projectlist'
             },  SyncStorage.set('room_id',item.job_id+'_'+item.receiver_id))
                   }>
                   <View style={styles.imgSec}>
@@ -166,7 +206,7 @@ showInternship = () => {
 
 
             : <View style={CommonStyles.container}>            
-              {this.state.chatList.length > 0 ? (this.state.chatList.map((item, i) => (
+              {this.state.jobchatList.length > 0 ? (this.state.jobchatList.map((item, i) => (
                 <TouchableOpacity
                   key={i}
                   style={styles.chatCard}
@@ -179,7 +219,8 @@ showInternship = () => {
                 user_image: item.user_image,
                 user_type: this.props.userDeatailResponse?.Flag,
                 room_id: item.room_id,
-                token: item.token
+                token: item.token,
+                page_status: 'joblist'
             },  SyncStorage.set('room_id',item.job_id+'_'+item.receiver_id))
                   }>
                   <View style={styles.imgSec}>

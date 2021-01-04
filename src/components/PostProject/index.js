@@ -215,7 +215,8 @@ class PostProject extends Component {
   };
   render() {
     return (
-      <SafeAreaView style={CommonStyles.main}>
+      <SafeAreaView style={CommonStyles.safeAreaView}>
+        <View style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
         <KeyboardAvoidingView
           keyboardVerticalOffset = {Header.HEIGHT + 110}
@@ -410,6 +411,7 @@ class PostProject extends Component {
           </View>
           </KeyboardAvoidingView>
         </ScrollView>
+        </View>
       </SafeAreaView>
     );
   }

@@ -42,7 +42,7 @@ import CheckoutScreen from '../screens/AuthNav/CheckOut';
 import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
 import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
 import JobListingScreen from '../screens/AuthNav/JobListing';
-import LatestProjectList from '../screens/AuthNav/LatestProjectList';
+import LatestProjectList from '../screens/NonAuthNav/LatestProjectList';
 //non stack pages
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
@@ -54,6 +54,8 @@ import PostProjectNA from '../screens/NonAuthNav/PostProjectNA';
 import ProjectDetailsFreelancerNA from './../screens/NonAuthNav/ProjectDetailFreelancer';
 import OnlineClassesNA from '../components/OnlinCodingClassesNA/onlineClassesNA';
 import HomeWorkHelpNA from '../components/HomeWorkHelpNA/index';
+import SearchClgStuNA from '../screens/NonAuthNav/SearchClgStuNA';
+import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA'
 //non stack pages
 
 export const MainStack = createStackNavigator(
@@ -207,6 +209,12 @@ const AuthStackNav = createStackNavigator(
       screen : HomeWorkHelpNA
     },
 
+    SearchClgStuNA : {
+      screen : SearchClgStuNA
+    },
+    StudentProjectNA :{
+      screen : StudentProjectNA
+    },
     ViewUserProfileScreen: {screen: ViewUserProfileScreen},
     ProjectDetailsFreelancerNA: {screen: ProjectDetailsFreelancerNA},
     PostProjectNA:{screen:PostProjectNA,},

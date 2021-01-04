@@ -123,14 +123,14 @@ const validator = {
       }
     }
     //Validating phone
-    if ((fieldName == 'phone' || fieldName == null) && 'phone' in fields) {
-      if (!fields['phone']) {
-        errors['phone'] = 'Enter your phone number.';
-        errors['formIsValid'] = false;
-      } else {
-        errors['phone'] = '';
-      }
-    }
+    // if ((fieldName == 'phone' || fieldName == null) && 'phone' in fields) {
+    //   if (!fields['phone']) {
+    //     errors['phone'] = 'Enter your phone number.';
+    //     errors['formIsValid'] = false;
+    //   } else {
+    //     errors['phone'] = '';
+    //   }
+    // }
 
     if (
       (fieldName == 'dateOfBirth' || fieldName == null) &&

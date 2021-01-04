@@ -246,8 +246,9 @@ class PostProjectNA extends Component {
   };
   render() {
     return (
-      <SafeAreaView style={CommonStyles.main}>
+      <SafeAreaView style={CommonStyles.safeAreaView}>
         <StatusBar />
+        <View style={CommonStyles.main}>
 
         <View style={CommonStyles.header}>
           <TouchableOpacity
@@ -490,6 +491,7 @@ class PostProjectNA extends Component {
         ) : (
           <></>
         )}
+        </View>
       </SafeAreaView>
     );
   }
