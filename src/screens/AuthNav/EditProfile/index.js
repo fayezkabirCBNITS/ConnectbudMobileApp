@@ -197,7 +197,6 @@ class EditProfileScreen extends Component {
       this.setState({ showLoader: false })
       if (res.status === 200) this.props.navigation.navigate('ProfileScreen')
     });
-
   }
 
   handleAddSocialUrl = data => {

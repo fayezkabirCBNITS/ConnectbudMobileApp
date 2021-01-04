@@ -38,12 +38,16 @@ class ProjectDetailsFreelancer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
       Job: '',
       jobDetails: [],
       jobSet: [],
       btnStatus: '',
       showLoader: false,
       user_id: '',
+      projectType: '',
     };
   }
 
@@ -56,7 +60,7 @@ class ProjectDetailsFreelancer extends Component {
     this.setState({
       btnStatus: userDeatailResponse.userData.user_id,
       showLoader: true,
-      user_id : base64.decode(userDeatailResponse.userData.user_id),
+      user_id: base64.decode(userDeatailResponse.userData.user_id),
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -83,9 +87,11 @@ class ProjectDetailsFreelancer extends Component {
         this.setState({
           jobDetails: response.data,
           showLoader: false,
+          projectType: response.data[0].type
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
+        console.log(this.state.projectType);
         this.setState({isLoading: true});
       })
       .catch((error) => {
@@ -108,10 +114,10 @@ class ProjectDetailsFreelancer extends Component {
       });
   };
 
-  PageNav = async(JobId) => {
+  PageNav = async (JobId) => {
     this.setState({
       showLoader: true,
-    })
+    });
     this.props.updateJobId(JobId);
     // this.props.navigation.navigate('ProjectDetailsFreelancer');
     let taglistbody = new FormData();
@@ -123,10 +129,7 @@ class ProjectDetailsFreelancer extends Component {
     body.append('offset', '0');
 
     taglistbody.append('job_id', JobId);
-    taglistbody.append(
-      'user_id',
-      this.state.user_id,
-    );
+    taglistbody.append('user_id', this.state.user_id);
     taglistbody.append('type', 'freelancer');
 
     await axios({
@@ -169,7 +172,7 @@ class ProjectDetailsFreelancer extends Component {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
-        <Spinner
+          <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
@@ -210,7 +213,7 @@ class ProjectDetailsFreelancer extends Component {
                     {this.state.jobDetails.map((value, index) => {
                       return (
                         <>
-                          {value.pending_status === 'pending' ? (
+                          {value.pending_status === 'pending'  && this.state.projectType !== "invitation" ? (
                             <Text style={styles.applyBtnText}>Waiting</Text>
                           ) : (
                             <>
@@ -243,38 +246,43 @@ class ProjectDetailsFreelancer extends Component {
                   </TouchableOpacity>
                 </View>
               ))}
-
-              <View style={styles.similarJobWrapper}>
-                <View style={styles.slimilarJob}>
-                  <Text style={styles.similiarjobText}>
-                    Similar projects for me
-                  </Text>
+              {this.state.pageStatus !== 'invitation' ? (
+                <View style={styles.similarJobWrapper}>
+                  <View style={styles.slimilarJob}>
+                    <Text style={styles.similiarjobText}>
+                      Similar projects for me
+                    </Text>
+                  </View>
+                  {this.state.jobSet.map((item, idx) => (
+                    <Pressable onPress={() => this.PageNav(item.id)}>
+                      <View key={idx} style={styles.similarList}>
+                        <View style={styles.iconList}>
+                          <FontAwesome
+                            style={{width: 30}}
+                            name="graduation-cap"
+                            size={15}
+                            color="#d7d7d8"
+                          />
+                          <Text style={styles.iconText}>{item.job_title}</Text>
+                        </View>
+                        <View style={styles.iconList}>
+                          <FontAwesome
+                            style={{width: 30}}
+                            name="tag"
+                            size={15}
+                            color="#d7d7d8"
+                          />
+                          <Text style={styles.iconText}>
+                            {item.match_number}
+                          </Text>
+                        </View>
+                      </View>
+                    </Pressable>
+                  ))}
                 </View>
-                {this.state.jobSet.map((item, idx) => (
-                  <Pressable onPress={() => this.PageNav(item.id)}>
-                    <View key={idx} style={styles.similarList}>
-                      <View style={styles.iconList}>
-                        <FontAwesome
-                          style={{width: 30}}
-                          name="graduation-cap"
-                          size={15}
-                          color="#d7d7d8"
-                        />
-                        <Text style={styles.iconText}>{item.job_title}</Text>
-                      </View>
-                      <View style={styles.iconList}>
-                        <FontAwesome
-                          style={{width: 30}}
-                          name="tag"
-                          size={15}
-                          color="#d7d7d8"
-                        />
-                        <Text style={styles.iconText}>{item.match_number}</Text>
-                      </View>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
+              ) : (
+                <></>
+              )}
             </ScrollView>
           </View>
         </View>
