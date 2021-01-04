@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -15,10 +15,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { connect } from "react-redux";
-import { makePostRequest, makePostRequestMultipart } from '../../../services/http-connectors';
+import {connect} from 'react-redux';
+import {
+  makePostRequest,
+  makePostRequestMultipart,
+} from '../../../services/http-connectors';
 import base64 from 'base-64';
 import moment from 'moment';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -40,28 +43,30 @@ class HireStudentsScreen extends Component {
       receiver_id: this.props.navigation.state.params
         ? this.props.navigation.state.params.receiver_id
         : '',
-      projectDetails: "",
-      hireType: "",
+      projectDetails: '',
+      hireType: '',
       addMilestone: [],
       count: 0,
-      allAmount:[],
-      amount:"",
-      projectAmount:"",
-      TotalprojectAmount:0,
-      projecttimeline:"",
+      allAmount: [],
+      amount: '',
+      projectAmount: '',
+      TotalprojectAmount: 0,
+      projecttimeline: '',
       allDescription: [],
-      description:"",
-      ProjectExpiry:"",
-      timeline:"",
+      description: '',
+      ProjectExpiry: '',
+      timeline: '',
       showLoader: false,
-      showStartDatePicker:false,
-      projecttimeline:"",
+      showStartDatePicker: false,
+      projecttimeline: '',
       JobExpiry: new Date(),
-      activeIndex: "",
+      activeIndex: '',
       allTime: [],
       Date: [],
     };
-    let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${base64.decode(this.props.userDeatailResponse.user_id)}`;
+    let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${base64.decode(
+      this.props.userDeatailResponse.user_id,
+    )}`;
     this.socket = new WebSocket(webSocketConnection);
   }
 
@@ -78,48 +83,38 @@ class HireStudentsScreen extends Component {
       user_id: this.state.receiver_id,
       job_id: this.state.job_id,
       token: this.state.token,
-      type: 'freelancer'
-    }
-    let response = await makePostRequest(
-      'imageGet',
-      false,
-      body,
-    );
+      type: 'freelancer',
+    };
+    let response = await makePostRequest('imageGet', false, body);
     this.setState({
-      projectDetails: response[0]
-    })
-    console.log("deeeeeeee", response)
-  }
-  showDateTimePicker = () => {
-    this.setState({ showStartDatePicker: true });
+      projectDetails: response[0],
+    });
   };
-  showDateTimePickerMilestone = (index) =>{
+  showDateTimePicker = () => {
+    this.setState({showStartDatePicker: true});
+  };
+  showDateTimePickerMilestone = (index) => {
     this.setState({activeIndex: index});
-  }
-  
-  
+  };
 
   hideDateTimePicker = () => {
-    this.setState({ showStartDatePicker: false });
+    this.setState({showStartDatePicker: false});
   };
-  
-  
+
   handleProjectDate = (date) => {
     console.log('A date has been picked: ', date);
-   
   };
   addSection = () => {
     this.setState({
-      addMilestone: [...this.state.addMilestone, ""],
+      addMilestone: [...this.state.addMilestone, ''],
       count: this.state.count + 1,
     });
-  }
+  };
 
- 
   handleCTC = async (e) => {
     const re = /^[0-9\b]+$/;
-    if (e === "" || re.test(e)) {
-      await this.setState({ amount: e });
+    if (e === '' || re.test(e)) {
+      await this.setState({amount: e});
       this.setState({
         TotalprojectAmount: this.state.amount,
       });
@@ -139,35 +134,33 @@ class HireStudentsScreen extends Component {
       showLoader: true,
     });
     let body = new FormData();
-    body.append("job_id", this.state.job_id);
+    body.append('job_id', this.state.job_id);
+    body.append('room_id', this.state.job_id + '_' + this.state.receiver_id);
+    body.append('type', 'freelancer');
     body.append(
-      "room_id",
-      this.state.job_id +
-        "_" +
-        this.state.receiver_id
+      'hirer_id',
+      base64.decode(this.props.userDeatailResponse.user_id),
     );
-    body.append("type", "freelancer");
-    body.append("hirer_id", base64.decode(this.props.userDeatailResponse.user_id));
-    body.append("freelancer_id", this.state.receiver_id);
-    body.append("amount", this.state.amount);
-    body.append("milestone_amount", this.state.amount);
-    body.append("currency", "USD");
-    body.append("description", this.state.description.toString());
-    body.append("project_type", this.state.hireType);
-    body.append("expiry_date", this.state.projecttimeline);
-     let response = await makePostRequestMultipart("hirerform",false,body)
-     if(response){
-     this.setState({
-      showLoader: false,
-    });
-     Toast.show("Hiring request sent successfully", Toast.LONG);
-     this.props.navigation.navigate('ChatScreen');
+    body.append('freelancer_id', this.state.receiver_id);
+    body.append('amount', this.state.amount);
+    body.append('milestone_amount', this.state.amount);
+    body.append('currency', 'USD');
+    body.append('description', this.state.description.toString());
+    body.append('project_type', this.state.hireType);
+    body.append('expiry_date', this.state.projecttimeline);
+    let response = await makePostRequestMultipart('hirerform', false, body);
+    if (response) {
+      this.setState({
+        showLoader: false,
+      });
+      Toast.show('Hiring request sent successfully', Toast.LONG);
+      this.props.navigation.navigate('ChatScreen');
     }
-     //if(response)
+    //if(response)
     //  this.props.history.push("/hirerchat");
     var payload = {
-      action: "sendmessage",
-      data: "notification",
+      action: 'sendmessage',
+      data: 'notification',
       to_user: this.state.receiver_id,
     };
     this.socket.send(JSON.stringify(payload));
@@ -182,11 +175,11 @@ class HireStudentsScreen extends Component {
   };
   handleAmount = async (e, index) => {
     const re = /^[0-9\b]+$/;
-    if (e === "" || re.test(e)) {
+    if (e === '' || re.test(e)) {
       this.state.allAmount[index] = e;
-      await this.setState({ amount: this.state.allAmount });
+      await this.setState({amount: this.state.allAmount});
       await this.setState({
-        projectAmount: this.state.amount.toString().split(","),
+        projectAmount: this.state.amount.toString().split(','),
       });
       var sum = 0;
       for (var i = 0; i < this.state.projectAmount.length; i++) {
@@ -202,54 +195,50 @@ class HireStudentsScreen extends Component {
       showLoader: true,
     });
     let body = new FormData();
-    body.append("job_id", this.state.job_id);
+    body.append('job_id', this.state.job_id);
+    body.append('room_id', this.state.job_id + '_' + this.state.receiver_id);
+    body.append('type', 'freelancer');
     body.append(
-      "room_id",
-      this.state.job_id +
-        "_" +
-        this.state.receiver_id
+      'hirer_id',
+      base64.decode(this.props.userDeatailResponse.user_id),
     );
-    body.append("type", "freelancer");
-    body.append("hirer_id", base64.decode(this.props.userDeatailResponse.user_id));
-    body.append("freelancer_id", this.state.receiver_id);
-    body.append("amount", this.state.TotalprojectAmount);
-    body.append("milestone_amount", this.state.amount.toString());
-    body.append("currency", "USD");
-    body.append("description", this.state.description.toString());
-    body.append("project_type", this.state.hireType);
-    body.append("expiry_date", this.state.timeline.toString());
-    console.log("milestonedata",body)
-    let response = await makePostRequestMultipart("hirerform",false,body);
-    console.log("response",response)
+    body.append('freelancer_id', this.state.receiver_id);
+    body.append('amount', this.state.TotalprojectAmount);
+    body.append('milestone_amount', this.state.amount.toString());
+    body.append('currency', 'USD');
+    body.append('description', this.state.description.toString());
+    body.append('project_type', this.state.hireType);
+    body.append('expiry_date', this.state.timeline.toString());
+    let response = await makePostRequestMultipart('hirerform', false, body);
     this.setState({
       showLoader: false,
     });
-    Toast.show("Hiring request sent successfully", Toast.LONG);
+    Toast.show('Hiring request sent successfully', Toast.LONG);
     this.props.navigation.navigate('ChatScreen');
     var payload = {
-      action: "sendmessage",
-      data: "notification",
+      action: 'sendmessage',
+      data: 'notification',
       to_user: this.state.receiver_id,
     };
     this.socket.send(JSON.stringify(payload));
   };
   handleDate = async (date, index) => {
-    this.state.allTime[index] = moment(date).format("DD-MM-yyyy");
-    this.state.Date[index] = moment(date).format("DD/MM/yyyy");
+    this.state.allTime[index] = moment(date).format('DD-MM-yyyy');
+    this.state.Date[index] = moment(date).format('DD/MM/yyyy');
     await this.setState({
       JobExpiry: this.state.allTime,
     });
     await this.setState({
       timeline: this.state.Date,
     });
-    this.setState({ showStartDatePicker: false });
+    this.setState({showStartDatePicker: false});
     //this.validateJobForm();
   };
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-        <Spinner
+          <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
@@ -282,17 +271,23 @@ class HireStudentsScreen extends Component {
                     Project Name : {this.state.projectDetails.project_name}
                   </Text>
                   <Text style={styles.budget}>
-                    Budget : <Text style={styles.bold}>${this.state.proposed_amount}</Text> USD
+                    Budget :{' '}
+                    <Text style={styles.bold}>
+                      ${this.state.proposed_amount}
+                    </Text>{' '}
+                    USD
                   </Text>
                 </View>
                 <View style={styles.userImg}>
                   <View style={styles.imgSec}>
                     <Image
-                      source={{ uri: this.state.projectDetails.user_image }}
+                      source={{uri: this.state.projectDetails.user_image}}
                       style={CommonStyles.image}
                     />
                   </View>
-                  <Text style={styles.userName}>{this.state.projectDetails.user_name}</Text>
+                  <Text style={styles.userName}>
+                    {this.state.projectDetails.user_name}
+                  </Text>
                 </View>
               </View>
               <View style={styles.collapseCntn}>
@@ -304,42 +299,40 @@ class HireStudentsScreen extends Component {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => this.setState({ hireType: 'milestone' })}
+                  onPress={() => this.setState({hireType: 'milestone'})}
                   style={styles.radioSec}>
-                  {this.state.hireType == 'milestone'
-                    ? <Fontisto
+                  {this.state.hireType == 'milestone' ? (
+                    <Fontisto
                       name="radio-btn-active"
                       size={18}
                       color="#71b85f"
-                    /> :
-                    <Fontisto
-                      name="radio-btn-passive"
-                      size={18}
-                      color="#000"
-                    />}
+                    />
+                  ) : (
+                    <Fontisto name="radio-btn-passive" size={18} color="#000" />
+                  )}
                   <Text
                     style={
-                      this.state.hireType == "milestone"
+                      this.state.hireType == 'milestone'
                         ? styles.radioTextGreen
                         : styles.radioText
                     }>
                     Milestone Payment
-                    </Text>
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => this.setState({ hireType: 'project', count: "" })}
+                  onPress={() =>
+                    this.setState({hireType: 'project', count: ''})
+                  }
                   style={styles.radioSec}>
-                  {this.state.hireType == 'project'
-                    ? <Fontisto
+                  {this.state.hireType == 'project' ? (
+                    <Fontisto
                       name="radio-btn-active"
                       size={18}
                       color="#71b85f"
-                    /> :
-                    <Fontisto
-                      name="radio-btn-passive"
-                      size={18}
-                      color="#000"
-                    />}
+                    />
+                  ) : (
+                    <Fontisto name="radio-btn-passive" size={18} color="#000" />
+                  )}
                   <Text
                     style={
                       this.state.hireType == 'project'
@@ -347,9 +340,9 @@ class HireStudentsScreen extends Component {
                         : styles.radioText
                     }>
                     One-off Payment
-                    </Text>
+                  </Text>
                 </TouchableOpacity>
-                {this.state.hireType == 'milestone' ?
+                {this.state.hireType == 'milestone' ? (
                   <>
                     <View style={[styles.questionHead, styles.marTop20]}>
                       <View style={styles.number}>
@@ -357,10 +350,12 @@ class HireStudentsScreen extends Component {
                       </View>
                       <Text style={styles.questionText}>
                         How many milsetone do you want to include?
-                  </Text>
+                      </Text>
                     </View>
 
-                    <TouchableOpacity style={styles.button} onPress={this.addSection}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={this.addSection}>
                       <Text style={styles.buttonText}>+ Add Milestone</Text>
                     </TouchableOpacity>
                     {this.state.addMilestone.map((count, index) => {
@@ -368,7 +363,10 @@ class HireStudentsScreen extends Component {
                         <View style={styles.inputCard}>
                           <View style={styles.wrap}>
                             <Text style={styles.label}>Description</Text>
-                            <TextInput style={styles.des} onChangeText={e=>this.handleChange(e,index)} />
+                            <TextInput
+                              style={styles.des}
+                              onChangeText={(e) => this.handleChange(e, index)}
+                            />
                           </View>
                           <View style={styles.wrap}>
                             <Text style={styles.label}>Due Date</Text>
@@ -387,97 +385,137 @@ class HireStudentsScreen extends Component {
                             onCancel={() => this.setState({activeIndex : 200})}
                             minimumDate={this.state.JobExpiry === "" ? new Date() : new Date(this.state.JobExpiry)}
                           /> */}
-                          <TouchableOpacity
+                            <TouchableOpacity
                               style={styles.date}
                               onPress={this.showDateTimePicker}>
-                                <Text>{this.state.JobExpiry[index]}</Text>
-                                <View style={{position:"absolute",right:15}}>
-                                <FontAwesome name="calendar" size={30} color="#71b85f" />
-                                </View>
+                              <Text>{this.state.JobExpiry[index]}</Text>
+                              <View style={{position: 'absolute', right: 15}}>
+                                <FontAwesome
+                                  name="calendar"
+                                  size={30}
+                                  color="#71b85f"
+                                />
+                              </View>
                             </TouchableOpacity>
                             <DateTimePicker
                               minimumDate={new Date()}
                               isVisible={this.state.showStartDatePicker}
-                              onConfirm={(date)=>this.handleDate(date,index)}
+                              onConfirm={(date) => this.handleDate(date, index)}
                               onCancel={this.hideDateTimePicker}
                             />
                           </View>
                           <View style={styles.wrap}>
                             <Text style={styles.label}>Amount</Text>
-                            <TextInput keyboardType={"number-pad"} onChangeText={e =>
-                                                this.handleAmount(e, index)
-                                              }
-                                              value={this.state.amount[index]} maxLength={7} style={[styles.des, { paddingRight: 50, }]} />
+                            <TextInput
+                              keyboardType={'number-pad'}
+                              onChangeText={(e) => this.handleAmount(e, index)}
+                              value={this.state.amount[index]}
+                              maxLength={7}
+                              style={[styles.des, {paddingRight: 50}]}
+                            />
                             <FontAwesome
                               name="dollar"
                               color="#71b85f"
                               size={30}
-                              style={{ position: 'absolute', right: 15, bottom: 10 }}
+                              style={{
+                                position: 'absolute',
+                                right: 15,
+                                bottom: 10,
+                              }}
                             />
-
                           </View>
-                        </View>)
+                        </View>
+                      );
                     })}
-                    {this.state.addMilestone.length > 0 ?
-                      <TouchableOpacity style={styles.button} onPress={this.sendRequest}>
+                    {this.state.addMilestone.length > 0 ? (
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={this.sendRequest}>
                         <Text style={styles.buttonText}>Send Contract</Text>
                       </TouchableOpacity>
-                      : <></>}
+                    ) : (
+                      <></>
+                    )}
                   </>
-                  : this.state.hireType == 'project' ?
-                    <>
-                      <View style={[styles.questionHead, styles.marTop20]}>
-                        <View style={styles.number}>
-                          <Text style={styles.numberText}>2</Text>
-                        </View>
-                        <Text style={styles.questionText}>
-                          Please Fill in the details
-                  </Text>
-
+                ) : this.state.hireType == 'project' ? (
+                  <>
+                    <View style={[styles.questionHead, styles.marTop20]}>
+                      <View style={styles.number}>
+                        <Text style={styles.numberText}>2</Text>
                       </View>
-                      <View style={styles.inputCard}>
-                        <View style={styles.wrap}>
-                          <Text style={styles.label}>Description</Text>
-                          <TextInput onChangeText={e=>this.projecthandleChange(e)} style={styles.des} />
-                        </View>
-                        <View style={styles.wrap}>
-                          <Text style={styles.label}>Due Date</Text>
-                          <TouchableOpacity
-                            style={styles.date}
-                            onPress={this.showDateTimePicker}>
-                            <Text>{this.state.projecttimeline}</Text>
-                            <View style={{position:"absolute",right:15}}>
-                            <FontAwesome name="calendar" size={30} color="#71b85f" />
-                            </View>
-                          </TouchableOpacity>
-                          <DateTimePicker
-                            isVisible={this.state.showStartDatePicker}
-                            mode="date"
-                            onConfirm={(date) => this.setState({projecttimeline :  moment(date).format("DD/MM/yyyy")})}
-                            onCancel={() => this.setState({showStartDatePicker : false})}
-                            minimumDate={this.state.projecttimeline === "" ? new Date() : new Date(this.state.projecttimeline)}
-                          />
-                          
-                        </View>
-                        <View style={styles.wrap}>
-                          <Text style={styles.label}>Amount</Text>
-                          <TextInput keyboardType={"number-pad"} onChangeText={e=>this.handleCTC(e)}
-                                          value={this.state.amount} maxLength={7} style={[styles.des, { paddingRight: 50, }]} />
-                          <FontAwesome
-                            name="dollar"
-                            color="#71b85f"
-                            size={30}
-                            style={{ position: 'absolute', right: 15, bottom: 10 }}
-                          />
-                        </View>
+                      <Text style={styles.questionText}>
+                        Please Fill in the details
+                      </Text>
+                    </View>
+                    <View style={styles.inputCard}>
+                      <View style={styles.wrap}>
+                        <Text style={styles.label}>Description</Text>
+                        <TextInput
+                          onChangeText={(e) => this.projecthandleChange(e)}
+                          style={styles.des}
+                        />
                       </View>
-                      <TouchableOpacity style={styles.button} onPress={this.projectsendRequest}>
-                        <Text style={styles.buttonText}>Send Contract</Text>
-                      </TouchableOpacity>
-                    </> : <></>
-                }
+                      <View style={styles.wrap}>
+                        <Text style={styles.label}>Due Date</Text>
+                        <TouchableOpacity
+                          style={styles.date}
+                          onPress={this.showDateTimePicker}>
+                          <Text>{this.state.projecttimeline}</Text>
+                          <View style={{position: 'absolute', right: 15}}>
+                            <FontAwesome
+                              name="calendar"
+                              size={30}
+                              color="#71b85f"
+                            />
+                          </View>
+                        </TouchableOpacity>
+                        <DateTimePicker
+                          isVisible={this.state.showStartDatePicker}
+                          mode="date"
+                          onConfirm={(date) =>
+                            this.setState({
+                              projecttimeline: moment(date).format(
+                                'DD/MM/yyyy',
+                              ),
+                            })
+                          }
+                          onCancel={() =>
+                            this.setState({showStartDatePicker: false})
+                          }
+                          minimumDate={
+                            this.state.projecttimeline === ''
+                              ? new Date()
+                              : new Date(this.state.projecttimeline)
+                          }
+                        />
+                      </View>
+                      <View style={styles.wrap}>
+                        <Text style={styles.label}>Amount</Text>
+                        <TextInput
+                          keyboardType={'number-pad'}
+                          onChangeText={(e) => this.handleCTC(e)}
+                          value={this.state.amount}
+                          maxLength={7}
+                          style={[styles.des, {paddingRight: 50}]}
+                        />
+                        <FontAwesome
+                          name="dollar"
+                          color="#71b85f"
+                          size={30}
+                          style={{position: 'absolute', right: 15, bottom: 10}}
+                        />
+                      </View>
+                    </View>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={this.projectsendRequest}>
+                      <Text style={styles.buttonText}>Send Contract</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <></>
+                )}
               </View>
-
 
               <View style={styles.tab}>
                 <View style={styles.summaryTab}>
@@ -486,11 +524,15 @@ class HireStudentsScreen extends Component {
                 <View style={styles.summaryDetails}>
                   <View style={[styles.row, styles.bdrBtm]}>
                     <Text style={styles.head}>Total price of project :</Text>
-                    <Text style={styles.price}>$ {this.state.TotalprojectAmount} USD</Text>
+                    <Text style={styles.price}>
+                      $ {this.state.TotalprojectAmount} USD
+                    </Text>
                   </View>
                   <View style={[styles.row, styles.bdrBtm]}>
                     <Text style={styles.head}>Connectbud service fee :</Text>
-                    <Text style={styles.price}>$ {this.state.TotalprojectAmount * 0.03} USD</Text>
+                    <Text style={styles.price}>
+                      $ {(this.state.TotalprojectAmount * 0.03).toFixed(2)} USD
+                    </Text>
                   </View>
                   <View style={[styles.row, styles.bdrBtm]}>
                     <Text style={styles.head}>
@@ -500,46 +542,54 @@ class HireStudentsScreen extends Component {
                   </View>
                   <View style={styles.row}>
                     <Text style={styles.head}>Total payable :</Text>
-                    <Text style={styles.price}>$ {+this.state.TotalprojectAmount +
-                                        this.state.TotalprojectAmount *
-                                          0.03} USD</Text>
+                    <Text style={styles.price}>
+                      ${' '}
+                      {+this.state.TotalprojectAmount +
+                        this.state.TotalprojectAmount * 0.03}{' '}
+                      USD
+                    </Text>
                   </View>
                 </View>
               </View>
-              {this.state.hireType ?
-                (this.state.hireType === "milestone" ?
+              {this.state.hireType ? (
+                this.state.hireType === 'milestone' ? (
                   <View style={[styles.tab, styles.marBtm20]}>
                     <View style={styles.summaryTab}>
                       <Text style={styles.projectName}>
                         What is a Milestone Payment?
-                  </Text>
+                      </Text>
                     </View>
                     <View style={styles.summaryDetails}>
                       <Text style={styles.milePayText}>
-                      A system where an employer can split the project 
-                      into a list of objectives and allocate certain 
-                      percentage of the fee to each deliverable. At 
-                      the end of every target, the employer can acknowledge 
-                      and release the amount to the student. This type of 
-                      payment is usually recommended when project spans 
-                      several weeks to several months.
-                  </Text>
+                        A system where an employer can split the project into a
+                        list of objectives and allocate certain percentage of
+                        the fee to each deliverable. At the end of every target,
+                        the employer can acknowledge and release the amount to
+                        the student. This type of payment is usually recommended
+                        when project spans several weeks to several months.
+                      </Text>
                     </View>
-                  </View> : <View style={[styles.tab, styles.marBtm20]}>
+                  </View>
+                ) : (
+                  <View style={[styles.tab, styles.marBtm20]}>
                     <View style={styles.summaryTab}>
                       <Text style={styles.projectName}>
                         What is One-Off Payment?
-                  </Text>
+                      </Text>
                     </View>
                     <View style={styles.summaryDetails}>
                       <Text style={styles.milePayText}>
-                        A system where an employer pays the student 100% of 
-                        the fee at the end of the project. The college student 
-                        will be paid as one-off payments on completion of the 
-                        work by the employers.
-                  </Text>
+                        A system where an employer pays the student 100% of the
+                        fee at the end of the project. The college student will
+                        be paid as one-off payments on completion of the work by
+                        the employers.
+                      </Text>
                     </View>
-                  </View>) : <></>}
+                  </View>
+                )
+              ) : (
+                <></>
+              )}
             </ScrollView>
           </View>
         </View>
@@ -548,9 +598,8 @@ class HireStudentsScreen extends Component {
   }
 }
 const mapStateToProps = (state) => {
-
   return {
     userDeatailResponse: state.userData,
   };
 };
-export default connect(mapStateToProps, null,)(HireStudentsScreen);
+export default connect(mapStateToProps, null)(HireStudentsScreen);

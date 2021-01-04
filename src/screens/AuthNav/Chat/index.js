@@ -33,6 +33,7 @@ class ChatScreen extends Component {
       showLoader:false,
       projectBtn: true,
       internshipBtn: false,
+      status: ''
     };
   }
 
@@ -54,7 +55,10 @@ class ChatScreen extends Component {
         this.setState({showLoader: false});
         this.setState({
           chatList: response.data,
+          status: response.data[0].message
         });
+        console.log(this.state.chatList);
+
       })
       .catch((error) => {
         this.setState({showLoader: false});
@@ -158,7 +162,7 @@ showInternship = () => {
           <ScrollView showsVerticalScrollIndicator={false}>
           {this.state.projectBtn ?
             <View style={CommonStyles.container}>            
-              {this.state.chatList.length > 0 ? (this.state.chatList.map((item, i) => (
+              {this.state.status !== "N" ? (this.state.chatList.map((item, i) => (
                 <TouchableOpacity
                   key={i}
                   style={styles.chatCard}

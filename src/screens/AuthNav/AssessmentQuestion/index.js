@@ -64,6 +64,7 @@ class AssessmentQuestion extends Component {
   handleCTC = async (e) => {
     await this.setState({
       ctc: e,
+      priceAmount: e,
     });
   };
 
