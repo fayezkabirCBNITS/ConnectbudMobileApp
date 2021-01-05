@@ -87,7 +87,7 @@ class ProjectDetailsFreelancer extends Component {
         this.setState({
           jobDetails: response.data,
           showLoader: false,
-          projectType: response.data[0].type
+          projectType: response.data[0].type,
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
@@ -213,7 +213,8 @@ class ProjectDetailsFreelancer extends Component {
                     {this.state.jobDetails.map((value, index) => {
                       return (
                         <>
-                          {value.pending_status === 'pending'  && this.state.projectType !== "invitation" ? (
+                          {value.pending_status === 'pending' &&
+                          this.state.projectType !== 'invitation' ? (
                             <Text style={styles.applyBtnText}>Waiting</Text>
                           ) : (
                             <>
@@ -228,15 +229,23 @@ class ProjectDetailsFreelancer extends Component {
                                   Apply
                                 </Text>
                               ) : (
-                                <Text
-                                  style={styles.applyBtnText}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'AssessmentQuestion',
-                                    )
-                                  }>
-                                  Apply
-                                </Text>
+                                <>
+                                  {value.pending_status === 'accept' ? (
+                                    <Text style={styles.applyBtnText}>
+                                      Accepted
+                                    </Text>
+                                  ) : (
+                                    <Text
+                                      style={styles.applyBtnText}
+                                      onPress={() =>
+                                        this.props.navigation.navigate(
+                                          'AssessmentQuestion',
+                                        )
+                                      }>
+                                      Apply
+                                    </Text>
+                                  )}
+                                </>
                               )}
                             </>
                           )}
