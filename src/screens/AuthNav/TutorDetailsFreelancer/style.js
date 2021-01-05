@@ -11,6 +11,29 @@ export default {
         marginTop : 20,
         borderRadius : 8
     },
+    authBtn: {
+        width: '50%',
+        marginHorizontal: '8%',
+        height: 46,
+        borderRadius: 40,
+        backgroundColor: '#71b85f',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+      },
+    authBtnText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight:'bold',
+        letterSpacing: 1,
+      },
+    actionEdtBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 50,
+      },
     boxTitle : {
         fontSize : 18,
         fontFamily : "Poppins-SemiBold",

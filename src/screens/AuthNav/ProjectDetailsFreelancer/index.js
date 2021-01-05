@@ -48,6 +48,7 @@ class ProjectDetailsFreelancer extends Component {
       showLoader: false,
       user_id: '',
       projectType: '',
+      job_id: '',
     };
   }
 
@@ -61,6 +62,7 @@ class ProjectDetailsFreelancer extends Component {
       btnStatus: userDeatailResponse.userData.user_id,
       showLoader: true,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
+      job_id: userDeatailResponse.userData.JOBID
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -168,6 +170,36 @@ class ProjectDetailsFreelancer extends Component {
       });
   };
 
+  acceptIgnore = async (EmpId) => {
+    const obj = {
+      milestone_id: "",
+      receiver_id: EmpId,
+      sender_id: this.state.user_id,
+      job_type: "recruiter",
+      job_id: this.state.job_id,
+      status: "no",
+      confirmation_type: "invitation",
+    };
+
+    await axios
+      .post(API_URL + "confirmation", obj, {
+        header: {
+          "content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        alert('Invitation ignored')
+        this.setState({
+          isLoading: false,
+        });
+        this.feedSection();
+        this.props.navigation.navigate('StudentInner');
+      })
+      .catch((error) => {
+        this.setState({ isLoading: false });
+      });
+  };
+
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
@@ -247,15 +279,36 @@ class ProjectDetailsFreelancer extends Component {
                                           Accepted
                                         </Text>
                                       ) : (
-                                          <Text
-                                            style={styles.applyBtnText}
-                                            onPress={() =>
-                                              this.props.navigation.navigate(
-                                                'AssessmentQuestion',
-                                              )
-                                            }>
-                                            Apply
-                                          </Text>
+                                          <>
+                                            {this.state.pageStatus ===
+                                              'invitation' ? (
+                                                <View style={styles.actionEdtBtn}>
+                                                  <Text
+                                                    style={styles.applyBtnText}
+                                                    onPress={() =>
+                                                      this.props.navigation.navigate(
+                                                        'AssessmentQuestion',
+                                                      )
+                                                    }>
+                                                    Apply
+                                                  </Text>
+
+                                                  <Text style={styles.applyBtnText} onPress={() => this.acceptIgnore(value.user_id)}>
+                                                    Ignore
+                                                  </Text>
+                                                </View>
+                                              ) : (
+                                                <Text
+                                                  style={styles.applyBtnText}
+                                                  onPress={() =>
+                                                    this.props.navigation.navigate(
+                                                      'AssessmentQuestion',
+                                                    )
+                                                  }>
+                                                  Apply
+                                                </Text>
+                                              )}
+                                          </>
                                         )}
                                     </>
                                   )}

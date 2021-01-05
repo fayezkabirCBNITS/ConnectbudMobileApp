@@ -123,20 +123,22 @@ class EmpContactScreen extends Component {
               {/* project 1 */}
 
               {/* project 2 */}
-              <Collapse isCollapsed={true} style={styles.collapse}>
-                <CollapseHeader>
-                  {this.state.projectData.map((item, i) => (
+              {this.state.projectData.map((item, i) => {
+                if (item.message !== 'No data found') {
+                  return (
                     <>
-                      <View style={styles.projOptn}>
-                        <View style={styles.questions}>
-                          <Text style={styles.questionsText}>
-                            Project Name :
-                          </Text>
-                          <Text style={styles.questionsTextGreen}>
-                            {item.job_name}
-                          </Text>
-                        </View>
-                        {/* <View style={styles.milestoneSec}>
+                      <Collapse isCollapsed={true} style={styles.collapse}>
+                        <CollapseHeader>
+                          <View style={styles.projOptn}>
+                            <View style={styles.questions}>
+                              <Text style={styles.questionsText}>
+                                Project Name :
+                              </Text>
+                              <Text style={styles.questionsTextGreen}>
+                                {item.job_name}
+                              </Text>
+                            </View>
+                            {/* <View style={styles.milestoneSec}>
                             <TouchableOpacity style={styles.milestoneBtn}>
                               <Text style={styles.contractText}>
                                 Add Milestones
@@ -148,110 +150,122 @@ class EmpContactScreen extends Component {
                               </Text>
                             </TouchableOpacity>
                           </View> */}
-                      </View>
-                    </>
-                  ))}
-                </CollapseHeader>
-                <CollapseBody>
-                  {this.state.projectData.map((item, index) => (
-                    <>
-                      {item.details.map((value, i) => (
-                        <View style={styles.detailsSec}>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>
-                              Type of Project
-                            </Text>
-                            <Text style={styles.deatailsInfo}>
-                              {' '}
-                              {value.project_type} {index + 1}
-                            </Text>
                           </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>
-                              Project Timeline
-                            </Text>
-                            <Text style={styles.deatailsInfo}>
-                              {value.end_date}
-                            </Text>
-                          </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>Description</Text>
-                            <Text style={styles.deatailsInfo}>
-                              {value.description}
-                            </Text>
-                          </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>Amount</Text>
-                            <Text style={styles.deatailsInfo}>
-                              ${value.received_amount}
-                            </Text>
-                          </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>Action</Text>
-                            <TouchableOpacity style={styles.notPaidBtn}>
-                              {value.payment_status === 'Not paid' && (
-                                <Text
-                                  style={styles.notPaidBtn}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'CheckoutScreen',
-                                      {
-                                        mile_id: value.milestone_id,
-                                        user_id: item.freelancer_id,
-                                        rec_id: item.hirer_id,
-                                      },
-                                    )
-                                  }>
-                                  $ Pay
+                        </CollapseHeader>
+                        <CollapseBody>
+                          {/* {this.state.projectData.map((item, index) => (
+                    <> */}
+                          {item.details.map((value, index) => (
+                            <View style={styles.detailsSec}>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>
+                                  Type of Project
                                 </Text>
-                              )}
-                              {value.payment_status === 'Redeem' &&
-                                value.class_status !== 'free' && (
-                                  <Text
-                                    style={styles.paidText}
-                                    onPress={() => {
-                                      this.moneyRequest(value.milestone_id);
-                                    }}>
-                                    Release escrowed Money
-                                  </Text>
-                                )}
-                              {value.payment_status === 'Redeem' &&
-                                value.class_status === 'free' && (
-                                  <Text style={styles.paidText}>
-                                    Click after completion
-                                  </Text>
-                                )}
-                              {value.payment_status === 'Escrow' &&
-                                value.class_status !== 'free' && (
-                                  <Text style={styles.paidText}>
-                                    Escrowed
-                                  </Text>
-                                )}
-                              {value.payment_status === 'Escrow' &&
-                                value.class_status === 'free' && (
-                                  <Text style={styles.paidText}>
-                                    Click after completion
-                                  </Text>
-                                )}
-                              {value.payment_status === 'Paid' &&
-                                value.class_status !== 'free' && (
-                                  <Text style={styles.paidText}>$Paid</Text>
-                                )}
-                              {value.payment_status === 'Paid' &&
-                                value.class_status === 'free' && (
-                                  <Text style={styles.paidText}>Confirmed</Text>
-                                )}
-                            </TouchableOpacity>
-                            {/* <TouchableOpacity style={styles.notPaidBtn}>
+                                <Text style={styles.deatailsInfo}>
+                                  {' '}
+                                  {value.project_type} {index + 1}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>
+                                  Project Timeline
+                                </Text>
+                                <Text style={styles.deatailsInfo}>
+                                  {value.end_date}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>
+                                  Description
+                                </Text>
+                                <Text style={styles.deatailsInfo}>
+                                  {value.description}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>Amount</Text>
+                                <Text style={styles.deatailsInfo}>
+                                  ${value.received_amount}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>Action</Text>
+                                <TouchableOpacity style={styles.notPaidBtn}>
+                                  {value.payment_status === 'Not paid' && (
+                                    <Text
+                                      style={styles.notPaidBtn}
+                                      onPress={() =>
+                                        this.props.navigation.navigate(
+                                          'CheckoutScreen',
+                                          {
+                                            mile_id: value.milestone_id,
+                                            user_id: item.freelancer_id,
+                                            rec_id: item.hirer_id,
+                                          },
+                                        )
+                                      }>
+                                      $ Pay
+                                    </Text>
+                                  )}
+                                  {value.payment_status === 'Redeem' &&
+                                    value.class_status !== 'free' && (
+                                      <Text
+                                        style={styles.paidText}
+                                        onPress={() => {
+                                          this.moneyRequest(value.milestone_id);
+                                        }}>
+                                        Release escrowed Money
+                                      </Text>
+                                    )}
+                                  {value.payment_status === 'Redeem' &&
+                                    value.class_status === 'free' && (
+                                      <Text style={styles.paidText}>
+                                        Click after completion
+                                      </Text>
+                                    )}
+                                  {value.payment_status === 'Escrow' &&
+                                    value.class_status !== 'free' && (
+                                      <Text style={styles.paidText}>
+                                        Escrowed
+                                      </Text>
+                                    )}
+                                  {value.payment_status === 'Escrow' &&
+                                    value.class_status === 'free' && (
+                                      <Text style={styles.paidText}>
+                                        Click after completion
+                                      </Text>
+                                    )}
+                                  {value.payment_status === 'Paid' &&
+                                    value.class_status !== 'free' && (
+                                      <Text style={styles.paidText}>$Paid</Text>
+                                    )}
+                                  {value.payment_status === 'Paid' &&
+                                    value.class_status === 'free' && (
+                                      <Text style={styles.paidText}>
+                                        Confirmed
+                                      </Text>
+                                    )}
+                                </TouchableOpacity>
+                                {/* <TouchableOpacity style={styles.notPaidBtn}>
                         <Text style={styles.paidText}>$ Pay</Text>
                       </TouchableOpacity> */}
-                          </View>
-                        </View>
-                      ))}
+                              </View>
+                            </View>
+                          ))}
+                          {/* </>
+                  ))} */}
+                        </CollapseBody>
+                      </Collapse>
                     </>
-                  ))}
-                </CollapseBody>
-              </Collapse>
+                  );
+                } else {
+                  return (
+                    <View style={styles.noData}>
+                      <Text style={styles.noDataText}>No chat found</Text>
+                    </View>
+                  );
+                }
+              })}
             </ScrollView>
           </View>
         </View>

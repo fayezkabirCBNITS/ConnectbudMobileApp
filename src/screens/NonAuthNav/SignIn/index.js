@@ -50,7 +50,7 @@ import {
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive.readonly'],
   webClientId:
-    '367228152991-ft3qki8h4dls21t36j1tpne39gidbltt.apps.googleusercontent.com',
+    '939760452813-km2tef4lecjv55ivivgg9232julqgnl6.apps.googleusercontent.com',
   offlineAccess: true,
   forceCodeForRefreshToken: true,
 });
@@ -91,10 +91,8 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
- 
-
   componentDidMount = async () => {
-    console.log("kllllllllllllllll")
+    console.log('kllllllllllllllll');
     //  START
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('willFocus', async () => {
@@ -198,6 +196,7 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
+    console.log("user loginnnnnnnnnnnn called");
     console.log(this.props.navigation.state.params.userType);
     this.setState({showLoader: true});
     let obj = {};
@@ -234,6 +233,7 @@ class SignInScreen extends Component {
     if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
+      console.log("san",response);
       this.props.updateUserDetails(response);
       {
         response.error === 'You are signed up as Employer'
@@ -297,7 +297,6 @@ class SignInScreen extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo, 'userInfo');
       var google_data = JSON.stringify(userInfo);
       let name = userInfo.user.name;
       let first_name = userInfo.user.givenName;
@@ -307,8 +306,9 @@ class SignInScreen extends Component {
       let provider_id = userInfo.user.id;
       let provider = 'google';
 
-      // this.sociallogin(email,name,provider_id,picture,provider);
+      this.sociallogin(email, name, provider_id, picture, provider);
     } catch (error) {
+      console.log('error', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         console.log('SIGN_IN_CANCELLED-error', error);
@@ -327,47 +327,92 @@ class SignInScreen extends Component {
 
   faceBookLogin = async () => {
     LoginManager.logOut();
-    console.log("faceBookLogin");
+    console.log('faceBookLogin');
     try {
-    const userInfo = await LoginManager.logInWithPermissions(["public_profile", "email"]);
-    console.log(userInfo);
-    if (userInfo.isCancelled) {
-      console.log("Login cancelled");
-    } else {
-      console.log(
-        "Login success with permissions: " +
-        userInfo
-      );
-      AccessToken.getCurrentAccessToken().then(
-        (data) => {
+      const userInfo = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
+      console.log(userInfo);
+      if (userInfo.isCancelled) {
+        console.log('Login cancelled');
+      } else {
+        console.log('Login success with permissions: ' + userInfo);
+        AccessToken.getCurrentAccessToken().then((data) => {
           let accessToken = data.accessToken.toString();
-          console.log("accesstoken",accessToken);
-          if(accessToken) {
-            fetch('https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' + accessToken)
-            .then((response) => response.json())
-            .then((json) => {
-              console.log("userdetails",json);
+          console.log('accesstoken', accessToken);
+          if (accessToken) {
+            fetch(
+              'https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' +
+                accessToken,
+            )
+              .then((response) => response.json())
+              .then((json) => {
+                console.log('userdetails', json);
 
-              let email = json.email;
-              let name = json.name;
-              let provider_id = json.id;
-              let picture = json.picture.data.url;
-              let provider = "facebook";
+                let email = json.email;
+                let name = json.name;
+                let provider_id = json.id;
+                let picture = json.picture.data.url;
+                let provider = 'facebook';
 
-              this.sociallogin(email,name,provider_id,picture,provider);
-            })
-            .catch(() => {
-              reject('ERROR GETTING DATA FROM FACEBOOK')
-            })
+                console.log(email);
+                if (email === undefined) {
+                  console.log('ffffffffffffffffffffffff');
+                  alert(
+                    'No email-id found in your fb account.Please do manual Signup',
+                  );
+                } else {
+                  this.sociallogin(email, name, provider_id, picture, provider);
+                }
+              })
+              .catch(() => {
+                reject('ERROR GETTING DATA FROM FACEBOOK');
+              });
           }
-        }
-      )
+        });
+      }
+    } catch (error) {
+      console.log('signin error', error);
+      Toast.show('Something went wrong!');
     }
-  } catch (error) {
-    console.log("signin error",error);
-    Toast.show("Something went wrong!");
-  }
-  }
+  };
+
+  sociallogin = async (email, name, provider_id, picture, provider) => {
+    console.log('called');
+    let body = new FormData();
+    body.append('socialLogintype', provider);
+    body.append('first_name', name.split(' ')[0]);
+    body.append('last_name', name.split(' ')[1]);
+    if (provider === 'google') {
+      body.append('appId', '');
+      body.append('googleId', provider_id);
+    } else {
+      body.append('appId', provider_id);
+      body.append('googleId', '');
+    }
+
+    body.append('profileImage', picture);
+    body.append('email', email);
+
+    console.log(body);
+
+    await axios({
+      url: API_URL + 'auth/socialLogin',
+      method: 'POST',
+      data: body,
+    })
+      .then((response) => {
+        console.log(response.data,"ss");
+        this.props.updateUserDetails(response.data);
+        this.props.navigation.navigate('EmployeeInner');
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({isLoading: false});
+        // swal('Facebook-Id already exists');
+      });
+  };
 
   render() {
     return (
@@ -467,10 +512,10 @@ class SignInScreen extends Component {
                         style={styles.iconImg}
                       />
                     </TouchableOpacity>
-                    <Image
+                    {/* <Image
                       source={require('../../../assets/images/g.png')}
                       style={styles.iconImg}
-                    />
+                    /> */}
                     <TouchableOpacity onPress={this.signInFirst}>
                       <Image
                         source={require('../../../assets/images/google.png')}

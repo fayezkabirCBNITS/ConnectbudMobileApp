@@ -52,6 +52,8 @@ class Sidebar extends Component {
     body.append('job_id', '');
     body.append('token', base64.decode(userData.Token));
 
+    console.log(body);
+
     await axios({
       url: API_URL + 'imageGet',
       method: 'POST',
