@@ -33,13 +33,13 @@ import {deepClone} from '../../../services/helper-methods';
 
 import {withNavigation} from 'react-navigation';
 
-// import {
-//   LoginButton,
-//   AccessToken,
-//   LoginManager,
-//   GraphRequest,
-//   GraphRequestManager,
-// } from 'react-native-fbsdk';
+import {
+  LoginButton,
+  AccessToken,
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
 
 import {
   GoogleSignin,
@@ -325,49 +325,49 @@ class SignInScreen extends Component {
     }
   };
 
-  // faceBookLogin = async () => {
-  //   LoginManager.logOut();
-  //   console.log("faceBookLogin");
-  //   try {
-  //   const userInfo = await LoginManager.logInWithPermissions(["public_profile", "email"]);
-  //   console.log(userInfo);
-  //   if (userInfo.isCancelled) {
-  //     console.log("Login cancelled");
-  //   } else {
-  //     console.log(
-  //       "Login success with permissions: " +
-  //       userInfo
-  //     );
-  //     AccessToken.getCurrentAccessToken().then(
-  //       (data) => {
-  //         let accessToken = data.accessToken.toString();
-  //         console.log("accesstoken",accessToken);
-  //         if(accessToken) {
-  //           fetch('https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' + accessToken)
-  //           .then((response) => response.json())
-  //           .then((json) => {
-  //             console.log("userdetails",json);
+  faceBookLogin = async () => {
+    LoginManager.logOut();
+    console.log("faceBookLogin");
+    try {
+    const userInfo = await LoginManager.logInWithPermissions(["public_profile", "email"]);
+    console.log(userInfo);
+    if (userInfo.isCancelled) {
+      console.log("Login cancelled");
+    } else {
+      console.log(
+        "Login success with permissions: " +
+        userInfo
+      );
+      AccessToken.getCurrentAccessToken().then(
+        (data) => {
+          let accessToken = data.accessToken.toString();
+          console.log("accesstoken",accessToken);
+          if(accessToken) {
+            fetch('https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' + accessToken)
+            .then((response) => response.json())
+            .then((json) => {
+              console.log("userdetails",json);
 
-  //             let email = json.email;
-  //             let name = json.name;
-  //             let provider_id = json.id;
-  //             let picture = json.picture.data.url;
-  //             let provider = "facebook";
+              let email = json.email;
+              let name = json.name;
+              let provider_id = json.id;
+              let picture = json.picture.data.url;
+              let provider = "facebook";
 
-  //             this.sociallogin(email,name,provider_id,picture,provider);
-  //           })
-  //           .catch(() => {
-  //             reject('ERROR GETTING DATA FROM FACEBOOK')
-  //           })
-  //         }
-  //       }
-  //     )
-  //   }
-  // } catch (error) {
-  //   console.log("signin error",error);
-  //   Toast.show("Something went wrong!");
-  // }
-  // }
+              this.sociallogin(email,name,provider_id,picture,provider);
+            })
+            .catch(() => {
+              reject('ERROR GETTING DATA FROM FACEBOOK')
+            })
+          }
+        }
+      )
+    }
+  } catch (error) {
+    console.log("signin error",error);
+    Toast.show("Something went wrong!");
+  }
+  }
 
   render() {
     return (
@@ -461,7 +461,7 @@ class SignInScreen extends Component {
                 </Pressable>
                 {this.state.social_type === 'employee' ? (
                   <View style={styles.iconDiv}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.faceBookLogin}>
                       <Image
                         source={require('../../../assets/images/fb.png')}
                         style={styles.iconImg}
