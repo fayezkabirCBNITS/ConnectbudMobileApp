@@ -112,7 +112,29 @@ export default {
         paddingHorizontal : 10,
         paddingVertical : 5
 
-    }
-
-
+    },
+    skillSec: {
+        width: '100%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start'
+    },
+    skillTab: {
+        //minWidth: 90,
+        backgroundColor: '#E4E4E4',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        // height: 50,
+        //borderRadius: 50 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        marginRight: 10,
+    },
+    skillText: {
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        color: '#000',
+        textAlign: "center"
+    },
 }

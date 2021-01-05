@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import Header from '../../../components/Header';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   Collapse,
   CollapseHeader,
@@ -13,8 +14,8 @@ import {
 } from 'accordion-collapse-react-native';
 
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
-import {connect} from 'react-redux';
+import { API_URL } from '../../../config/url';
+import { connect } from 'react-redux';
 
 import base64 from 'base-64';
 
@@ -33,7 +34,7 @@ class EmpContactScreen extends Component {
   };
 
   componentDidMount = async () => {
-    const {userDeatailResponse} = this.props;
+    const { userDeatailResponse } = this.props;
     this.setState({
       showLoader: true,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -98,10 +99,10 @@ class EmpContactScreen extends Component {
           });
         });
 
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -111,24 +112,7 @@ class EmpContactScreen extends Component {
         <View style={CommonStyles.main}>
           <StatusBar />
           {/* header section */}
-          <View style={CommonStyles.header}>
-            <TouchableOpacity
-              style={CommonStyles.hambarIcon}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
-            </TouchableOpacity>
-            <Image
-              source={require('../../../assets/images/logo.png')}
-              style={CommonStyles.imageHdr}
-            />
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('NotificationScreen')
-              }
-              style={CommonStyles.bellIcon}>
-              <Feather name="bell" color="#71b85f" size={30} />
-            </TouchableOpacity>
-          </View>
+          <Header />
           {/* header section end */}
 
           <View style={CommonStyles.container}>

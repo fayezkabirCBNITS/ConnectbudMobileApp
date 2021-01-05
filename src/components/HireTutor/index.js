@@ -300,7 +300,7 @@ console.log(body);
                       : styles.skillText
                   }
                   onPress={() => this.onActive('online')}>
-                  Online class & Tutorial
+                  Online coding class & tutoring
                 </Text>
               </View>
 
@@ -317,7 +317,7 @@ console.log(body);
                       : styles.skillText
                   }
                   onPress={() => this.onActive('homework')}>
-                  HomeWork Help
+                  Homework help
                 </Text>
               </View>
             </View>

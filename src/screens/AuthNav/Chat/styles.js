@@ -137,6 +137,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 20,
     paddingBottom: 70,
+    color: '#71b85f'
   },
   online: {
     width: 12,

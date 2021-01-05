@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -19,7 +19,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ApiUrl from '../../../config/ApiUrl';
 import {
@@ -28,9 +28,9 @@ import {
   makeAuthGetRequest,
 } from '../../../services/http-connectors';
 import base64 from 'base-64';
-import {connect, ReactReduxContext} from 'react-redux';
+import { connect, ReactReduxContext } from 'react-redux';
 import Toast from 'react-native-simple-toast';
-import {Picker} from '@react-native-community/picker';
+import { Picker } from '@react-native-community/picker';
 import ErrorMsg from '../../../components/ErrorMsg';
 
 class PostedProjectByEmployee extends Component {
@@ -40,7 +40,7 @@ class PostedProjectByEmployee extends Component {
       jobSet: [],
       //for Edit Project
       selectedSkills: [],
-      skillValuePlaceHolder: [{value: 'Select Skills', label: 'Select skills'}],
+      skillValuePlaceHolder: [{ value: 'Select Skills', label: 'Select skills' }],
       title: '',
       des: '',
       skills: '',
@@ -66,7 +66,7 @@ class PostedProjectByEmployee extends Component {
     this.setState({
       showLoader: true,
     });
-    const {userData} = this.props;
+    const { userData } = this.props;
 
     let body = new FormData();
     body.append('hirer_id', base64.decode(userData.user_id));
@@ -146,7 +146,7 @@ class PostedProjectByEmployee extends Component {
       budget: e,
     });
     this.validateJobForm();
-    this.setState({budgetINR: this.state.budget * 75});
+    this.setState({ budgetINR: this.state.budget * 75 });
   };
 
   validateJobForm = () => {
@@ -175,10 +175,10 @@ class PostedProjectByEmployee extends Component {
 
     if (this.state.selectedSkills.length === 0) {
       formIsValid = false;
-      this.setState({errSkills: true});
+      this.setState({ errSkills: true });
     } else {
       formIsValid = true;
-      this.setState({errSkills: false});
+      this.setState({ errSkills: false });
     }
 
     if (!this.state.budget) {
@@ -197,14 +197,14 @@ class PostedProjectByEmployee extends Component {
     });
     let data = this.state.selectedSkills[index];
     await this.setState({
-      skills: this.state.skills.concat({value: data, label: data}).sort(),
+      skills: this.state.skills.concat({ value: data, label: data }).sort(),
     });
-    this.setState({skills: this.state.skills.sort()});
+    this.setState({ skills: this.state.skills.sort() });
     this.validateJobForm();
   };
 
   handleAdditionalSkill = async () => {
-    this.setState({showAdditional: !this.state.showAdditional});
+    this.setState({ showAdditional: !this.state.showAdditional });
   };
 
   skillAdd = async () => {
@@ -215,11 +215,11 @@ class PostedProjectByEmployee extends Component {
 
   SkillSearch = async () => {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
+    this.setState({ skills: this.state.skillValuePlaceHolder.concat(response) });
   };
 
   ShowModal = async (slug, jobId) => {
-    await this.setState({show: true, jobId: jobId});
+    await this.setState({ show: true, jobId: jobId });
 
     let body = new FormData();
     body.append('user_id', '');
@@ -254,7 +254,7 @@ class PostedProjectByEmployee extends Component {
   };
 
   editJob = async () => {
-    const {userData} = this.props;
+    const { userData } = this.props;
 
     let jobDescription = new FormData();
     jobDescription.append('job_id', this.state.jobId);
@@ -302,7 +302,7 @@ class PostedProjectByEmployee extends Component {
             textContent={'Loading...'}
           />
           <StatusBar
-            backgroundColor="#60a84e"
+            backgroundColor="#71b85f"
             barStyle="light-content"
             hidden={false}
             translucent={false}
@@ -313,96 +313,99 @@ class PostedProjectByEmployee extends Component {
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>
               {this.state.jobSet.map((value, index) => {
-                if(value.msg !== "No results found"){
-                return (
-                  <View style={styles.boxWrapper}>
-                    <View>
-                      <Text>{value.posted_date}</Text>
-                    </View>
-                    <View>
-                      <Text style={styles.boxtitle}>{value.job_name}</Text>
-                      <Text style={styles.boxtext}>{value.description}</Text>
-                    </View>
-                    <View style={styles.subjectPriceCombo}>
-                      <View style={styles.subJectDaysCombo}>
-                        {value.key_skill.map((item, i) => (
-                          <View style={styles.subject}>
-                            <Text>{item.label}</Text>
-                          </View>
-                        ))}
+                if (value.msg !== "No results found") {
+                  return (
+                    <View style={styles.boxWrapper}>
+                      <View>
+                        <Text>{value.posted_date}</Text>
                       </View>
-                    </View>
-                    <View style={styles.inrUsd}>
-                      <Text style={styles.usdText}>
-                        {value.price_amount} USD
-                      </Text>
-                      <Text style={styles.inrtxt}>
-                        {value.price_amount * 75} INR
-                      </Text>
-                    </View>
-                    <View style={styles.buttonWrapper}>
-                      {value.complete_status === 'false' &&
-                      value.freelancer_visibility === 'true' ? (
-                        <View style={styles.findBtn}>
-                          <TouchableOpacity
-                            style={styles.actionBtn}
-                            onPress={() =>
-                              this.FindFreelancer(value.job_id, value.job_name)
-                            }>
-                            <FontAwesome
-                              name="search"
-                              color="#fff"
-                              size={15}
-                              style={styles.findIcon}
-                            />
-                            <Text style={styles.findBtnText}>
-                              Find College Students
-                            </Text>
-                          </TouchableOpacity>
+                      <View>
+                        <Text style={styles.boxtitle}>{value.job_name}</Text>
+                        <Text style={styles.boxtext}>{value.description}</Text>
+                      </View>
+                      <View style={styles.subjectPriceCombo}>
+                        <View style={styles.subJectDaysCombo}>
+                          {value.key_skill.map((item, i) => (
+                            <View style={styles.subject}>
+                              <Text>{item.label}</Text>
+                            </View>
+                          ))}
                         </View>
-                      ) : (
-                        <>
-                          {value.freelancer_visibility === 'false' ? (
-                            <></>
-                          ) : (
+                      </View>
+                      <View style={styles.inrUsd}>
+                        <Text style={styles.usdText}>
+                          {value.price_amount} USD
+                      </Text>
+                        <Text style={styles.inrtxt}>
+                          {value.price_amount * 75} INR
+                      </Text>
+                      </View>
+                      <View style={styles.buttonWrapper}>
+                        {value.complete_status === 'false' &&
+                          value.freelancer_visibility === 'true' ? (
                             <View style={styles.findBtn}>
                               <TouchableOpacity
                                 style={styles.actionBtn}
-                                disabled>
-                                <Text style={styles.findBtnText}>Hired</Text>
+                                onPress={() =>
+                                  this.FindFreelancer(value.job_id, value.job_name)
+                                }>
+                                <FontAwesome
+                                  name="search"
+                                  color="#fff"
+                                  size={15}
+                                  style={styles.findIcon}
+                                />
+                                <Text style={styles.findBtnText}>
+                                  Find College Students
+                            </Text>
                               </TouchableOpacity>
                             </View>
+                          ) : (
+                            <>
+                              {value.freelancer_visibility === 'false' ? (
+                                <></>
+                              ) : (
+                                  <View style={styles.findBtn}>
+                                    <TouchableOpacity
+                                      style={styles.actionBtn}
+                                      disabled>
+                                      <Text style={styles.findBtnText}>Hired</Text>
+                                    </TouchableOpacity>
+                                  </View>
+                                )}
+                            </>
                           )}
-                        </>
-                      )}
-                      {value.complete_status === 'false' &&
-                      value.detail_type === 'normal' ? (
-                        <View style={styles.edit}>
-                          <TouchableOpacity
-                            style={styles.editBtn}
-                            onPress={() =>
-                              this.ShowModal(value.slug, value.job_id)
-                            }>
-                            <FontAwesome5
-                              name="edit"
-                              color="#71b85f"
-                              size={28}
-                              style={styles.findIcon}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      ) : (
-                        <></>
-                      )}
+                        {value.complete_status === 'false' &&
+                          value.detail_type === 'normal' ? (
+                            <View style={styles.edit}>
+                              <TouchableOpacity
+                                style={styles.editBtn}
+                                onPress={() =>
+                                  this.ShowModal(value.slug, value.job_id)
+                                }>
+                                <FontAwesome5
+                                  name="edit"
+                                  color="#71b85f"
+                                  size={28}
+                                  style={styles.findIcon}
+                                />
+                              </TouchableOpacity>
+                            </View>
+                          ) : (
+                            <></>
+                          )}
+                      </View>
                     </View>
-                  </View>
-                );
-                      }
-                      else{
-                        return(
-                          <Text>No Data Found</Text>
-                        );
-                      }
+                  );
+                }
+                else {
+                  return (
+                    <View style={styles.noDataImg}>
+                      <Image source={require('../../../assets/images/noData.png')} />
+                      <Text style={styles.noDataImgText}>No Data Found</Text>
+                    </View>
+                  );
+                }
               })}
             </ScrollView>
           </View>
@@ -412,8 +415,8 @@ class PostedProjectByEmployee extends Component {
               <View style={styles.modalContent}>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
-                  style={{width: '100%'}}>
-                  <View style={{width: '100%', marginVertical: 20}}>
+                  style={{ width: '100%' }}>
+                  <View style={{ width: '100%', marginVertical: 20 }}>
                     <Text style={styles.title}>Edit Your Posted Project</Text>
 
                     <Text style={styles.inputHead}>*Project Title</Text>
@@ -433,7 +436,7 @@ class PostedProjectByEmployee extends Component {
                     </Text>
 
                     <Text style={styles.inputHead}>*Project Description</Text>
-                    <View style={[styles.formGroup, {height: 100}]}>
+                    <View style={[styles.formGroup, { height: 100 }]}>
                       <TextInput
                         returnKeyType="done"
                         placeholder="Description [Max 5000 Chars.]"
@@ -466,7 +469,7 @@ class PostedProjectByEmployee extends Component {
                             <View
                               style={[
                                 styles.formSubGroup22,
-                                {flexWrap: 'wrap', flexDirection: 'row'},
+                                { flexWrap: 'wrap', flexDirection: 'row' },
                               ]}>
                               <View
                                 style={[
@@ -479,7 +482,7 @@ class PostedProjectByEmployee extends Component {
                                 <Text
                                   style={[
                                     styles.skillText,
-                                    {color: '#fff', marginRight: 10},
+                                    { color: '#fff', marginRight: 10 },
                                   ]}>
                                   {data}
                                 </Text>
@@ -494,8 +497,8 @@ class PostedProjectByEmployee extends Component {
                         );
                       })
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
                     <View style={styles.skillView}>
                       <View style={[styles.formGroup1]}>
                         <View style={styles.formPicker}>
@@ -520,18 +523,18 @@ class PostedProjectByEmployee extends Component {
                                 );
                               })
                             ) : (
-                              <></>
-                            )}
+                                <></>
+                              )}
                           </Picker>
                         </View>
                         <TouchableOpacity
                           onPress={this.handleAdditionalSkill}
-                          style={{marginLeft: 'auto'}}>
+                          style={{ marginLeft: 'auto' }}>
                           <AntDesign
                             name="plussquare"
                             size={55}
                             color="#60a84e"
-                            style={{marginLeft: 10}}
+                            style={{ marginLeft: 10 }}
                           />
                         </TouchableOpacity>
                       </View>
@@ -540,14 +543,14 @@ class PostedProjectByEmployee extends Component {
                     {this.state.errSkills === true ? (
                       <ErrorMsg errorMsg="*Please select Skill(s)" />
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
 
                     {this.state.showAdditional === true ? (
                       <View
                         style={[
                           styles.formGroup,
-                          {height: 100, marginTop: 10},
+                          { height: 100, marginTop: 10 },
                         ]}>
                         <TextInput
                           returnKeyType="done"
@@ -567,26 +570,26 @@ class PostedProjectByEmployee extends Component {
                         />
                       </View>
                     ) : (
-                      <></>
-                    )}
-                    <Text style={[styles.inputHead, {marginTop: 30}]}>
+                        <></>
+                      )}
+                    <Text style={[styles.inputHead, { marginTop: 30 }]}>
                       *Project Budget
                     </Text>
                     <View style={styles.projectView}>
                       <View
                         style={[
                           styles.formGroup,
-                          {width: '45%', flexWrap: 'wrap'},
+                          { width: '45%', flexWrap: 'wrap' },
                         ]}>
                         <TextInput
                           returnKeyType="done"
-                          style={[styles.inputGroup, {width: '70%'}]}
+                          style={[styles.inputGroup, { width: '70%' }]}
                           keyboardType="number-pad"
                           //value={this.state.budget}
                           onChangeText={this.handleInputBudget}>
                           {this.state.budget}
                         </TextInput>
-                        <View style={[styles.formSubGroup1, {marginTop: 10}]}>
+                        <View style={[styles.formSubGroup1, { marginTop: 10 }]}>
                           <FontAwesome
                             name="dollar"
                             size={20}
@@ -595,7 +598,7 @@ class PostedProjectByEmployee extends Component {
                         </View>
                       </View>
 
-                      <View style={{width: '10%'}}>
+                      <View style={{ width: '10%' }}>
                         <Text
                           style={{
                             fontSize: 16,
@@ -608,16 +611,16 @@ class PostedProjectByEmployee extends Component {
                       <View
                         style={[
                           styles.formGroup,
-                          {width: '45%', flexWrap: 'wrap'},
+                          { width: '45%', flexWrap: 'wrap' },
                         ]}>
                         <Text
                           style={[
                             styles.inputGroup,
-                            {textAlignVertical: 'center', width: '70%'},
+                            { textAlignVertical: 'center', width: '70%' },
                           ]}>
                           {this.state.budgetINR}
                         </Text>
-                        <View style={[styles.formSubGroup1, {marginTop: 10}]}>
+                        <View style={[styles.formSubGroup1, { marginTop: 10 }]}>
                           <FontAwesome name="rupee" size={20} color="#d7d7d8" />
                         </View>
                       </View>
@@ -629,7 +632,7 @@ class PostedProjectByEmployee extends Component {
                     <TouchableOpacity
                       style={styles.modalCross}
                       onPress={() =>
-                        this.setState({show: false, showAdditional: false})
+                        this.setState({ show: false, showAdditional: false })
                       }>
                       <Entypo
                         name="circle-with-cross"
@@ -643,7 +646,7 @@ class PostedProjectByEmployee extends Component {
                         activeOpacity={0.9}
                         style={[styles.authBtn]}
                         onPress={() =>
-                          this.setState({show: false, showAdditional: false})
+                          this.setState({ show: false, showAdditional: false })
                         }>
                         <Text style={styles.authBtnText}>Cancel</Text>
                       </TouchableOpacity>

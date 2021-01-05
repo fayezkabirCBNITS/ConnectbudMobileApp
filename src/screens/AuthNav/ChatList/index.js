@@ -230,8 +230,11 @@ class ChatListScreen extends Component {
   };
   viewProposal = () => {
     this.RBSheet.close(),
-      this.props.navigation.navigate('ProposalFromFreelancer');
-  };
+    this.props.navigation.navigate('ProposalFromFreelancer', {
+      job_id: this.state.job_id,
+      receiver_id: this.state.receiver_id,
+    });
+  }
 
   PageNav = async () => {
     // await AsyncStorage.setItem('ProjectJobId' , JobId);
@@ -357,12 +360,7 @@ class ChatListScreen extends Component {
               )}
 
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('ProposalFromFreelancer', {
-                    job_id: this.state.job_id,
-                    receiver_id: this.state.receiver_id,
-                  })
-                }
+                onPress={this.viewProposal}
                 style={styles.loginBtn2}>
                 <Text style={styles.loginBtnText2}>View Proposal</Text>
               </TouchableOpacity>
@@ -412,33 +410,54 @@ class ChatListScreen extends Component {
             </ScrollView>
 
             <View style={styles.chatInputSec}>
-              {this.state.request_status === 'pending' ? (
-                this.state.user_type === 'Rg==' ? (
-                  <Text>You can't chat until you accept the proposal</Text>
-                ) : (
-                  <Text>
-                    You can't chat until the employer accepts the proposal
-                  </Text>
-                )
-              ) : (
-                <View style={styles.inputHead}>
-                  <TextInput
-                    onChangeText={(text) => {
-                      this.setState({chatContent: text});
-                    }}
-                    value={this.state.chatContent}
-                    placeholder="Type a message"
-                    style={[styles.input, {color: '#000000'}]}
-                  />
-                  {this.state.chatContent != '' ? (
-                    <TouchableOpacity
-                      style={styles.icon}
-                      onPress={this.chatUpdate}>
-                      <FontAwesome name="send" color="#fff" size={18} />
-                    </TouchableOpacity>
-                  ) : null}
-                </View>
-              )}
+            {this.state.chatMessage.map((item, index) => {
+              if (item.request_status != "pending" && item.request_status != "blocked") {
+                if (index < 1) {
+                return (
+                  <View style={styles.inputHead}>
+                    <TextInput
+                      onChangeText={(text) => {
+                        this.setState({chatContent: text});
+                      }}
+                      value={this.state.chatContent}
+                      placeholder="Type a message"
+                      style={[styles.input, {color: '#000000'}]}
+                    />
+                    {this.state.chatContent != '' ? (
+                      <TouchableOpacity
+                        style={styles.icon}
+                        onPress={this.chatUpdate}>
+                        <FontAwesome name="send" color="#fff" size={18} />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                );}
+                } else if (item.request_type == "invitation" && item.request_status == "pending") {
+                    return (
+                      this.state.user_type === 'Rg==' ? (
+                        <Text style={{paddingLeft: 15}}>You can't chat until the student send you proposal and you accept it</Text>
+                      ) : (
+                        <Text style={{paddingLeft: 15}}>You can't chat until you accept the proposal</Text>
+                          )
+                    );
+                  } else if (item.request_type != "invitation" && item.request_status == "pending") {
+                      return (
+                        this.state.user_type === 'Rg==' ? (
+                          <Text style={{paddingLeft: 15}}>You can't chat until you accept the proposal</Text>
+                        ) : (
+                          <Text style={{paddingLeft: 15}}>You can't chat until the employer accepts the proposal</Text>
+                            )
+                      );
+                  } else {
+                      return (
+                        this.state.user_type === 'Rg==' ? (
+                          <Text style={{paddingLeft: 15}}>You can't chat anymore</Text>
+                        ) : (
+                          <Text style={{paddingLeft: 15}}>Employer has hired someone else for this project</Text>
+                            )
+                      );
+                    }
+                })}
             </View>
           </KeyboardAwareScrollView>
         </View>

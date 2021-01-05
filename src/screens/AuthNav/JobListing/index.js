@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Image, TextInput, Modal } from 'react-native';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
+import Header from '../../../components/Header';
 import StatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -510,24 +511,7 @@ class JobListingScreen extends Component {
           />
           <StatusBar />
           {/* header section */}
-          <View style={[CommonStyles.header, { marginBottom: 15 }]}>
-            <TouchableOpacity
-              style={CommonStyles.hambarIcon}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
-            </TouchableOpacity>
-            <Image
-              source={require('../../../assets/images/logo.png')}
-              style={CommonStyles.imageHdr}
-            />
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('NotificationScreen')
-              }
-              style={CommonStyles.bellIcon}>
-              <Feather name="bell" color="#71b85f" size={30} />
-            </TouchableOpacity>
-          </View>
+          <Header />
           {/* header section end */}
           <View style={CommonStyles.container}>
             <ScrollView

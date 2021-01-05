@@ -512,10 +512,10 @@ class SignInScreen extends Component {
                         style={styles.iconImg}
                       />
                     </TouchableOpacity>
-                    <Image
+                    {/* <Image
                       source={require('../../../assets/images/g.png')}
                       style={styles.iconImg}
-                    />
+                    /> */}
                     <TouchableOpacity onPress={this.signInFirst}>
                       <Image
                         source={require('../../../assets/images/google.png')}
