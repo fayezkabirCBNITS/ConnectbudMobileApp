@@ -97,9 +97,11 @@ export const userDataReducer = (state = initialState, action) => {
     }
 
     case UPDATE_USER_DETAILS: {
+      console.log(action.payload.userData[0].Flag,"an");
       newState.userDetails = action.payload.userData
         ? action.payload.userData
         : newState.userDetails;
+
       newState.Flag = action.payload.userData[0].Flag
         ? action.payload.userData[0].Flag
         : newState.Flag;

@@ -190,10 +190,24 @@ class OnlineCodingClasses extends Component {
       console.log('CourseSubmit-----', response);
 
       if (response[0].hire_by == 'me') {
-        this.setState({isModalVisible: true});
+        this.setState({
+          isModalVisible: true,
+          HireBy: '',
+          startDate: '',
+          startTime: '',
+          course_name: '',
+          overview: ''
+        });
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        this.setState({isModalVisible: true});
+        this.setState({
+          isModalVisible: true,
+          HireBy: '',
+          startDate: '',
+          startTime: '',
+          course_name: '',
+          overview: ''
+        });
         this.props.navigation.navigate('BankDetailScreen');
       }
       this.clearForm();

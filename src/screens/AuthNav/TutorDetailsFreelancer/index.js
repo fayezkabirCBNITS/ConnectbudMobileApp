@@ -38,11 +38,16 @@ class TutorDetailsFreelancer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
       Job: '',
       jobDetails: [],
       jobSet: [],
       user_id: '',
       showLoader: false,
+      job_id: '',
+      projectType: '',
     };
   }
 
@@ -51,10 +56,12 @@ class TutorDetailsFreelancer extends Component {
   };
 
   componentDidMount = async () => {
+    console.log('hhhhhhhhhhhhhhhhhh');
     const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
       showLoader: true,
+      job_id: userDeatailResponse.userData.JOBID,
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -80,11 +87,12 @@ class TutorDetailsFreelancer extends Component {
         this.setState({
           jobDetails: response.data,
           showLoader: false,
+          projectType: response.data[0].type,
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
       })
-      .catch((error) => { });
+      .catch((error) => {});
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -100,6 +108,31 @@ class TutorDetailsFreelancer extends Component {
   };
 
   // this.props.navigation.navigate('ProjectDetailsFreelancer');
+  employeracceptIgnore = async (EmpId) => {
+    const obj = {
+      freelancer_id: this.state.user_id,
+      hirer_id: EmpId,
+      job_id: this.state.job_id,
+      response: 'no',
+      confirmation_type: 'invitation',
+    };
+    console.log(obj);
+    await axios
+      .post(API_URL + 'tutorproposal', obj, {
+        header: {
+          'content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        alert('Invitation ignored!');
+        this.props.navigation.navigate('StudentInner');
+        this.setState({isLoading: false});
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
+  };
 
   PageNav = async (JobID) => {
     this.setState({
@@ -195,48 +228,120 @@ class TutorDetailsFreelancer extends Component {
                   </Text>
 
                   <TouchableOpacity style={styles.applyBtn}>
-                    <Text
-                      style={styles.applyBtnText}
-                      onPress={() =>
-                        this.props.navigation.navigate('AssessmentQuestion')
-                      }>
-                      Apply
-                    </Text>
+                    {this.state.jobDetails.map((value, index) => {
+                      return (
+                        <>
+                          {value.pending_status === 'pending' &&
+                          this.state.projectType !== 'invitation' ? (
+                            <Text style={styles.applyBtnText}>Waiting</Text>
+                          ) : (
+                            <>
+                              {this.state.btnStatus === '' ? (
+                                <Text
+                                  style={styles.applyBtnText}
+                                  onPress={() =>
+                                    this.props.navigation.navigate(
+                                      'SignInScreen',
+                                    )
+                                  }>
+                                  Apply
+                                </Text>
+                              ) : (
+                                <>
+                                  {value.pending_status === 'accept' ? (
+                                    <Text style={styles.applyBtnText}>
+                                      Accepted
+                                    </Text>
+                                  ) : (
+                                    <>
+                                      {this.state.pageStatus ===
+                                      'invitation' ? (
+                                        <View style={styles.actionEdtBtn}>
+                                          <TouchableOpacity
+                                            style={[styles.authBtn]}>
+                                            <Text
+                                              style={styles.authBtnText}
+                                              onPress={() =>
+                                                this.props.navigation.navigate(
+                                                  'AssessmentQuestion',
+                                                )
+                                              }>
+                                              Apply
+                                            </Text>
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            style={[styles.authBtn]}>
+                                            <Text
+                                              style={styles.authBtnText}
+                                              onPress={() =>
+                                                this.employeracceptIgnore(
+                                                  value.user_id,
+                                                )
+                                              }>
+                                              Ignore
+                                            </Text>
+                                          </TouchableOpacity>
+                                        </View>
+                                      ) : (
+                                        <Text
+                                          style={styles.applyBtnText}
+                                          onPress={() =>
+                                            this.props.navigation.navigate(
+                                              'AssessmentQuestion',
+                                            )
+                                          }>
+                                          Apply
+                                        </Text>
+                                      )}
+                                    </>
+                                  )}
+                                </>
+                              )}
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
                   </TouchableOpacity>
                 </View>
               ))}
-
-              <View style={styles.similarJobWrapper}>
-                <View style={styles.slimilarJob}>
-                  <Text style={styles.similiarjobText}>
-                    Similar tutoring jobs for me
-                  </Text>
+              {this.state.pageStatus !== 'invitation' ? (
+                <View style={styles.similarJobWrapper}>
+                  <View style={styles.slimilarJob}>
+                    <Text style={styles.similiarjobText}>
+                      Similar tutoring jobs for me
+                    </Text>
+                  </View>
+                  {this.state.jobSet.map((item, idx) => (
+                    <Pressable onPress={() => this.PageNav(item.id)}>
+                      <View key={idx} style={styles.similarList}>
+                        <View style={styles.iconList}>
+                          <FontAwesome
+                            style={{width: 30}}
+                            name="graduation-cap"
+                            size={15}
+                            color="#d7d7d8"
+                          />
+                          <Text style={styles.iconText}>{item.job_title}</Text>
+                        </View>
+                        <View style={styles.iconList}>
+                          <FontAwesome
+                            style={{width: 30}}
+                            name="tag"
+                            size={15}
+                            color="#d7d7d8"
+                          />
+                          <Text style={styles.iconText}>
+                            {item.match_number}
+                          </Text>
+                        </View>
+                      </View>
+                    </Pressable>
+                  ))}
                 </View>
-                {this.state.jobSet.map((item, idx) => (
-                  <Pressable onPress={() => this.PageNav(item.id)}>
-                    <View key={idx} style={styles.similarList}>
-                      <View style={styles.iconList}>
-                        <FontAwesome
-                          style={{width: 30}}
-                          name="graduation-cap"
-                          size={15}
-                          color="#d7d7d8"
-                        />
-                        <Text style={styles.iconText}>{item.job_title}</Text>
-                      </View>
-                      <View style={styles.iconList}>
-                        <FontAwesome
-                          style={{width: 30}}
-                          name="tag"
-                          size={15}
-                          color="#d7d7d8"
-                        />
-                        <Text style={styles.iconText}>{item.match_number}</Text>
-                      </View>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
+              ) : (
+                <></>
+              )}
             </ScrollView>
           </View>
         </View>

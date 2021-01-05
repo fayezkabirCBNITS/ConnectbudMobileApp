@@ -52,12 +52,11 @@ class FreeContactScreen extends Component {
       method: 'POST',
       data: body,
     }).then((response) => {
-      console.log(response.data[0].message);
+      console.log(response);
       this.setState({
         projectData: response.data,
         mileData: response.data[0].details,
       });
-      console.log(this.state.mileData);
     });
 
     let taglist = new FormData();
@@ -95,7 +94,7 @@ class FreeContactScreen extends Component {
       if (response.data[0].message === 'No data found') {
         this.setState({
           projectData: response.data,
-          mileData: []
+          mileData: [],
         });
       } else {
         this.setState({
@@ -103,7 +102,7 @@ class FreeContactScreen extends Component {
           mileData: response.data[0].details,
         });
       }
-      console.log("mileData",this.state.mileData);
+      console.log('mileData', this.state.mileData);
     });
   };
 
@@ -175,115 +174,108 @@ class FreeContactScreen extends Component {
               style={styles.scroll}>
               <Text style={styles.heading}>Ongoing Projects</Text>
               {/* project 1 */}
-              <Collapse style={styles.collapse}>
-                {this.state.projectData.map((data, i) => {
-                  if (data.message !== 'No data found') {
-                    return (
-                      <CollapseHeader>
-                        <View style={styles.questions}>
-                          <Text style={styles.questionsText}>
-                            Project Name :
-                          </Text>
-                          <Text style={styles.questionsTextGreen}>
-                            {data.job_name}
-                          </Text>
-                        </View>
-                      </CollapseHeader>
-                    );
-                  } else {
-                    return (
-                      <CollapseHeader>
-                        <View style={styles.noData}>
-                          <Image
-                            source={require('../../../assets/images/noData.png')}
-                          />
-                          <Text style={styles.noDataText}>No Data Found</Text>
-                        </View>
-                      </CollapseHeader>
-                    );
-                  }
-                })}
-                <CollapseBody>
-                  {this.state.mileData !== undefined ? (
+              {this.state.projectData.map((item, i) => {
+                if (item.message !== 'No data found') {
+                  return (
                     <>
-                      {this.state.mileData.map((data, i) => (
-                        <View style={styles.detailsSec}>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>
-                              Type of Project
+                      <Collapse style={styles.collapse}>
+                        <CollapseHeader>
+                          <View style={styles.questions}>
+                            <Text style={styles.questionsText}>
+                              Project Name :
                             </Text>
-                            <Text style={styles.deatailsInfo}>
-                              {data.project_type}
-                              {data.milestone_number}
-                            </Text>
-                          </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>
-                              Project Timeline
-                            </Text>
-                            <Text style={styles.deatailsInfo}>
-                              {data.end_date}
+                            <Text style={styles.questionsTextGreen}>
+                              {item.job_name}
                             </Text>
                           </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>Description</Text>
-                            <Text style={styles.deatailsInfo}>
-                              {data.description}
-                            </Text>
-                          </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>Amount</Text>
-                            <Text style={styles.deatailsInfo}>
-                              ${data.amount}
-                            </Text>
-                          </View>
-                          <View style={styles.detailsField}>
-                            <Text style={styles.deatailsHdng}>Action</Text>
+                        </CollapseHeader>
+                        <CollapseBody>
+                          {item.details.map((data, index) => (
+                            <View style={styles.detailsSec}>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>
+                                  Type of Project
+                                </Text>
+                                <Text style={styles.deatailsInfo}>
+                                  {data.project_type}
+                                  {data.milestone_number}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>
+                                  Project Timeline
+                                </Text>
+                                <Text style={styles.deatailsInfo}>
+                                  {data.end_date}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>
+                                  Description
+                                </Text>
+                                <Text style={styles.deatailsInfo}>
+                                  {data.description}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>Amount</Text>
+                                <Text style={styles.deatailsInfo}>
+                                  ${data.milestone_amount}
+                                </Text>
+                              </View>
+                              <View style={styles.detailsField}>
+                                <Text style={styles.deatailsHdng}>Action</Text>
 
-                            <TouchableOpacity style={styles.paidBtn}>
-                              {data.payment_status === 'Not paid' && (
-                                <Text style={styles.paidText}>Not paid</Text>
-                              )}
+                                <TouchableOpacity style={styles.paidBtn}>
+                                  {data.payment_status === 'Not paid' && (
+                                    <Text style={styles.paidText}>
+                                      Not paid
+                                    </Text>
+                                  )}
 
-                              {data.payment_status === 'Escrow' &&
-                                data.class_status !== 'free' && (
-                                  <Text
-                                    style={styles.paidText}
-                                    onPress={() => {
-                                      this.moneyRequest(data.milestone_id);
-                                    }}>
-                                    Request to release money
-                                  </Text>
-                                )}
+                                  {data.payment_status === 'Escrow' &&
+                                    data.class_status !== 'free' && (
+                                      <Text
+                                        style={styles.paidText}
+                                        onPress={() => {
+                                          this.moneyRequest(data.milestone_id);
+                                        }}>
+                                        Request to release money
+                                      </Text>
+                                    )}
 
-                              {data.payment_status === 'Escrow' &&
-                                data.class_status === 'free' && (
-                                  <Text style={styles.paidText}>
-                                    Request after completion
-                                  </Text>
-                                )}
+                                  {data.payment_status === 'Escrow' &&
+                                    data.class_status === 'free' && (
+                                      <Text style={styles.paidText}>
+                                        Request after completion
+                                      </Text>
+                                    )}
 
-                              {data.payment_status === 'Pending' && (
-                                <Text style={styles.paidText}>Pending</Text>
-                              )}
+                                  {data.payment_status === 'Pending' && (
+                                    <Text style={styles.paidText}>Pending</Text>
+                                  )}
 
-                              {data.payment_status === 'Redeem' && (
-                                <Text style={styles.paidText}>Pending</Text>
-                              )}
+                                  {data.payment_status === 'Redeem' && (
+                                    <Text style={styles.paidText}>Pending</Text>
+                                  )}
 
-                              {data.payment_status === 'Paid' && (
-                                <Text style={styles.paidText}>Paid</Text>
-                              )}
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                      ))}
+                                  {data.payment_status === 'Paid' && (
+                                    <Text style={styles.paidText}>Paid</Text>
+                                  )}
+                                </TouchableOpacity>
+                              </View>
+                            </View>
+                          ))}
+                        </CollapseBody>
+                      </Collapse>
                     </>
-                  ) : (
-                    <></>
-                  )}
-                </CollapseBody>
-              </Collapse>
+                  );
+                } else {
+                  return(
+                  <View style={styles.noData}><Text style={styles.noDataText}>No chat found</Text></View>
+                  )
+                }
+              })}
 
               {/* project 2 */}
             </ScrollView>

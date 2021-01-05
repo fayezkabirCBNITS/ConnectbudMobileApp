@@ -32,6 +32,11 @@ import {withNavigation} from 'react-navigation';
 import base64 from 'base-64';
 import OnlineCodingClasses from '../OnlinCodingClasses/onlineClasses';
 
+import {API_URL} from '../../config/url';
+import axios from 'axios';
+
+
+
 class HireTutor extends Component {
   constructor() {
     super();
@@ -68,6 +73,7 @@ class HireTutor extends Component {
       isModalVisible: false,
       classCount: '',
       amount: '',
+      fetchAmount:''
     };
   }
 
@@ -125,6 +131,10 @@ class HireTutor extends Component {
     this.hideDatePicker();
   };
 
+  FetchAmount = async () => {
+   
+  };
+
   hideTimePicker = () => {
     this.setState({showTimePicker: false});
   };
@@ -166,12 +176,31 @@ class HireTutor extends Component {
   };
 
   onhandleSubmit = async () => {
-    console.log(this.state.amount);
-    if (this.state.totalCost >= this.state.amount) {
-      this.handleSubmit();
+    const num = parseFloat(this.state.startTime);
+    console.log(num);
+    let body = new FormData();
+    body.append("Number_of_classes", this.state.classCount);
+    body.append("start_time", this.state.startTime);
+    body.append("end_time", this.state.endTime);
+console.log(body);
+    await axios({
+      url: API_URL + "course_amount",
+      method: "POST",
+      data: body,
+    })
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          fetchAmount: response.data[0].total_amount,
+        });
+      })
+      .catch((error) => { });
+    console.log(this.state.fetchAmount);
+    if (this.state.totalCost >= this.state.fetchAmount) {
+      // this.handleSubmit();
     } else {
       alert(
-        `Your minimum charge is ${this.state.amount}$` +
+        `Your minimum charge is ${this.state.fetchAmount}$` +
           `Please pay the money to complete your submission process.`,
       );
     }
@@ -673,7 +702,7 @@ class HireTutor extends Component {
                   <View style={styles.formSubGroup2}>
                     <TextInput
                       returnKeyType="done"
-                      placeholder="180.00"
+                      placeholder="Please enter your amount"
                       style={styles.inputGroup}
                       keyboardType="number-pad"
                       value={this.state.totalCost}
