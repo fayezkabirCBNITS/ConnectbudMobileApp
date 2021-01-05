@@ -123,6 +123,19 @@ export default {
     color: '#fff',
     marginTop: 3
   },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 500,
+    marginTop: 60,
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
   heading: {
     fontSize: 20,
     color: '#71b85f',
