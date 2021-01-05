@@ -13,7 +13,7 @@ class AboutUs extends Component {
         return (
             <SafeAreaView style={CommonStyle.safeAreaView}>
                 <View style={CommonStyle.main}>
-                    <ScrollView showsVerticalScrollIndicator={true}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={{ marginHorizontal: '5%' }}>
                             <Text style={styles.headerText}>Our Story</Text>
                             <Text style={{ fontFamily: 'Poppins-Regular' }}>

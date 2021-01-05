@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -18,7 +18,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   // storeAccessToken,
   // updateUserStatus,
@@ -29,8 +29,8 @@ import {
 import base64 from 'base-64';
 
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
-import {connect} from 'react-redux';
+import { API_URL } from '../../../config/url';
+import { connect } from 'react-redux';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -42,6 +42,9 @@ class TutorDetailsFreelancer extends Component {
       jobDetails: [],
       jobSet: [],
       user_id: '',
+      skillSet: [],
+      JobType: "",
+      StringDate: [],
       showLoader: false,
     };
   }
@@ -51,7 +54,7 @@ class TutorDetailsFreelancer extends Component {
   };
 
   componentDidMount = async () => {
-    const {userDeatailResponse} = this.props;
+    const { userDeatailResponse } = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
       showLoader: true,
@@ -77,14 +80,27 @@ class TutorDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        this.setState({
-          jobDetails: response.data,
-          showLoader: false,
-          // priceAmount: response.data[0].price_amount,
-          // skillSet: response.data[0].key_skill,
-        });
+        if (response.data[0].detail_type === "tutor") {
+          this.setState({
+            jobDetails: response.data,
+            skillSet: response.data[0].key_skill,
+            JobType: response.data[0].milestone[0].description,
+            StringDate: response.data[0].milestone.map((obj) => obj.date),
+            showLoader: false,
+          });
+        } else {
+          this.setState({
+            jobDetails: response.data,
+            skillSet: response.data[0].key_skill,
+            showLoader: false,
+          });
+        }
       })
-      .catch((error) => { });
+      .catch((error) => {
+        this.setState({
+          showLoader: false,
+        });
+      });
 
     await axios({
       url: API_URL + 'expert_jobsummary',
@@ -96,7 +112,7 @@ class TutorDetailsFreelancer extends Component {
           jobSet: response.data,
         });
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   // this.props.navigation.navigate('ProjectDetailsFreelancer');
@@ -112,7 +128,7 @@ class TutorDetailsFreelancer extends Component {
     body.append('type', 'tutor');
     body.append('skills', '');
     body.append('search_type', 'all');
-    body.append('offset', '3');
+    body.append('offset', 3);
 
     taglistbody.append('job_id', JobID);
     taglistbody.append('user_id', this.state.user_id);
@@ -124,16 +140,26 @@ class TutorDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        this.setState({
-          jobDetails: response.data,
-          showLoader: false,
-          // priceAmount: response.data[0].price_amount,
-          // skillSet: response.data[0].key_skill,
-        });
-        this.setState({isLoading: true});
+        if (response.data[0].detail_type === "tutor") {
+          this.setState({
+            jobDetails: response.data,
+            skillSet: response.data[0].key_skill,
+            JobType: response.data[0].milestone[0].description,
+            StringDate: response.data[0].milestone.map((obj) => obj.date),
+            showLoader: false,
+          });
+        } else {
+          this.setState({
+            jobDetails: response.data,
+            skillSet: response.data[0].key_skill,
+            showLoader: false,
+          });
+        }
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({
+          showLoader: false,
+        });
       });
 
     await axios({
@@ -145,12 +171,8 @@ class TutorDetailsFreelancer extends Component {
         this.setState({
           jobSet: response.data,
         });
-
-        this.setState({isLoading: true});
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => { });
   };
 
   render() {
@@ -179,18 +201,53 @@ class TutorDetailsFreelancer extends Component {
                   <Text style={styles.daysAgo}>{value.posted_date}</Text>
                   <Text style={styles.courseDetails}>Course Details</Text>
                   <Text>
-                    <Text style={styles.textSemibold}> Course Amount : </Text>{' '}
+                    <Text style={styles.textSemibold}>Skills :</Text>{' '}
+                  </Text>
+                  <View style={styles.skillSec}>
+                    {value.key_skill.map((value, i) => {
+                      return (
+                        <View key={i} style={styles.skillTab}>
+                          <Text style={styles.skillText}>{value.skill_name}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <Text>
+                    <Text style={styles.textSemibold}>Course Amount :</Text>{' '}
                     <Text> {value.price_amount} USD</Text>
                   </Text>
 
-                  {/* <Text>
-                    <Text style={styles.textSemibold}> Course Date : </Text>{' '}
-                    {value.milestone.map((item, i) => (
-                      <Text>{item.date},</Text>
-                    ))}
-                  </Text> */}
+                  {value.detail_type === "tutor" ? (
+                    <>
+                      {this.state.JobType === "Week1" ? "\n" : <></>}
+                      {this.state.JobType === "Week1" ? (
+                        <Text>
+                          <Text style={styles.textSemibold}>Course Duration :</Text>{' '}
+                          <Text> 1 Month</Text>
+                        </Text>
+                      ) : (
+                          <></>
+                        )}
+
+                      {this.state.JobType === "Week1" ? (
+                        <Text>
+                          <Text style={styles.textSemibold}>Number of Classes :</Text>{' '}
+                          <Text> 4 Classes</Text>
+                        </Text>
+                      ) : (
+                          <Text>
+                            <Text style={styles.textSemibold}>Number of Classes :</Text>{' '}
+                            <Text> {value.Classes}</Text>
+                          </Text>
+                        )}
+                      <Text>
+                        <Text style={styles.textSemibold}>Course Date: :</Text>{' '}
+                        <Text> {this.state.StringDate.toString()}</Text>
+                      </Text>
+                    </>) : (<></>)}
+
                   <Text>
-                    <Text style={styles.textSemibold}> Course Syllabus : </Text>
+                    <Text style={styles.textSemibold}>Course Syllabus :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
 
@@ -217,7 +274,7 @@ class TutorDetailsFreelancer extends Component {
                     <View key={idx} style={styles.similarList}>
                       <View style={styles.iconList}>
                         <FontAwesome
-                          style={{width: 30}}
+                          style={{ width: 30 }}
                           name="graduation-cap"
                           size={15}
                           color="#d7d7d8"
@@ -226,7 +283,7 @@ class TutorDetailsFreelancer extends Component {
                       </View>
                       <View style={styles.iconList}>
                         <FontAwesome
-                          style={{width: 30}}
+                          style={{ width: 30 }}
                           name="tag"
                           size={15}
                           color="#d7d7d8"

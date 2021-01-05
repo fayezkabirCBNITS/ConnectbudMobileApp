@@ -271,7 +271,7 @@ class HireTutor extends Component {
                       : styles.skillText
                   }
                   onPress={() => this.onActive('online')}>
-                  Online class & Tutorial
+                  Online coding class & tutoring
                 </Text>
               </View>
 
@@ -288,7 +288,7 @@ class HireTutor extends Component {
                       : styles.skillText
                   }
                   onPress={() => this.onActive('homework')}>
-                  HomeWork Help
+                  Homework help
                 </Text>
               </View>
             </View>

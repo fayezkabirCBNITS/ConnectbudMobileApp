@@ -86,7 +86,7 @@ class AssessmentQuestion extends Component {
       this.state.firstAnswer.length < 50
     ) {
       formIsValid = false;
-      errors['firstAnswerChara'] = '*enter minimum 50 characters';
+      errors['firstAnswerChara'] = '*Type minimum 50 characters';
     }
 
     if (!this.state.secondAnswer) {
@@ -99,7 +99,7 @@ class AssessmentQuestion extends Component {
       this.state.secondAnswer.length < 50
     ) {
       formIsValid = false;
-      errors['secondAnswerChara'] = '*enter minimum 50 characters';
+      errors['secondAnswerChara'] = '*Type minimum 50 characters';
     }
 
     this.setState({

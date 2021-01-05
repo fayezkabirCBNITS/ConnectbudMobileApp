@@ -183,21 +183,29 @@ class JobDetailsFreelancer extends Component {
                 <View style={styles.boxWrapper}>
                   <Text style={styles.boxTitle}>{value.job_title}</Text>
                   <Text style={styles.daysAgo}>{value.posted_date}</Text>
-                  <Text style={styles.courseDetails}>Course Details</Text>
+                  <Text style={styles.courseDetails}>Job Details</Text>
                   <Text>
-                    <Text style={styles.textSemibold}> Course Amount : </Text>{' '}
+                    <Text style={styles.textSemibold}>Skills :</Text>{' '}
+                  </Text>
+                  <View style={styles.skillSec}>
+                    {value.key_skill.map((value, i) => {
+                      return (
+                        <View key={i} style={styles.skillTab}>
+                          <Text style={styles.skillText}>{value.skill_name}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <Text>
+                    <Text style={styles.textSemibold}>Job Amount :</Text>{' '}
                     <Text> {value.job_amount}</Text>
                   </Text>
-                  {/* <Text>
-                  <Text style={styles.textSemibold}> Course Duration : </Text>{' '}
-                  <Text></Text> month
-                </Text>
-                <Text>
-                  <Text style={styles.textSemibold}> Course Date : </Text>{' '}
-                  <Text>2020-12-16</Text>
-                </Text> */}
                   <Text>
-                    <Text style={styles.textSemibold}> Course Syllabus : </Text>
+                    <Text style={styles.textSemibold}>Job Location :</Text>{' '}
+                    <Text> {value.location}</Text>
+                  </Text>
+                  <Text>
+                    <Text style={styles.textSemibold}>Description :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
 

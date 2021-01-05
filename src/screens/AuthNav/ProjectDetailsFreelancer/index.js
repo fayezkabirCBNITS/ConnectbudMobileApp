@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -18,7 +18,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   // storeAccessToken,
   // updateUserStatus,
@@ -29,8 +29,8 @@ import {
 import base64 from 'base-64';
 
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
-import {connect} from 'react-redux';
+import { API_URL } from '../../../config/url';
+import { connect } from 'react-redux';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -56,7 +56,7 @@ class ProjectDetailsFreelancer extends Component {
   };
 
   componentDidMount = async () => {
-    const {userDeatailResponse} = this.props;
+    const { userDeatailResponse } = this.props;
     this.setState({
       btnStatus: userDeatailResponse.userData.user_id,
       showLoader: true,
@@ -92,10 +92,10 @@ class ProjectDetailsFreelancer extends Component {
           // skillSet: response.data[0].key_skill,
         });
         console.log(this.state.projectType);
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
 
     await axios({
@@ -107,10 +107,10 @@ class ProjectDetailsFreelancer extends Component {
         this.setState({
           jobSet: response.data,
         });
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -145,10 +145,10 @@ class ProjectDetailsFreelancer extends Component {
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
 
     await axios({
@@ -161,10 +161,10 @@ class ProjectDetailsFreelancer extends Component {
           jobSet: response.data,
         });
 
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -192,9 +192,21 @@ class ProjectDetailsFreelancer extends Component {
                 <View style={styles.boxWrapper}>
                   <Text style={styles.boxTitle}>{value.job_title}</Text>
                   <Text style={styles.daysAgo}>{value.posted_date}</Text>
-                  <Text style={styles.courseDetails}>Course Details</Text>
+                  <Text style={styles.courseDetails}>Project Details</Text>
                   <Text>
-                    <Text style={styles.textSemibold}> Course Amount : </Text>{' '}
+                    <Text style={styles.textSemibold}>Skills :</Text>{' '}
+                  </Text>
+                  <View style={styles.skillSec}>
+                    {value.key_skill.map((value, i) => {
+                      return (
+                        <View key={i} style={styles.skillTab}>
+                          <Text style={styles.skillText}>{value.skill_name}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <Text>
+                    <Text style={styles.textSemibold}>Budget :</Text>{' '}
                     <Text> {value.price_amount} USD</Text>
                   </Text>
                   {/* <Text>
@@ -206,7 +218,7 @@ class ProjectDetailsFreelancer extends Component {
                   <Text>2020-12-16</Text>
                 </Text> */}
                   <Text>
-                    <Text style={styles.textSemibold}> Course Syllabus : </Text>
+                    <Text style={styles.textSemibold}>Description :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
                   <TouchableOpacity style={styles.applyBtn}>
@@ -214,41 +226,41 @@ class ProjectDetailsFreelancer extends Component {
                       return (
                         <>
                           {value.pending_status === 'pending' &&
-                          this.state.projectType !== 'invitation' ? (
-                            <Text style={styles.applyBtnText}>Waiting</Text>
-                          ) : (
-                            <>
-                              {this.state.btnStatus === '' ? (
-                                <Text
-                                  style={styles.applyBtnText}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'SignInScreen',
-                                    )
-                                  }>
-                                  Apply
-                                </Text>
-                              ) : (
-                                <>
-                                  {value.pending_status === 'accept' ? (
-                                    <Text style={styles.applyBtnText}>
-                                      Accepted
-                                    </Text>
-                                  ) : (
-                                    <Text
-                                      style={styles.applyBtnText}
-                                      onPress={() =>
-                                        this.props.navigation.navigate(
-                                          'AssessmentQuestion',
-                                        )
-                                      }>
-                                      Apply
-                                    </Text>
+                            this.state.projectType !== 'invitation' ? (
+                              <Text style={styles.applyBtnText}>Waiting</Text>
+                            ) : (
+                              <>
+                                {this.state.btnStatus === '' ? (
+                                  <Text
+                                    style={styles.applyBtnText}
+                                    onPress={() =>
+                                      this.props.navigation.navigate(
+                                        'SignInScreen',
+                                      )
+                                    }>
+                                    Apply
+                                  </Text>
+                                ) : (
+                                    <>
+                                      {value.pending_status === 'accept' ? (
+                                        <Text style={styles.applyBtnText}>
+                                          Accepted
+                                        </Text>
+                                      ) : (
+                                          <Text
+                                            style={styles.applyBtnText}
+                                            onPress={() =>
+                                              this.props.navigation.navigate(
+                                                'AssessmentQuestion',
+                                              )
+                                            }>
+                                            Apply
+                                          </Text>
+                                        )}
+                                    </>
                                   )}
-                                </>
-                              )}
-                            </>
-                          )}
+                              </>
+                            )}
                         </>
                       );
                     })}
@@ -267,7 +279,7 @@ class ProjectDetailsFreelancer extends Component {
                       <View key={idx} style={styles.similarList}>
                         <View style={styles.iconList}>
                           <FontAwesome
-                            style={{width: 30}}
+                            style={{ width: 30 }}
                             name="graduation-cap"
                             size={15}
                             color="#d7d7d8"
@@ -276,7 +288,7 @@ class ProjectDetailsFreelancer extends Component {
                         </View>
                         <View style={styles.iconList}>
                           <FontAwesome
-                            style={{width: 30}}
+                            style={{ width: 30 }}
                             name="tag"
                             size={15}
                             color="#d7d7d8"
@@ -290,8 +302,8 @@ class ProjectDetailsFreelancer extends Component {
                   ))}
                 </View>
               ) : (
-                <></>
-              )}
+                  <></>
+                )}
             </ScrollView>
           </View>
         </View>
