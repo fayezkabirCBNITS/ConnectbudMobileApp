@@ -50,6 +50,7 @@ class ProjectDetailsFreelancerNA extends Component {
     body.append('type', 'freelancer');
 
     let response = await makePostRequestMultipart(ApiUrl.LandingProjectDetails, false, body);
+    console.log(response);
     if (response) {
       this.setState({
         jobDetails: response,
