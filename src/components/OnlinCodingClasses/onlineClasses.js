@@ -206,9 +206,14 @@ class OnlineCodingClasses extends Component {
           startDate: '',
           startTime: '',
           course_name: '',
-          overview: ''
+          overview: '',
+          showLoader: false
         });
-        this.props.navigation.navigate('BankDetailScreen');
+        this.props.navigation.navigate('CheckoutScreen',{
+          page_status: "tutor",
+          job_id: response[0].job_id,
+          user_id: base64.decode(this.props.userID),
+        });
       }
       this.clearForm();
     }
@@ -265,8 +270,12 @@ class OnlineCodingClasses extends Component {
         alert('Successfully Posted ');
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        alert('Successfully Posted ');
-        this.props.navigation.navigate('BankDetailScreen');
+        alert('Please checkout to continue');
+        this.props.navigation.navigate('CheckoutScreen',{
+          page_status: "tutor",
+          user_id: base64.decode(this.props.userID),
+          job_id: response[0].job_id,
+        });
       }
       this.clearForm();
     }

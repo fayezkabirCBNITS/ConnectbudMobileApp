@@ -56,6 +56,7 @@ class FreeContactScreen extends Component {
       this.setState({
         projectData: response.data,
         mileData: response.data[0].details,
+        showLoader: false
       });
     });
 
@@ -109,7 +110,7 @@ class FreeContactScreen extends Component {
   moneyRequest = async (mileId, Status) => {
     console.log(mileId);
     this.setState({
-      btnStatus: true,
+      showLoader: true,
       SWAL: Status,
     });
     const obj = {
@@ -128,10 +129,16 @@ class FreeContactScreen extends Component {
         // localStorage.setItem("acceptStatus", "true");
         if (this.state.SWAL === 'free') {
           console.log('if called');
+          this.setState({
+            showLoader: false
+          })
           alert(
             'your request for confirmation has been submitted successfully',
           );
         } else {
+          this.setState({
+            showLoader: false
+          })
           alert(
             'Successfully sent the request to release the money from escrow!',
           );
@@ -145,6 +152,11 @@ class FreeContactScreen extends Component {
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
+         <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
         <View style={CommonStyles.main}>
           <StatusBar />
           {/* header section */}
@@ -240,7 +252,7 @@ class FreeContactScreen extends Component {
                                         onPress={() => {
                                           this.moneyRequest(data.milestone_id);
                                         }}>
-                                        Request to release money
+                                        Request 
                                       </Text>
                                     )}
 
@@ -272,7 +284,7 @@ class FreeContactScreen extends Component {
                   );
                 } else {
                   return(
-                  <View style={styles.noData}><Text style={styles.noDataText}>No chat found</Text></View>
+                  <View style={styles.noData}><Text style={styles.noDataText}>No ongoing project found</Text></View>
                   )
                 }
               })}

@@ -177,7 +177,7 @@ class PostProject extends Component {
         xtraSkill: '',
         budget: '',
         monthSelect: '',
-
+        showLoader: false,
       });
       this.fireMail();
       alert('Successfully posted the Project!');
@@ -215,6 +215,14 @@ class PostProject extends Component {
 
   handleAdditionalSkill = async () => {
     this.setState({ showAdditional: !this.state.showAdditional });
+  };
+
+  handleInputSkills = async (itemValue, itemIndex) => {
+    await this.setState({
+      selectedSkills: [...this.state.selectedSkills, itemValue],
+      skills: this.state.skills.filter((_, i) => i !== itemIndex),
+    });
+    this.validateJobForm();
   };
 
   render() {
@@ -297,13 +305,16 @@ class PostProject extends Component {
                     style={{ width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular' }}
 
                     selectedValue={this.state.skills}
+                    // onValueChange={(itemValue, itemIndex) =>
+                    //   this.setState({
+                    //     selectedSkills: [...this.state.selectedSkills, itemValue],
+                    //     skills: this.state.skills.filter(
+                    //       (_, i) => i !== itemIndex,
+                    //     ),
+                    //   })
+                    // }
                     onValueChange={(itemValue, itemIndex) =>
-                      this.setState({
-                        selectedSkills: [...this.state.selectedSkills, itemValue],
-                        skills: this.state.skills.filter(
-                          (_, i) => i !== itemIndex,
-                        ),
-                      })
+                      this.handleInputSkills(itemValue, itemIndex)
                     }>
                     {this.state.skills.length > 0 ? (
                       this.state?.skills?.map((data) => {
