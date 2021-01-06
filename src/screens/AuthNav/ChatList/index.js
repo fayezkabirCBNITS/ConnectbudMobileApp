@@ -152,6 +152,8 @@ class ChatListScreen extends Component {
       };
       this.socket.send(JSON.stringify(payload));
 
+      console.log(payload);
+
       var temp = new Date();
       var time = temp
         .toUTCString('en-US', {timeZone: 'GMT'})
@@ -181,6 +183,7 @@ class ChatListScreen extends Component {
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevState.chatMessage != this.state.chatMessage) {
+      console.log(this.state.room_id);
       let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${this.state.room_id}`;
       const socket = new WebSocket(webSocketConnection);
 
@@ -220,6 +223,7 @@ class ChatListScreen extends Component {
   }
 
   hireStudent = () => {
+    console.log(this.state.token);
     this.RBSheet.close(),
       this.props.navigation.navigate('HireStudentsScreen', {
         proposed_amount: this.state.proposed_amount,
@@ -239,6 +243,7 @@ class ChatListScreen extends Component {
   PageNav = async () => {
     // await AsyncStorage.setItem('ProjectJobId' , JobId);
     // this.props.navigateToDetails();
+    console.log(this.state.ProjectType);
     if(this.state.ProjectType === "normal"){
     this.props.navigation.navigate('ProjectDetailsFreelancer', {
       page_status: 'invitation',
@@ -433,6 +438,7 @@ class ChatListScreen extends Component {
                   </View>
                 );}
                 } else if (item.request_type == "invitation" && item.request_status == "pending") {
+                  if (index < 1)
                     return (
                       this.state.user_type === 'Rg==' ? (
                         <Text style={{paddingLeft: 15}}>You can't chat until the student send you proposal and you accept it</Text>
@@ -440,7 +446,8 @@ class ChatListScreen extends Component {
                         <Text style={{paddingLeft: 15}}>You can't chat until you accept the proposal</Text>
                           )
                     );
-                  } else if (item.request_type != "invitation" && item.request_status == "pending") {
+                  } else if (item.request_type === "proposal" && item.request_status == "pending") {
+                    if (index < 1)
                       return (
                         this.state.user_type === 'Rg==' ? (
                           <Text style={{paddingLeft: 15}}>You can't chat until you accept the proposal</Text>

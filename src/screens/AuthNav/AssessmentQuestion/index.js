@@ -269,7 +269,7 @@ class AssessmentQuestion extends Component {
             <View>
               <TextInput
                 returnKeyType="done"
-                placeholder="Portfolio Description eg. build ecommerce app using python"
+                placeholder="Mention about any queries"
                 keyboardType="default"
                 style={styles.inputBox}
                 multiline={true}
@@ -278,11 +278,11 @@ class AssessmentQuestion extends Component {
               />
             </View>
 
-            <Text style={styles.quesHead}>Proposed Amount</Text>
+            <Text style={styles.quesHead}>Proposed Amount(in USD)</Text>
             <View>
               <TextInput
                 returnKeyType="done"
-                placeholder="Portfolio Description eg. build ecommerce app using python"
+                placeholder="Please enter your amount"
                 keyboardType="default"
                 style={styles.inputBox}
                 numberOfLines={1}

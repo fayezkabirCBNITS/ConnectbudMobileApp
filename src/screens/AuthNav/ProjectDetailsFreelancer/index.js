@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -18,7 +18,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import {
   // storeAccessToken,
   // updateUserStatus,
@@ -29,8 +29,8 @@ import {
 import base64 from 'base-64';
 
 import axios from 'axios';
-import { API_URL } from '../../../config/url';
-import { connect } from 'react-redux';
+import {API_URL} from '../../../config/url';
+import {connect} from 'react-redux';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -57,12 +57,12 @@ class ProjectDetailsFreelancer extends Component {
   };
 
   componentDidMount = async () => {
-    const { userDeatailResponse } = this.props;
+    const {userDeatailResponse} = this.props;
     this.setState({
       btnStatus: userDeatailResponse.userData.user_id,
       showLoader: true,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
-      job_id: userDeatailResponse.userData.JOBID
+      job_id: userDeatailResponse.userData.JOBID,
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -85,7 +85,6 @@ class ProjectDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           jobDetails: response.data,
           showLoader: false,
@@ -94,10 +93,10 @@ class ProjectDetailsFreelancer extends Component {
           // skillSet: response.data[0].key_skill,
         });
         console.log(this.state.projectType);
-        this.setState({ isLoading: true });
+        this.setState({isLoading: true});
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
 
     await axios({
@@ -109,10 +108,10 @@ class ProjectDetailsFreelancer extends Component {
         this.setState({
           jobSet: response.data,
         });
-        this.setState({ isLoading: true });
+        this.setState({isLoading: true});
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
   };
 
@@ -147,10 +146,10 @@ class ProjectDetailsFreelancer extends Component {
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
-        this.setState({ isLoading: true });
+        this.setState({isLoading: true});
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
 
     await axios({
@@ -163,40 +162,46 @@ class ProjectDetailsFreelancer extends Component {
           jobSet: response.data,
         });
 
-        this.setState({ isLoading: true });
+        this.setState({isLoading: true});
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
   };
 
   acceptIgnore = async (EmpId) => {
+    this.setState({
+      showLoader: true,
+    });
     const obj = {
-      milestone_id: "",
+      milestone_id: '',
       receiver_id: EmpId,
       sender_id: this.state.user_id,
-      job_type: "recruiter",
+      job_type: 'recruiter',
       job_id: this.state.job_id,
-      status: "no",
-      confirmation_type: "invitation",
+      status: 'no',
+      confirmation_type: 'invitation',
     };
 
+    console.log(obj);
+
     await axios
-      .post(API_URL + "confirmation", obj, {
+      .post(API_URL + 'confirmation', obj, {
         header: {
-          "content-Type": "application/json",
+          'content-Type': 'application/json',
         },
       })
       .then((response) => {
-        alert('Invitation ignored')
+        console.log(response);
+        alert('Invitation ignored');
         this.setState({
           isLoading: false,
+          showLoader: false,
         });
-        this.feedSection();
         this.props.navigation.navigate('StudentInner');
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false, showLoader: true});
       });
   };
 
@@ -232,7 +237,9 @@ class ProjectDetailsFreelancer extends Component {
                     {value.key_skill.map((value, i) => {
                       return (
                         <View key={i} style={styles.skillTab}>
-                          <Text style={styles.skillText}>{value.skill_name}</Text>
+                          <Text style={styles.skillText}>
+                            {value.skill_name}
+                          </Text>
                         </View>
                       );
                     })}
@@ -253,16 +260,24 @@ class ProjectDetailsFreelancer extends Component {
                     <Text style={styles.textSemibold}>Description :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
-                  <TouchableOpacity style={styles.applyBtn}>
+                  <View
+                    style={{
+                      width: '100%',
+                      paddingHorizontal: '5%',
+                      marginTop: 10,
+                    }}>
                     {this.state.jobDetails.map((value, index) => {
                       return (
                         <>
                           {value.pending_status === 'pending' &&
-                            this.state.projectType !== 'invitation' ? (
+                          this.state.pageStatus === 'feed' ? (
+                            <TouchableOpacity style={styles.newBtn2}>
                               <Text style={styles.applyBtnText}>Waiting</Text>
-                            ) : (
-                              <>
-                                {this.state.btnStatus === '' ? (
+                            </TouchableOpacity>
+                          ) : (
+                            <>
+                              {this.state.btnStatus === '' ? (
+                                <TouchableOpacity style={styles.newBtn2}>
                                   <Text
                                     style={styles.applyBtnText}
                                     onPress={() =>
@@ -272,52 +287,67 @@ class ProjectDetailsFreelancer extends Component {
                                     }>
                                     Apply
                                   </Text>
-                                ) : (
+                                </TouchableOpacity>
+                              ) : (
+                                <>
+                                  {value.pending_status === 'accept' ? (
+                                    <TouchableOpacity style={styles.newBtn2}>
+                                      <Text style={styles.applyBtnText}>
+                                        Accepted
+                                      </Text>
+                                    </TouchableOpacity>
+                                  ) : (
                                     <>
-                                      {value.pending_status === 'accept' ? (
-                                        <Text style={styles.applyBtnText}>
-                                          Accepted
-                                        </Text>
+                                      {this.state.pageStatus ===
+                                      'invitation' ? (
+                                        <View style={styles.btnSection}>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}>
+                                            <Text
+                                              style={styles.applyBtnText}
+                                              onPress={() =>
+                                                this.props.navigation.navigate(
+                                                  'AssessmentQuestion',
+                                                )
+                                              }>
+                                              Apply
+                                            </Text>
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}>
+                                            <Text
+                                              style={styles.applyBtnText}
+                                              onPress={() =>
+                                                this.acceptIgnore(value.user_id)
+                                              }>
+                                              Ignore
+                                            </Text>
+                                          </TouchableOpacity>
+                                        </View>
                                       ) : (
-                                          <>
-                                            {this.state.pageStatus ===
-                                              'invitation' ? (
-                                                <View style={styles.actionEdtBtn}>
-                                                  <Text
-                                                    style={styles.applyBtnText}
-                                                    onPress={() =>
-                                                      this.props.navigation.navigate(
-                                                        'AssessmentQuestion',
-                                                      )
-                                                    }>
-                                                    Apply
-                                                  </Text>
-
-                                                  <Text style={styles.applyBtnText} onPress={() => this.acceptIgnore(value.user_id)}>
-                                                    Ignore
-                                                  </Text>
-                                                </View>
-                                              ) : (
-                                                <Text
-                                                  style={styles.applyBtnText}
-                                                  onPress={() =>
-                                                    this.props.navigation.navigate(
-                                                      'AssessmentQuestion',
-                                                    )
-                                                  }>
-                                                  Apply
-                                                </Text>
-                                              )}
-                                          </>
-                                        )}
+                                        <TouchableOpacity
+                                          style={styles.newBtn2}>
+                                          <Text
+                                            style={styles.applyBtnText}
+                                            onPress={() =>
+                                              this.props.navigation.navigate(
+                                                'AssessmentQuestion',
+                                              )
+                                            }>
+                                            Apply
+                                          </Text>
+                                        </TouchableOpacity>
+                                      )}
                                     </>
                                   )}
-                              </>
-                            )}
+                                </>
+                              )}
+                            </>
+                          )}
                         </>
                       );
                     })}
-                  </TouchableOpacity>
+                  </View>
                 </View>
               ))}
               {this.state.pageStatus !== 'invitation' ? (
@@ -332,7 +362,7 @@ class ProjectDetailsFreelancer extends Component {
                       <View key={idx} style={styles.similarList}>
                         <View style={styles.iconList}>
                           <FontAwesome
-                            style={{ width: 30 }}
+                            style={{width: 30}}
                             name="graduation-cap"
                             size={15}
                             color="#d7d7d8"
@@ -341,7 +371,7 @@ class ProjectDetailsFreelancer extends Component {
                         </View>
                         <View style={styles.iconList}>
                           <FontAwesome
-                            style={{ width: 30 }}
+                            style={{width: 30}}
                             name="tag"
                             size={15}
                             color="#d7d7d8"
@@ -355,8 +385,8 @@ class ProjectDetailsFreelancer extends Component {
                   ))}
                 </View>
               ) : (
-                  <></>
-                )}
+                <></>
+              )}
             </ScrollView>
           </View>
         </View>

@@ -1,21 +1,25 @@
-import React, { Component } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import Header from '../../../components/Header';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import {withNavigation} from 'react-navigation';
+
 import {
   Collapse,
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import axios from 'axios';
-import { API_URL } from '../../../config/url';
-import { connect } from 'react-redux';
+import {API_URL} from '../../../config/url';
+import {connect} from 'react-redux';
 
 import base64 from 'base-64';
 
@@ -26,6 +30,7 @@ class EmpContactScreen extends Component {
       projectData: [],
       user_id: '',
       milestone_id: '',
+      showLoader: false,
     };
   }
 
@@ -33,8 +38,8 @@ class EmpContactScreen extends Component {
     headerShown: false,
   };
 
-  componentDidMount = async () => {
-    const { userDeatailResponse } = this.props;
+  newFunction = async () => {
+    const {userDeatailResponse} = this.props;
     this.setState({
       showLoader: true,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -54,14 +59,50 @@ class EmpContactScreen extends Component {
     }).then((response) => {
       this.setState({
         projectData: response.data,
+        showLoader: false,
       });
       console.log(this.state.projectData);
+    });
+  };
+
+  componentDidMount = async () => {
+    this.newFunction();
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('didFocus', async () => {
+      const {userDeatailResponse} = this.props;
+      this.setState({
+        showLoader: true,
+        user_id: base64.decode(userDeatailResponse.userData.user_id),
+      });
+      let body = new FormData();
+      body.append('hirer_id', '');
+      body.append('freelancer_id', '');
+      body.append('job_id', '');
+      body.append('type', '');
+      body.append('page_type', 'ongoing');
+      body.append(
+        'user_id',
+        base64.decode(userDeatailResponse.userData.user_id),
+      );
+
+      await axios({
+        url: API_URL + 'fetchmilestones',
+        method: 'POST',
+        data: body,
+      }).then((response) => {
+        this.setState({
+          projectData: response.data,
+          showLoader: false,
+        });
+        console.log(this.state.projectData);
+      });
     });
   };
 
   moneyRequest = async (mileId, Status) => {
     this.setState({
       btnStatus: true,
+      showLoader: true,
     });
     const obj = {
       milestone_id: mileId,
@@ -96,19 +137,25 @@ class EmpContactScreen extends Component {
         }).then((response) => {
           this.setState({
             projectData: response.data,
+            showLoader: false,
           });
         });
 
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
   };
 
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
+        <Spinner
+          visible={this.state.showLoader}
+          animation="fade"
+          textContent={'Loading...'}
+        />
         <View style={CommonStyles.main}>
           <StatusBar />
           {/* header section */}
@@ -193,7 +240,7 @@ class EmpContactScreen extends Component {
                                 <TouchableOpacity style={styles.notPaidBtn}>
                                   {value.payment_status === 'Not paid' && (
                                     <Text
-                                      style={styles.notPaidBtn}
+                                      // style={styles.notPaidBtn}
                                       onPress={() =>
                                         this.props.navigation.navigate(
                                           'CheckoutScreen',
@@ -214,7 +261,7 @@ class EmpContactScreen extends Component {
                                         onPress={() => {
                                           this.moneyRequest(value.milestone_id);
                                         }}>
-                                        Release escrowed Money
+                                        Release
                                       </Text>
                                     )}
                                   {value.payment_status === 'Redeem' &&
@@ -261,7 +308,9 @@ class EmpContactScreen extends Component {
                 } else {
                   return (
                     <View style={styles.noData}>
-                      <Text style={styles.noDataText}>No chat found</Text>
+                      <Text style={styles.noDataText}>
+                        No ongoing project found
+                      </Text>
                     </View>
                   );
                 }
@@ -293,4 +342,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatch)(EmpContactScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatch,
+)(withNavigation(EmpContactScreen));

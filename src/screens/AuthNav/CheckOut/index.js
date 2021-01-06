@@ -12,11 +12,9 @@ import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ScrollView} from 'react-native-gesture-handler';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -39,6 +37,12 @@ class CheckoutScreen extends Component {
       recId: this.props.navigation.state.params
         ? this.props.navigation.state.params.rec_id
         : '',
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
+      jobId: this.props.navigation.state.params
+        ? this.props.navigation.state.params.job_id
+        : '',
       MilestoneAmount: '',
       ServiceFee: '',
       TotalPayable: '',
@@ -49,6 +53,7 @@ class CheckoutScreen extends Component {
       cvc: '',
       id: '',
       paymentId: '',
+      showLoader: false,
     };
   }
 
@@ -57,77 +62,131 @@ class CheckoutScreen extends Component {
   };
 
   componentDidMount = async () => {
-    console.log(this.state.milestone_id);
-    let body = new FormData();
-    body.append('milestone_id', this.state.milestone_id);
-    body.append('job_id', '');
+    this.setState({
+      showLoader: true,
+    });
+    if (this.state.pageStatus === 'tutor') {
+      let body = new FormData();
+      body.append('milestone_id', '');
+      body.append('job_id', this.state.jobId);
 
-    await axios({
-      url: API_URL + 'checkout',
-      method: 'POST',
-      data: body,
-    })
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          MilestoneAmount: response.data[0].amount_negotiated,
-          ServiceFee: response.data[0].connectbud_fees,
-          TotalPayable: response.data[0].total_amount,
-        });
+
+      await axios({
+        url: API_URL + 'checkout',
+        method: 'POST',
+        data: body,
       })
-      .catch((error) => {});
+        .then((response) => {
+          this.setState({
+            MilestoneAmount: response.data[0].amount_negotiated,
+            ServiceFee: response.data[0].connectbud_fees,
+            TotalPayable: response.data[0].total_amount,
+            showLoader: false,
+          });
+        })
+        .catch((error) => {
+          this.setState({
+            showLoader: false,
+          });
+        });
+    } else {
+      let body = new FormData();
+      body.append('milestone_id', this.state.milestone_id);
+      body.append('job_id', '');
+
+      await axios({
+        url: API_URL + 'checkout',
+        method: 'POST',
+        data: body,
+      })
+        .then((response) => {
+          this.setState({
+            MilestoneAmount: response.data[0].amount_negotiated,
+            ServiceFee: response.data[0].connectbud_fees,
+            TotalPayable: response.data[0].total_amount,
+            showLoader: false,
+          });
+        })
+        .catch((error) => {
+          this.setState({
+            showLoader: false,
+          });
+        });
+    }
   };
 
   payment = async () => {
     this.setState({
       showLoader: true,
     });
-    console.log('called ................');
     // this.props.navigation.navigate('StripeScreen');
-    let body = new FormData();
     let body1 = new FormData();
 
     body1.append('number', this.state.card);
     body1.append('exp_month', +this.state.month);
     body1.append('exp_year', +this.state.year);
     body1.append('cvc', this.state.cvc);
-    console.log(body1);
     await axios({
       url: API_URL + 'createPayment',
       method: 'POST',
       data: body1,
     })
       .then(async (response) => {
-        console.log(response);
         await this.setState({
+          showLoader: false,
           paymentId: response.data[0].payment.id,
         });
       })
       .catch((error) => {
-        console.log(error);
       });
-
-    body.append('milestone_id', this.state.milestone_id);
-    body.append('job_id', '');
-    body.append('hirer_id', this.state.recId);
-    body.append('freelancer_id', this.state.userId);
-    body.append('name', this.state.name);
-    body.append('type', 'normal');
-    body.append('id', this.state.paymentId);
-    console.log(body);
-    await axios({
-      url: API_URL + 'paymentIntend',
-      method: 'POST',
-      data: body,
-    })
-      .then((response) => {
-        this.props.navigation.navigate('EmpContactScreen'),
-          alert('You have complete the payment');
-        this.setState({
-          showLoader: false,
-        });
+    if (this.state.pageStatus === 'tutor') {
+      let body = new FormData();
+      body.append('milestone_id', null);
+      body.append('job_id', this.state.jobId.toString());
+      body.append('hirer_id', this.state.userId);
+      body.append('freelancer_id', '');
+      body.append('name', this.state.name);
+      body.append('type', 'tutor');
+      body.append('id', this.state.paymentId);
+      await axios({
+        url: API_URL + 'paymentIntend',
+        method: 'POST',
+        data: body,
       })
-      .catch((error) => {});
+        .then((response) => {
+          this.props.navigation.navigate('PostedProjectByEmployee'),
+            alert(
+              'You have successfully escrowed money!Connectbud will get back to you between 6 to 12Hrs.',
+            );
+          this.setState({
+            showLoader: false,
+          });
+        })
+        .catch((error) => {
+        });
+    } else {
+      let body = new FormData();
+      body.append('milestone_id', this.state.milestone_id);
+      body.append('job_id', '');
+      body.append('hirer_id', this.state.recId);
+      body.append('freelancer_id', this.state.userId);
+      body.append('name', this.state.name);
+      body.append('type', 'normal');
+      body.append('id', this.state.paymentId);
+      await axios({
+        url: API_URL + 'paymentIntend',
+        method: 'POST',
+        data: body,
+      })
+        .then((response) => {
+          this.props.navigation.navigate('EmpContactScreen'),
+            alert('You have complete the payment');
+          this.setState({
+            showLoader: false,
+          });
+        })
+        .catch((error) => {});
+    }
   };
 
   handelCard = async (e) => {
@@ -143,9 +202,6 @@ class CheckoutScreen extends Component {
   };
 
   handelMonth = async (e) => {
-    // console.log(e);
-    console.log(e.slice(0, 2)); //MM
-    console.log(e.slice(2)); //YY
     this.setState({
       month: e.slice(0, 2),
       year: e.slice(2),
@@ -153,7 +209,6 @@ class CheckoutScreen extends Component {
   };
 
   handelcvc = async (e) => {
-    console.log(e);
     this.setState({
       cvc: e,
     });

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  KeyboardAvoidingView
 } from 'react-native';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
@@ -215,6 +216,7 @@ class BankDetailScreen extends Component {
             </TouchableOpacity>
           </View>
           {/* header section end */}
+          <KeyboardAvoidingView>
 
           <View style={CommonStyles.container}>
             <ScrollView
@@ -304,8 +306,11 @@ class BankDetailScreen extends Component {
                   <Text style={styles.submitBtnText}>Submit</Text>
                 </TouchableOpacity>
               </View>
+              
             </ScrollView>
           </View>
+          </KeyboardAvoidingView>
+
         </View>
       </SafeAreaView>
     );

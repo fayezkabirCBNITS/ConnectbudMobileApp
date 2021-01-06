@@ -41,15 +41,21 @@ class StudentInner extends Component {
   };
 
   navigateToDetails = async () => {
-    this.props.navigation.navigate('ProjectDetailsFreelancer');
+    this.props.navigation.navigate('ProjectDetailsFreelancer',{
+      page_status : "feed"
+    });
   };
 
   navigateToDetailsTutor = async () => {
-    this.props.navigation.navigate('TutorDetailsFreelancer');
+    this.props.navigation.navigate('TutorDetailsFreelancer',{
+      page_status : "feed"
+    });
   }
 
   navigateToDetailsJob = async () => {
-    this.props.navigation.navigate('JobDetailsFreelancer');
+    this.props.navigation.navigate('JobDetailsFreelancer',{
+      page_status : "feed"
+    });
   }
 
   TutorHideModal = (data) => {
