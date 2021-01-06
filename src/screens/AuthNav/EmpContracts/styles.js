@@ -55,6 +55,7 @@ export default {
     borderRadius: 35 / 2,
     backgroundColor: '#f9a631',
     marginLeft: 10,
+    // marginTop: 5,
     justifyContent: 'center',
     alignItems: 'center'
   },  

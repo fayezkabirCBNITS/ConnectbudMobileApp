@@ -5,14 +5,11 @@ import {
   View,
   Text,
   TextInput,
-  Pressable,
-  ImageBackground,
   Image,
   Modal,
   TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -77,7 +74,6 @@ class PostedProjectByEmployee extends Component {
       false,
       body,
     );
-    console.log(response);
     if (response) {
       this.setState({
         jobSet: response,

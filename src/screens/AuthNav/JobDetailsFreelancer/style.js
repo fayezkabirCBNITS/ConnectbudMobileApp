@@ -11,6 +11,28 @@ export default {
         marginTop: 20,
         borderRadius: 8
     },
+    newBtn: {
+        width: '47%',
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 45/2,
+        backgroundColor: '#71b85f'
+      },
+      btnSection: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      },
+      newBtn2: {
+        width: '100%',
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 45/2,
+        backgroundColor: '#71b85f'
+      },
     boxTitle: {
         fontSize: 18,
         fontFamily: "Poppins-SemiBold",

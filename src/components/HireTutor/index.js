@@ -2,18 +2,13 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
-  Image,
   TouchableOpacity,
-  StatusBar,
-  FlatList,
   ActivityIndicator,
   TextInput,
   Modal,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -34,8 +29,6 @@ import OnlineCodingClasses from '../OnlinCodingClasses/onlineClasses';
 
 import {API_URL} from '../../config/url';
 import axios from 'axios';
-
-
 
 class HireTutor extends Component {
   constructor() {
@@ -73,7 +66,7 @@ class HireTutor extends Component {
       isModalVisible: false,
       classCount: '',
       amount: '',
-      fetchAmount:''
+      fetchAmount: '',
     };
   }
 
@@ -123,17 +116,11 @@ class HireTutor extends Component {
     this.setState({
       amount: this.state.classCount * 5,
     });
-    console.log(this.state.classCount);
-
-    console.log(this.state.amount);
-
     // this.setState({ startDate: date });
     this.hideDatePicker();
   };
 
-  FetchAmount = async () => {
-   
-  };
+  FetchAmount = async () => {};
 
   hideTimePicker = () => {
     this.setState({showTimePicker: false});
@@ -176,28 +163,23 @@ class HireTutor extends Component {
   };
 
   onhandleSubmit = async () => {
-    const num = parseFloat(this.state.startTime);
-    console.log(num);
     let body = new FormData();
-    body.append("Number_of_classes", this.state.classCount);
-    body.append("start_time", this.state.startTime);
-    body.append("end_time", this.state.endTime);
-console.log(body);
+    body.append('Number_of_classes', this.state.classCount);
+    body.append('start_time', this.state.startTime);
+    body.append('end_time', this.state.endTime);
     await axios({
-      url: API_URL + "course_amount",
-      method: "POST",
+      url: API_URL + 'course_amount',
+      method: 'POST',
       data: body,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           fetchAmount: response.data[0].total_amount,
         });
       })
-      .catch((error) => { });
-    console.log(this.state.fetchAmount);
+      .catch((error) => {});
     if (this.state.totalCost >= this.state.fetchAmount) {
-      // this.handleSubmit();
+      this.handleSubmit();
     } else {
       alert(
         `Your minimum charge is ${this.state.fetchAmount}$` +
@@ -266,20 +248,21 @@ console.log(body);
         false,
         body,
       );
-      console.log('Homeork details-----', response);
-
       if (response[0].hire_by == 'me') {
         this.setState({isModalVisible: true});
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
         this.setState({isModalVisible: true});
-        this.props.navigation.navigate('BankDetailScreen');
+        this.props.navigation.navigate('CheckoutScreen', {
+          page_status: 'tutor',
+          job_id: response[0].job_id,
+          user_id: base64.decode(this.props.userID),
+        });
       }
     }
   };
 
   render() {
-    console.log('seledate', this.state.selectedDate);
     return (
       <View style={CommonStyles.main}>
         <ScrollView showsVerticalScrollIndicator={false}>

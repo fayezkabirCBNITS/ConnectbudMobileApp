@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -18,7 +18,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import {
   // storeAccessToken,
   // updateUserStatus,
@@ -29,8 +29,8 @@ import {
 import base64 from 'base-64';
 
 import axios from 'axios';
-import { API_URL } from '../../../config/url';
-import { connect } from 'react-redux';
+import {API_URL} from '../../../config/url';
+import {connect} from 'react-redux';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -46,7 +46,7 @@ class TutorDetailsFreelancer extends Component {
       jobSet: [],
       user_id: '',
       skillSet: [],
-      JobType: "",
+      JobType: '',
       StringDate: [],
       showLoader: false,
       job_id: '',
@@ -59,7 +59,7 @@ class TutorDetailsFreelancer extends Component {
   };
 
   componentDidMount = async () => {
-    const { userDeatailResponse } = this.props;
+    const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
       showLoader: true,
@@ -86,7 +86,7 @@ class TutorDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        if (response.data[0].detail_type === "tutor") {
+        if (response.data[0].detail_type === 'tutor') {
           this.setState({
             jobDetails: response.data,
             skillSet: response.data[0].key_skill,
@@ -120,7 +120,7 @@ class TutorDetailsFreelancer extends Component {
           jobSet: response.data,
         });
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   // this.props.navigation.navigate('ProjectDetailsFreelancer');
@@ -173,7 +173,7 @@ class TutorDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        if (response.data[0].detail_type === "tutor") {
+        if (response.data[0].detail_type === 'tutor') {
           this.setState({
             jobDetails: response.data,
             skillSet: response.data[0].key_skill,
@@ -205,7 +205,7 @@ class TutorDetailsFreelancer extends Component {
           jobSet: response.data,
         });
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   render() {
@@ -240,7 +240,9 @@ class TutorDetailsFreelancer extends Component {
                     {value.key_skill.map((value, i) => {
                       return (
                         <View key={i} style={styles.skillTab}>
-                          <Text style={styles.skillText}>{value.skill_name}</Text>
+                          <Text style={styles.skillText}>
+                            {value.skill_name}
+                          </Text>
                         </View>
                       );
                     })}
@@ -250,72 +252,92 @@ class TutorDetailsFreelancer extends Component {
                     <Text> {value.price_amount} USD</Text>
                   </Text>
 
-                  {value.detail_type === "tutor" ? (
+                  {value.detail_type === 'tutor' ? (
                     <>
-                      {this.state.JobType === "Week1" ? "\n" : <></>}
-                      {this.state.JobType === "Week1" ? (
+                      {this.state.JobType === 'Week1' ? '\n' : <></>}
+                      {this.state.JobType === 'Week1' ? (
                         <Text>
-                          <Text style={styles.textSemibold}>Course Duration :</Text>{' '}
+                          <Text style={styles.textSemibold}>
+                            Course Duration :
+                          </Text>{' '}
                           <Text> 1 Month</Text>
                         </Text>
                       ) : (
-                          <></>
-                        )}
+                        <></>
+                      )}
 
-                      {this.state.JobType === "Week1" ? (
+                      {this.state.JobType === 'Week1' ? (
                         <Text>
-                          <Text style={styles.textSemibold}>Number of Classes :</Text>{' '}
+                          <Text style={styles.textSemibold}>
+                            Number of Classes :
+                          </Text>{' '}
                           <Text> 4 Classes</Text>
                         </Text>
                       ) : (
-                          <Text>
-                            <Text style={styles.textSemibold}>Number of Classes :</Text>{' '}
-                            <Text> {value.Classes}</Text>
-                          </Text>
-                        )}
+                        <Text>
+                          <Text style={styles.textSemibold}>
+                            Number of Classes :
+                          </Text>{' '}
+                          <Text> {value.Classes}</Text>
+                        </Text>
+                      )}
                       <Text>
                         <Text style={styles.textSemibold}>Course Date: :</Text>{' '}
                         <Text> {this.state.StringDate.toString()}</Text>
                       </Text>
-                    </>) : (<></>)}
+                    </>
+                  ) : (
+                    <></>
+                  )}
 
                   <Text>
                     <Text style={styles.textSemibold}>Course Syllabus :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
 
-                  <TouchableOpacity style={styles.applyBtn}>
+                  <View
+                    style={{
+                      width: '100%',
+                      paddingHorizontal: '5%',
+                      marginTop: 10,
+                    }}>
                     {this.state.jobDetails.map((value, index) => {
                       return (
                         <>
                           {value.pending_status === 'pending' &&
-                          this.state.projectType !== 'invitation' ? (
-                            <Text style={styles.applyBtnText}>Waiting</Text>
+                          this.state.pageStatus === 'feed' ? (
+                            <TouchableOpacity style={styles.newBtn2}>
+                              <Text style={styles.applyBtnText}>Waiting</Text>
+                            </TouchableOpacity>
                           ) : (
                             <>
                               {this.state.btnStatus === '' ? (
-                                <Text
-                                  style={styles.applyBtnText}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'SignInScreen',
-                                    )
-                                  }>
-                                  Apply
-                                </Text>
+                                <TouchableOpacity style={styles.newBtn2}>
+                                  <Text
+                                    style={styles.applyBtnText}
+                                    onPress={() =>
+                                      this.props.navigation.navigate(
+                                        'SignInScreen',
+                                      )
+                                    }>
+                                    Apply
+                                  </Text>
+                                </TouchableOpacity>
                               ) : (
                                 <>
                                   {value.pending_status === 'accept' ? (
-                                    <Text style={styles.applyBtnText}>
-                                      Accepted
-                                    </Text>
+                                    <TouchableOpacity style={styles.newBtn2}>
+                                      <Text style={styles.applyBtnText}>
+                                        Accepted
+                                      </Text>
+                                    </TouchableOpacity>
                                   ) : (
                                     <>
                                       {this.state.pageStatus ===
                                       'invitation' ? (
-                                        <View style={styles.actionEdtBtn}>
+                                        <View style={styles.btnSection}>
                                           <TouchableOpacity
-                                            style={[styles.authBtn]}>
+                                            style={styles.newBtn}>
                                             <Text
                                               style={styles.authBtnText}
                                               onPress={() =>
@@ -327,7 +349,7 @@ class TutorDetailsFreelancer extends Component {
                                             </Text>
                                           </TouchableOpacity>
                                           <TouchableOpacity
-                                            style={[styles.authBtn]}>
+                                            style={styles.newBtn}>
                                             <Text
                                               style={styles.authBtnText}
                                               onPress={() =>
@@ -340,15 +362,18 @@ class TutorDetailsFreelancer extends Component {
                                           </TouchableOpacity>
                                         </View>
                                       ) : (
-                                        <Text
-                                          style={styles.applyBtnText}
-                                          onPress={() =>
-                                            this.props.navigation.navigate(
-                                              'AssessmentQuestion',
-                                            )
-                                          }>
-                                          Apply
-                                        </Text>
+                                        <TouchableOpacity
+                                          style={styles.newBtn2}>
+                                          <Text
+                                            style={styles.applyBtnText}
+                                            onPress={() =>
+                                              this.props.navigation.navigate(
+                                                'AssessmentQuestion',
+                                              )
+                                            }>
+                                            Apply
+                                          </Text>
+                                        </TouchableOpacity>
                                       )}
                                     </>
                                   )}
@@ -359,7 +384,7 @@ class TutorDetailsFreelancer extends Component {
                         </>
                       );
                     })}
-                  </TouchableOpacity>
+                  </View>
                 </View>
               ))}
               {this.state.pageStatus !== 'invitation' ? (

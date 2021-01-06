@@ -12,12 +12,15 @@ import {connect} from 'react-redux';
 import base64 from 'base-64';
 import SyncStorage from 'sync-storage';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 class NotificationScreen extends Component {
   constructor() {
     super();
     this.state = {
       notification: [],
       loginType: '',
+      showLoader: false,
     };
   }
 
@@ -29,6 +32,7 @@ class NotificationScreen extends Component {
     const {userDeatailResponse} = this.props;
     await this.setState({
       loginType: userDeatailResponse.userData.Flag,
+      showLoader: true,
     });
     const body = {
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -36,6 +40,7 @@ class NotificationScreen extends Component {
     axios.post(API_URL + 'getNotification', body).then(async (res) => {
       await this.setState({
         notification: res.data,
+        showLoader: false,
       });
       console.log(this.state.notification);
     });
@@ -45,6 +50,11 @@ class NotificationScreen extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <StatusBar />
           {/* header section */}
           <View style={CommonStyles.header}>
@@ -116,6 +126,7 @@ class NotificationScreen extends Component {
                                       user_type: this.state.loginType,
                                       room_id: data.room_id,
                                       page_status: 'joblist',
+                                      token: data.Token,
                                     },
                                     SyncStorage.set(
                                       'room_id',
@@ -142,6 +153,7 @@ class NotificationScreen extends Component {
                                       user_type: this.state.loginType,
                                       room_id: data.room_id,
                                       page_status: 'projectlist',
+                                      token: data.Token,
                                     },
                                     SyncStorage.set(
                                       'room_id',
@@ -189,6 +201,7 @@ class NotificationScreen extends Component {
                                   user_type: this.state.loginType,
                                   room_id: data.room_id,
                                   page_status: 'joblist',
+                                  token: data.Token,
                                 },
                                 SyncStorage.set(
                                   'room_id',
@@ -213,6 +226,7 @@ class NotificationScreen extends Component {
                                   user_type: this.state.loginType,
                                   room_id: data.room_id,
                                   page_status: 'projectlist',
+                                  token: data.Token,
                                 },
                                 SyncStorage.set(
                                   'room_id',

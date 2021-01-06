@@ -89,6 +89,7 @@ class HireStudentsScreen extends Component {
     this.setState({
       projectDetails: response[0],
     });
+    console.log(this.state.projectDetails,"saaaaaaaaaaaaaaaaaa");
   };
   showDateTimePicker = () => {
     this.setState({showStartDatePicker: true});
