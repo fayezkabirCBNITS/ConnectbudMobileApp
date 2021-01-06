@@ -88,9 +88,9 @@ class PortfolioExperience extends Component {
                         </>
                       )}
 
-                    <TouchableOpacity style={styles.editBtn}>
+                    {/* <TouchableOpacity style={styles.editBtn}>
                       <FontAwesome name="edit" color="#71b85f" size={28} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 );
               } else {

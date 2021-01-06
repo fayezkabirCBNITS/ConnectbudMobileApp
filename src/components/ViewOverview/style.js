@@ -1,5 +1,5 @@
 const React = require('react-native');
-const {Dimensions} = React;
+const { Dimensions } = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -33,7 +33,7 @@ export default {
   },
   details: {
     flexDirection: 'row',
-    flexWrap : 'wrap',
+    flexWrap: 'wrap',
     alignItems: 'flex-start',
   },
   skillSec: {
@@ -64,5 +64,14 @@ export default {
     fontFamily: 'Poppins-Regular',
     color: '#000',
     textAlign: "center"
+  },
+  socialIconSec: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  socialIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
 };

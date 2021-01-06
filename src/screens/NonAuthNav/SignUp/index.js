@@ -402,7 +402,7 @@ class SignUpScreen extends Component {
 
                 <Pressable
                   // disabled={this.state.enableSignUp}
-                  style={styles.signinBtn}
+                  style={[styles.signinBtn, {alignSelf: 'center', marginLeft: 'auto', marginRight: 'auto'}]}
                   onPress={this.submituserRegistrationForm}>
                   <Text style={styles.signinText}>Sign Up</Text>
                 </Pressable>
