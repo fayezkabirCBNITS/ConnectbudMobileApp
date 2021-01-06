@@ -106,10 +106,11 @@ class AddPortfolioScreen extends Component {
 
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
+      console.log(response);
       if (this.props.navigation.state.params.portfolioID !== "") {
         this.setState({
-          porfolioTitle: response[0].title, portfolioDescription: response[0].description, portfolioId: response[0].id,
-          liveUrl: response[0].link, profileImageSource: response[0].image, selectedCategory: response[0].category
+          porfolioTitle: response[0].portfolio[0].title, portfolioDescription: response[0].portfolio[0].description, portfolioId: response[0].portfolio[0].id,
+          liveUrl: response[0].portfolio[0].link, profileImageSource: response[0].portfolio[0].image, selectedCategory: response[0].portfolio[0].category
         });
       }
     }
