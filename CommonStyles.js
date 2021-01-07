@@ -30,6 +30,16 @@ export default {
     borderBottomColor: '#71b85f',
     borderBottomWidth: 1,
   },
+  header2: {
+    // flexDirection: 'row',
+    paddingHorizontal: '5%',
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderBottomColor: '#71b85f',
+    // borderBottomWidth: 1,
+    backgroundColor: '#71b85f'
+  },
   imageHdr: {
     width: 140,
     height: 35,
@@ -145,6 +155,12 @@ noData: {
   fontFamily: 'Poppins-Regular',
   color: '#000',
   fontSize: 18,
+  textAlign: 'center'
+},
+hdngText: {
+  fontFamily: 'Poppins-SemiBold',
+  color: '#71b85f',
+  fontSize: 20,
   textAlign: 'center'
 }
 };
