@@ -80,4 +80,13 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     color: '#71b85f',
   },
+  socialIconSec: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  socialIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
 };

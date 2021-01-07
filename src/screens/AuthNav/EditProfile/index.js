@@ -9,6 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import styles from './style';
@@ -19,17 +20,13 @@ import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
-//import ImagePicker from 'react-native-image-picker';
-// import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { withNavigation } from "react-navigation";
 import { updateslug, updateUserDetails } from "../../../redux/actions/user-data";
-import Connect, { connect } from "react-redux";
-import axios from "axios";
-
+import { connect } from "react-redux";
+import ApiUrl from '../../../config/ApiUrl';
+import { makePostRequestMultipart, makeGetRequest } from '../../../services/http-connectors';
 import base64 from 'base-64';
-import API_URL, { BASE_URL } from "../../../config/ApiUrl"
-import index from '../TermsOfServices';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -40,7 +37,7 @@ class EditProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firtName: '',
+      firstName: '',
       lastName: '',
       college: '',
       major: '',
@@ -52,10 +49,10 @@ class EditProfileScreen extends Component {
       community: '',
       socialUrl: [{ socialurl: "" }],
       profileImageSource: Image.resolveAssetSource(
-        API_URL.PLACEHOLDER_SQUARE_IMAGE,
+        ApiUrl.PLACEHOLDER_SQUARE_IMAGE,
       ).uri,
       coverImageSource: Image.resolveAssetSource(
-        API_URL.PLACEHOLDER_SQUARE_IMAGE,
+        ApiUrl.PLACEHOLDER_SQUARE_IMAGE,
       ).uri,
       // coverImageSource: '../../../assets/images/bnr.jpg',
       profileImageToUpload: {},
@@ -65,29 +62,31 @@ class EditProfileScreen extends Component {
       showLoader: false,
       showSkills: false,
       showCategories: false,
-      showLoader: false,
       info: "",
-      skillsData: [
-        { title: 'C' },
-        { title: 'JAVA' },
-        { title: 'C++' },
-        { title: 'C#' },
-      ],
+      skillsData: [],
       categoriesData: [],
       skill: [],
       categories: [],
       listedCategory: [],
       listedSkill: [],
-
       showModal: false,
 
     };
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
+
+    this.CategorySearch();
+    this.SkillSearch();
+
     this.setState({ showLoader: true })
+
     let body = new FormData();
+
+    //mandatory for fetch
     body.append("id", this.props.userDeatailResponse.row_id);
     body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
+
+    //For Edit Intro
     body.append("first_name", "");
     body.append("last_name", "");
     body.append("category", "");
@@ -125,26 +124,40 @@ class EditProfileScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
-    const res = axios.post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body);
-    res.then((res) => {
-      console.log(res, "response -------------------")
-      const responseObj = res.data[0];
+    let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
+    if (response) {
       this.setState({
-        firtName: responseObj.first_name, lastName: responseObj.last_name, college: responseObj.college,
-        major: responseObj.department, currentEnrollment: responseObj.title, typeValue: responseObj.type,
-        location: responseObj.location, categoriesData: responseObj.category, skillsData: responseObj.skills,
-        startDate: (responseObj.startDate), endDate: (responseObj.endDate), community: responseObj.community,
-        socialUrl: responseObj.socialurls, info: responseObj.about, coverImageSource: responseObj.cover_image,
-        profileImageSource: responseObj.user_image,
-      })
-      console.log(this.state.typeValue);
-      this.setState({ showLoader: false })
-    })
+        firstName: response[0].first_name, lastName: response[0].last_name, college: response[0].college,
+        major: response[0].department, currentEnrollment: response[0].title, typeValue: response[0].type,
+        location: response[0].location, categoriesData: response[0].category, skillsData: response[0].skills,
+        startDate: (response[0].startDate), endDate: (response[0].endDate), community: response[0].community,
+        socialUrl: response[0].socialurls, info: response[0].about, coverImageSource: response[0].cover_image,
+        profileImageSource: response[0].user_image, showLoader: false
+      });
+    }
   }
 
-  handleSubmitProfile = data => {
+  CategorySearch = async () => {
+    let response = await makeGetRequest(ApiUrl.FetchProjectCategory, false, '');
+    if (response) {
+      this.setState({
+        listedCategory: response
+      });
+    }
+  };
+
+  SkillSearch = async () => {
+    let response = await makeGetRequest(ApiUrl.FetchSkills, false, '');
+    if (response) {
+      this.setState({
+        listedSkill: response
+      });
+    }
+  };
+
+  handleSubmitProfile = async () => {
     this.setState({ showLoader: true })
-    console.log("hitting")
+
     const categoryArr = this.state.categoriesData.map(item => item.label.trim()).join(',');
     const skillArr = this.state.skillsData.map(item => item.label.trim()).join(',');
     const socialArr = this.state.socialUrl.map(item => item.socialurl.trim()).join(',');
@@ -152,7 +165,7 @@ class EditProfileScreen extends Component {
     let body = new FormData();
     body.append("id", this.props.userDeatailResponse.row_id);
     body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
-    body.append("first_name", this.state.firtName);
+    body.append("first_name", this.state.firstName);
     body.append("last_name", this.state.lastName);
     body.append("category", categoryArr);
     body.append("skills", skillArr);
@@ -189,18 +202,18 @@ class EditProfileScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
-    console.log(body, "bodyyyyyyyyyyyyyyy")
-    const res = axios.post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body);
-    res.then(res => {
-      // console.log(res)
-      this.props.updateslug(base64.encode(res.data[0].slug_name));
+    let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
+    if (response) {
+      console.log(response);
+      this.props.updateslug(base64.encode(response[0].slug_name));
       this.setState({ showLoader: false })
-      if (res.status === 200) this.props.navigation.navigate('ProfileScreen')
-    });
+      if (response[0].message === "Edit Intro has been Updated with Pic into the DB") {
+        this.props.navigation.navigate('ProfileScreen')
+      }
+    }
   }
 
   handleAddSocialUrl = data => {
-    console.log("hiting social url")
     const social = this.state.socialUrl;
     social.push({ socialurl: "" });
     this.setState({ socialUrl: social });
@@ -208,7 +221,6 @@ class EditProfileScreen extends Component {
 
   handleSocialUrl = (data, index) => {
     if (data != "") {
-
       this.state.socialUrl[index].socialurl = data.nativeEvent.text;
     }
   }
@@ -220,7 +232,6 @@ class EditProfileScreen extends Component {
       includeBase64: true,
       mediaType: 'photo'
     }).then(images => {
-      console.log("images---", images)
       this.setState({ profileImageSource: "data:image/png;base64," + images.data });
 
       let body = new FormData();
@@ -228,7 +239,7 @@ class EditProfileScreen extends Component {
       body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
       body.append("image", this.state.profileImageSource);
       body.append("flag", this.state.community == "Student" ? 'Y' : 'F');
- 
+
       const res = axios.post(`${BASE_URL}SaveProfileImage`, body);
       res.then(res => {
         console.log('ress=====>', res)
@@ -253,7 +264,6 @@ class EditProfileScreen extends Component {
       includeBase64: true,
       mediaType: 'photo'
     }).then(images => {
-      console.log("images---", images)
       this.setState({ coverImageSource: "data:image/png;base64," + images.data });
 
       let body = new FormData();
@@ -261,7 +271,7 @@ class EditProfileScreen extends Component {
       body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
       body.append("image", this.state.coverImageSource);
       body.append("flag", this.state.community == "Student" ? 'Y' : 'F');
- 
+
       const res = axios.post(`${BASE_URL}SaveCoverImage`, body);
       res.then(res => {
         console.log('ress=====>', res)
@@ -290,8 +300,8 @@ class EditProfileScreen extends Component {
   );
 
   handleTextChange = (text, targetState) => {
-    if (targetState === "firtName") {
-      this.setState({ firtName: text.nativeEvent.text });
+    if (targetState === "firstName") {
+      this.setState({ firstName: text.nativeEvent.text });
     } else if (targetState === "lastName") {
       this.setState({ lastName: text.nativeEvent.text })
     } else if (targetState === "college") {
@@ -300,19 +310,26 @@ class EditProfileScreen extends Component {
       this.setState({ major: text.nativeEvent.text })
     } else if (targetState === "currentEnrollment") {
       this.setState({ currentEnrollment: text.nativeEvent.text })
-    } else if (targetState === "type") {
-      this.setState({ typeValue: text.nativeEvent.text })
-      console.log(this.state.typeValue);
     } else if (targetState === "location") {
       this.setState({ location: text.nativeEvent.text })
     } else if (targetState === "community") {
       this.setState({ community: text.nativeEvent.text })
-    }
-    else if (targetState === "info") {
+    } else if (targetState === "info") {
       this.setState({ info: text.nativeEvent.text })
     }
   }
 
+  handleType = async (type) => {
+    await this.setState({ typeValue : type})
+  }
+
+  selectedCategory = async (item, index) => {
+    if (this.state.categoriesData.includes(item) == false) {
+      await this.setState({ categoriesData: this.state.categoriesData.concat([item]) })
+      const selectedByUser = this.state.listedCategory.filter(itm => itm != item)
+      this.setState({ listedCategory: selectedByUser })
+    }
+  }
   handleRemoveItemCategory = (item, index) => {
     if (this.state.categoriesData.length > 1) {
       const unselectedByUser = this.state.listedCategory;
@@ -321,6 +338,14 @@ class EditProfileScreen extends Component {
       this.setState({ categoriesData: selected, listedCategory: unselectedByUser })
     } else {
       this.setState({ showModal: true })
+    }
+  }
+
+  selectedSkill = async (item, index) => {
+    if (this.state.skillsData.includes(item) == false) {
+      await this.setState({ skillsData: this.state.skillsData.concat([item]) })
+      const selectedByUser = this.state.listedSkill.filter(itm => itm != item)
+      this.setState({ listedSkill: selectedByUser })
     }
   }
   handleRemoveItemSkill = (item, index) => {
@@ -354,17 +379,8 @@ class EditProfileScreen extends Component {
       </View>
     </Modal>
   )
-  render() {
-    // console.log(base64.decode(this.props.userDeatailResponse.slug) , "sligggggggggggggg");
-    console.log(this.state, "66666666666666666666")
 
-    // const renderSkillItems = ({ item }) => (
-    //   <TouchableOpacity style={styles.headSec}>
-    //     <View style={styles.details}>
-    //       <Text style={styles.inputHead}>{item.label}</Text>
-    //     </View>
-    //   </TouchableOpacity>
-    // );
+  render() {
     return (
       <View style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -393,18 +409,10 @@ class EditProfileScreen extends Component {
             <Text style={styles.headerText}>Edit Profile</Text>
           </View>
 
-          <ScrollView
-            showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <View style={styles.uploadSec}>
                 <View style={styles.cover}>
-                  {/* <Image
-                    style={[CommonStyles.image]}
-                    // source={require('../../../assets/images/bnr.jpg')}
-                    source={{
-                      uri: `${this.state.coverImageSource ? this.state.coverImageSource : "../../../assets/images/bnr.jpg"}`,
-                    }}
-                  /> */}
                   <Image
                     style={styles.uploadcoverImage}
                     source={{
@@ -419,14 +427,6 @@ class EditProfileScreen extends Component {
                 </View>
 
                 <View style={styles.logo}>
-                  {/* <Image
-                    style={[styles.image, { borderRadius: 55 }]}
-                    // source={require('../../../assets/images/userPro.jpg')}
-                    source={{
-                      uri: `${this.state.profileImageSource ? this.state.profileImageSource : '../../../assets/images/userPro.jpg'}`,
-                    }}
-
-                  /> */}
                   <Image
                     style={styles.uploadImage}
                     source={{
@@ -441,431 +441,416 @@ class EditProfileScreen extends Component {
                 </View>
               </View>
 
-              <View style={styles.form}>
+              <KeyboardAvoidingView>
+                <View style={styles.form}>
 
-                <Text style={styles.inputHead}>First Name *</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="John"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                      defaultValue={this.state.firtName}
-                      // value={this.state.firtName}
-                      onChange={(evt) => this.handleTextChange(evt, "firtName")}
-                    />
+                  <Text style={styles.inputHead}>*First Name</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="John"
+                        style={styles.inputGroup}
+                        keyboardType="default"
+                        defaultValue={this.state.firstName}
+                        onChange={(evt) => this.handleTextChange(evt, "firstName")}
+                      />
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <FontAwesome name="user" size={25} color="#d7d7d8" />
+                    </View>
                   </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome name="user" size={25} color="#d7d7d8" />
+
+                  <Text style={styles.inputHead}>*Last Name</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="Doe"
+                        style={styles.inputGroup}
+                        keyboardType="default"
+                        defaultValue={this.state.lastName}
+                        onChange={(evt) => this.handleTextChange(evt, "lastName")}
+                      />
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <FontAwesome name="user" size={25} color="#d7d7d8" />
+                    </View>
                   </View>
-                </View>
 
-                <Text style={styles.inputHead}>Last Name *</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="Doe"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                      defaultValue={this.state.lastName}
-                      onChange={(evt) => this.handleTextChange(evt, "lastName")}
-                    />
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome name="user" size={25} color="#d7d7d8" />
-                  </View>
-                </View>
-
-                <Text style={styles.inputHead}>College </Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="MIT"
-                      defaultValue={this.state.college}
-                      style={styles.inputGroup}
-                      onChange={(evt) => this.handleTextChange(evt, "college")}
-                      keyboardType="default"
-                      editable= {false}
-                    />
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome
-                      name="graduation-cap"
-                      size={25}
-                      color="#d7d7d8"
-                    />
-                  </View>
-                </View>
-
-                <Text style={styles.inputHead}>Major *</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="Java"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                      onChange={(evt) => this.handleTextChange(evt, "major")}
-                      defaultValue={this.state.major}
-                    />
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome
-                      name="graduation-cap"
-                      size={25}
-                      color="#d7d7d8"
-                    />
-                  </View>
-                </View>
-
-                <Text style={styles.inputHead}>Current Enrollment</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="Java"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                      onChange={(evt) => this.handleTextChange(evt, "currentEnrollment")}
-                      defaultValue={this.state.currentEnrollment}
-                      editable={false}
-                    />
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome
-                      name="graduation-cap"
-                      size={25}
-                      color="#d7d7d8"
-                    />
-                  </View>
-                </View>
-                <Text style={styles.inputHead}>Type *</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { width: '100%' }]}>
-                    <Picker
-                      style={{ width: '100%', height: 45 }}
-                      selectedValue={this.state.typeValue}
-                      onValueChange={(itemValue, itemIndex) =>
-                        this.setState({ typeValue: itemValue })
-                        // console.log(itemValue)
-                        // this.handleTextChange(itemValue, "type")
-                      }>
-                      <Picker.Item label="Full Timer" value="Full Timer" />
-                      <Picker.Item label="Part Timer" value="Part Timer" />
-                    </Picker>
-                  </View>
-                </View>
-
-                <Text style={styles.inputHead}>Location *</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="USA"
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                      onChange={(evt) => this.handleTextChange(evt, "location")}
-                      defaultValue={this.state.location}
-                    />
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome name="map-marker" size={25} color="#d7d7d8" />
-                  </View>
-                </View>
-
-                <Text style={styles.inputHead}>Categories *</Text>
-
-                <View style={[styles.formGroup1]}>
-                  <View
-                    style={[
-                      styles.formSubGroup2,
-                      { flexWrap: 'wrap', flexDirection: 'row' },
-                    ]}>
-                    {this.state.categoriesData.map((item, i) => (
-                      <View key={i} style={styles.skillTab}>
-                        <Text style={styles.skillText}>{item.label}</Text>
+                  <Text style={styles.inputHead}>*Categories</Text>
+                  <TouchableOpacity activeOpacity={1.0} onPress={() => this.handleCategories()}>
+                    <View style={[styles.formGroup1]}>
+                      <View
+                        style={[
+                          styles.formSubGroup2,
+                          { flexWrap: 'wrap', flexDirection: 'row' },
+                        ]}>
+                        {this.state.categoriesData.map((item, i) => (
+                          <View key={i} style={styles.skillTab}>
+                            <Text style={styles.skillText}>{item.label}</Text>
+                            <FontAwesome
+                              name="times-circle"
+                              size={20}
+                              color="black"
+                              style={styles.marginRight3}
+                              onPress={() => this.handleRemoveItemCategory(item, i)}
+                            />
+                          </View>
+                        ))}
+                      </View>
+                      <View style={styles.formSubGroup1}>
                         <FontAwesome
-                          name="times-circle"
-                          size={20}
-                          color="black"
-                          style={styles.marginRight3}
-                          onPress={() => this.handleRemoveItemCategory(item, i)}
+                          name="angle-down"
+                          size={28}
+                          color="#d7d7d8"
+                          onPress={() => this.handleCategories()}
                         />
                       </View>
-                    ))}
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome
-                      name="angle-down"
-                      size={28}
-                      color="#d7d7d8"
-                      onPress={() => this.handleCategories()}
-                    />
-                  </View>
-                </View>
-                {this.state.showCategories === true ? (
-                  <View style={[styles.formGroupNew, { marginTop: 0 }]}>
-                    <ScrollView>
-                      {
-                        this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
-                          <TouchableOpacity style={styles.headSec} key={index}>
-                            <View style={styles.details}>
-                              <Text style={styles.inputHead}>{item.label}</Text>
-                            </View>
-                          </TouchableOpacity>
+                    </View>
+                  </TouchableOpacity>
+                  {this.state.showCategories === true ? (
+                    <View style={[styles.formGroupNew, { marginTop: 0 }]}>
+                      <ScrollView>
+                        {
+                          this.state.listedCategory.length > 0 ? this.state.listedCategory.map((item, index) => (
+                            <TouchableOpacity style={styles.headSec} key={index}>
+                              <View style={styles.details}>
+                                <Text style={styles.inputHead} onPress={() => this.selectedCategory(item)}>{item.label}</Text>
+                              </View>
+                            </TouchableOpacity>
 
-                        )) : <Text style={{ textAlign: 'center' }}>No data to show</Text>
-                      }
-                    </ScrollView>
-                  </View>
-                ) : (
-                    <></>
-                  )}
-                <Text style={styles.inputHead}>Skills *</Text>
+                          )) : <Text style={{ textAlign: 'center' }}>No more categories to show</Text>
+                        }
+                      </ScrollView>
+                    </View>
+                  ) : (
+                      <></>
+                    )}
 
-                <View style={[styles.formGroup1]}>
-                  <View
-                    style={[
-                      styles.formSubGroup2,
-                      { flexWrap: 'wrap', flexDirection: 'row' },
-                    ]}>
-                    {this.state.skillsData.map((item, i) => (
-                      <View key={i} style={styles.skillTab}>
-                        <Text style={styles.skillText}>{item.label}</Text>
+                  <Text style={styles.inputHead}>*Skills</Text>
+                  <TouchableOpacity activeOpacity={1.0} onPress={() => this.handleSkills()}>
+                    <View style={[styles.formGroup1]}>
+                      <View
+                        style={[
+                          styles.formSubGroup2,
+                          { flexWrap: 'wrap', flexDirection: 'row' },
+                        ]}>
+                        {this.state.skillsData.map((item, i) => (
+                          <View key={i} style={styles.skillTab}>
+                            <Text style={styles.skillText}>{item.label}</Text>
+                            <FontAwesome
+                              name="times-circle"
+                              size={20}
+                              color="black"
+                              style={styles.marginRight3}
+                              onPress={() => this.handleRemoveItemSkill(item, i)}
+                            />
+                          </View>
+                        ))}
+                      </View>
+                      <View style={styles.formSubGroup1}>
                         <FontAwesome
-                          name="times-circle"
-                          size={20}
-                          color="black"
-                          style={styles.marginRight3}
-                          onPress={() => this.handleRemoveItemSkill(item, i)}
+                          name="angle-down"
+                          size={28}
+                          color="#d7d7d8"
+                          onPress={() => this.handleSkills()}
                         />
                       </View>
-                    ))}
+                    </View>
+                  </TouchableOpacity>
+                  {this.state.showSkills === true ? (
+                    <View style={[styles.formGroupNew, { marginTop: 0 }]}>
+                      <ScrollView>
+                        {
+                          this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
+                            <TouchableOpacity style={styles.headSec} key={index}>
+                              <View style={styles.details}>
+                                <Text style={styles.inputHead}onPress={() => this.selectedSkill(item)}>{item.label}</Text>
+                              </View>
+                            </TouchableOpacity>
+
+                          )) : <Text style={{ textAlign: 'center' }}>No more skills to show</Text>
+                        }
+                      </ScrollView>
+                    </View>
+                  ) : (
+                      <></>
+                    )}
+
+                  <Text style={styles.inputHead}>College</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="MIT"
+                        defaultValue={this.state.college}
+                        style={styles.inputGroup}
+                        onChange={(evt) => this.handleTextChange(evt, "college")}
+                        keyboardType="default"
+                        editable={false}
+                      />
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <FontAwesome
+                        name="graduation-cap"
+                        size={25}
+                        color="#d7d7d8"
+                      />
+                    </View>
                   </View>
-                  <View style={styles.formSubGroup1}>
-                    <FontAwesome
-                      name="angle-down"
-                      size={28}
-                      color="#d7d7d8"
-                      onPress={() => this.handleSkills()}
+
+                  <Text style={styles.inputHead}>Major</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="Java"
+                        style={styles.inputGroup}
+                        keyboardType="default"
+                        onChange={(evt) => this.handleTextChange(evt, "major")}
+                        defaultValue={this.state.major}
+                      />
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <FontAwesome
+                        name="graduation-cap"
+                        size={25}
+                        color="#d7d7d8"
+                      />
+                    </View>
+                  </View>
+
+                  <Text style={styles.inputHead}>Current Enrollment</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="Java"
+                        style={styles.inputGroup}
+                        keyboardType="default"
+                        onChange={(evt) => this.handleTextChange(evt, "currentEnrollment")}
+                        defaultValue={this.state.currentEnrollment}
+                        editable={false}
+                      />
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <FontAwesome
+                        name="graduation-cap"
+                        size={25}
+                        color="#d7d7d8"
+                      />
+                    </View>
+                  </View>
+
+                  <Text style={styles.inputHead}>*Type</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                      <Picker
+                        style={{ width: '100%', height: 45 }}
+                        selectedValue={this.state.typeValue}
+                        onValueChange={(itemValue, itemIndex) => this.handleType(itemValue)}>
+                        <Picker.Item label="Full timer" value="Full timer" />
+                        <Picker.Item label="Part timer" value="Part timer" />
+                      </Picker>
+                    </View>
+                  </View>
+
+                  <Text style={styles.inputHead}>*Location</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="USA"
+                        style={styles.inputGroup}
+                        keyboardType="default"
+                        onChange={(evt) => this.handleTextChange(evt, "location")}
+                        defaultValue={this.state.location}
+                      />
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <FontAwesome name="map-marker" size={25} color="#d7d7d8" />
+                    </View>
+                  </View>
+
+                  <Text style={styles.inputHead}>*Start Date</Text>
+                  {this.state.showStartDatePicker === true ? (
+                    // <DateTimePicker
+                    //   testID="dateTimePicker"
+                    //   value={new Date(1598051730000)}
+                    //   placeholder="Select Start Date"
+                    //   mode={'date'}
+                    //   onChange={(data) => this.handleTextChange((data.timeStamp), "startDate")}
+                    //   is24Hour={true}
+                    //   display="default"
+                    // />
+                    <DateTimePickerModal
+                      isVisible={this.state.showStartDatePicker}
+                      mode="date"
+                      onConfirm={(date) => this.setState({ startDate: moment(date).format("YYYY-MM-DD") })}
+                      onCancel={() => this.setState({ showStartDatePicker: false })}
+                      minimumDate={this.state.startDate === "" ? new Date() : new Date(this.state.startDate)}
                     />
+                  ) : (
+                      <></>
+                    )}
+                  <View style={styles.formGroup1}>
+                    <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
+                      <Text style={styles.inputHead2}>
+                        {this.state.startDate}
+                      </Text>
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            showStartDatePicker: !this.state.showStartDatePicker,
+                          })
+                        }>
+                        <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-                {this.state.showSkills === true ? (
-                  <View style={[styles.formGroupNew, { marginTop: 0 }]}>
-                    <ScrollView>
-                      {
-                        this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
-                          <TouchableOpacity style={styles.headSec} key={index}>
-                            <View style={styles.details}>
-                              <Text style={styles.inputHead}>{item.label}</Text>
-                            </View>
-                          </TouchableOpacity>
 
-                        )) : <Text style={{ textAlign: 'center' }}>no data</Text>
-                      }
-                    </ScrollView>
-                  </View>
-                ) : (
-                    <></>
-                  )}
-
-                <Text style={styles.inputHead}>Start Date *</Text>
-                {this.state.showStartDatePicker === true ? (
-                  // <DateTimePicker
-                  //   testID="dateTimePicker"
-                  //   value={new Date(1598051730000)}
-                  //   placeholder="Select Start Date"
-                  //   mode={'date'}
-                  //   onChange={(data) => this.handleTextChange((data.timeStamp), "startDate")}
-                  //   is24Hour={true}
-                  //   display="default"
-                  // />
-
-                  <DateTimePickerModal
-                    isVisible={this.state.showStartDatePicker}
-                    mode="date"
-                    onConfirm={(date) => this.setState({ startDate: moment(date).format("YYYY-MM-DD") })}
-                    onCancel={() => this.setState({ showStartDatePicker: false })}
-                    minimumDate={this.state.startDate === "" ? new Date() : new Date(this.state.startDate)}
-                  />
-                ) : (
-                    <></>
-                  )}
-                <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
-                    <Text style={styles.inputHead2}>
-                      {this.state.startDate}
-                    </Text>
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.setState({
-                          showStartDatePicker: !this.state.showStartDatePicker,
-                        })
-                      }>
-                      <FontAwesome name="calendar" size={25} color="#d7d7d8" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-
-                <Text style={styles.inputHead}>End Date *</Text>
-                {this.state.showEndDatePicker === true ? (
-                  // <DateTimePicker
-                  //   testID="dateTimePicker"
-                  //   value={new Date(1598051730000)}
-                  //   dateFormat="day month year"
-                  //   placeholder="Select End Date"
-                  //   mode={'date'}
-                  //   is24Hour={true}
-                  //   onChange={(data) => this.handleTextChange((data.timeStamp), "endDate")}
-                  //   display="default"
-                  // />
-                  <DateTimePickerModal
-                    isVisible={this.state.showEndDatePicker}
-                    mode="date"
-                    onConfirm={(date) => this.setState({ endDate: moment(date).format("YYYY-MM-DD") })}
-                    onCancel={() => this.setState({ showEndDatePicker: false })}
-                    minimumDate={this.state.endDate === "" ? new Date() : new Date(this.state.endDate)}
-                  />
-                ) : (
-                    <></>
-                  )}
-                <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
-                    <Text style={styles.inputHead2}>{this.state.endDate}</Text>
-                  </View>
-                  <View style={styles.formSubGroup1}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.setState({
-                          showEndDatePicker: !this.state.showEndDatePicker,
-                        })
-                      }>
-                      <FontAwesome name="calendar" size={25} color="#d7d7d8" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <Text style={styles.inputHead}>Community *</Text>
-
-                <View style={styles.formGroup1}>
-                  <View style={styles.formSubGroup2}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="community"
-                      defaultValue={this.state.community}
-                      style={styles.inputGroup}
-                      keyboardType="default"
-                      onChange={(evt) => this.handleTextChange(evt, "community")}
+                  <Text style={styles.inputHead}>*End Date</Text>
+                  {this.state.showEndDatePicker === true ? (
+                    // <DateTimePicker
+                    //   testID="dateTimePicker"
+                    //   value={new Date(1598051730000)}
+                    //   dateFormat="day month year"
+                    //   placeholder="Select End Date"
+                    //   mode={'date'}
+                    //   is24Hour={true}
+                    //   onChange={(data) => this.handleTextChange((data.timeStamp), "endDate")}
+                    //   display="default"
+                    // />
+                    <DateTimePickerModal
+                      isVisible={this.state.showEndDatePicker}
+                      mode="date"
+                      onConfirm={(date) => this.setState({ endDate: moment(date).format("YYYY-MM-DD") })}
+                      onCancel={() => this.setState({ showEndDatePicker: false })}
+                      minimumDate={this.state.endDate === "" ? new Date() : new Date(this.state.endDate)}
                     />
+                  ) : (
+                      <></>
+                    )}
+                  <View style={styles.formGroup1}>
+                    <View style={[styles.formSubGroup2, { height: 45, justifyContent: 'center' }]}>
+                      <Text style={styles.inputHead2}>{this.state.endDate}</Text>
+                    </View>
+                    <View style={styles.formSubGroup1}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            showEndDatePicker: !this.state.showEndDatePicker,
+                          })
+                        }>
+                        <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
 
-                <Text style={styles.inputHead}>Social Url(s) *</Text>
+                  <Text style={styles.inputHead}>Community</Text>
+                  <View style={styles.formGroup1}>
+                    <View style={styles.formSubGroup2}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="community"
+                        defaultValue={this.state.community}
+                        style={styles.inputGroup}
+                        keyboardType="default"
+                        onChange={(evt) => this.handleTextChange(evt, "community")}
+                      />
+                    </View>
+                  </View>
 
-                {this.state.socialUrl.length > 0 ?
-                  this.state.socialUrl.map((data, index) => (
-                    <View style={styles.formGroup11} key={index}>
-                      <View style={[styles.formGroup1, this.state.socialUrl.length - 1 === index ? { width: '85%' } : { width: '100%' }]}>
+                  <Text style={styles.inputHead}>Social Url(s)</Text>
+                  {this.state.socialUrl.length > 0 ?
+                    this.state.socialUrl.map((data, index) => (
+                      <View style={styles.formGroup11} key={index}>
+                        <View style={[styles.formGroup1, this.state.socialUrl.length - 1 === index ? { width: '85%' } : { width: '100%' }]}>
+                          <View style={styles.formSubGroup2}>
+                            <TextInput
+                              returnKeyType="done"
+                              placeholder="https://facebook.com/..."
+                              defaultValue={data.socialurl}
+                              style={styles.inputGroup}
+                              keyboardType="default"
+                              onChange={(evt) => this.handleSocialUrl(evt, index, "0")}
+                            />
+                          </View>
+                        </View>
+                        {
+
+                          this.state.socialUrl.length - 1 === index ?
+                            <View style={[styles.formSubGroup1, { marginLeft: 3, borderRadius: 5, height: 55, backgroundColor: '#71b85f', width: '15%', elevation: 4 }]}>
+                              <FontAwesome name="plus" size={25} color="#fff" onPress={this.handleAddSocialUrl} />
+                            </View> : null
+                        }
+                      </View>
+
+                    )) :
+                    <View style={styles.formGroup11}>
+                      <View style={[styles.formGroup1, { width: '85%' }]}>
                         <View style={styles.formSubGroup2}>
                           <TextInput
                             returnKeyType="done"
                             placeholder="https://facebook.com/..."
-                            defaultValue={data.socialurl}
                             style={styles.inputGroup}
                             keyboardType="default"
-                            onChange={(evt) => this.handleSocialUrl(evt, index, "0")}
+                            onChange={(evt) => this.handleSocialUrl(evt, 0, "0")}
                           />
                         </View>
                       </View>
-                      {
 
-                        this.state.socialUrl.length - 1 === index ?
-                          <View style={[styles.formSubGroup1, { marginLeft: 3, borderRadius: 5, height: 55, backgroundColor: '#71b85f', width: '15%', elevation: 4 }]}>
-                            <FontAwesome name="plus" size={25} color="#fff" onPress={this.handleAddSocialUrl} />
-                          </View> : null
-                      }
-                    </View>
-
-                  )) :
-                  <View style={styles.formGroup11}>
-                    <View style={[styles.formGroup1, { width: '85%' }]}>
-                      <View style={styles.formSubGroup2}>
-                        <TextInput
-                          returnKeyType="done"
-                          placeholder="https://facebook.com/..."
-                          style={styles.inputGroup}
-                          keyboardType="default"
-                          onChange={(evt) => this.handleSocialUrl(evt, 0, "0")}
-                        />
+                      <View style={[styles.formSubGroup1, { marginLeft: 3, borderRadius: 5, height: 55, backgroundColor: '#71b85f', width: '15%', elevation: 4 }]}>
+                        <FontAwesome name="plus" size={25} color="#fff" onPress={this.handleAddSocialUrl} />
                       </View>
                     </View>
+                  }
 
-                    <View style={[styles.formSubGroup1, { marginLeft: 3, borderRadius: 5, height: 55, backgroundColor: '#71b85f', width: '15%', elevation: 4 }]}>
-                      <FontAwesome name="plus" size={25} color="#fff" onPress={this.handleAddSocialUrl} />
-                    </View>
-                  </View>
-                }
-                <Text style={styles.inputHead}>Info *</Text>
-
-                <View
-                  style={[
-                    styles.formGroup1, {
-                      height: 180,
-                    },
-                  ]}>
+                  <Text style={styles.inputHead}>Info</Text>
                   <View
                     style={[
-                      styles.formSubGroup2, {
+                      styles.formGroup1, {
                         height: 180,
-                        width: '100%',
                       },
                     ]}>
-                    <TextInput
-                      returnKeyType="done"
-                      placeholder="Write something..."
-                      defaultValue={this.state.info}
-                      onChange={(evt) => this.handleTextChange(evt, "info")}
+                    <View
                       style={[
-                        styles.inputGroup,
-                        {
+                        styles.formSubGroup2, {
                           height: 180,
-                          justifyContent: 'flex-start',
-                          textAlignVertical: 'top',
+                          width: '100%',
                         },
-                      ]}
-                      keyboardType="default"
-                      numberOfLines={10}
-                      multiline={true}
-                    />
+                      ]}>
+                      <TextInput
+                        returnKeyType="done"
+                        placeholder="Write something..."
+                        defaultValue={this.state.info}
+                        onChange={(evt) => this.handleTextChange(evt, "info")}
+                        style={[
+                          styles.inputGroup,
+                          {
+                            height: 180,
+                            justifyContent: 'flex-start',
+                            textAlignVertical: 'top',
+                          },
+                        ]}
+                        keyboardType="default"
+                        numberOfLines={10}
+                        multiline={true}
+                      />
+                    </View>
                   </View>
-                </View>
 
-                <TouchableOpacity
-                  activeOpacity={0.9}
-                  onPress={() => this.handleSubmitProfile()}
-                  style={[styles.authBtn]}>
-                  <Text style={styles.authBtnText}>Submit</Text>
-                  {/* {this.state.showLoader && (
-                    <ActivityIndicator
-                      size="large"
-                      color="#fff"
-                      style={CommonStyles.loader}
-                    />
-                  )} */}
-                </TouchableOpacity>
-              </View>
+                  <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={() => this.handleSubmitProfile()}
+                    style={[styles.authBtn]}>
+                    <Text style={styles.authBtnText}>Update</Text>
+                  </TouchableOpacity>
+                </View>
+              </KeyboardAvoidingView>
             </View>
           </ScrollView>
         </View>
@@ -875,7 +860,6 @@ class EditProfileScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-
   return {
     userDeatailResponse: state.userData,
   };
