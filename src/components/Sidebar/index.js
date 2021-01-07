@@ -22,6 +22,7 @@ import {
   logoutUser,
 } from '../../services/helper-methods';
 import {NavigationActions, StackActions} from 'react-navigation';
+import {updateUserDetails} from '../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import {
   Collapse,
@@ -41,7 +42,12 @@ class Sidebar extends Component {
       pressed: false,
     };
   }
-  componentDidMount = async () => {
+
+  componentDidMount = () => {
+    this.UpdateSidebar();
+  };
+
+  UpdateSidebar = async () => {
     const {userData} = this.props;
     await this.setState({
       FlagStatus: userData.Flag,
@@ -51,8 +57,6 @@ class Sidebar extends Component {
     body.append('user_id', base64.decode(userData.user_id));
     body.append('job_id', '');
     body.append('token', base64.decode(userData.Token));
-
-    console.log(body);
 
     await axios({
       url: API_URL + 'imageGet',
@@ -64,16 +68,11 @@ class Sidebar extends Component {
         if (response.data[0].message !== 'token doesnot match') {
           this.setState({
             profileSet: response.data,
-            // profileStatus: response.data[0].complete_status,
-            // profileMeter: response.data[0].percentage,
           });
-        } else {
-        }
-        this.setState({isLoading: false});
+          this.props.updateUserDetails(response.data);
+        } else {}
       })
-      .catch((error) => {
-        this.setState({isLoading: false});
-      });
+      .catch((error) => {});
   };
   _logout = async (_) => {
     await logoutUser();
@@ -525,4 +524,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Sidebar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUserDetails: (data) => dispatch(updateUserDetails(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

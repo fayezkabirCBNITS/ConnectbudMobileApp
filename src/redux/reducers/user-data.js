@@ -97,13 +97,13 @@ export const userDataReducer = (state = initialState, action) => {
     }
 
     case UPDATE_USER_DETAILS: {
-      console.log(action.payload.userData[0].Flag,"an");
       newState.userDetails = action.payload.userData
         ? action.payload.userData
         : newState.userDetails;
 
       newState.Flag = action.payload.userData[0].Flag
         ? action.payload.userData[0].Flag
+        : action.payload.Flag ? action.payload.Flag 
         : newState.Flag;
 
       newState.Status = action.payload.userData[0].Status
@@ -133,6 +133,7 @@ export const userDataReducer = (state = initialState, action) => {
 
       newState.row_id = action.payload.userData[0].row_id
         ? action.payload.userData[0].row_id
+        : action.payload.userData[0].id ? action.payload.userData[0].id
         : newState.row_id;
 
       newState.slug = action.payload.userData[0].slug
@@ -141,6 +142,7 @@ export const userDataReducer = (state = initialState, action) => {
 
       newState.user_id = action.payload.userData[0].user_id
         ? action.payload.userData[0].user_id
+        : action.payload.user_id ? action.payload.user_id
         : newState.user_id;
 
       // newState.isUserVerified = action.payload.userData.hasOwnProperty(
