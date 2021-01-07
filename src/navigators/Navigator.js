@@ -56,7 +56,10 @@ import ProjectDetailsFreelancerNA from './../screens/NonAuthNav/ProjectDetailFre
 import OnlineClassesNA from '../components/OnlinCodingClassesNA/onlineClassesNA';
 import HomeWorkHelpNA from '../components/HomeWorkHelpNA/index';
 import SearchClgStuNA from '../screens/NonAuthNav/SearchClgStuNA';
-import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA'
+import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA';
+import ForgotPassword from '../screens/NonAuthNav/ForgotPassword';
+import OtpVerification from '../screens/NonAuthNav/OtpVerification';
+import ResetPassword from '../screens/NonAuthNav/ResetPassword';
 //non stack pages
 
 export const MainStack = createStackNavigator(
