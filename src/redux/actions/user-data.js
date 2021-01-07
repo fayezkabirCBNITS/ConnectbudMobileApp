@@ -59,11 +59,13 @@ export const changeAppOpenStatus = (openAppFirstTime) => {
     },
   };
 };
-export const updateUserDetails = (userData) => {
+export const updateUserDetails = (userData, user_id, Flag) => {
   return {
     type: UPDATE_USER_DETAILS,
     payload: {
       userData,
+      user_id,
+      Flag
     },
   };
 };

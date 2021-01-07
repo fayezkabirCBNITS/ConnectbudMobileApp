@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TextInput,
   Modal,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -59,7 +60,7 @@ class HireTutor extends Component {
       selectedSkillIndex: null,
       skills: [],
       filteredSkills: [],
-      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
+      skillValuePlaceHolder: [{value: 'Select a subject', label: 'Select a subject'}],
       datePlaceHolder: [{value: 'Select Date', label: 'Select date'}],
       selectedDate: [],
       selectedDateIndex: null,
@@ -141,12 +142,15 @@ class HireTutor extends Component {
   };
 
   componentDidMount() {
-    this.fetchSkills();
+    this.SubjectSearch();
   }
 
-  async fetchSkills() {
-    let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    // this.setState({subjectSkills: response});
+  async SubjectSearch() {
+
+    let body = new FormData();
+    body.append("category_id", 3);
+
+    let response = await makePostRequestMultipart(ApiUrl.FilterSkill, false, body);
     this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
@@ -366,7 +370,7 @@ class HireTutor extends Component {
                           return (
                             <Picker.Item
                               label={data.label}
-                              value={data.value}
+                              value={data.label}
                               key={idx}
                             />
                           );
