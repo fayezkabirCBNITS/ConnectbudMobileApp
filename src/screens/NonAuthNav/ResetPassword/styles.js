@@ -10,6 +10,11 @@ export default {
     height: 70,
     justifyContent: 'center',
   },
+  errorText: {
+    width: '100%',
+    color: '#fc0303',
+    marginLeft: 5,
+  },
   hdngText: {
     fontFamily: 'Poppins-SemiBold',
     color: '#000',

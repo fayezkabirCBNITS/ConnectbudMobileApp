@@ -17,6 +17,11 @@ export default {
     textAlign: 'left',
     marginTop: -5,
   },
+  errorText: {
+    width: '100%',
+    color: '#fc0303',
+    marginLeft: 5,
+  },
   inputField: {
     marginVertical: 35,
   },

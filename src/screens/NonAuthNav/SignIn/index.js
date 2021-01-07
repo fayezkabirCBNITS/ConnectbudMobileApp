@@ -487,9 +487,9 @@ class SignInScreen extends Component {
                   {this.state.errors.password}
                 </Text>
 
-                {/* <Pressable style={styles.forgetDiv}>
+                <Pressable style={styles.forgetDiv} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
                   <Text style={styles.forgetText}>Forgot Password?</Text>
-                </Pressable> */}
+                </Pressable>
                 <Pressable
                   style={styles.signinBtn}
                   onPress={this.submitLogin}
