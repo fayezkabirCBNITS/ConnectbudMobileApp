@@ -1,7 +1,7 @@
 import React from 'react';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import HomeScreenAuth from '../screens/AuthNav/Home';
 import ProfileScreen from '../screens/AuthNav/Profile';
 import EditProfileScreen from '../screens/AuthNav/EditProfile';
@@ -112,8 +112,8 @@ export const MainStack = createStackNavigator(
     EditPostedProject: {
       screen: EditPostedProject,
     },
-    SearchProjectStudents:{
-      screen : SearchProjectStudents
+    SearchProjectStudents: {
+      screen: SearchProjectStudents
     },
     AssessmentQuestion: {
       screen: AssessmentQuestion,
@@ -168,12 +168,12 @@ export const MainStack = createStackNavigator(
     },
     HiringConfirmation: {
       screen: HiringConfirmation
-    }   ,
+    },
     AddExperienceNew: {
-      screen : AddExperienceNew
+      screen: AddExperienceNew
     },
     JobListingScreen: {
-      screen : JobListingScreen
+      screen: JobListingScreen
     },
   },
 
@@ -202,17 +202,17 @@ const AuthStackNav = createStackNavigator(
     AddSkillScreen: {
       screen: AddSkillScreen,
     },
-    OnlineClassesNA : {
-      screen : OnlineClassesNA
+    OnlineClassesNA: {
+      screen: OnlineClassesNA
     },
-    HomeWorkHelpNA:{
-      screen : HomeWorkHelpNA
+    HomeWorkHelpNA: {
+      screen: HomeWorkHelpNA
     },
-    SearchClgStuNA : {
-      screen : SearchClgStuNA
+    SearchClgStuNA: {
+      screen: SearchClgStuNA
     },
-    StudentProjectNA :{
-      screen : StudentProjectNA
+    StudentProjectNA: {
+      screen: StudentProjectNA
     },
     ViewUserProfileScreen: {
       screen: ViewUserProfileScreen
@@ -220,11 +220,20 @@ const AuthStackNav = createStackNavigator(
     ProjectDetailsFreelancerNA: {
       screen: ProjectDetailsFreelancerNA
     },
-    PostProjectNA:{
-      screen:PostProjectNA,
+    PostProjectNA: {
+      screen: PostProjectNA,
     },
     LatestProjectList: {
       screen: LatestProjectList
+    },
+    ForgotPassword: {
+      screen: ForgotPassword
+    },
+    OtpVerification: {
+      screen: OtpVerification
+    },
+    ResetPassword: {
+      screen: ResetPassword
     },
   },
   {
