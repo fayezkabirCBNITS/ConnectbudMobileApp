@@ -10,7 +10,7 @@ export default {
         // marginVertical : 10
     },
     scrolling: {
-        height: deviceHeight - 100 
+        height: deviceHeight - 140 
     },
     collapseTitle: {
         flexDirection: "column",

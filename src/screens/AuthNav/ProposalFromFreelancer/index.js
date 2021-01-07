@@ -60,7 +60,7 @@ class ProposalFromFreelancer extends Component {
     headerShown: false,
   };
   componentDidMount = async () => {
-    console.log("LLLLLLLLLLLLLLLLLLLLLl");
+    console.log('LLLLLLLLLLLLLLLLLLLLLl');
     const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -96,19 +96,18 @@ class ProposalFromFreelancer extends Component {
           });
         }
 
-        if(response.data[0].type === "invitation"){
+        if (response.data[0].type === 'invitation') {
           await this.setState({
             recID: response.data[0].receiver_id,
             reqStatus: response.data[0].request_status,
           });
+        } else {
+          await this.setState({
+            recID: response.data[0].sender_id,
+            reqStatus: response.data[0].request_status,
+          });
         }
-        else{
-        await this.setState({
-          recID: response.data[0].sender_id,
-          reqStatus: response.data[0].request_status,
-        });
-      }
-        console.log("sandipppppppppp",this.state.recID);
+        console.log('sandipppppppppp', this.state.recID);
       })
       .catch((error) => {
         this.setState({isLoading: false});
@@ -134,8 +133,8 @@ class ProposalFromFreelancer extends Component {
       data: taglistbody,
     })
       .then(async (response) => {
-        if(this.state.FrelancerType === ""){
-          // START GETCHAT 
+        if (this.state.FrelancerType === '') {
+          // START GETCHAT
           let body1 = new FormData();
           body1.append(
             'sender_id',
@@ -157,41 +156,40 @@ class ProposalFromFreelancer extends Component {
               await this.setState({
                 reqStatus: response.data[0].request_status,
               });
-      
+
               //    localStorage.setItem("slug", response.data[0].job_slug);
               //    this.setState({ isLoading: false });
             })
             .catch((error) => {
               this.setState({isLoading: false});
             });
-          // END GETCHAT 
-        this.setState({
-          questionset: response.data.sort(function (a, b) {
-            if (a.expert_Name < b.expert_Name) return -1;
-            else if (a.expert_Name > b.expert_Name) return 1;
-            return 0;
-          }),
-          jobskillset: response.data[0].job_skills,
-          skillset: response.data[0].freelancer_skills,
-          project_name: response.data[0].project_name,
-          showLoader: false,
-          FrelancerType: "recruiter",
-          recID: response.data[0].freelancer_id,
-        });
-      }
-      else{
-        this.setState({
-          questionset: response.data.sort(function (a, b) {
-            if (a.expert_Name < b.expert_Name) return -1;
-            else if (a.expert_Name > b.expert_Name) return 1;
-            return 0;
-          }),
-          jobskillset: response.data[0].job_skills,
-          skillset: response.data[0].freelancer_skills,
-          project_name: response.data[0].project_name,
-          showLoader: false,
-        });
-      }
+          // END GETCHAT
+          this.setState({
+            questionset: response.data.sort(function (a, b) {
+              if (a.expert_Name < b.expert_Name) return -1;
+              else if (a.expert_Name > b.expert_Name) return 1;
+              return 0;
+            }),
+            jobskillset: response.data[0].job_skills,
+            skillset: response.data[0].freelancer_skills,
+            project_name: response.data[0].project_name,
+            showLoader: false,
+            FrelancerType: 'recruiter',
+            recID: response.data[0].freelancer_id,
+          });
+        } else {
+          this.setState({
+            questionset: response.data.sort(function (a, b) {
+              if (a.expert_Name < b.expert_Name) return -1;
+              else if (a.expert_Name > b.expert_Name) return 1;
+              return 0;
+            }),
+            jobskillset: response.data[0].job_skills,
+            skillset: response.data[0].freelancer_skills,
+            project_name: response.data[0].project_name,
+            showLoader: false,
+          });
+        }
         //    if (this.state.FrelancerType === "tutor") {
         //      this.setState({
         //        file: response.data[0].resumefile,
@@ -207,7 +205,7 @@ class ProposalFromFreelancer extends Component {
   };
 
   acceptRequest = async () => {
-    console.log("called accept request");
+    console.log('called accept request');
     this.setState({
       showLoader: true,
     });
@@ -249,8 +247,8 @@ class ProposalFromFreelancer extends Component {
 
   acceptIgnore = async () => {
     this.setState({
-      showLoader:true
-    })
+      showLoader: true,
+    });
     const obj = {
       milestone_id: '',
       receiver_id: this.state.recID.toString(),
@@ -269,8 +267,8 @@ class ProposalFromFreelancer extends Component {
       })
       .then((response) => {
         this.setState({
-          showLoader:false
-        })
+          showLoader: false,
+        });
         this.props.navigation.navigate('ChatListScreen');
         alert('You ignored the proposal!');
       })
@@ -287,8 +285,8 @@ class ProposalFromFreelancer extends Component {
 
   tutoracceptRequest = async () => {
     this.setState({
-      showLoader:true
-    })
+      showLoader: true,
+    });
     let body1 = new FormData();
 
     body1.append('receiver_id', this.state.user_id);
@@ -309,8 +307,8 @@ class ProposalFromFreelancer extends Component {
       })
       .then((response) => {
         this.setState({
-          showLoader:false
-        })
+          showLoader: false,
+        });
         this.props.navigation.navigate('ChatListScreen');
         alert('Successfully accepted the proposal!');
       })
@@ -321,8 +319,8 @@ class ProposalFromFreelancer extends Component {
 
   tutoracceptIgnore = async () => {
     this.setState({
-      showLoader:true
-    })
+      showLoader: true,
+    });
     let body1 = new FormData();
 
     body1.append('receiver_id', this.state.user_id);
@@ -345,8 +343,8 @@ class ProposalFromFreelancer extends Component {
         this.props.navigation.navigate('ChatListScreen');
         alert('You ignored the proposal!');
         this.setState({
-          showLoader:false
-        })
+          showLoader: false,
+        });
       })
       .catch((error) => {
         this.setState({isLoading: false});
@@ -357,7 +355,7 @@ class ProposalFromFreelancer extends Component {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
         <View style={[CommonStyles.main, styles.bgColorWhite]}>
-        <Spinner
+          <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
@@ -395,6 +393,15 @@ class ProposalFromFreelancer extends Component {
                           </View>
                         </>
                       ))}
+                      {this.state.questionset.map((data, index) => {
+                        if(index < 1){
+                        return (
+                          <View style={styles.quesAns}>
+                            <Text>Proposed Amount: {data.proposed_amount} USD</Text>
+                          </View>
+                        );
+                      }
+                      })}
                       <View style={styles.reqprSkill}>
                         <Text>Required skills for the Project</Text>
                         {this.state.jobskillset.map((item, i) => (

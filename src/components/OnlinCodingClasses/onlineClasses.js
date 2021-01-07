@@ -190,11 +190,30 @@ class OnlineCodingClasses extends Component {
       console.log('CourseSubmit-----', response);
 
       if (response[0].hire_by == 'me') {
-        this.setState({isModalVisible: true});
+        this.setState({
+          isModalVisible: true,
+          HireBy: '',
+          startDate: '',
+          startTime: '',
+          course_name: '',
+          overview: ''
+        });
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        this.setState({isModalVisible: true});
-        this.props.navigation.navigate('BankDetailScreen');
+        this.setState({
+          isModalVisible: true,
+          HireBy: '',
+          startDate: '',
+          startTime: '',
+          course_name: '',
+          overview: '',
+          showLoader: false
+        });
+        this.props.navigation.navigate('CheckoutScreen',{
+          page_status: "tutor",
+          job_id: response[0].job_id,
+          user_id: base64.decode(this.props.userID),
+        });
       }
       this.clearForm();
     }
@@ -251,8 +270,12 @@ class OnlineCodingClasses extends Component {
         alert('Successfully Posted ');
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        alert('Successfully Posted ');
-        this.props.navigation.navigate('BankDetailScreen');
+        alert('Please checkout to continue');
+        this.props.navigation.navigate('CheckoutScreen',{
+          page_status: "tutor",
+          user_id: base64.decode(this.props.userID),
+          job_id: response[0].job_id,
+        });
       }
       this.clearForm();
     }
@@ -485,9 +508,9 @@ class OnlineCodingClasses extends Component {
 
                     <Text style={styles.syllabusText}>Timing:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                      <View style={[styles.formSubGroup2, {width: '100%', height: 50, overflow: 'hidden'}]}>
                         <Picker
-                          style={{width: '100%', height: 45}}
+                          style={{width: '100%', height: 45, marginTop: -80}}
                           selectedValue={this.state.startTime}
                           onValueChange={(itemValue, itemIndex) =>
                             this.setState({startTime: itemValue})
@@ -696,9 +719,9 @@ class OnlineCodingClasses extends Component {
 
                     <Text style={styles.syllabusText}>Timing:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                      <View style={[styles.formSubGroup2, {width: '100%', height: 50, overflow: 'hidden'}]}>
                         <Picker
-                          style={{width: '100%', height: 45}}
+                          style={{width: '100%', height: 45, marginTop: -80}}
                           selectedValue={this.state.startTime}
                           onValueChange={(itemValue, itemIndex) =>
                             this.setState({startTime: itemValue})

@@ -5,7 +5,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
   scroll: {
-    height: deviceHeight - 84,
+    height: deviceHeight - 140,
   },
   head: {
     fontFamily: 'Poppins-SemiBold',

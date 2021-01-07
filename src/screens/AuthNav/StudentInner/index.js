@@ -29,6 +29,8 @@ class StudentInner extends Component {
         // { key: 'forth', title: 'Questions & Answers' },
       ],
       tutorexpertset: [],
+      projectexpertset: [],
+      jobexpertset: [],
       skillOptions: [],
       filterdata: ""
     };
@@ -39,21 +41,39 @@ class StudentInner extends Component {
   };
 
   navigateToDetails = async () => {
-    this.props.navigation.navigate('ProjectDetailsFreelancer');
+    this.props.navigation.navigate('ProjectDetailsFreelancer',{
+      page_status : "feed"
+    });
   };
 
   navigateToDetailsTutor = async () => {
-    this.props.navigation.navigate('TutorDetailsFreelancer');
+    this.props.navigation.navigate('TutorDetailsFreelancer',{
+      page_status : "feed"
+    });
   }
 
   navigateToDetailsJob = async () => {
-    this.props.navigation.navigate('JobDetailsFreelancer');
+    this.props.navigation.navigate('JobDetailsFreelancer',{
+      page_status : "feed"
+    });
   }
 
   TutorHideModal = (data) => {
+    if(this.state.index === 0){
     this.setState({
       tutorexpertset: data,
     });
+  }
+  else if(this.state.index === 1){
+    this.setState({
+      projectexpertset: data,
+    });
+  }
+  else{
+    this.setState({
+      jobexpertset: data,
+    });
+  }
   };
 
   ChildSkillset = (data) => {
@@ -94,7 +114,7 @@ class StudentInner extends Component {
       case 'Project':
         return (
           <StudentProject
-            TutorShowData={this.state.tutorexpertset}
+            ProjectShowData={this.state.projectexpertset}
             ChildSkills={this.state.skillOptions}
             Child={this.state.skillOptions}
             tutorsetFilterData={this.state.filterdata}
@@ -103,7 +123,7 @@ class StudentInner extends Component {
         );
       case 'Interships / Jobs':
         return <InternshipJobs
-          TutorShowData={this.state.tutorexpertset}
+          JobShowData={this.state.jobexpertset}
           ChildSkills={this.state.skillOptions}
           Child={this.state.skillOptions}
           tutorsetFilterData={this.state.filterdata}

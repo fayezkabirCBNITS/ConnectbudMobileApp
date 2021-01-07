@@ -5,15 +5,12 @@ import {
   View,
   Text,
   TextInput,
-  Pressable,
-  ImageBackground,
   Image,
   Modal,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -79,7 +76,6 @@ class PostedProjectByEmployee extends Component {
       false,
       body,
     );
-    console.log(response);
     if (response) {
       this.setState({
         jobSet: response,
@@ -304,7 +300,7 @@ class PostedProjectByEmployee extends Component {
             textContent={'Loading...'}
           />
           <StatusBar
-            backgroundColor="#60a84e"
+            backgroundColor="#71b85f"
             barStyle="light-content"
             hidden={false}
             translucent={false}
@@ -402,7 +398,10 @@ class PostedProjectByEmployee extends Component {
                 }
                 else {
                   return (
-                    <Text>No Data Found</Text>
+                    <View style={styles.noDataImg}>
+                      <Image source={require('../../../assets/images/noData.png')} />
+                      <Text style={styles.noDataImgText}>No Data Found</Text>
+                    </View>
                   );
                 }
               })}
@@ -458,6 +457,7 @@ class PostedProjectByEmployee extends Component {
                       <Text style={styles.errorText}>{this.state.errors.about} {this.state.errors.aboutChara}</Text>
 
                       <Text style={[styles.title]}>*Skills</Text>
+                      <View style={{width: '100%', marginBottom: 20}}>
                       {this.state.selectedSkills.length > 0 ? (
                         this.state.selectedSkills?.map((data, index) => {
                           return (
@@ -485,6 +485,7 @@ class PostedProjectByEmployee extends Component {
                       ) : (
                           <></>
                         )}
+                        </View>
                       <View style={styles.skillView}>
                         <View style={[styles.formGroup1]}>
                           <View style={styles.formPicker}>

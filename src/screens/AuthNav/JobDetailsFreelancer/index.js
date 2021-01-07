@@ -38,11 +38,15 @@ class JobDetailsFreelancer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
       Job: '',
       jobDetails: [],
       jobSet: [],
       user_id: '',
       showLoader: false,
+      job_id: ''
     };
   }
 
@@ -55,6 +59,7 @@ class JobDetailsFreelancer extends Component {
     this.setState({
       showLoader: false,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
+      job_id: userDeatailResponse.userData.JOBID
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -70,6 +75,7 @@ class JobDetailsFreelancer extends Component {
       base64.decode(userDeatailResponse.userData.user_id),
     );
     taglistbody.append('type', 'recruiter');
+    console.log(taglistbody, 'an');
 
     await axios({
       url: API_URL + 'expert_jobdetails',
@@ -77,6 +83,8 @@ class JobDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
+        console.log(response, 'san');
+
         this.setState({
           jobDetails: response.data,
           showLoader: false,
@@ -159,6 +167,41 @@ class JobDetailsFreelancer extends Component {
       });
   };
 
+  acceptIgnore = async (EmpId) => {
+    this.setState({
+      showLoader: true,
+    });
+    const obj = {
+      milestone_id: '',
+      receiver_id: EmpId,
+      sender_id: this.state.user_id,
+      job_type: 'recruiter',
+      job_id: this.state.job_id,
+      status: 'no',
+      confirmation_type: 'invitation',
+    };
+
+    console.log(obj);
+
+    await axios
+      .post(API_URL + 'confirmation', obj, {
+        header: {
+          'content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        alert('Invitation ignored');
+        this.setState({
+          showLoader: false,
+        });
+        this.props.navigation.navigate('StudentInner');
+      })
+      .catch((error) => {
+        this.setState({isLoading: false, showLoader: false});
+      });
+  };
+
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
@@ -183,36 +226,133 @@ class JobDetailsFreelancer extends Component {
                 <View style={styles.boxWrapper}>
                   <Text style={styles.boxTitle}>{value.job_title}</Text>
                   <Text style={styles.daysAgo}>{value.posted_date}</Text>
-                  <Text style={styles.courseDetails}>Course Details</Text>
+                  <Text style={styles.courseDetails}>Job Details</Text>
                   <Text>
-                    <Text style={styles.textSemibold}> Course Amount : </Text>{' '}
+                    <Text style={styles.textSemibold}>Skills :</Text>{' '}
+                  </Text>
+                  <View style={styles.skillSec}>
+                    {value.key_skill.map((value, i) => {
+                      return (
+                        <View key={i} style={styles.skillTab}>
+                          <Text style={styles.skillText}>
+                            {value.skill_name}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <Text>
+                    <Text style={styles.textSemibold}>Job Amount :</Text>{' '}
                     <Text> {value.job_amount}</Text>
                   </Text>
-                  {/* <Text>
-                  <Text style={styles.textSemibold}> Course Duration : </Text>{' '}
-                  <Text></Text> month
-                </Text>
-                <Text>
-                  <Text style={styles.textSemibold}> Course Date : </Text>{' '}
-                  <Text>2020-12-16</Text>
-                </Text> */}
                   <Text>
-                    <Text style={styles.textSemibold}> Course Syllabus : </Text>
+                    <Text style={styles.textSemibold}>Job Location :</Text>{' '}
+                    <Text> {value.location}</Text>
+                  </Text>
+                  <Text>
+                    <Text style={styles.textSemibold}>Description :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
 
-                  <TouchableOpacity
-                    style={styles.applyBtn}
-                    onPress={() =>
-                      this.props.navigation.navigate('AssessmentQuestion',{
-                        pageStatus : "job"
-                      })
-                    }>
-                    <Text style={styles.applyBtnText}>Apply</Text>
-                  </TouchableOpacity>
+                  {/* START BTN SEC */}
+                  <View
+                    style={{
+                      width: '100%',
+                      paddingHorizontal: '5%',
+                      marginTop: 10,
+                    }}>
+                    {this.state.jobDetails.map((value, index) => {
+                      return (
+                        <>
+                          {value.pending_status === 'pending' &&
+                          this.state.pageStatus === 'feed' ? (
+                            <TouchableOpacity style={styles.newBtn2}>
+                              <Text style={styles.applyBtnText}>Waiting</Text>
+                            </TouchableOpacity>
+                          ) : (
+                            <>
+                              {this.state.btnStatus === '' ? (
+                                <TouchableOpacity style={styles.newBtn2}>
+                                  <Text
+                                    style={styles.applyBtnText}
+                                    onPress={() =>
+                                      this.props.navigation.navigate(
+                                        'SignInScreen',
+                                      )
+                                    }>
+                                    Apply
+                                  </Text>
+                                </TouchableOpacity>
+                              ) : (
+                                <>
+                                  {value.pending_status === 'accept' ? (
+                                    <TouchableOpacity style={styles.newBtn2}>
+                                      <Text style={styles.applyBtnText}>
+                                        Accepted
+                                      </Text>
+                                    </TouchableOpacity>
+                                  ) : (
+                                    <>
+                                      {this.state.pageStatus ===
+                                      'invitation' ? (
+                                        <View style={styles.btnSection}>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}>
+                                            <Text
+                                              style={styles.applyBtnText}
+                                              onPress={() =>
+                                                this.props.navigation.navigate(
+                                                  'AssessmentQuestion',
+                                                  {
+                                                    pageStatus: 'job',
+                                                  },
+                                                )
+                                              }>
+                                              Apply
+                                            </Text>
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}>
+                                            <Text
+                                              style={styles.applyBtnText}
+                                              onPress={() =>
+                                                this.acceptIgnore(value.user_id)
+                                              }>
+                                              Ignore
+                                            </Text>
+                                          </TouchableOpacity>
+                                        </View>
+                                      ) : (
+                                        <TouchableOpacity
+                                          style={styles.newBtn2}>
+                                          <Text
+                                            style={styles.applyBtnText}
+                                            onPress={() =>
+                                              this.props.navigation.navigate(
+                                                'AssessmentQuestion',
+                                                {
+                                                  pageStatus: 'job',
+                                                },
+                                              )
+                                            }>
+                                            Apply
+                                          </Text>
+                                        </TouchableOpacity>
+                                      )}
+                                    </>
+                                  )}
+                                </>
+                              )}
+                            </>
+                          )}
+                        </>
+                      );
+                    })}
+                  </View>
+                  {/* END btn sec  */}
                 </View>
               ))}
-
+              {this.state.pageStatus !== 'invitation' ? (
               <View style={styles.similarJobWrapper}>
                 <View style={styles.slimilarJob}>
                   <Text style={styles.similiarjobText}>
@@ -244,6 +384,9 @@ class JobDetailsFreelancer extends Component {
                   </Pressable>
                 ))}
               </View>
+               ) : (
+                <></>
+              )}
             </ScrollView>
           </View>
         </View>

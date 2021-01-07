@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,12 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
-import {Picker} from '@react-native-community/picker';
-import {connect} from 'react-redux';
+import { Picker } from '@react-native-community/picker';
+import { connect } from 'react-redux';
 import base64 from 'base-64';
 import ApiUrl from '../../config/ApiUrl';
 import {
@@ -23,7 +23,7 @@ import {
   makeAuthGetRequest,
 } from '../../services/http-connectors';
 import ErrorMsg from '../../components/ErrorMsg';
-import {withNavigation} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import Toast from 'react-native-simple-toast';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {Header} from "react-navigation-stack"
@@ -34,7 +34,7 @@ class PostProject extends Component {
     this.state = {
       showLoader: false,
       showSkills: false,
-      skillValuePlaceHolder: [{value: 'Select Skills', label: 'Select skills'}],
+      skillValuePlaceHolder: [{ value: 'Select Skills', label: 'Select skills' }],
       selectedSkills: [],
       selectedSkillIndex: null,
       title: '',
@@ -50,7 +50,7 @@ class PostProject extends Component {
       JobID: '',
       Skill: '',
       showAdditional: false,
-      xtraSkill:'',
+      xtraSkill: '',
       showLoader: false,
     };
   }
@@ -59,7 +59,7 @@ class PostProject extends Component {
     headerShown: false,
   };
   componentDidMount() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.fetchSkills();
     });
@@ -69,7 +69,7 @@ class PostProject extends Component {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
     //this.state.skills.concat({value: data, label: data}).sort()
     //this.setState({skills: response});
-    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
+    this.setState({ skills: this.state.skillValuePlaceHolder.concat(response) });
   }
 
   handleInputTitle = async (e) => {
@@ -96,7 +96,7 @@ class PostProject extends Component {
       budget: e,
     });
     this.validateJobForm();
-    this.setState({budgetINR: this.state.budget * 75});
+    this.setState({ budgetINR: this.state.budget * 75 });
   };
 
   validateJobForm = () => {
@@ -110,12 +110,25 @@ class PostProject extends Component {
 
     if (this.state.title.length > 0 && this.state.title.length < 5) {
       formIsValid = false;
-      errors['titleChara'] = '*enter minimum 5 characters';
+      errors['titleChara'] = '*Type minimum 5 characters';
     }
 
     if (!this.state.des) {
       formIsValid = false;
       errors['about'] = '*Please enter project descriptions';
+    }
+
+    if (this.state.des.length > 0 && this.state.des.length < 50) {
+      formIsValid = false;
+      errors['aboutChara'] = '*Type minimum 50 characters';
+    }
+
+    if (this.state.selectedSkills.length === 0) {
+      formIsValid = false;
+      this.setState({ errSkills: true });
+    } else {
+      formIsValid = true;
+      this.setState({ errSkills: false });
     }
 
     if (!this.state.budget) {
@@ -130,7 +143,7 @@ class PostProject extends Component {
 
   postProject = async () => {
     this.setState({
-      showLoader: false,
+      showLoader: true,
     })
 
     let jobDescription = new FormData();
@@ -142,7 +155,7 @@ class PostProject extends Component {
       JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
     );
     // jobDescription.append("category", this.getSSLabel(this.state.SS));
-    jobDescription.append('additional_skill',this.state.xtraSkill);
+    jobDescription.append('additional_skill', this.state.xtraSkill);
     jobDescription.append('price_unit', 'usd');
     jobDescription.append('price_amount', this.state.budget);
     jobDescription.append(
@@ -150,15 +163,12 @@ class PostProject extends Component {
       this.state.daySelect + this.state.monthSelect,
     );
     jobDescription.append('projects_for', 'All');
-    console.log('post freelancer job=============', jobDescription);
 
     let response = await makePostRequestMultipart(
       ApiUrl.FreelancerJob,
       false,
       jobDescription,
     );
-    console.log('handle freelancer post a job-----', response);
-
     if (response) {
       this.setState({
         JobID: response[0].job_id,
@@ -169,11 +179,10 @@ class PostProject extends Component {
         xtraSkill: '',
         budget: '',
         monthSelect: '',
-        
+        showLoader: false,
       });
       this.fireMail();
       alert('Successfully posted the Project!');
-      // this.props.NavtoPostedpage();
       this.props.navigation.navigate('PostedProjectByEmployee');
     }
   };
@@ -185,38 +194,39 @@ class PostProject extends Component {
     body.append('type', 'freelancer');
 
     let response = await makePostRequestMultipart(ApiUrl.JobMail, false, body);
-    console.log('handle fire mail-----', response);
   };
-  onButtonSubmit = async () => {
+
+  onButtonSubmit = () => {
     let dataSet = this.validateJobForm();
-    if (this.state.selectedSkills.length === 0) {
-      this.setState({errSkills: true});
-    } else {
-      if (dataSet === true) {
-        this.setState({
-          showLoader: true
-        })
-        this.postProject();
-      }
+    if (dataSet === true) {
+      this.postProject();
     }
   };
+
   reverseAddSkills = async (index) => {
-    // this.setState({})
     await this.setState({
       selectedSkills: this.state.selectedSkills.filter((_, i) => i !== index),
     });
     let data = this.state.selectedSkills[index];
     await this.setState({
-      skills: this.state.skills.concat({value: data, label: data}).sort(),
+      skills: this.state.skills.concat({ value: data, label: data }).sort(),
     });
-    this.setState({skills: this.state.skills.sort()});
+    this.setState({ skills: this.state.skills.sort() });
     this.fetchSkills();
+  };
 
+  handleAdditionalSkill = async () => {
+    this.setState({ showAdditional: !this.state.showAdditional });
   };
-  
-  handleAdditionalSkill =async()=>{
-    this.setState({showAdditional:!this.state.showAdditional});
+
+  handleInputSkills = async (itemValue, itemIndex) => {
+    await this.setState({
+      selectedSkills: [...this.state.selectedSkills, itemValue],
+      skills: this.state.skills.filter((_, i) => i !== itemIndex),
+    });
+    this.validateJobForm();
   };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -234,23 +244,23 @@ class PostProject extends Component {
           <View style={styles.form}>
             <Text style={styles.title}>Project Details</Text>
 
-            <Text style={styles.inputHead}>Title *</Text>
+            <Text style={styles.inputHead}>*Title</Text>
             <View style={styles.formGroup}>
               <TextInput
                 returnKeyType="done"
-                placeholder="max 10 Chars"
+                placeholder="max 100 Chars."
                 style={styles.inputGroup}
                 keyboardType="default"
                 value={this.state.title}
                 onChangeText={this.handleInputTitle}
               />
             </View>
-            <Text style={styles.errorText}>{this.state.errors.title}</Text>
+            <Text style={[styles.errorText, {marginBottom: 10}]}>{this.state.errors.title} {this.state.errors.titleChara}</Text>
 
-            <View style={[styles.formGroup, {height: 100}]}>
+            <View style={[styles.formGroup, { height: 100 }]}>
               <TextInput
                 returnKeyType="done"
-                placeholder="Describe your project..."
+                placeholder="*Describe your project in details"
                 style={[
                   styles.inputGroup,
                   {
@@ -265,10 +275,9 @@ class PostProject extends Component {
                 onChangeText={this.handleInputDes}
               />
             </View>
-            <Text style={styles.errorText}>{this.state.errors.about}</Text>
+            <Text style={styles.errorText}>{this.state.errors.about} {this.state.errors.aboutChara}</Text>
 
-            <Text style={[styles.title]}>Skills </Text>
-
+            <Text style={[styles.inputHead, { marginTop: 30 }]}>*Skills</Text>
             {this.state.selectedSkills.length > 0 ? (
               this.state.selectedSkills?.map((data, index) => {
                 return (
@@ -277,14 +286,14 @@ class PostProject extends Component {
                     <View
                       style={[
                         styles.formSubGroup22,
-                        {flexWrap: 'wrap', flexDirection: 'row'},
+                        { flexWrap: 'wrap', flexDirection: 'row' },
                       ]}>
                       <View
                         style={[
                           styles.skillTab,
-                          {backgroundColor: '#71b85f', flexDirection: 'row'},
+                          { backgroundColor: '#71b85f', flexDirection: 'row' },
                         ]}>
-                        <Text style={[styles.skillText, {color: '#fff'}]}>
+                        <Text style={[styles.skillText, { color: '#fff' }]}>
                           {data}
                         </Text>
                         <FontAwesome name="close" size={20} color="#fff" />
@@ -294,59 +303,62 @@ class PostProject extends Component {
                 );
               })
             ) : (
-              <></>
-            )}
+                <></>
+              )}
             <View style={styles.skillView}>
               <View style={[styles.formGroup1]}>
                 <View style={styles.formPicker}>
-                <Picker
-                  style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular', marginTop: -81}}
+                  <Picker
+                    style={{width: '100%', height: 55, color: '#000', fontFamily: 'Poppins-Regular', marginTop: -81}}
 
-                  selectedValue={this.state.skills}
-                  onValueChange={(itemValue, itemIndex) =>
-                    this.setState({
-                      selectedSkills: [...this.state.selectedSkills, itemValue],
-                      skills: this.state.skills.filter(
-                        (_, i) => i !== itemIndex,
-                      ),
-                    })
-                  }>
-                  {this.state.skills.length > 0 ? (
-                    this.state?.skills?.map((data) => {
-                      return (
-                        <Picker.Item label={data.label} value={data.value} />
-                      );
-                    })
-                  ) : (
-                    <></>
-                  )}
-                </Picker>
+                    selectedValue={this.state.skills}
+                    // onValueChange={(itemValue, itemIndex) =>
+                    //   this.setState({
+                    //     selectedSkills: [...this.state.selectedSkills, itemValue],
+                    //     skills: this.state.skills.filter(
+                    //       (_, i) => i !== itemIndex,
+                    //     ),
+                    //   })
+                    // }
+                    onValueChange={(itemValue, itemIndex) =>
+                      this.handleInputSkills(itemValue, itemIndex)
+                    }>
+                    {this.state.skills.length > 0 ? (
+                      this.state?.skills?.map((data) => {
+                        return (
+                          <Picker.Item label={data.label} value={data.value} />
+                        );
+                      })
+                    ) : (
+                        <></>
+                      )}
+                  </Picker>
                 </View>
-                  <TouchableOpacity
-                   onPress={this.handleAdditionalSkill}
-                  style={{marginLeft: 'auto'}}
-                   >
-                    <AntDesign
-                      name="plussquare"
-                      size={55}
-                      color="#60a84e"
-                      style={{marginLeft: 10}}
-                    />
-                    </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.handleAdditionalSkill}
+                  style={{ marginLeft: 'auto' }}
+                >
+                  <AntDesign
+                    name="plussquare"
+                    size={55}
+                    color="#60a84e"
+                    style={{ marginLeft: 10 }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
             {this.state.errSkills === true ? (
-              <ErrorMsg errorMsg="Select Skills" />
+              <ErrorMsg errorMsg="*Please select Skill(s)" />
             ) : (
-              <></>
-            )}
+                <></>
+              )}
 
             {this.state.showAdditional === true ? (
-              <View style={[styles.formGroup, {height: 100, marginTop: 10}]}>
+              <View style={[styles.formGroup, { height: 100, marginTop: 10 }]}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="Add you additional Skills here e.g.- Java"
+                  placeholder="Add new skills here (Ex:- Java, AI)"
                   style={[
                     styles.inputGroup,
                     {
@@ -362,38 +374,41 @@ class PostProject extends Component {
                 />
               </View>
             ) : (
-              <></>
-            )}
-            <Text style={[styles.inputHead, {marginTop: 30}]}>Project Budget *</Text>
+                <></>
+              )}
+
+            <Text style={[styles.inputHead, { marginTop: 30 }]}>*Project Budget</Text>
             <View style={styles.projectView}>
               <View
-                style={[styles.formGroup, {width: '45%', flexWrap: 'wrap'}]}>
+                style={[styles.formGroup, { width: '45%', flexWrap: 'wrap' }]}>
                 <TextInput
                   returnKeyType="done"
-                  style={[styles.inputGroup, {width: '70%'}]}
+                  style={[styles.inputGroup, { width: '70%' }]}
                   keyboardType="number-pad"
+                  placeholder="Total cost(USD)"
                   onChangeText={this.handleInputBudget}
                 />
-                <View style={[styles.formSubGroup1, {marginTop: 10}]}>
+                <View style={[styles.formSubGroup1, { marginTop: 10 }]}>
                   <FontAwesome name="dollar" size={20} color="#d7d7d8" />
                 </View>
               </View>
 
-              <View style={{width: '10%'}}>
-                <Text style={{fontSize: 16, padding: 10, fontWeight: 'bold'}}>
+              <View style={{ width: '10%' }}>
+                <Text style={{ fontSize: 16, padding: 10, fontWeight: 'bold' }}>
                   =
                 </Text>
               </View>
+
               <View
-                style={[styles.formGroup, {width: '45%', flexWrap: 'wrap'}]}>
+                style={[styles.formGroup, { width: '45%', flexWrap: 'wrap' }]}>
                 <Text
                   style={[
                     styles.inputGroup,
-                    {textAlignVertical: 'center', width: '70%'},
+                    { textAlignVertical: 'center', width: '70%' },
                   ]}>
                   {this.state.budgetINR}
                 </Text>
-                <View style={[styles.formSubGroup1, {marginTop: 10}]}>
+                <View style={[styles.formSubGroup1, { marginTop: 10 }]}>
                   <FontAwesome name="rupee" size={20} color="#d7d7d8" />
                 </View>
               </View>
@@ -404,13 +419,6 @@ class PostProject extends Component {
               <Pressable style={styles.signinBtn} onPress={this.onButtonSubmit}>
                 <Text style={styles.authBtnText}>Submit</Text>
               </Pressable>
-              {/* {this.state.showLoader && (
-                <ActivityIndicator
-                  size="large"
-                  color="#fff"
-                  // style={CommonStyles.loader}
-                />
-              )} */}
             </TouchableOpacity>
           </View>
           </KeyboardAvoidingView>
@@ -420,10 +428,6 @@ class PostProject extends Component {
     );
   }
 }
-
-// export default PostProject;
-
-// export default PostInternship;
 const mapStateToProps = (state) => {
   return {
     userDeatailResponse: state.userData,

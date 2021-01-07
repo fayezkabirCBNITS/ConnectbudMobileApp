@@ -26,201 +26,181 @@ import { connect } from "react-redux";
 import base64 from "base-64"
 // import API_URL from '../../../config/ApiUrl';
 import API_URL, { BASE_URL } from "../../../config/ApiUrl";
+import ApiUrl from '../../../config/ApiUrl';
+import { makePostRequestMultipart } from '../../../services/http-connectors';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import axios from "axios";
 import {Header} from 'react-navigation-stack'
 
 class AddPortfolioScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showCountry: false,
-            Country: [
-                { title: 'India' },
-                { title: 'USA' },
-                { title: 'China' },
-            ],
-            id: "",
-            userID: "",
-            profileImageSource: Image.resolveAssetSource(
-                API_URL.PLACEHOLDER_SQUARE_IMAGE,
-            ).uri,
-            // profileImageToUpload: {},
-            porfolioTitle: "",
-            portfolioDescription: "",
-            selectedCategory: "",
-            liveUrl: "",
-            portfolioId: ""
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      profileImageSource: Image.resolveAssetSource(
+        API_URL.PLACEHOLDER_SQUARE_IMAGE,
+      ).uri,
+      porfolioTitle: "",
+      portfolioDescription: "",
+      selectedCategory: "",
+      liveUrl: "",
+      portfolioId: ""
     }
-    componentDidMount = () => {
-        console.log(this.props.navigation.state.params, "propsssssss")
-        this.setState({ id: this.props.userDeatailResponse.row_id, userID: base64.decode(this.props.userDeatailResponse.user_id) });
-        const { navigation } = this.props;
-        this.focusListener = navigation.addListener('didFocus', () => {
-            // if(true) {
-            if (this.props.navigation.state.params) {
-                let body = new FormData();
+  }
 
-                body.append("id", this.state.id);
-                body.append("user_id", this.state.userID);
+  componentDidMount = () => {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.FetchPortfolio();
+    });
+    this.FetchPortfolio();
+  };
 
-                //For Edit Intro
-                body.append("first_name", "");
-                body.append("last_name", "");
-                body.append("category", "");
-                body.append("skills", "");
-                body.append("socialurls", "");
+  FetchPortfolio = async () => {
+    //this.CategorySearch();
+    let body = new FormData();
 
-                //for Job
-                body.append("experience_id", "");
-                body.append("experience", "");
-                body.append("description", "");
-                body.append("projecturl", "");
-                body.append("professionalurls", "");
-                body.append("employment_type", "");
-                body.append("willing_to_relocate", "");
-                body.append("country", "");
-                body.append("city", "");
-                body.append("resumefile", "");
-                body.append("videoresume", "");
+    //mandatory for fetch
+    body.append("id", this.props.userDeatailResponse.row_id);
+    body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
 
-                // For Education
-                body.append("department", "");
-                body.append("title", "");
-                body.append("type", "");
-                body.append("location", "");
-                body.append("startDate", "");
-                body.append("endDate", "");
-                body.append("community", "");
+    //For Edit Intro
+    body.append("first_name", "");
+    body.append("last_name", "");
+    body.append("category", "");
+    body.append("skills", "");
+    body.append("socialurls", "");
 
-                //For Portfolio
-                body.append("portfolio_name", "");
-                body.append("portfolio_des", "");
-                body.append("portfolio_category", "");
-                body.append("portfolio_link", "");
-                body.append("image", "");
-                body.append("portfolio_id", this.props.navigation.state.params.portfolioID)
-                body.append("devices", "mobile");
+    //for Job
+    body.append("experience_id", "");
+    body.append("experience", "");
+    body.append("description", "");
+    body.append("projecturl", "");
+    body.append("professionalurls", "");
+    body.append("employment_type", "");
+    body.append("willing_to_relocate", "");
+    body.append("country", "");
+    body.append("city", "");
+    body.append("resumefile", "");
+    body.append("videoresume", "");
 
+    // For Education
+    body.append("department", "");
+    body.append("title", "");
+    body.append("type", "");
+    body.append("location", "");
+    body.append("startDate", "");
+    body.append("endDate", "");
+    body.append("community", "");
 
-                console.log(body, "add portfolio bodyyyy")
-                axios
-                    .post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body)
-                    .then((res) => {
-                        
-                        const response = res.data[0].portfolio[0];
-                        this.setState({
-                            porfolioTitle: response.title, portfolioDescription: response.description, portfolioId: response.id,
-                            liveUrl: response.link, profileImageSource: response.image, selectedCategory: response.category
-                        })
-                        console.log(res.data[0].portfolio, "add portfolio")
-                    });
-            } else {
-
-            }
-        }
-        );
-
+    //For Portfolio
+    body.append("portfolio_name", "");
+    body.append("portfolio_des", "");
+    body.append("portfolio_category", "");
+    body.append("portfolio_link", "");
+    body.append("image", "");
+    {
+      this.props.navigation.state.params.portfolioID !== "" ? (
+        body.append("portfolio_id", this.props.navigation.state.params.portfolioID)
+      ) : (body.append("portfolio_id", ""))
     }
-    static navigationOptions = {
-        headerShown: false,
-    };
+    body.append("devices", "mobile");
 
-    handleAddPortfolio = async data => {
-        let body = new FormData();
-
-        body.append("id", this.state.id);
-        body.append("user_id", this.state.userID);
-
-        //For Edit Intro
-        body.append("first_name", "");
-        body.append("last_name", "");
-        body.append("category", "");
-        body.append("skills", "");
-        body.append("socialurls", "");
-
-        //for Job
-        body.append("experience_id", "");
-        body.append("experience", "");
-        body.append("description", "");
-        body.append("projecturl", "");
-        body.append("professionalurls", "");
-        body.append("employment_type", "");
-        body.append("willing_to_relocate", "");
-        body.append("country", "");
-        body.append("city", "");
-        body.append("resumefile", "");
-        body.append("videoresume", "");
-
-        // For Education
-        body.append("department", "");
-        body.append("title", "");
-        body.append("type", "");
-        body.append("location", "");
-        body.append("startDate", "");
-        body.append("endDate", "");
-        body.append("community", "");
-
-        //For Portfolio
-        body.append("portfolio_name", this.state.porfolioTitle);
-        body.append("portfolio_des", this.state.portfolioDescription);
-        body.append("portfolio_category", this.state.selectedCategory);
-        body.append("portfolio_link", this.state.liveUrl);
-        body.append("image", this.state.profileImageSource);
-        (body.append("portfolio_id", this.state.portfolioId));
-        body.append("devices", "mobile");
-
-
-        console.log(body, "add portfolio bodyyyy")
-        await axios
-            .post(`${BASE_URL}expertProfile/${base64.decode(this.props.userDeatailResponse.slug)}`, body)
-            .then((res) => {
-                if (res.status === 200) this.props.navigation.navigate('ProfileScreen')
-                console.log(res, "add portfolio")
-            });
+    let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
+    if (response) {
+      console.log(response);
+      if (this.props.navigation.state.params.portfolioID !== "") {
+        this.setState({
+          porfolioTitle: response[0].portfolio[0].title, portfolioDescription: response[0].portfolio[0].description, portfolioId: response[0].portfolio[0].id,
+          liveUrl: response[0].portfolio[0].link, profileImageSource: response[0].portfolio[0].image, selectedCategory: response[0].portfolio[0].category
+        });
+      }
     }
+  }
+  static navigationOptions = {
+    headerShown: false,
+  };
 
-    handleStateUpdate = (text, targetState) => {
-        if (targetState === "title") {
-            this.setState({ porfolioTitle: text.nativeEvent.text })
-        } else if (targetState == "description") {
-            this.setState({ portfolioDescription: text.nativeEvent.text })
-        } else if (targetState == "liveUrl") {
-            this.setState({ liveUrl: text.nativeEvent.text })
-        }
+  handleAddPortfolio = async data => {
+    let body = new FormData();
+
+    body.append("id", this.props.userDeatailResponse.row_id);
+    body.append("user_id", base64.decode(this.props.userDeatailResponse.user_id));
+
+    //For Edit Intro
+    body.append("first_name", "");
+    body.append("last_name", "");
+    body.append("category", "");
+    body.append("skills", "");
+    body.append("socialurls", "");
+
+    //for Job
+    body.append("experience_id", "");
+    body.append("experience", "");
+    body.append("description", "");
+    body.append("projecturl", "");
+    body.append("professionalurls", "");
+    body.append("employment_type", "");
+    body.append("willing_to_relocate", "");
+    body.append("country", "");
+    body.append("city", "");
+    body.append("resumefile", "");
+    body.append("videoresume", "");
+
+    // For Education
+    body.append("department", "");
+    body.append("title", "");
+    body.append("type", "");
+    body.append("location", "");
+    body.append("startDate", "");
+    body.append("endDate", "");
+    body.append("community", "");
+
+    //For Portfolio
+    body.append("portfolio_name", this.state.porfolioTitle);
+    body.append("portfolio_des", this.state.portfolioDescription);
+    body.append("portfolio_category", this.state.selectedCategory);
+    body.append("portfolio_link", this.state.liveUrl);
+    body.append("image", this.state.profileImageSource);
+    body.append("portfolio_id", this.state.portfolioId);
+    body.append("devices", "mobile");
+
+    let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
+    if (response) {
+      this.props.navigation.navigate('ProfileScreen')
     }
+  }
 
-    handleCountry = async () => {
-        this.setState({ showCountry: !this.state.showCountry });
-    };
-    handleImage = () => {
-        let sendImage = []
-        ImagePicker.openPicker({
-            multiple: false,
-            includeBase64: true,
-            mediaType: 'photo'
-        }).then(images => {
-            console.log("images---", images)
-            this.setState({ profileImageSource: "data:image/png;base64," + images.data });
-            // this.setState({ profileImageSource: images.path });
-            // let uploadImageCount = images.length
-            // let oldImageCount = this.state.profileImageData.length
-            // let totalImageCount = parseInt(uploadImageCount) + parseInt(oldImageCount)
-            // console.log("totalImageCount---", totalImageCount)
-        })
+  handleStateUpdate = (text, targetState) => {
+    if (targetState === "title") {
+      this.setState({ porfolioTitle: text.nativeEvent.text })
+    } else if (targetState == "description") {
+      this.setState({ portfolioDescription: text.nativeEvent.text })
+    } else if (targetState == "liveUrl") {
+      this.setState({ liveUrl: text.nativeEvent.text })
     }
+  }
 
-    render() {
-        console.log(this.state, "stateeeeeeeeeeeeeeeee")
-        const renderCountryItems = ({ item }) => (
-            <TouchableOpacity style={styles.headSec}>
-                <View style={styles.details}>
-                    <Text style={styles.flastListHead}>{item.title}</Text>
-                </View>
-            </TouchableOpacity>
-        )
+  handleImage = () => {
+    let sendImage = []
+    ImagePicker.openPicker({
+      multiple: false,
+      includeBase64: true,
+      mediaType: 'photo'
+    }).then(images => {
+      console.log("images---", images)
+      this.setState({ profileImageSource: "data:image/png;base64," + images.data });
+    })
+  }
+
+  render() {
+    const renderCountryItems = ({ item }) => (
+      <TouchableOpacity style={styles.headSec}>
+        <View style={styles.details}>
+          <Text style={styles.flastListHead}>{item.title}</Text>
+        </View>
+      </TouchableOpacity>
+      )
 
         return (
             <SafeAreaView style={CommonStyles.safeAreaView} >
@@ -387,11 +367,8 @@ class AddPortfolioScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-
-    return {
-        userDeatailResponse: state.userData,
-    };
+  return {
+    userDeatailResponse: state.userData,
+  };
 };
-
-// export default AddPortfolioScreen;
 export default connect(mapStateToProps, null)(withNavigation(AddPortfolioScreen));

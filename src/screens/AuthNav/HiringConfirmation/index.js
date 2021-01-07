@@ -146,10 +146,8 @@ class HiringConfirmation extends Component {
         showLoader: false,
       });
       if (res.data[0].message == 'data inserted') {
-        swal('Oops!', "You have rejected the employer's request!", 'error');
-        setTimeout(() => {
-          window.open('/chat', '_self');
-        }, 2000);
+        alert("You have rejected the employer's request!");
+        this.props.navigation.navigate("StudentInner");
       }
     });
   };

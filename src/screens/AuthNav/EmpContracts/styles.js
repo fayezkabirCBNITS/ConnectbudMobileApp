@@ -5,7 +5,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
   scroll: {
-    height: deviceHeight - 84,
+    height: deviceHeight - 140
   },
   deatailsHdng: {
     width: '50%',
@@ -55,6 +55,7 @@ export default {
     borderRadius: 35 / 2,
     backgroundColor: '#f9a631',
     marginLeft: 10,
+    // marginTop: 5,
     justifyContent: 'center',
     alignItems: 'center'
   },  
@@ -122,6 +123,19 @@ export default {
     fontSize: 16,
     color: '#fff',
     marginTop: 3
+  },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 500,
+    marginTop: 60,
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
   },
   heading: {
     fontSize: 20,

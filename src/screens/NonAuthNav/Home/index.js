@@ -29,6 +29,9 @@ import { Searchbar } from 'react-native-paper';
 import axios from "axios";
 import { API_URL } from "../../../config/url";
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +39,7 @@ class HomeScreen extends Component {
       user: '',
       showSearchBar: false,
       firstQuery: '',
+      showLoader: false,
     };
     console.log(this.props);
   }
@@ -69,6 +73,9 @@ class HomeScreen extends Component {
   };
 
   onHandleSearch = () => {
+    this.setState({
+      showLoader :true
+    })
     axios.post(`${API_URL}searchExperts`, {
       keyword: this.state.firstQuery,
       type: this.state.user
@@ -77,8 +84,14 @@ class HomeScreen extends Component {
         console.log(res)
         if(this.state.user === 'freelancer'){
           this.props.navigation.navigate('SearchClgStuNA',{res})
+          this.setState({
+            showLoader: false
+          })
         }else if(this.state.user === 'job'){
           this.props.navigation.navigate('StudentProjectNA',{res})
+          this.setState({
+            showLoader: false
+          })
         }else{
   
         }
@@ -91,6 +104,11 @@ class HomeScreen extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
+        <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           <StatusBar />
           <View style={CommonStyles.header}>
             <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>

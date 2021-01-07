@@ -66,6 +66,7 @@ class AssessmentQuestion extends Component {
   handleCTC = async (e) => {
     await this.setState({
       ctc: e,
+      priceAmount: e,
     });
   };
 
@@ -87,7 +88,7 @@ class AssessmentQuestion extends Component {
       this.state.firstAnswer.length < 50
     ) {
       formIsValid = false;
-      errors['firstAnswerChara'] = '*enter minimum 50 characters';
+      errors['firstAnswerChara'] = '*Type minimum 50 characters';
     }
 
     if (!this.state.secondAnswer) {
@@ -100,7 +101,7 @@ class AssessmentQuestion extends Component {
       this.state.secondAnswer.length < 50
     ) {
       formIsValid = false;
-      errors['secondAnswerChara'] = '*enter minimum 50 characters';
+      errors['secondAnswerChara'] = '*Type minimum 50 characters';
     }
 
     this.setState({
@@ -276,7 +277,7 @@ class AssessmentQuestion extends Component {
             <View>
               <TextInput
                 returnKeyType="done"
-                placeholder="Portfolio Description eg. build ecommerce app using python"
+                placeholder="Mention about any queries"
                 keyboardType="default"
                 style={styles.inputBox}
                 multiline={true}
@@ -285,11 +286,11 @@ class AssessmentQuestion extends Component {
               />
             </View>
 
-            <Text style={styles.quesHead}>Proposed Amount</Text>
+            <Text style={styles.quesHead}>Proposed Amount(in USD)</Text>
             <View>
               <TextInput
                 returnKeyType="done"
-                placeholder="Portfolio Description eg. build ecommerce app using python"
+                placeholder="Please enter your amount"
                 keyboardType="default"
                 style={styles.inputBox}
                 numberOfLines={1}

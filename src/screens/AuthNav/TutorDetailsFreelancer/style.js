@@ -11,6 +11,51 @@ export default {
         marginTop : 20,
         borderRadius : 8
     },
+    authBtn: {
+        width: '50%',
+        marginHorizontal: '8%',
+        height: 46,
+        borderRadius: 40,
+        backgroundColor: '#71b85f',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+      },
+      newBtn: {
+        width: '47%',
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 45/2,
+        backgroundColor: '#71b85f'
+      },
+      btnSection: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      },
+      newBtn2: {
+        width: '100%',
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 45/2,
+        backgroundColor: '#71b85f'
+      },
+    authBtnText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight:'bold',
+        letterSpacing: 1,
+      },
+    actionEdtBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 50,
+      },
     boxTitle : {
         fontSize : 18,
         fontFamily : "Poppins-SemiBold",
@@ -89,7 +134,29 @@ export default {
         paddingHorizontal : 10,
         paddingVertical : 5
 
-    }
-
-
+    },
+    skillSec: {
+        width: '100%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start'
+    },
+    skillTab: {
+        //minWidth: 90,
+        backgroundColor: '#E4E4E4',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        // height: 50,
+        //borderRadius: 50 / 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        marginRight: 10,
+    },
+    skillText: {
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        color: '#000',
+        textAlign: "center"
+    },
 }

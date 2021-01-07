@@ -22,6 +22,7 @@ export default {
         marginVertical: 10,
         marginRight: 10,
         flexDirection: 'row',
+        paddingHorizontal: 7
     },
     ActiveSelectBtn: {
         width: '45%',
@@ -33,6 +34,7 @@ export default {
         marginVertical: 10,
         marginRight: 10,
         flexDirection: 'row',
+        paddingHorizontal: 7
     },
     selectBtnText: {
         fontSize: 12,

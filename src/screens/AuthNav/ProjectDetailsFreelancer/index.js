@@ -48,6 +48,7 @@ class ProjectDetailsFreelancer extends Component {
       showLoader: false,
       user_id: '',
       projectType: '',
+      job_id: '',
     };
   }
 
@@ -61,6 +62,7 @@ class ProjectDetailsFreelancer extends Component {
       btnStatus: userDeatailResponse.userData.user_id,
       showLoader: true,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
+      job_id: userDeatailResponse.userData.JOBID,
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -83,11 +85,10 @@ class ProjectDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           jobDetails: response.data,
           showLoader: false,
-          projectType: response.data[0].type
+          projectType: response.data[0].type,
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
@@ -168,6 +169,42 @@ class ProjectDetailsFreelancer extends Component {
       });
   };
 
+  acceptIgnore = async (EmpId) => {
+    this.setState({
+      showLoader: true,
+    });
+    const obj = {
+      milestone_id: '',
+      receiver_id: EmpId,
+      sender_id: this.state.user_id,
+      job_type: 'recruiter',
+      job_id: this.state.job_id,
+      status: 'no',
+      confirmation_type: 'invitation',
+    };
+
+    console.log(obj);
+
+    await axios
+      .post(API_URL + 'confirmation', obj, {
+        header: {
+          'content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        alert('Invitation ignored');
+        this.setState({
+          isLoading: false,
+          showLoader: false,
+        });
+        this.props.navigation.navigate('StudentInner');
+      })
+      .catch((error) => {
+        this.setState({isLoading: false, showLoader: true});
+      });
+  };
+
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
@@ -192,9 +229,23 @@ class ProjectDetailsFreelancer extends Component {
                 <View style={styles.boxWrapper}>
                   <Text style={styles.boxTitle}>{value.job_title}</Text>
                   <Text style={styles.daysAgo}>{value.posted_date}</Text>
-                  <Text style={styles.courseDetails}>Course Details</Text>
+                  <Text style={styles.courseDetails}>Project Details</Text>
                   <Text>
-                    <Text style={styles.textSemibold}> Course Amount : </Text>{' '}
+                    <Text style={styles.textSemibold}>Skills :</Text>{' '}
+                  </Text>
+                  <View style={styles.skillSec}>
+                    {value.key_skill.map((value, i) => {
+                      return (
+                        <View key={i} style={styles.skillTab}>
+                          <Text style={styles.skillText}>
+                            {value.skill_name}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <Text>
+                    <Text style={styles.textSemibold}>Budget :</Text>{' '}
                     <Text> {value.price_amount} USD</Text>
                   </Text>
                   {/* <Text>
@@ -206,44 +257,97 @@ class ProjectDetailsFreelancer extends Component {
                   <Text>2020-12-16</Text>
                 </Text> */}
                   <Text>
-                    <Text style={styles.textSemibold}> Course Syllabus : </Text>
+                    <Text style={styles.textSemibold}>Description :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
-                  <TouchableOpacity style={styles.applyBtn}>
+                  <View
+                    style={{
+                      width: '100%',
+                      paddingHorizontal: '5%',
+                      marginTop: 10,
+                    }}>
                     {this.state.jobDetails.map((value, index) => {
                       return (
                         <>
-                          {value.pending_status === 'pending'  && this.state.projectType !== "invitation" ? (
-                            <Text style={styles.applyBtnText}>Waiting</Text>
+                          {value.pending_status === 'pending' &&
+                          this.state.pageStatus === 'feed' ? (
+                            <TouchableOpacity style={styles.newBtn2}>
+                              <Text style={styles.applyBtnText}>Waiting</Text>
+                            </TouchableOpacity>
                           ) : (
                             <>
                               {this.state.btnStatus === '' ? (
-                                <Text
-                                  style={styles.applyBtnText}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'SignInScreen',
-                                    )
-                                  }>
-                                  Apply
-                                </Text>
+                                <TouchableOpacity style={styles.newBtn2}>
+                                  <Text
+                                    style={styles.applyBtnText}
+                                    onPress={() =>
+                                      this.props.navigation.navigate(
+                                        'SignInScreen',
+                                      )
+                                    }>
+                                    Apply
+                                  </Text>
+                                </TouchableOpacity>
                               ) : (
-                                <Text
-                                  style={styles.applyBtnText}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'AssessmentQuestion',
-                                    )
-                                  }>
-                                  Apply
-                                </Text>
+                                <>
+                                  {value.pending_status === 'accept' ? (
+                                    <TouchableOpacity style={styles.newBtn2}>
+                                      <Text style={styles.applyBtnText}>
+                                        Accepted
+                                      </Text>
+                                    </TouchableOpacity>
+                                  ) : (
+                                    <>
+                                      {this.state.pageStatus ===
+                                      'invitation' ? (
+                                        <View style={styles.btnSection}>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}>
+                                            <Text
+                                              style={styles.applyBtnText}
+                                              onPress={() =>
+                                                this.props.navigation.navigate(
+                                                  'AssessmentQuestion',
+                                                )
+                                              }>
+                                              Apply
+                                            </Text>
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}>
+                                            <Text
+                                              style={styles.applyBtnText}
+                                              onPress={() =>
+                                                this.acceptIgnore(value.user_id)
+                                              }>
+                                              Ignore
+                                            </Text>
+                                          </TouchableOpacity>
+                                        </View>
+                                      ) : (
+                                        <TouchableOpacity
+                                          style={styles.newBtn2}>
+                                          <Text
+                                            style={styles.applyBtnText}
+                                            onPress={() =>
+                                              this.props.navigation.navigate(
+                                                'AssessmentQuestion',
+                                              )
+                                            }>
+                                            Apply
+                                          </Text>
+                                        </TouchableOpacity>
+                                      )}
+                                    </>
+                                  )}
+                                </>
                               )}
                             </>
                           )}
                         </>
                       );
                     })}
-                  </TouchableOpacity>
+                  </View>
                 </View>
               ))}
               {this.state.pageStatus !== 'invitation' ? (

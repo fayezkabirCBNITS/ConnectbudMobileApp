@@ -278,4 +278,9 @@ export default {
     shadowRadius: 2.62,
     elevation: 4,
   },
+  picker: {
+    width: '100%',
+    height: 50,
+    marginTop: Platform.OS === 'ios' ? -80 : 0,
+  },
 };

@@ -64,8 +64,10 @@ class ChatListScreen extends Component {
       file: '',
       proposed_amount: '0',
       ProjectType:'',
+      recImg: ''
     };
     const room_id = SyncStorage.get('room_id');
+    console.log(room_id);
     let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${room_id}`;
     this.socket = new WebSocket(webSocketConnection);
   }
@@ -108,8 +110,9 @@ class ChatListScreen extends Component {
           room_id: this.state.job_id + '_' + this.state.sender_id,
           proposed_amount: response.data[0].proposed_amount,
           ProjectType: response.data[0].detail_type,
+          recImage: response.data[0].receiver_image,
         });
-        console.log(this.state.chatMessage);
+        console.log(this.state.recImage);
         setTimeout(() => {
           if (this.refs && this.refs.scrollView) {
             this.refs.scrollView.scrollToEnd(true);
@@ -152,6 +155,8 @@ class ChatListScreen extends Component {
       };
       this.socket.send(JSON.stringify(payload));
 
+      console.log(payload);
+
       var temp = new Date();
       var time = temp
         .toUTCString('en-US', {timeZone: 'GMT'})
@@ -162,8 +167,7 @@ class ChatListScreen extends Component {
         chatContent: this.state.chatContent,
         chatDate: 'Today',
         chatTime: time + ' ' + 'UTC',
-        receiver_image:
-          'https://api-prod.connectbud.com/media/default_profile_pic.png',
+        receiver_image: this.state.recImg,
         sender_id: this.state.sender_id,
       };
       let tempData = this.state.chatMessage;
@@ -181,6 +185,7 @@ class ChatListScreen extends Component {
   };
   componentDidUpdate(prevProps, prevState) {
     if (prevState.chatMessage != this.state.chatMessage) {
+      console.log(this.state.room_id);
       let webSocketConnection = `wss://kt9fns6g34.execute-api.us-west-1.amazonaws.com/Prod?user=${this.state.room_id}`;
       const socket = new WebSocket(webSocketConnection);
 
@@ -201,6 +206,7 @@ class ChatListScreen extends Component {
             receiver_image: this.state.recImage,
             sender_id: this.state.receiver_id,
           };
+          console.log(data);
           let tempData = this.state.chatMessage;
           tempData.push(data);
           this.setState({
@@ -220,6 +226,7 @@ class ChatListScreen extends Component {
   }
 
   hireStudent = () => {
+    console.log(this.state.token);
     this.RBSheet.close(),
       this.props.navigation.navigate('HireStudentsScreen', {
         proposed_amount: this.state.proposed_amount,
@@ -230,12 +237,16 @@ class ChatListScreen extends Component {
   };
   viewProposal = () => {
     this.RBSheet.close(),
-      this.props.navigation.navigate('ProposalFromFreelancer');
-  };
+    this.props.navigation.navigate('ProposalFromFreelancer', {
+      job_id: this.state.job_id,
+      receiver_id: this.state.receiver_id,
+    });
+  }
 
   PageNav = async () => {
     // await AsyncStorage.setItem('ProjectJobId' , JobId);
     // this.props.navigateToDetails();
+    console.log(this.state.ProjectType);
     if(this.state.ProjectType === "normal"){
     this.props.navigation.navigate('ProjectDetailsFreelancer', {
       page_status: 'invitation',
@@ -357,12 +368,7 @@ class ChatListScreen extends Component {
               )}
 
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('ProposalFromFreelancer', {
-                    job_id: this.state.job_id,
-                    receiver_id: this.state.receiver_id,
-                  })
-                }
+                onPress={this.viewProposal}
                 style={styles.loginBtn2}>
                 <Text style={styles.loginBtnText2}>View Proposal</Text>
               </TouchableOpacity>
@@ -412,33 +418,56 @@ class ChatListScreen extends Component {
             </ScrollView>
 
             <View style={styles.chatInputSec}>
-              {this.state.request_status === 'pending' ? (
-                this.state.user_type === 'Rg==' ? (
-                  <Text>You can't chat until you accept the proposal</Text>
-                ) : (
-                  <Text>
-                    You can't chat until the employer accepts the proposal
-                  </Text>
-                )
-              ) : (
-                <View style={styles.inputHead}>
-                  <TextInput
-                    onChangeText={(text) => {
-                      this.setState({chatContent: text});
-                    }}
-                    value={this.state.chatContent}
-                    placeholder="Type a message"
-                    style={[styles.input, {color: '#000000'}]}
-                  />
-                  {this.state.chatContent != '' ? (
-                    <TouchableOpacity
-                      style={styles.icon}
-                      onPress={this.chatUpdate}>
-                      <FontAwesome name="send" color="#fff" size={18} />
-                    </TouchableOpacity>
-                  ) : null}
-                </View>
-              )}
+            {this.state.chatMessage.map((item, index) => {
+              if (item.request_status != "pending" && item.request_status != "blocked") {
+                if (index < 1) {
+                return (
+                  <View style={styles.inputHead}>
+                    <TextInput
+                      onChangeText={(text) => {
+                        this.setState({chatContent: text});
+                      }}
+                      value={this.state.chatContent}
+                      placeholder="Type a message"
+                      style={[styles.input, {color: '#000000'}]}
+                    />
+                    {this.state.chatContent != '' ? (
+                      <TouchableOpacity
+                        style={styles.icon}
+                        onPress={this.chatUpdate}>
+                        <FontAwesome name="send" color="#fff" size={18} />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                );}
+                } else if (item.request_type == "invitation" && item.request_status == "pending") {
+                  if (index < 1)
+                    return (
+                      this.state.user_type === 'Rg==' ? (
+                        <Text style={{paddingLeft: 15}}>You can't chat until the student send you proposal and you accept it</Text>
+                      ) : (
+                        <Text style={{paddingLeft: 15}}>You can't chat until you accept the proposal</Text>
+                          )
+                    );
+                  } else if (item.request_type === "proposal" && item.request_status == "pending") {
+                    if (index < 1)
+                      return (
+                        this.state.user_type === 'Rg==' ? (
+                          <Text style={{paddingLeft: 15}}>You can't chat until you accept the proposal</Text>
+                        ) : (
+                          <Text style={{paddingLeft: 15}}>You can't chat until the employer accepts the proposal</Text>
+                            )
+                      );
+                  } else {
+                      return (
+                        this.state.user_type === 'Rg==' ? (
+                          <Text style={{paddingLeft: 15}}>You can't chat anymore</Text>
+                        ) : (
+                          <Text style={{paddingLeft: 15}}>Employer has hired someone else for this project</Text>
+                            )
+                      );
+                    }
+                })}
             </View>
           </KeyboardAwareScrollView>
         </View>

@@ -218,10 +218,6 @@ class BankDetailScreen extends Component {
           {/* header section end */}
 
           <View style={CommonStyles.container}>
-
-          
-
-
             <ScrollView
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>

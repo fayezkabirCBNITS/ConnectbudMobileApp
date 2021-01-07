@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Linking,
-  Platform
+  Platform,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -33,20 +33,15 @@ import {Header} from 'react-navigation-stack'
 
 import {deepClone} from '../../../services/helper-methods';
 
-
 import {withNavigation} from 'react-navigation';
 
-
-
-
-// import {
-//   LoginButton,
-//   AccessToken,
-//   LoginManager,
-//   GraphRequest,
-//   GraphRequestManager,
-// } from 'react-native-fbsdk';
-
+import {
+  LoginButton,
+  AccessToken,
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
 
 // import {
 //   GoogleSignin,
@@ -61,7 +56,6 @@ import {withNavigation} from 'react-navigation';
 //   offlineAccess: true,
 //   forceCodeForRefreshToken: true
 // });
-
 
 import axios from 'axios';
 
@@ -99,61 +93,15 @@ class SignInScreen extends Component {
     headerShown: false,
   };
 
-  conponentDidUpdate = () => {
-    location.reload();
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
-    console.log("callllllllllllllllllleddddddddddddddddddddddddddd");
-    })
-  }
-
-  componentWillMount = () => {
-    console.log("callllllllllllllllllleddddddddddddddddddddddddddd");
-  }
-
-  
-
- componentDidMount= async() => {
-
-  //  START 
-  const { navigation } = this.props;
-    this.focusListener = navigation.addListener('didFocus', async() => {
-  if (Platform.OS === 'android') {
-    await Linking.getInitialURL().then((url) => {
-      console.log("ssssssssssssssssssss");
-      console.log(url);
-      if (url) {
-        console.log("awaitttttttttttttttttt");
-        let id = url.split('?')[1];
-        let type = url.split('?')[2];
-
-        console.log(type);
-        this.setState({
-          deepLinking: true,
-          userID: base64.decode(id),
-          userStatus: base64.decode(type),
-        });
-      }
+  componentDidMount = async () => {
+    console.log('kllllllllllllllll');
+    //  START
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('willFocus', async () => {
+      console.log('kkkkkkkkkkkkkkkk');
     });
-  }
 
-  if (this.state.deepLinking === false) {
-    const {userData} = deepClone(this.props);
-    console.log("ifffffffffffffFFFFFFFFFFFFFFFFFFFFFFFFFF");
-  } else if (this.state.userStatus === 'employer') {
-    this.props.navigation.navigate('SignInScreen', {
-      userID: this.state.userID,
-      userStatus: "employer"
-    });
-  } else {
-    this.props.navigation.navigate('CategoryScreen', {
-      userID: this.state.userID,
-    });
-  }
-});
-
-
-  // END 
+    // END
     // console.log(this.state.social_type);
     if (this.state.user_type === 'employer') {
       let body1 = new FormData();
@@ -189,7 +137,7 @@ class SignInScreen extends Component {
       popInitialNotification: true,
       requestPermissions: true,
     });
-  }
+  };
   handleSkills = async () => {
     this.setState({showSkills: !this.state.showSkills});
   };
@@ -250,6 +198,7 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
+    console.log("user loginnnnnnnnnnnn called");
     console.log(this.props.navigation.state.params.userType);
     this.setState({showLoader: true});
     let obj = {};
@@ -286,6 +235,7 @@ class SignInScreen extends Component {
     if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
+      console.log("san",response);
       this.props.updateUserDetails(response);
       {
         response.error === 'You are signed up as Employer'
@@ -349,7 +299,6 @@ class SignInScreen extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo, "userInfo");
       var google_data = JSON.stringify(userInfo);
       let name = userInfo.user.name;
       let first_name = userInfo.user.givenName;
@@ -357,70 +306,115 @@ class SignInScreen extends Component {
       let email = userInfo.user.email;
       let picture = userInfo.user.photo;
       let provider_id = userInfo.user.id;
-      let provider = "google";
+      let provider = 'google';
 
-      // this.sociallogin(email,name,provider_id,picture,provider);
+      this.sociallogin(email, name, provider_id, picture, provider);
     } catch (error) {
+      console.log('error', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
-        console.log("SIGN_IN_CANCELLED-error", error);
+        console.log('SIGN_IN_CANCELLED-error', error);
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
-        console.log("IN_PROGRESS-error", error);
+        console.log('IN_PROGRESS-error', error);
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        console.log("PLAY_SERVICES_NOT_AVAILABLE-error", error);
+        console.log('PLAY_SERVICES_NOT_AVAILABLE-error', error);
       } else {
         // some other error happened
-        console.log("other-error", error);
+        console.log('other-error', error);
       }
     }
   };
 
+  faceBookLogin = async () => {
+    LoginManager.logOut();
+    console.log('faceBookLogin');
+    try {
+      const userInfo = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
+      console.log(userInfo);
+      if (userInfo.isCancelled) {
+        console.log('Login cancelled');
+      } else {
+        console.log('Login success with permissions: ' + userInfo);
+        AccessToken.getCurrentAccessToken().then((data) => {
+          let accessToken = data.accessToken.toString();
+          console.log('accesstoken', accessToken);
+          if (accessToken) {
+            fetch(
+              'https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' +
+                accessToken,
+            )
+              .then((response) => response.json())
+              .then((json) => {
+                console.log('userdetails', json);
 
-  // faceBookLogin = async () => {
-  //   LoginManager.logOut();
-  //   console.log("faceBookLogin");
-  //   try {
-  //   const userInfo = await LoginManager.logInWithPermissions(["public_profile", "email"]);
-  //   console.log(userInfo);
-  //   if (userInfo.isCancelled) {
-  //     console.log("Login cancelled");
-  //   } else {
-  //     console.log(
-  //       "Login success with permissions: " +
-  //       userInfo
-  //     );
-  //     AccessToken.getCurrentAccessToken().then(
-  //       (data) => {
-  //         let accessToken = data.accessToken.toString();
-  //         console.log("accesstoken",accessToken);
-  //         if(accessToken) {
-  //           fetch('https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' + accessToken)
-  //           .then((response) => response.json())
-  //           .then((json) => {
-  //             console.log("userdetails",json);
+                let email = json.email;
+                let name = json.name;
+                let provider_id = json.id;
+                let picture = json.picture.data.url;
+                let provider = 'facebook';
 
-  //             let email = json.email;
-  //             let name = json.name;
-  //             let provider_id = json.id;
-  //             let picture = json.picture.data.url;
-  //             let provider = "facebook";
+                console.log(email);
+                if (email === undefined) {
+                  console.log('ffffffffffffffffffffffff');
+                  alert(
+                    'No email-id found in your fb account.Please do manual Signup',
+                  );
+                } else {
+                  this.sociallogin(email, name, provider_id, picture, provider);
+                }
+              })
+              .catch(() => {
+                reject('ERROR GETTING DATA FROM FACEBOOK');
+              });
+          }
+        });
+      }
+    } catch (error) {
+      console.log('signin error', error);
+      Toast.show('Something went wrong!');
+    }
+  };
 
-  //             this.sociallogin(email,name,provider_id,picture,provider);
-  //           })
-  //           .catch(() => {
-  //             reject('ERROR GETTING DATA FROM FACEBOOK')
-  //           })
-  //         }
-  //       }
-  //     )
-  //   }
-  // } catch (error) {
-  //   console.log("signin error",error);
-  //   Toast.show("Something went wrong!");
-  // }
-  // }
+  sociallogin = async (email, name, provider_id, picture, provider) => {
+    console.log('called');
+    let body = new FormData();
+    body.append('socialLogintype', provider);
+    body.append('first_name', name.split(' ')[0]);
+    body.append('last_name', name.split(' ')[1]);
+    if (provider === 'google') {
+      body.append('appId', '');
+      body.append('googleId', provider_id);
+    } else {
+      body.append('appId', provider_id);
+      body.append('googleId', '');
+    }
+
+    body.append('profileImage', picture);
+    body.append('email', email);
+
+    console.log(body);
+
+    await axios({
+      url: API_URL + 'auth/socialLogin',
+      method: 'POST',
+      data: body,
+    })
+      .then((response) => {
+        console.log(response.data,"ss");
+        this.props.updateUserDetails(response.data);
+        this.props.navigation.navigate('EmployeeInner');
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({isLoading: false});
+        // swal('Facebook-Id already exists');
+      });
+  };
 
   render() {
     return (
@@ -499,9 +493,9 @@ class SignInScreen extends Component {
                   {this.state.errors.password}
                 </Text>
 
-                <Pressable style={styles.forgetDiv}>
+                {/* <Pressable style={styles.forgetDiv}>
                   <Text style={styles.forgetText}>Forgot Password?</Text>
-                </Pressable>
+                </Pressable> */}
                 <Pressable
                   style={styles.signinBtn}
                   onPress={this.submitLogin}
@@ -518,13 +512,13 @@ class SignInScreen extends Component {
                 </Pressable>
                 {this.state.social_type === 'employee' ? (
                   <View style={styles.iconDiv}>
-                    <TouchableOpacity>
-                    <Image
-                      source={require('../../../assets/images/fb.png')}
-                      style={styles.iconImg}
-                    />
+                    <TouchableOpacity onPress={this.faceBookLogin}>
+                      <Image
+                        source={require('../../../assets/images/fb.png')}
+                        style={styles.iconImg}
+                      />
                     </TouchableOpacity>
-                    <Image
+                    {/* <Image
                       source={require('../../../assets/images/g.png')}
                       style={styles.iconImg}
                     />
@@ -535,6 +529,12 @@ class SignInScreen extends Component {
                       source={require('../../../assets/images/google.png')}
                       style={styles.iconImg}
                     />
+                    /> */}
+                    <TouchableOpacity onPress={this.signInFirst}>
+                      <Image
+                        source={require('../../../assets/images/google.png')}
+                        style={styles.iconImg}
+                      />
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -568,4 +568,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)((withNavigation(SignInScreen)));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withNavigation(SignInScreen));

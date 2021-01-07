@@ -307,7 +307,7 @@ class SignUpScreen extends Component {
                           );
                         })}
                     </Picker>*/}
-                    <TextInput
+                     {/*<TextInput
                       returnKeyType="done"
                       placeholder="Enter Phone Number"
                       style={[styles.inputGroup, {width: '100%'}]}
@@ -337,7 +337,8 @@ class SignUpScreen extends Component {
                         Send Otp
                       </Text>
                     </Pressable>
-                  </View>
+                    </View>
+                  </View> */}
                
 
                 {/* <ErrorMsg errorMsg={this.state.errors['phone']} />
@@ -427,12 +428,11 @@ class SignUpScreen extends Component {
               <View style={styles.formSubGroup1}>
                 <AntDesign name="lock" size={20} color="#fff" />
               </View>
-            </View> */}
-            <View>
+            <View>*/}
 
                 <Pressable
                   // disabled={this.state.enableSignUp}
-                  style={styles.signinBtn}
+                  style={[styles.signinBtn, {alignSelf: 'center', marginLeft: 'auto', marginRight: 'auto'}]}
                   onPress={this.submituserRegistrationForm}>
                   <Text style={styles.signinText}>Sign Up</Text>
                 </Pressable>

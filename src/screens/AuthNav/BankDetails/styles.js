@@ -57,7 +57,7 @@ export default {
     marginBottom: 0,
   },
   scroll: {
-    height: deviceHeight - 84,
+    height: deviceHeight - 140,
   },
   submitBtn: {
     width: '50%',
