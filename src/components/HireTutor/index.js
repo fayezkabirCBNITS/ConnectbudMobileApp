@@ -209,7 +209,6 @@ class HireTutor extends Component {
         errgradeValue: false,
         errConnectBud: false,
       });
-
       const date = JSON.stringify(this.state.selectedDate).replace(
         /[\[\]']+/g,
         '',

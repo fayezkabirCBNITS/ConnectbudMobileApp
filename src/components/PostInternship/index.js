@@ -578,6 +578,7 @@ class PostInternship extends Component {
                 returnKeyType="done"
                 placeholder="* CTC"
                 keyboardType="default"
+                keyboardType="number-pad"
                 style={{
                   shadowOffset: {
                     width: 0,
