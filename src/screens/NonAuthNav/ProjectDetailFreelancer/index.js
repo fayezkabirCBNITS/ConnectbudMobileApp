@@ -39,6 +39,7 @@ class ProjectDetailsFreelancerNA extends Component {
   };
 
   componentDidMount = async () => {
+    console.log("sallllllllllllllllll");
     const {params} = this.props.navigation.state;
     console.log(params);
     this.setState({showLoader: true});
