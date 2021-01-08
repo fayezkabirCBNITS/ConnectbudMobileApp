@@ -5,14 +5,15 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
   main: {
-    width: 160,
+    // width: 160,
     marginLeft: 15,
   },
   image: {
-    width: '100%',
+    width: 160,
     height: 150,
     borderRadius: 5,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    alignSelf: 'center',
   },
   des: {
     width: '100%',
@@ -31,5 +32,16 @@ export default {
     color: '#000',
     textAlign: 'center',
     marginTop: -2,
+  },
+  wrap: {
+    width: '100%',
+    paddingHorizontal: '5%',
+    height: 250,
+  },
+  swiperWrap: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '5%',
   },
 };

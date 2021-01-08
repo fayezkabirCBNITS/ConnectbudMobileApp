@@ -171,7 +171,7 @@ class OnlineCodingClasses extends Component {
       body.append('overview', this.state.tenSyllabus[0].overview);
       body.append('syllabus', this.state.tenSyllabus[0].syllabus);
       body.append('projects_for', 'all');
-      body.append('amount', this.state.tenSyllabus[0].total_amount);
+      body.append('amount', this.state.tenSyllabus[0].amount);
       body.append('date', moment(this.state.startDate).format('MM/DD/YYYY'));
       body.append('start_time', this.state.startTime);
       body.append('skills', this.state.tenSyllabus[0].skills);
@@ -189,13 +189,21 @@ class OnlineCodingClasses extends Component {
       );
       console.log('CourseSubmit-----', response);
 
-      if (response[0].hire_by == 'me') {
+      if (response[0].message === 'Success' && response[0]?.job_id) {
+        let tmpJobObj = {
+          tmpJobID: response[0]?.job_id,
+          tmpSkillSet: '',
+          hire_by: response[0]?.hire_by,
+        };
+        console.log('tmp post redux data========', tmpJobObj);
+        this.props.updateTmpPostJob(tmpJobObj);
+        //this.props.navigation.navigate('SignInScreen');
+
+        //  modal dismiss navigate login
         this.setState({isModalVisible: true});
-        // this.props.navigation.navigate('PostedProjectByEmployee')
-      } else if (response[0].hire_by == 'connectbud') {
-        this.setState({isModalVisible: true});
-        // this.props.navigation.navigate('BankDetailScreen')
+        this.clearForm();
       }
+
       this.clearForm();
     }
   };
@@ -230,7 +238,7 @@ class OnlineCodingClasses extends Component {
       body.append('overview', this.state.fourSyllabus[0].overview);
       body.append('syllabus', this.state.fourSyllabus[0].syllabus);
       body.append('projects_for', 'all');
-      body.append('amount', this.state.fourSyllabus[0].total_amount);
+      body.append('amount', this.state.fourSyllabus[0].amount);
       body.append('date', moment(this.state.startDate).format('MM/DD/YYYY'));
       body.append('start_time', this.state.startTime);
       body.append('skills', this.state.fourSyllabus[0].skills);
@@ -240,6 +248,8 @@ class OnlineCodingClasses extends Component {
       );
       body.append('page_type', 'landing');
       body.append('free_class', 0);
+
+      console.log(body,"landing online");
 
       let response = await makePostRequestMultipart(
         ApiUrl.CourseSubmit,
@@ -506,7 +516,7 @@ class OnlineCodingClasses extends Component {
                                 ? moment(this.state.startDate).format(
                                     'MM/DD/YYYY',
                                   )
-                                : 'Select Date'}
+                                : 'Start Date'}
                             </Text>
                           </View>
                           <View style={styles.formSubGroup1}>
@@ -530,9 +540,9 @@ class OnlineCodingClasses extends Component {
 
                         <Text style={styles.syllabusText}>Timing:</Text>
                         <View style={styles.formGroup1}>
-                          <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                          <View style={[styles.formSubGroup2, {width: '100%', height: 50, overflow: 'hidden'}]}>
                             <Picker
-                              style={{width: '100%', height: 45}}
+                              style={{width: '100%', height: 45, marginTop: -80}}
                               selectedValue={this.state.startTime}
                               onValueChange={(itemValue, itemIndex) =>
                                 this.setState({startTime: itemValue})
@@ -831,7 +841,7 @@ class OnlineCodingClasses extends Component {
                     <View style={CommonStyles.modalContent}>
                       <Antdesign name="checkcircle" size={60} color="#71b85f" />
                       <Text style={CommonStyles.modalText}>
-                        Successfully Posted
+                      Please login/register to continue this process
                       </Text>
                       <TouchableOpacity
                         style={CommonStyles.modalCross}

@@ -196,21 +196,24 @@ class OnlineCodingClasses extends Component {
           startDate: '',
           startTime: '',
           course_name: '',
-          overview: ''
+          overview: '',
         });
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
         this.setState({
-          isModalVisible: true,
+          // isModalVisible: true,
           HireBy: '',
           startDate: '',
           startTime: '',
           course_name: '',
           overview: '',
-          showLoader: false
+          showLoader: false,
         });
-        this.props.navigation.navigate('CheckoutScreen',{
-          page_status: "tutor",
+        alert(
+          'Thank you for your submission!Please pay the money to complete your submission process.',
+        );
+        this.props.navigation.navigate('CheckoutScreen', {
+          page_status: 'tutor',
           job_id: response[0].job_id,
           user_id: base64.decode(this.props.userID),
         });
@@ -270,9 +273,11 @@ class OnlineCodingClasses extends Component {
         alert('Successfully Posted ');
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        alert('Please checkout to continue');
-        this.props.navigation.navigate('CheckoutScreen',{
-          page_status: "tutor",
+        alert(
+          'Thank you for your submission!Please pay the money to complete your submission process.',
+        );
+        this.props.navigation.navigate('CheckoutScreen', {
+          page_status: 'tutor',
           user_id: base64.decode(this.props.userID),
           job_id: response[0].job_id,
         });

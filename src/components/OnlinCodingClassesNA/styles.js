@@ -161,7 +161,7 @@ export default {
         fontFamily: 'Poppins-SemiBold',
       },
       scroll: {
-        height: deviceHeight - 84,
+        height: deviceHeight - 140,
       },
 
 };

@@ -17,9 +17,15 @@ import Filter from '../../../components/Filter';
 
 
 class StudentInner extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      pageStatus: this.props.navigation.state.params
+      ? this.props.navigation.state.params.page_status
+      : '',
+      projectType: this.props.navigation.state.params
+        ? this.props.navigation.state.params.project_type
+        : '',
       JobId: "",
       index: 0,
       routes: [
@@ -46,6 +52,16 @@ class StudentInner extends Component {
     });
   };
 
+  componentDidMount = () => {
+    if(this.state.pageStatus === "project" && this.state.projectType === "normal"){
+      this.props.navigation.navigate('ProjectDetailsFreelancer')
+    }
+    else if(this.state.pageStatus === "project" && this.state.projectType === "tutor"){
+      this.props.navigation.navigate('TutorDetailsFreelancer')
+    }
+    else{}
+  }
+
   navigateToDetailsTutor = async () => {
     this.props.navigation.navigate('TutorDetailsFreelancer',{
       page_status : "feed"
@@ -57,6 +73,7 @@ class StudentInner extends Component {
       page_status : "feed"
     });
   }
+
 
   TutorHideModal = (data) => {
     if(this.state.index === 0){

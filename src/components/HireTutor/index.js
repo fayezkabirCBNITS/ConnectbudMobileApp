@@ -54,7 +54,7 @@ class HireTutor extends Component {
       errendTime: false,
       errSelectedSkills: false,
       errgradeValue: false,
-      ConnectBud: '',
+      ConnectBud: 'connectbud',
       errConnectBud: false,
       selectedSkills: [],
       selectedSkillIndex: null,
@@ -256,7 +256,10 @@ class HireTutor extends Component {
         this.setState({ isModalVisible: true });
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        this.setState({ isModalVisible: true });
+        // this.setState({isModalVisible: true});
+        alert(
+          'Thank you for your submission!Please pay the money to complete your submission process.',
+        );
         this.props.navigation.navigate('CheckoutScreen', {
           page_status: 'tutor',
           job_id: response[0].job_id,

@@ -30,4 +30,15 @@ export default {
   width220: {
     width: 200,
   },
+  wrap: {
+    width: '100%',
+    paddingHorizontal: '5%',
+    height: 200,
+  },
+  swiperWrap: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '5%',
+  },
 };

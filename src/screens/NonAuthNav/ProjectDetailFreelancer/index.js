@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -18,11 +18,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
-import { ScrollView } from 'react-native-gesture-handler';
-import { updateJobId } from '../../../redux/actions/user-data';
+import {ScrollView} from 'react-native-gesture-handler';
+import {updateJobId} from '../../../redux/actions/user-data';
 import ApiUrl from '../../../config/ApiUrl';
-import { makePostRequestMultipart } from '../../../services/http-connectors';
-import { connect } from 'react-redux';
+import {makePostRequestMultipart} from '../../../services/http-connectors';
+import {connect} from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 class ProjectDetailsFreelancerNA extends Component {
@@ -30,7 +30,7 @@ class ProjectDetailsFreelancerNA extends Component {
     super(props);
     this.state = {
       jobDetails: [],
-      showLoader: false
+      showLoader: false,
     };
   }
 
@@ -39,9 +39,10 @@ class ProjectDetailsFreelancerNA extends Component {
   };
 
   componentDidMount = async () => {
-    const { params } = this.props.navigation.state;
+    console.log("sallllllllllllllllll");
+    const {params} = this.props.navigation.state;
     console.log(params);
-    this.setState({ showLoader: true });
+    this.setState({showLoader: true});
 
     let body = new FormData();
 
@@ -49,12 +50,16 @@ class ProjectDetailsFreelancerNA extends Component {
     body.append('user_id', '');
     body.append('type', 'freelancer');
 
-    let response = await makePostRequestMultipart(ApiUrl.LandingProjectDetails, false, body);
-    console.log(response);
+    let response = await makePostRequestMultipart(
+      ApiUrl.LandingProjectDetails,
+      false,
+      body,
+    );
+    console.log(response, 'type');
     if (response) {
       this.setState({
         jobDetails: response,
-        showLoader: false
+        showLoader: false,
       });
     }
   };
@@ -75,7 +80,9 @@ class ProjectDetailsFreelancerNA extends Component {
             translucent={false}
           />
           <View style={CommonStyles.header}>
-            <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity
+              style={CommonStyles.hambarIcon}
+              onPress={() => this.props.navigation.openDrawer()}>
               <Entypo name="menu" color="#71b85f" size={35} />
             </TouchableOpacity>
             <Image
@@ -111,7 +118,15 @@ class ProjectDetailsFreelancerNA extends Component {
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
                   <TouchableOpacity style={styles.applyBtn}>
-                    <Text style={styles.applyBtnText} onPress={() => this.props.navigation.navigate('SignInScreen', { userType: 'student'})}>
+                    <Text
+                      style={styles.applyBtnText}
+                      onPress={() =>
+                        this.props.navigation.navigate('SignInScreen', {
+                          page_status: 'project',
+                          userType: 'student',
+                          project_type: value.detail_type,
+                        })
+                      }>
                       Apply
                     </Text>
                   </TouchableOpacity>
@@ -136,4 +151,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatch)(ProjectDetailsFreelancerNA);
+export default connect(
+  mapStateToProps,
+  mapDispatch,
+)(ProjectDetailsFreelancerNA);

@@ -18,16 +18,23 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
+
+import base64 from 'base-64';
+
+
+
 // import StripeCheckout from 'react-stripe-checkout';
 
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
 
+import {connect} from 'react-redux';
+
+
 class CheckoutScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showLoader: false,
       milestone_id: this.props.navigation.state.params
         ? this.props.navigation.state.params.mile_id
         : '',
@@ -66,6 +73,7 @@ class CheckoutScreen extends Component {
       showLoader: true,
     });
     if (this.state.pageStatus === 'tutor') {
+      console.log("called if");
       let body = new FormData();
       body.append('milestone_id', '');
       body.append('job_id', this.state.jobId);
@@ -89,7 +97,36 @@ class CheckoutScreen extends Component {
             showLoader: false,
           });
         });
-    } else {
+    } 
+    else if (this.state.pageStatus === 'tutorlanding') {
+      console.log("called if");
+      let body = new FormData();
+      body.append('milestone_id', '');
+      body.append('job_id', this.state.jobId);
+
+
+      await axios({
+        url: API_URL + 'checkout',
+        method: 'POST',
+        data: body,
+      })
+        .then((response) => {
+          this.setState({
+            MilestoneAmount: response.data[0].amount_negotiated,
+            ServiceFee: response.data[0].connectbud_fees,
+            TotalPayable: response.data[0].total_amount,
+            showLoader: false,
+          });
+        })
+        .catch((error) => {
+          this.setState({
+            showLoader: false,
+          });
+        });
+    }
+    else {
+      console.log("called if");
+
       let body = new FormData();
       body.append('milestone_id', this.state.milestone_id);
       body.append('job_id', '');
@@ -133,12 +170,16 @@ class CheckoutScreen extends Component {
     })
       .then(async (response) => {
         await this.setState({
-          showLoader: false,
           paymentId: response.data[0].payment.id,
+          card: '',
+          month: '',
+          year: '',
+          cvc: ''
         });
       })
       .catch((error) => {
       });
+
     if (this.state.pageStatus === 'tutor') {
       let body = new FormData();
       body.append('milestone_id', null);
@@ -148,12 +189,14 @@ class CheckoutScreen extends Component {
       body.append('name', this.state.name);
       body.append('type', 'tutor');
       body.append('id', this.state.paymentId);
+      console.log(body);
       await axios({
         url: API_URL + 'paymentIntend',
         method: 'POST',
         data: body,
       })
         .then((response) => {
+          console.log(response);
           this.props.navigation.navigate('PostedProjectByEmployee'),
             alert(
               'You have successfully escrowed money!Connectbud will get back to you between 6 to 12Hrs.',
@@ -164,7 +207,38 @@ class CheckoutScreen extends Component {
         })
         .catch((error) => {
         });
-    } else {
+    } 
+    else if (this.state.pageStatus === 'tutorlanding') {
+    const {userDeatailResponse} = this.props;
+      console.log("called else if");
+      let body = new FormData();
+      body.append('milestone_id', null);
+      body.append('job_id', this.state.jobId.toString());
+      body.append('hirer_id', base64.decode(userDeatailResponse.userData.user_id));
+      body.append('freelancer_id', '');
+      body.append('name', this.state.name);
+      body.append('type', 'tutor');
+      body.append('id', this.state.paymentId);
+      console.log(body);
+      await axios({
+        url: API_URL + 'paymentIntend',
+        method: 'POST',
+        data: body,
+      })
+        .then((response) => {
+          console.log(response);
+          this.props.navigation.navigate('PostedProjectByEmployee'),
+            alert(
+              'You have successfully escrowed money!Connectbud will get back to you between 6 to 12Hrs.',
+            );
+          this.setState({
+            showLoader: false,
+          });
+        })
+        .catch((error) => {
+        });
+    }
+    else {
       let body = new FormData();
       body.append('milestone_id', this.state.milestone_id);
       body.append('job_id', '');
@@ -370,4 +444,13 @@ class CheckoutScreen extends Component {
   }
 }
 
-export default CheckoutScreen;
+// export default CheckoutScreen;
+
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state,
+  };
+};
+
+
+export default connect(mapStateToProps, null)(CheckoutScreen);

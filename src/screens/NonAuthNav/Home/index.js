@@ -36,7 +36,7 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
+      user: 'freelancer',
       showSearchBar: false,
       firstQuery: '',
       showLoader: false,
@@ -85,12 +85,14 @@ class HomeScreen extends Component {
         if(this.state.user === 'freelancer'){
           this.props.navigation.navigate('SearchClgStuNA',{res})
           this.setState({
-            showLoader: false
+            showLoader: false,
+            firstQuery: ''
           })
         }else if(this.state.user === 'job'){
           this.props.navigation.navigate('StudentProjectNA',{res})
           this.setState({
-            showLoader: false
+            showLoader: false,
+            firstQuery: ''
           })
         }else{
   
@@ -162,11 +164,12 @@ class HomeScreen extends Component {
                     <Fontisto name="search" color="#fff" size={20} />
                   </TouchableOpacity> */}
                   <Searchbar
-                    placeholder="Search"
+                    placeholder="Search for Name, Skills & Colleges"
                     onChangeText={query => { this.setState({ firstQuery: query }); }}
                     value={firstQuery}
                     inputStyle={styles.searchInput}
                     style={styles.search}
+                    onSubmitEditing={this.onHandleSearch}
                   />
                   <TouchableOpacity style={styles.searchPos} onPress={this.onHandleSearch}>
                     <AntDesign name="search1" size={25} color="#000" />

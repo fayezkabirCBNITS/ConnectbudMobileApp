@@ -1,11 +1,9 @@
 import React from 'react';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import HomeScreenAuth from '../screens/AuthNav/Home';
 import ProfileScreen from '../screens/AuthNav/Profile';
-import CategoryScreen from './../screens/AuthNav/Category';
-import AddSkillScreen from './../screens/AuthNav/AddSkill';
 import EditProfileScreen from '../screens/AuthNav/EditProfile';
 import StudentInner from '../screens/AuthNav/StudentInner';
 import EmployeeInner from '../screens/AuthNav/EmployeeInner';
@@ -42,11 +40,14 @@ import CheckoutScreen from '../screens/AuthNav/CheckOut';
 import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
 import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
 import JobListingScreen from '../screens/AuthNav/JobListing';
-import LatestProjectList from '../screens/NonAuthNav/LatestProjectList';
+
 //non stack pages
+import LatestProjectList from '../screens/NonAuthNav/LatestProjectList';
 import SignUpScreen from '../screens/NonAuthNav/SignUp';
 import SignInScreen from '../screens/NonAuthNav/SignIn';
 import FreelancerSignUpScreen from '../screens/NonAuthNav/FreelancerSignUp';
+import CategoryScreen from './../screens/NonAuthNav/Category';
+import AddSkillScreen from './../screens/NonAuthNav/AddSkill';
 import HomeScreen from '../screens/NonAuthNav/Home';
 import SplashScreen from '../screens/splash';
 import ViewUserProfileScreen from '../screens/NonAuthNav/ViewUserProfile';
@@ -55,7 +56,10 @@ import ProjectDetailsFreelancerNA from './../screens/NonAuthNav/ProjectDetailFre
 import OnlineClassesNA from '../components/OnlinCodingClassesNA/onlineClassesNA';
 import HomeWorkHelpNA from '../components/HomeWorkHelpNA/index';
 import SearchClgStuNA from '../screens/NonAuthNav/SearchClgStuNA';
-import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA'
+import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA';
+import ForgotPassword from '../screens/NonAuthNav/ForgotPassword';
+import OtpVerification from '../screens/NonAuthNav/OtpVerification';
+import ResetPassword from '../screens/NonAuthNav/ResetPassword';
 //non stack pages
 
 export const MainStack = createStackNavigator(
@@ -68,12 +72,6 @@ export const MainStack = createStackNavigator(
     },
     EmployeeInner: {
       screen: EmployeeInner,
-    },
-    CategoryScreen: {
-      screen: CategoryScreen,
-    },
-    AddSkillScreen: {
-      screen: AddSkillScreen,
     },
     EditProfileScreen: {
       screen: EditProfileScreen,
@@ -114,8 +112,8 @@ export const MainStack = createStackNavigator(
     EditPostedProject: {
       screen: EditPostedProject,
     },
-    SearchProjectStudents:{
-      screen : SearchProjectStudents
+    SearchProjectStudents: {
+      screen: SearchProjectStudents
     },
     AssessmentQuestion: {
       screen: AssessmentQuestion,
@@ -170,15 +168,12 @@ export const MainStack = createStackNavigator(
     },
     HiringConfirmation: {
       screen: HiringConfirmation
-    }   ,
+    },
     AddExperienceNew: {
-      screen : AddExperienceNew
+      screen: AddExperienceNew
     },
     JobListingScreen: {
-      screen : JobListingScreen
-    },
-    LatestProjectList: {
-      screen: LatestProjectList
+      screen: JobListingScreen
     },
   },
 
@@ -192,7 +187,6 @@ const AuthStackNav = createStackNavigator(
     HomeScreen: {
       screen: HomeScreen,
     },
-
     SignInScreen: {
       screen: SignInScreen,
     },
@@ -202,22 +196,45 @@ const AuthStackNav = createStackNavigator(
     FreelancerSignUpScreen: {
       screen: FreelancerSignUpScreen,
     },
-    OnlineClassesNA : {
-      screen : OnlineClassesNA
+    CategoryScreen: {
+      screen: CategoryScreen,
     },
-    HomeWorkHelpNA:{
-      screen : HomeWorkHelpNA
+    AddSkillScreen: {
+      screen: AddSkillScreen,
     },
-
-    SearchClgStuNA : {
-      screen : SearchClgStuNA
+    OnlineClassesNA: {
+      screen: OnlineClassesNA
     },
-    StudentProjectNA :{
-      screen : StudentProjectNA
+    HomeWorkHelpNA: {
+      screen: HomeWorkHelpNA
     },
-    ViewUserProfileScreen: {screen: ViewUserProfileScreen},
-    ProjectDetailsFreelancerNA: {screen: ProjectDetailsFreelancerNA},
-    PostProjectNA:{screen:PostProjectNA,},
+    SearchClgStuNA: {
+      screen: SearchClgStuNA
+    },
+    StudentProjectNA: {
+      screen: StudentProjectNA
+    },
+    ViewUserProfileScreen: {
+      screen: ViewUserProfileScreen
+    },
+    ProjectDetailsFreelancerNA: {
+      screen: ProjectDetailsFreelancerNA
+    },
+    PostProjectNA: {
+      screen: PostProjectNA,
+    },
+    LatestProjectList: {
+      screen: LatestProjectList
+    },
+    ForgotPassword: {
+      screen: ForgotPassword
+    },
+    OtpVerification: {
+      screen: OtpVerification
+    },
+    ResetPassword: {
+      screen: ResetPassword
+    },
   },
   {
     initialRouteName: 'HomeScreen',

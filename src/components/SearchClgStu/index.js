@@ -354,6 +354,7 @@ async fetchFilterList(userIds) {
               Search, Connect, Hire Use talent search to find college students
             </Text>
             <View>
+            <View style={{paddingHorizontal: '5%'}}>
               {this.state.selectedSkills.length > 0 ? (
                 this.state.selectedSkills?.map((data, index) => {
                   return (
@@ -381,6 +382,7 @@ async fetchFilterList(userIds) {
               ) : (
                 <></>
               )}
+              </View>
               <View style={styles.skillView}>
                 <View style={[styles.formGroup01]}>
                   <View style={styles.formPicker}>
@@ -413,7 +415,7 @@ async fetchFilterList(userIds) {
                           return (
                             <Picker.Item
                               label={data.label}
-                              value={data.value}
+                              value={data.label}
                             />
                           );
                         })

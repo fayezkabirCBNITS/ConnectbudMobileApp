@@ -26,6 +26,7 @@ import ApiUrl from '../../../config/ApiUrl';
 import { makePostRequest } from '../../../services/http-connectors';
 import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
+import base64 from 'base-64';
 
 
 class AddskillScreen extends Component {
@@ -38,7 +39,8 @@ class AddskillScreen extends Component {
       buttonstate: true,
       addSkill: "",
       addSkillBox: false,
-      userID: this.props.navigation.state.params.userID
+      userID: this.props.navigation.state.params.userID,
+      Flag: 'Y'
     };
   }
 
@@ -70,11 +72,12 @@ class AddskillScreen extends Component {
     const body = {
       category_name: this.state.keyGen.toString(),
       user_id: this.props.navigation.state.params.userID,
-      skill_name: this.state.addSkill
+      skill_name: this.state.addSkill,
+      type: 'mobile'
     };
     let response = await makePostRequest(ApiUrl.ChildSkillSubmit, false, body);
     if (response) {
-      this.props.updateUserDetails(response, this.state.userID);
+      this.props.updateUserDetails(response, base64.encode(this.state.userID), base64.encode(this.state.Flag));
       this.props.navigation.navigate('StudentInner');
     }
   };
@@ -219,7 +222,7 @@ class AddskillScreen extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUserDetails: (data, user_id) => dispatch(updateUserDetails(data, user_id)),
+    updateUserDetails: (data, user_id, Flag) => dispatch(updateUserDetails(data, user_id, Flag)),
   };
 };
 export default connect(null, mapDispatchToProps)(AddskillScreen);

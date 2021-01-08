@@ -68,11 +68,11 @@ class SignUpScreen extends Component {
     });
   }
 
-  handleChange(value, name) {
+  handleChange = async (value, name) => {
     let fields = this.state.fields;
     fields[name] = value;
-    this.setState({fields});
-    this.setState({
+    await this.setState({fields});
+    await this.setState({
       errors: Validator.validateForm(
         name,
         this.state.fields,
