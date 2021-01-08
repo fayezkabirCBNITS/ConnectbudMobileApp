@@ -380,35 +380,37 @@ async fetchFilterList(userIds) {
               Search, Connect, Hire( Use talent search to find college students{' '}
             </Text>
             <View>
-              {this.state.selectedSkills.length > 0 ? (
-                this.state.selectedSkills?.map((data, index) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => this.reverseAddSkills(index)}
-                      key={index}
-                    >
-                      <View
-                        style={[
-                          styles.formSubGroup22,
-                          { flexWrap: 'wrap', flexDirection: 'row' },
-                        ]}>
+              <View style={{paddingHorizontal: '5%'}}>
+                {this.state.selectedSkills.length > 0 ? (
+                  this.state.selectedSkills?.map((data, index) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => this.reverseAddSkills(index)}
+                        key={index}
+                      >
                         <View
                           style={[
-                            styles.skillTab,
-                            { backgroundColor: '#71b85f', flexDirection: 'row' },
+                            styles.formSubGroup22,
+                            { flexWrap: 'wrap', flexDirection: 'row' },
                           ]}>
-                          <Text style={[styles.skillText, { color: '#fff' }]}>
-                            {data}
-                          </Text>
-                          <FontAwesome name="close" size={20} color="#fff" />
+                          <View
+                            style={[
+                              styles.skillTab,
+                              { backgroundColor: '#71b85f', flexDirection: 'row' },
+                            ]}>
+                            <Text style={[styles.skillText, { color: '#fff' }]}>
+                              {data}
+                            </Text>
+                            <FontAwesome name="close" size={20} color="#fff" />
+                          </View>
                         </View>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })
-              ) : (
-                  <></>
-                )}
+                      </TouchableOpacity>
+                    );
+                  })
+                ) : (
+                    <></>
+                  )}
+              </View>
               <View style={styles.skillView}>
                 <View style={[styles.formGroup01]}>
                   <View style={styles.formPicker}>
@@ -440,7 +442,7 @@ async fetchFilterList(userIds) {
                           return (
                             <Picker.Item
                               label={data.label}
-                              value={data.value}
+                              value={data.label}
                             />
                           );
                         })
@@ -573,7 +575,7 @@ async fetchFilterList(userIds) {
                   } else {
                     return (
                       <View style={styles.noData}>
-                        <Image source={require('../../../assets/images/noData.png')} />
+                        <Image source={require('../../../assets/images/resultNotFound.png')} style={{width: 120, height: 121}}/>
                         <Text style={styles.noDataText}>No Result Found</Text>
                       </View>
                     );

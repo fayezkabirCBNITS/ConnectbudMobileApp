@@ -162,7 +162,7 @@ const validator = {
           errors['formIsValid'] = false;
         } 
        else if (!pattern.test(fields['password'])) {
-        errors['password'] = "* Please enter at least one numeric digit, one uppercase and one lowercase letter!'";
+        errors['password'] = "*Please enter at least One Number, One Upper Case, One Lower Case and One Special Symbol";
         errors['formIsValid'] = false;
        }
         else {

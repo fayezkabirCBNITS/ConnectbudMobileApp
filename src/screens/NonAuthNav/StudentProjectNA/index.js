@@ -334,7 +334,7 @@ class StudentProject extends Component {
                 } else {
                   return (
                     <View style={styles.noData}>
-                      <Image source={require('../../../assets/images/noData.png')} />
+                      <Image source={require('../../../assets/images/resultNotFound.png')} style={{width: 120, height: 121}}/>
                       <Text style={styles.noDataText}>No Result Found</Text>
                     </View>
                   );
