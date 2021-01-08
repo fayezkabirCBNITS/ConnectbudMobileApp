@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -14,15 +14,15 @@ import {
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {Picker} from '@react-native-community/picker';
+import { Picker } from '@react-native-community/picker';
 import styles from './styles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 // import SearchableDropdown from 'react-native-searchable-dropdown';
 // import axios from 'axios';
 // import { API_URL } from '../../config/url';
-import {Value} from 'react-native-reanimated';
+import { Value } from 'react-native-reanimated';
 //
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import base64 from 'base-64';
 // import Validator from '../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
@@ -32,7 +32,7 @@ import {
   makeAuthGetRequest,
 } from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
-import {withNavigation} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import Toast from 'react-native-simple-toast';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -58,21 +58,21 @@ class SearchClgStu extends Component {
       selectedSkillIndex: null,
       skills: [],
       filteredSkills: [],
-      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
+      skillValuePlaceHolder: [{ value: 'Select Skill', label: 'Select skill' }],
       updateInitialSearchState: false,
       showFilterModal: false,
-      
+
       category: [
-        {optn: 'Software Development'},
-        {optn: 'Online Coding'},
-        {optn: 'Homework'},
-        {optn: 'Design'},
-        {optn: 'Language'},
-        {optn: 'Music & Arts'},
-        {optn: 'Fitness'},
+        { optn: 'Software Development' },
+        { optn: 'Online Coding' },
+        { optn: 'Homework' },
+        { optn: 'Design' },
+        { optn: 'Language' },
+        { optn: 'Music & Arts' },
+        { optn: 'Fitness' },
       ],
       sort: [
-        {optn: 'Latest'},
+        { optn: 'Latest' },
       ],
       /*
       
@@ -80,16 +80,16 @@ class SearchClgStu extends Component {
         {optn: 'Low - High (Amount)'},
         {optn: 'High - Low (Amount)'},
       */
-      country: [{optn: 'All'}, {optn: 'India'}, {optn: 'USA'}],
-      filterCategoty:'',
-      filterCountry:'',
-      latestEnable:'',
+      country: [{ optn: 'All' }, { optn: 'India' }, { optn: 'USA' }],
+      filterCategoty: '',
+      filterCountry: '',
+      latestEnable: '',
       //
     };
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.fetchSkills();
       // this.fetchEmployees();
@@ -101,13 +101,13 @@ class SearchClgStu extends Component {
   }
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
+    this.setState({ skills: this.state.skillValuePlaceHolder.concat(response) });
   }
 
-  fetchSearchedEmployees = () =>{
+  fetchSearchedEmployees = () => {
     const { params } = this.props.navigation.state;
     this.setState({
-      FreelancerSet : params.res.data
+      FreelancerSet: params.res.data
     })
   }
 
@@ -143,7 +143,7 @@ class SearchClgStu extends Component {
     }
     //this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
-   fetchResetEmployees=async()=> {
+  fetchResetEmployees = async () => {
     let body = new FormData();
     body.append('user_id', '');
     body.append('job_id', '');
@@ -179,11 +179,11 @@ class SearchClgStu extends Component {
     this.onDismissModel();
     let body = new FormData();
     body.append('search_type', 'filter');
-    body.append('category',this.state.filterCategoty);
-    body.append('latest',this.state.latestEnable);
+    body.append('category', this.state.filterCategoty);
+    body.append('latest', this.state.latestEnable);
     body.append('user_id', '');
     body.append('offset', 30);
-    body.append('location',this.state.filterCountry);
+    body.append('location', this.state.filterCountry);
     body.append('status', '');
     body.append('skillset', '');
     body.append('relocate', '');
@@ -243,7 +243,7 @@ class SearchClgStu extends Component {
     }
     //this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
-  
+
   async fetchInitialSearch() {
     const skt = JSON.stringify(this.state.selectedSkills).replace(
       /[\[\]']+/g,
@@ -262,14 +262,14 @@ class SearchClgStu extends Component {
     console.log('handle post recuiter Initial Search-----', response);
     if (response && response[0]?.message === 'Matching Candidates Not found') {
       console.log('message not========', response[0].message);
-      this.setState({updateInitialSearchState: false});
+      this.setState({ updateInitialSearchState: false });
       this.fetchEmployees();
     } else if (
       response &&
       response[0]?.message === 'Matching Candidates found'
     ) {
       console.log('message found========', response[0].message);
-      this.setState({updateInitialSearchState: false});
+      this.setState({ updateInitialSearchState: false });
       this.fetchEmployeesBasedOnIS(response[0].user_id);
     }
   }
@@ -321,31 +321,31 @@ async fetchFilterList(userIds) {
     });
     let data = this.state.selectedSkills[index];
     await this.setState({
-      skills: this.state.skills.concat({value: data, label: data}).sort(),
+      skills: this.state.skills.concat({ value: data, label: data }).sort(),
     });
-    this.setState({skills: this.state.skills.sort()});
+    this.setState({ skills: this.state.skills.sort() });
     this.fetchInitialSearch();
   };
   handleFilterModal = async () => {
-    this.setState({showFilterModal: true});
+    this.setState({ showFilterModal: true });
   };
   onDismissModel = () => {
-    this.setState({showFilterModal: false});
+    this.setState({ showFilterModal: false });
   };
   selectFilterCategory = (category) => {
-    this.setState({filterCategoty: category});
-    console.log('ctg===========',category);
+    this.setState({ filterCategoty: category });
+    console.log('ctg===========', category);
     this.fetchFilteredEmployees();
   };
   selectSortBy = (sort) => {
-    this.setState({latestEnable: 'yes'});
-    console.log('sort===========',sort);
+    this.setState({ latestEnable: 'yes' });
+    console.log('sort===========', sort);
     this.fetchFilteredEmployees();
 
   };
   selectCountry = (country) => {
-    this.setState({filterCountry: country});
-    console.log('country===========',country);
+    this.setState({ filterCountry: country });
+    console.log('country===========', country);
     this.fetchFilteredEmployees();
 
   };
@@ -360,7 +360,7 @@ async fetchFilterList(userIds) {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-        <StatusBar />
+          <StatusBar />
           {/* {/ header section /} */}
           <View style={CommonStyles.header}>
             <TouchableOpacity
@@ -374,8 +374,8 @@ async fetchFilterList(userIds) {
             />
           </View>
           {/* {/ header section end /} */}
-        <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-          {/* <View style={CommonStyles.main}> */}
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+            {/* <View style={CommonStyles.main}> */}
             <Text style={styles.title}>
               Search, Connect, Hire( Use talent search to find college students{' '}
             </Text>
@@ -386,18 +386,18 @@ async fetchFilterList(userIds) {
                     <TouchableOpacity
                       onPress={() => this.reverseAddSkills(index)}
                       key={index}
-                      >
+                    >
                       <View
                         style={[
                           styles.formSubGroup22,
-                          {flexWrap: 'wrap', flexDirection: 'row'},
+                          { flexWrap: 'wrap', flexDirection: 'row' },
                         ]}>
                         <View
                           style={[
                             styles.skillTab,
-                            {backgroundColor: '#71b85f', flexDirection: 'row'},
+                            { backgroundColor: '#71b85f', flexDirection: 'row' },
                           ]}>
-                          <Text style={[styles.skillText, {color: '#fff'}]}>
+                          <Text style={[styles.skillText, { color: '#fff' }]}>
                             {data}
                           </Text>
                           <FontAwesome name="close" size={20} color="#fff" />
@@ -407,8 +407,8 @@ async fetchFilterList(userIds) {
                   );
                 })
               ) : (
-                <></>
-              )}
+                  <></>
+                )}
               <View style={styles.skillView}>
                 <View style={[styles.formGroup01]}>
                   <View style={styles.formPicker}>
@@ -445,8 +445,8 @@ async fetchFilterList(userIds) {
                           );
                         })
                       ) : (
-                        <></>
-                      )}
+                          <></>
+                        )}
                     </Picker>
                   </View>
                   <TouchableOpacity
@@ -459,7 +459,7 @@ async fetchFilterList(userIds) {
                       height: 55,
                       width: 55,
                     }}
-                    //style={{marginLeft: 'auto'}}
+                  //style={{marginLeft: 'auto'}}
                   >
                     <MaterialIcons name="filter-list" color="#fff" size={32} />
                     {/* <AntDesign
@@ -474,73 +474,48 @@ async fetchFilterList(userIds) {
             </View>
 
             <Text style={styles.title}>College Student List</Text>
-            <TouchableOpacity style={{marginTop: -5}}>
+            <TouchableOpacity style={{ marginTop: -5 }}>
               <ScrollView>
                 {this.state.FreelancerSet.map((item, i) => {
-                  return (
-                    <TouchableOpacity style={{marginTop: -5}} 
-                      key={i}
-                      onPress={()=>this.props.navigation.navigate('ViewUserProfileScreen',{username : item.slug})}>
-                      <View style={CommonStyles.container}>
-                        <View style={styles.subjectWrapper}>
-                          <View style={[styles.leftSection]}>
-                            <Image
-                              source={{uri: item.user_image}}
-                              style={styles.userImg}
-                            />
-                          </View>
-                          <View style={styles.rightSection}>
-                            <Text style={styles.boxTitle}>{item.name}</Text>
-                            <View style={[styles.flexstyle, styles.timeAgo]}>
-                              <FontAwesome
-                                name="graduation-cap"
-                                color="#71b85f"
-                                size={15}
+                  if (item.message != "No data found") {
+                    return (
+                      <TouchableOpacity style={{ marginTop: -5 }}
+                        key={i}
+                        onPress={() => this.props.navigation.navigate('ViewUserProfileScreen', { username: item.slug })}>
+                        <View style={CommonStyles.container}>
+                          <View style={styles.subjectWrapper}>
+                            <View style={[styles.leftSection]}>
+                              <Image
+                                source={{ uri: item.user_image }}
+                                style={styles.userImg}
                               />
-                              <Text style={styles.iconText}>Institute :</Text>
-                              <Text
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: 'Poppins-SemiBold',
-                                  width: '70%',
-                                  paddingLeft: 10,
-                                }}>
-                                {item.institute}
-                              </Text>
                             </View>
-                            <View style={[styles.flexstyle, styles.timeAgo]}>
-                              <FontAwesome
-                                name="institution"
-                                color="#71b85f"
-                                size={15}
-                              />
-                              <Text style={styles.iconText}>Prefered :</Text>
-                              <Text
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: 'Poppins-SemiBold',
-                                  width: '70%',
-                                  paddingLeft: 10,
-                                }}
-                                numberOfLines={3}
-                                ellipsizeMode="tail">
-                                {item.prefferedskill}
-                              </Text>
-                            </View>
-                            <View
-                              style={[
-                                styles.flexstyle,
-                                styles.timeAgo,
-                                {marginLeft: -5, marginTop: -5},
-                              ]}>
-                              <Entypo
-                                name="location-pin"
-                                color="#71b85f"
-                                size={25}
-                              />
-                              <View
-                                style={{display: 'flex', flexDirection: 'row'}}>
-                                <Text style={styles.iconText}>Location :</Text>
+                            <View style={styles.rightSection}>
+                              <Text style={styles.boxTitle}>{item.name}</Text>
+                              <View style={[styles.flexstyle, styles.timeAgo]}>
+                                <FontAwesome
+                                  name="graduation-cap"
+                                  color="#71b85f"
+                                  size={15}
+                                />
+                                <Text style={styles.iconText}>Institute :</Text>
+                                <Text
+                                  style={{
+                                    fontSize: 12,
+                                    fontFamily: 'Poppins-SemiBold',
+                                    width: '70%',
+                                    paddingLeft: 10,
+                                  }}>
+                                  {item.institute}
+                                </Text>
+                              </View>
+                              <View style={[styles.flexstyle, styles.timeAgo]}>
+                                <FontAwesome
+                                  name="institution"
+                                  color="#71b85f"
+                                  size={15}
+                                />
+                                <Text style={styles.iconText}>Prefered :</Text>
                                 <Text
                                   style={{
                                     fontSize: 12,
@@ -549,36 +524,70 @@ async fetchFilterList(userIds) {
                                     paddingLeft: 10,
                                   }}
                                   numberOfLines={3}
-                                  ellipsizeMode="tail">{item.location}
+                                  ellipsizeMode="tail">
+                                  {item.prefferedskill}
                                 </Text>
                               </View>
-                            </View>
-                            <View style={styles.btnGrp}>
-                            {item.skillset.map((value, i) => (
-                              
-                                <TouchableOpacity style={styles.subBtn}>
-                                  <Text style={styles.btnText}>
-                                    {value.skill_name}
+                              <View
+                                style={[
+                                  styles.flexstyle,
+                                  styles.timeAgo,
+                                  { marginLeft: -5, marginTop: -5 },
+                                ]}>
+                                <Entypo
+                                  name="location-pin"
+                                  color="#71b85f"
+                                  size={25}
+                                />
+                                <View
+                                  style={{ display: 'flex', flexDirection: 'row' }}>
+                                  <Text style={styles.iconText}>Location :</Text>
+                                  <Text
+                                    style={{
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins-SemiBold',
+                                      width: '70%',
+                                      paddingLeft: 10,
+                                    }}
+                                    numberOfLines={3}
+                                    ellipsizeMode="tail">{item.location}
                                   </Text>
-                                </TouchableOpacity>
-                             
-                            ))}
-                             </View>
+                                </View>
+                              </View>
+                              <View style={styles.btnGrp}>
+                                {item.skillset.map((value, i) => (
+
+                                  <TouchableOpacity style={styles.subBtn}>
+                                    <Text style={styles.btnText}>
+                                      {value.skill_name}
+                                    </Text>
+                                  </TouchableOpacity>
+
+                                ))}
+                              </View>
+                            </View>
                           </View>
                         </View>
+                      </TouchableOpacity>
+                    );
+                  } else {
+                    return (
+                      <View style={styles.noData}>
+                        <Image source={require('../../../assets/images/noData.png')} />
+                        <Text style={styles.noDataText}>No Result Found</Text>
                       </View>
-                    </TouchableOpacity>
-                  );
+                    );
+                  }
                 })}
               </ScrollView>
             </TouchableOpacity>
-          {/* </View> */}
-        </ScrollView>
+            {/* </View> */}
+          </ScrollView>
         </View>
         {this.state.showFilterModal === true ? (
           <Modal transparent={true} isVisible={this.state.showFilterModal}>
             <View style={CommonStyles.modalBg}>
-              <View style={[CommonStyles.modalContent,{paddingVertical:10}]}>
+              <View style={[CommonStyles.modalContent, { paddingVertical: 10 }]}>
                 <View style={styles.wrap}>
                   <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={[styles.flexRow, styles.underline]}>
@@ -609,7 +618,7 @@ async fetchFilterList(userIds) {
                       </CollapseHeader>
                       <CollapseBody>
                         {this.state.category.map((item, i) => (
-                          <Pressable key={i} style={styles.filterOptnBtn} onPress={()=>this.selectFilterCategory(item.optn)}>
+                          <Pressable key={i} style={styles.filterOptnBtn} onPress={() => this.selectFilterCategory(item.optn)}>
                             <Text style={styles.filterOptn}>{item.optn}</Text>
                             {/* select option text - style={styles.filterOptnSlct} */}
                           </Pressable>
@@ -637,7 +646,7 @@ async fetchFilterList(userIds) {
                       </CollapseHeader>
                       <CollapseBody>
                         {this.state.sort.map((item, i) => (
-                          <Pressable style={styles.filterOptnBtnSlct} key={i} onPress={()=>this.selectSortBy(item.optn)}>
+                          <Pressable style={styles.filterOptnBtnSlct} key={i} onPress={() => this.selectSortBy(item.optn)}>
                             <Fontisto
                               name="radio-btn-passive"
                               color="#000"
@@ -674,7 +683,7 @@ async fetchFilterList(userIds) {
                       </CollapseHeader>
                       <CollapseBody>
                         {this.state.country.map((item, i) => (
-                          <Pressable key={i} style={styles.filterOptnBtnSlct} onPress={()=>this.selectCountry(item.optn)}>
+                          <Pressable key={i} style={styles.filterOptnBtnSlct} onPress={() => this.selectCountry(item.optn)}>
                             <Fontisto
                               name="radio-btn-passive"
                               color="#000"
@@ -702,8 +711,8 @@ async fetchFilterList(userIds) {
             </View>
           </Modal>
         ) : (
-          <></>
-        )}
+            <></>
+          )}
 
         {/* <TouchableOpacity
           onPress={() => this.RBSheet.open()}
