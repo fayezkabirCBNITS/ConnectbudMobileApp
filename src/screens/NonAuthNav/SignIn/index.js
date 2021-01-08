@@ -72,6 +72,9 @@ class SignInScreen extends Component {
       social_type: this.props.navigation.state.params
         ? this.props.navigation.state.params.userType
         : '',
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
       showLoader: false,
       username: '',
       password: '',
@@ -83,6 +86,7 @@ class SignInScreen extends Component {
       deepLinking: false,
       userID: '',
       userType: '',
+      jobId: '',
     };
     this.showHide = this.showHide.bind(this);
   }
@@ -196,7 +200,7 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
-    console.log("user loginnnnnnnnnnnn called");
+    console.log('user loginnnnnnnnnnnn called');
     console.log(this.props.navigation.state.params.userType);
     this.setState({showLoader: true});
     let obj = {};
@@ -233,7 +237,7 @@ class SignInScreen extends Component {
     if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
-      console.log("san",response);
+      console.log('san', response);
       this.props.updateUserDetails(response);
       {
         response.error === 'You are signed up as Employer'
@@ -243,7 +247,9 @@ class SignInScreen extends Component {
       this.setState({userId: response[0]?.user_id});
       {
         response[0]?.Flag === 'WQ=='
-          ? this.props.navigation.navigate('StudentInner')
+          ? this.props.navigation.navigate('StudentInner', {
+              page_status: this.state.pageStatus,
+            })
           : response[0]?.Flag === 'Rg=='
           ? // ? (this.props.userDeatailResponse?.tmpPostJob && this.props.userDeatailResponse?.tmpPostJob?.tmpJobID)
             this.validateLogin()
@@ -261,9 +267,16 @@ class SignInScreen extends Component {
     ///
   };
   validateLogin = async () => {
+    console.log('called update id');
     if (this.props.userDeatailResponse?.tmpPostJob.hasOwnProperty('tmpJobID')) {
+      console.log('called update id if');
+
+      this.setState({
+        jobId: this.props.userDeatailResponse?.tmpPostJob?.tmpJobID,
+      });
+
       let jobDescription = new FormData();
-      jobDescription.append('user_id', this.state.userId);
+      jobDescription.append('user_id', base64.decode(this.state.userId));
       jobDescription.append(
         'job_id',
         this.props.userDeatailResponse?.tmpPostJob?.tmpJobID,
@@ -272,14 +285,24 @@ class SignInScreen extends Component {
         'hire_by',
         this.props.userDeatailResponse?.tmpPostJob?.hire_by,
       );
+
+      console.log(jobDescription);
+
       let response = await makePostRequestMultipart(
         ApiUrl.UPDATE_ID,
         false,
         jobDescription,
       );
       if (response && response[0].message === 'success') {
-        alert('Job posted Successfully');
-        this.props.navigation.navigate('EmployeeInner');
+        if (this.props.userDeatailResponse?.tmpPostJob?.hire_by === 'me') {
+          alert('Successfully posted the Project!');
+          this.props.navigation.navigate('PostedProjectByEmployee');
+        } else {
+          this.props.navigation.navigate('CheckoutScreen', {
+            page_status: 'tutorlanding',
+            job_id: this.state.jobId,
+          });
+        }
       }
     } else {
       this.props.navigation.navigate('EmployeeInner');
@@ -403,7 +426,7 @@ class SignInScreen extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response.data,"ss");
+        console.log(response.data, 'ss');
         this.props.updateUserDetails(response.data);
         this.props.navigation.navigate('EmployeeInner');
       })
@@ -487,7 +510,11 @@ class SignInScreen extends Component {
                   {this.state.errors.password}
                 </Text>
 
-                <Pressable style={styles.forgetDiv} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+                <Pressable
+                  style={styles.forgetDiv}
+                  onPress={() =>
+                    this.props.navigation.navigate('ForgotPassword')
+                  }>
                   <Text style={styles.forgetText}>Forgot Password?</Text>
                 </Pressable>
                 <Pressable

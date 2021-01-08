@@ -84,6 +84,7 @@ class HireStudentsScreen extends Component {
       job_id: this.state.job_id,
       token: this.state.token,
       type: 'freelancer',
+      device_type: 'mobile'
     };
     let response = await makePostRequest('imageGet', false, body);
     this.setState({
