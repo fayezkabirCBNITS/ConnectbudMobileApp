@@ -10,6 +10,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from "axios";
 import { API_URL } from "../../../config/url";
 
+import { updateJobId } from "../../../redux/actions/user-data";
+import { connect } from "react-redux";
+import { withNavigation } from 'react-navigation';
+
 class LatestProjectList extends Component {
   constructor() {
     super();
@@ -42,6 +46,11 @@ class LatestProjectList extends Component {
       });
     });
   }
+
+  viewProject = (Id) => {
+    this.props.updateJobId(Id);
+    this.props.navigation.navigate('ProjectDetailsFreelancerNA', { JobId: Id });
+  };
 
   render() {
     const { params } = this.props.navigation.state;
@@ -88,7 +97,7 @@ class LatestProjectList extends Component {
                       <Text style={styles.hdng}>
                         {item.job_title}
                       </Text>
-                      <TouchableOpacity style={styles.applyBtn} onPress={() => this.props.navigation.navigate('SignInScreen', { userType: 'student'})}>
+                      <TouchableOpacity style={styles.applyBtn} onPress={() => this.viewProject(item.id)}>
                         <Text style={styles.applyBtnText}>Apply</Text>
                       </TouchableOpacity>
                     </View>
@@ -109,4 +118,11 @@ class LatestProjectList extends Component {
     );
   }
 }
-export default LatestProjectList;
+// export default LatestProjectList;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateJobId: (data) => dispatch(updateJobId(data)),
+  };
+};
+export default connect(null, mapDispatchToProps)(withNavigation(LatestProjectList));

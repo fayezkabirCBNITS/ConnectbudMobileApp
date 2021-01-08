@@ -162,7 +162,7 @@ class HomeScreen extends Component {
                     <Fontisto name="search" color="#fff" size={20} />
                   </TouchableOpacity> */}
                   <Searchbar
-                    placeholder="Search"
+                    placeholder="Search for Name, Skills & Colleges"
                     onChangeText={query => { this.setState({ firstQuery: query }); }}
                     value={firstQuery}
                     inputStyle={styles.searchInput}
