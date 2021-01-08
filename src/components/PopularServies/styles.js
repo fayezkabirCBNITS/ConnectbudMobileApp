@@ -47,4 +47,9 @@ export default {
     justifyContent: 'center',
     height: 55,
   },
+  wrap: {
+    width: '100%',
+    paddingHorizontal: '5%',
+    height: 200,
+  },
 };

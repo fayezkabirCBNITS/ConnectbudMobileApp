@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, Button, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
@@ -8,7 +8,8 @@ import { makePostRequestMultipart } from '../../services/http-connectors';
 import { updateViewProfile } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
 import { withNavigation } from 'react-navigation';
-
+// const screenWidth = Dimensions.get('window').width;
+import Swiper from 'react-native-swiper'
 class QualityTalent extends Component {
   constructor() {
     super();
@@ -39,13 +40,25 @@ class QualityTalent extends Component {
     this.props.navigation.navigate('ViewUserProfileScreen', { username: slug, user_id: user_id });
   };
 
+//   onPress = (index) => {
+//     this.scroll.scrollTo({x: index * screenWidth, y: 0, animated: true})
+//  }
+ 
+
 
   render() {
     return (
-      <View>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+      <>
+      <View style={styles.wrap}>
+        <Swiper
+          loop={true}
+          showsPagination={false}
+          showsButtons
+        >
           {this.state.expertset.map((value, i) => (
-            <TouchableOpacity key={i} style={styles.main} onPress={() => this.viewProfile(value.slug, value.user_id)}>
+            
+            <View key={i} style={styles.swiperWrap}>
+            <TouchableOpacity  style={styles.main} onPress={() => this.viewProfile(value.slug, value.user_id)}>
               <View style={styles.image}>
                 <Image
                   source={{ uri: value.user_image }}
@@ -57,9 +70,13 @@ class QualityTalent extends Component {
                 <Text style={styles.designation}>{value.collegeName}</Text>
               </View>
             </TouchableOpacity>
+            </View>
           ))}
-        </ScrollView>
+        </Swiper>
       </View>
+
+
+      </>
     );
   }
 }

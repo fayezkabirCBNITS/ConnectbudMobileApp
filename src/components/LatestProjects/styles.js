@@ -65,4 +65,15 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
   },
+  wrap2: {
+    width: '100%',
+    paddingHorizontal: '5%',
+    height: 350,
+  },
+  swiperWrap: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '5%',
+  },
 };

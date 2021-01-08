@@ -38,7 +38,7 @@ export default {
     alignItems: 'center',
     // borderBottomColor: '#71b85f',
     // borderBottomWidth: 1,
-    backgroundColor: '#71b85f'
+    backgroundColor: '#71b85f',
   },
   imageHdr: {
     width: 140,
@@ -105,62 +105,78 @@ export default {
     right: 15,
   },
 
-
-modalImg: {
-  width: 150,
-  height: 98,
-},
-modalText: {
-  color: '#000',
-  fontFamily: 'Poppins-SemiBold',
-  textAlign: 'center',
-  fontSize: 18,
-  marginTop: 25,
-},
-modalEmail: {
-  color: 'blue',
-  fontFamily: 'Poppins-SemiBold',
-  textAlign: 'center',
-  fontSize: 14,
-  marginTop: 7,
-},
-modalContent: {
-  width: '80%',
-  paddingVertical: 40,
-  paddingHorizontal: 25,
-  backgroundColor: '#fff',
-  borderRadius: 10,
-  alignItems: 'center',
-},
-modalContent2: {
-  width: '100%',
-  height: deviceHeight - 150,
-  // padding: 10,
-  backgroundColor: '#fff',
-  borderRadius: 10,
-  alignItems: 'center',
-},
-modalBg: {
-  flex: 1,
-  backgroundColor: '#000000aa',
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-modalCross: {
-  position: 'absolute',
-  top: 10,
-  right: 10,
-},
-noData: {
-  fontFamily: 'Poppins-Regular',
-  color: '#000',
-  fontSize: 18,
-  textAlign: 'center'
-},
-hdngText: {
-  fontFamily: 'Poppins-SemiBold',
-  color: '#71b85f',
-  fontSize: 20,
-  textAlign: 'center'
-}
+  modalImg: {
+    width: 150,
+    height: 98,
+  },
+  modalText: {
+    color: '#000',
+    fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center',
+    fontSize: 18,
+    marginTop: 25,
+  },
+  modalEmail: {
+    color: 'blue',
+    fontFamily: 'Poppins-SemiBold',
+    textAlign: 'center',
+    fontSize: 14,
+    marginTop: 7,
+  },
+  modalContent: {
+    width: '80%',
+    paddingVertical: 40,
+    paddingHorizontal: 25,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalContent2: {
+    width: '100%',
+    height: deviceHeight - 150,
+    // padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalBg: {
+    flex: 1,
+    backgroundColor: '#000000aa',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalCross: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  noData: {
+    fontFamily: 'Poppins-Regular',
+    color: '#000',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  hdngText: {
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  scrollBtnR: {
+    width: 50,
+    height: 50,
+    marginLeft: 10,
+    borderRadius: 50 / 2,
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollBtnL: {
+    width: 50,
+    height: 50,
+    borderRadius: 50 / 2,
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 };
