@@ -38,10 +38,10 @@ export default {
   },
   wrap: {
     width: '100%',
-    height: 350,
+    height: 370,
   },
   feedbackSec: {
-    paddingHorizontal: '5%',
+    paddingHorizontal: '7%',
     marginTop: 5,
   },
 };

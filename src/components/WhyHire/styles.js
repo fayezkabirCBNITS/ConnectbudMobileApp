@@ -5,7 +5,7 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
   imgSec: {
-    width: '100%',
+    width: 200,
     height: 120,
     padding: 25,
     alignItems: 'center',
@@ -29,5 +29,16 @@ export default {
   },
   width200: {
     width: 200,
+  },
+  wrap: {
+    width: '100%',
+    paddingHorizontal: '5%',
+    height: 200,
+  },
+  swiperWrap: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '5%',
   },
 };
