@@ -227,13 +227,18 @@ class StudentProject extends Component {
     });
   };
 
-  componentWillReceiveProps() {
-    if (this.props.TutorShowData.length > 0) {
-      this.Method();
-      this.catSkill();
-      this.child();
-    }
-  }
+  // componentWillReceiveProps() {
+  //   if (this.props.TutorShowData.length > 0) {
+  //     this.Method();
+  //     this.catSkill();
+  //     this.child();
+  //   }
+  // }
+
+  viewProject = (Id) => {
+    this.props.updateJobId(Id);
+    this.props.navigation.navigate('ProjectDetailsFreelancerNA', { JobId: Id });
+  };
 
   render() {
     return (
@@ -287,7 +292,7 @@ class StudentProject extends Component {
               {this.state.expertset.map((item, idx) => {
                 if (item.message != "No data found") {
                   return (
-                    <TouchableOpacity key={idx} onPress={() => this.props.navigation.navigate('ProjectDetailsFreelancerNA', { JobId: item.id })}>
+                    <TouchableOpacity key={idx} onPress={() => this.viewProject(item.id)}>
                       <View style={CommonStyles.container}>
                         <View style={styles.subjectWrapper}>
                           <View style={styles.leftSection}>

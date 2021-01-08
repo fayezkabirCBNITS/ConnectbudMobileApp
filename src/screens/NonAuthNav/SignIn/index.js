@@ -99,7 +99,9 @@ class SignInScreen extends Component {
   };
 
   componentDidMount = async () => {
-    console.log('kllllllllllllllll');
+    console.log(this.state.projectType);
+    console.log(this.state.pageStatus);
+
     //  START
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('willFocus', async () => {
@@ -240,7 +242,7 @@ class SignInScreen extends Component {
     if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
-      console.log('san', response);
+      console.log('sandipppp', response);
       this.props.updateUserDetails(response);
       {
         response.error === 'You are signed up as Employer'

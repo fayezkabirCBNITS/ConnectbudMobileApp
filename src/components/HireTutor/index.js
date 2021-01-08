@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   TextInput,
   Modal,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -54,13 +54,15 @@ class HireTutor extends Component {
       errendTime: false,
       errSelectedSkills: false,
       errgradeValue: false,
-      ConnectBud: '',
+      ConnectBud: 'connectbud',
       errConnectBud: false,
       selectedSkills: [],
       selectedSkillIndex: null,
       skills: [],
       filteredSkills: [],
-      skillValuePlaceHolder: [{value: 'Select a subject', label: 'Select a subject'}],
+      skillValuePlaceHolder: [
+        {value: 'Select a subject', label: 'Select a subject'},
+      ],
       datePlaceHolder: [{value: 'Select Date', label: 'Select date'}],
       selectedDate: [],
       selectedDateIndex: null,
@@ -146,11 +148,14 @@ class HireTutor extends Component {
   }
 
   async SubjectSearch() {
-
     let body = new FormData();
-    body.append("category_id", 3);
+    body.append('category_id', 3);
 
-    let response = await makePostRequestMultipart(ApiUrl.FilterSkill, false, body);
+    let response = await makePostRequestMultipart(
+      ApiUrl.FilterSkill,
+      false,
+      body,
+    );
     this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
@@ -256,7 +261,10 @@ class HireTutor extends Component {
         this.setState({isModalVisible: true});
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
-        this.setState({isModalVisible: true});
+        // this.setState({isModalVisible: true});
+        alert(
+          'Thank you for your submission!Please pay the money to complete your submission process.',
+        );
         this.props.navigation.navigate('CheckoutScreen', {
           page_status: 'tutor',
           job_id: response[0].job_id,

@@ -171,10 +171,15 @@ class CheckoutScreen extends Component {
       .then(async (response) => {
         await this.setState({
           paymentId: response.data[0].payment.id,
+          card: '',
+          month: '',
+          year: '',
+          cvc: ''
         });
       })
       .catch((error) => {
       });
+
     if (this.state.pageStatus === 'tutor') {
       let body = new FormData();
       body.append('milestone_id', null);
