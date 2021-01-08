@@ -85,12 +85,14 @@ class HomeScreen extends Component {
         if(this.state.user === 'freelancer'){
           this.props.navigation.navigate('SearchClgStuNA',{res})
           this.setState({
-            showLoader: false
+            showLoader: false,
+            firstQuery: ''
           })
         }else if(this.state.user === 'job'){
           this.props.navigation.navigate('StudentProjectNA',{res})
           this.setState({
-            showLoader: false
+            showLoader: false,
+            firstQuery: ''
           })
         }else{
   
