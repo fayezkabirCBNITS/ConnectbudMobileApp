@@ -57,10 +57,11 @@ class StudentInner extends Component {
     if(this.state.pageStatus === "project" && this.state.projectType === "normal"){
       this.props.navigation.navigate('ProjectDetailsFreelancer')
     }
-    else{
+    else if(this.state.pageStatus === "project" && this.state.projectType === "tutor"){
       console.log("called");
       this.props.navigation.navigate('TutorDetailsFreelancer')
     }
+    else{}
   }
 
   navigateToDetailsTutor = async () => {
