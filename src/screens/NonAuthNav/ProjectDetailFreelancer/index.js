@@ -111,7 +111,7 @@ class ProjectDetailsFreelancerNA extends Component {
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
                   <TouchableOpacity style={styles.applyBtn}>
-                    <Text style={styles.applyBtnText} onPress={() => this.props.navigation.navigate('SignInScreen', { userType: 'student'})}>
+                    <Text style={styles.applyBtnText} onPress={() => this.props.navigation.navigate('SignInScreen', { page_status: 'project', userType: 'student'})}>
                       Apply
                     </Text>
                   </TouchableOpacity>

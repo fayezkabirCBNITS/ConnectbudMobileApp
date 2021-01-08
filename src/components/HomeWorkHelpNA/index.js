@@ -54,7 +54,7 @@ class HomeWorkHelp extends Component {
       errendTime: false,
       errSelectedSkills: false,
       errgradeValue: false,
-      ConnectBud: '',
+      ConnectBud: 'connectbud',
       errConnectBud: false,
       selectedSkills: [],
       selectedSkillIndex: null,
@@ -65,6 +65,7 @@ class HomeWorkHelp extends Component {
       selectedDate: [],
       selectedDateIndex: null,
       isModalVisible: false,
+      classCount: '',
     };
   }
 
@@ -75,6 +76,7 @@ class HomeWorkHelp extends Component {
   onActiveBtn = (test) => {
     if (test == 'cb') {
       this.setState({ConnectBud: 'connectbud'});
+      console.log(this.state.ConnectBud);
     } else if (test == 'he') {
       this.setState({ConnectBud: 'me'});
     }
@@ -82,6 +84,8 @@ class HomeWorkHelp extends Component {
       showActiveTabBtn: !this.state.showActiveTabBtn,
     });
   };
+
+
 
   static navigationOptions = {
     headerShown: false,
@@ -91,23 +95,29 @@ class HomeWorkHelp extends Component {
     this.setState({showDatePicker: false});
   };
 
-  handleConfirm = (date) => {
+  handleConfirm = async(date) => {
     this.setState({
       selectedDate: [
         ...this.state.selectedDate,
         moment(date).format('MM/DD/YYYY'),
       ],
     });
+    await this.setState({
+      classCount: this.state.selectedDate.length,
+    });
     this.hideDatePicker();
   };
 
   componentDidMount() {
-    this.fetchSkills();
+    this.SubjectSearch();
   }
 
-  async fetchSkills() {
-    let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
-    // this.setState({subjectSkills: response});
+  async SubjectSearch() {
+
+    let body = new FormData();
+    body.append("category_id", 3);
+
+    let response = await makePostRequestMultipart(ApiUrl.FilterSkill, false, body);
     this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
@@ -172,7 +182,7 @@ class HomeWorkHelp extends Component {
         JSON.stringify(this.state.selectedSkills).replace(/[\[\]']+/g, ''),
       );
       body.append('total_amount', this.state.totalCost);
-      body.append('Number_of_classes', 1);
+      body.append('Number_of_classes', this.state.classCount);
       body.append('date', date.replace(/['"]+/g, ''));
       body.append('start_time', this.state.startTime);
       body.append('end_time', this.state.endTime);
@@ -208,12 +218,11 @@ class HomeWorkHelp extends Component {
         this.setState({isModalVisible: true});
       }
     }
-   
   };
- onDismissModel = () => {
-      this.setState({isModalVisible: false});
-      this.props.navigation.navigate('SignInScreen', {userType: 'employee'});
-    };
+  onDismissModel = () => {
+    this.setState({isModalVisible: false});
+    this.props.navigation.navigate('SignInScreen', {userType: 'employee'});
+  };
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
@@ -232,7 +241,6 @@ class HomeWorkHelp extends Component {
             />
           </View>
           {/* {/ header section end /} */}
-
           <View style={CommonStyles.container}>
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -338,13 +346,22 @@ class HomeWorkHelp extends Component {
                       <Picker.Item label="10th Grade" value="10th Grade" />
                       <Picker.Item label="11th Grade" value="11th Grade" />
                       <Picker.Item label="12th Grade" value="12th Grade" />
-                      <Picker.Item label="1st yr./Freshman" value="1st yr./Freshman" />
-                      <Picker.Item label="2nd yr./Sophomore" value="2nd yr./Sophomore" />
-                      <Picker.Item label="3rd yr./Junior" value="3rd yr./Junior" />
-                      <Picker.Item label="4th yr./Senior" value="4th yr./Senior" />
-
-
-
+                      <Picker.Item
+                        label="1st yr./Freshman"
+                        value="1st yr./Freshman"
+                      />
+                      <Picker.Item
+                        label="2nd yr./Sophomore"
+                        value="2nd yr./Sophomore"
+                      />
+                      <Picker.Item
+                        label="3rd yr./Junior"
+                        value="3rd yr./Junior"
+                      />
+                      <Picker.Item
+                        label="4th yr./Senior"
+                        value="4th yr./Senior"
+                      />
                     </Picker>
                   </View>
                 </View>
@@ -420,7 +437,7 @@ class HomeWorkHelp extends Component {
                         </Text>
                       ))
                     ) : (
-                      <Text style={styles.dateField}>Select Date</Text>
+                      <Text style={styles.dateField}>Start Date</Text>
                     )}
                   </View>
                   <View style={styles.formSubGroup1}>
@@ -574,7 +591,7 @@ class HomeWorkHelp extends Component {
                   <View style={styles.formSubGroup2}>
                     <TextInput
                       returnKeyType="done"
-                      placeholder="180.00"
+                      placeholder="Please enter the amount"
                       style={styles.inputGroup}
                       keyboardType="number-pad"
                       value={this.state.totalCost}
@@ -592,8 +609,7 @@ class HomeWorkHelp extends Component {
                 ) : (
                   <></>
                 )}
-                  <Text>*Charges = $5/class/hr.</Text>
-
+                <Text>*Charges = $5/class/hr.</Text>
 
                 <TouchableOpacity
                   activeOpacity={0.9}
@@ -615,11 +631,11 @@ class HomeWorkHelp extends Component {
                   <View style={CommonStyles.modalContent}>
                     <Antdesign name="checkcircle" size={60} color="#71b85f" />
                     <Text style={CommonStyles.modalText}>
-                      Successfully Posted
+                      Please login/register to continue this process
                     </Text>
                     <TouchableOpacity
                       style={CommonStyles.modalCross}
-                      onPress={()=>this.onDismissModel()}>
+                      onPress={() => this.onDismissModel()}>
                       <Entypo
                         name="circle-with-cross"
                         color="#71b85f"

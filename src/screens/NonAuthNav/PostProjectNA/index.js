@@ -467,7 +467,7 @@ class PostProjectNA extends Component {
                   style={CommonStyles.modalImg}
                 />
                 <Text style={CommonStyles.modalText}>
-                  Please login or signup for complete your job post request
+                  Please login/register to continue this process
                 </Text>
                 <Text style={CommonStyles.modalEmail}>{''}</Text>
 
