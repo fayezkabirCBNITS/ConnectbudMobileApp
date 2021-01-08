@@ -23,6 +23,9 @@ class StudentInner extends Component {
       pageStatus: this.props.navigation.state.params
       ? this.props.navigation.state.params.page_status
       : '',
+      projectType: this.props.navigation.state.params
+        ? this.props.navigation.state.params.project_type
+        : '',
       JobId: "",
       index: 0,
       routes: [
@@ -50,8 +53,13 @@ class StudentInner extends Component {
   };
 
   componentDidMount = () => {
-    if(this.state.pageStatus === "project"){
+    console.log(this.state.projectType);
+    if(this.state.pageStatus === "project" && this.state.projectType === "normal"){
       this.props.navigation.navigate('ProjectDetailsFreelancer')
+    }
+    else{
+      console.log("called");
+      this.props.navigation.navigate('TutorDetailsFreelancer')
     }
   }
 
