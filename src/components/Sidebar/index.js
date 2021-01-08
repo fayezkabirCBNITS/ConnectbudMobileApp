@@ -59,7 +59,6 @@ class Sidebar extends Component {
     body.append('token', base64.decode(userData.Token));
     body.append('device_type', 'mobile');
 
-
     await axios({
       url: API_URL + 'imageGet',
       method: 'POST',

@@ -36,7 +36,7 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
+      user: 'freelancer',
       showSearchBar: false,
       firstQuery: '',
       showLoader: false,
@@ -167,6 +167,7 @@ class HomeScreen extends Component {
                     value={firstQuery}
                     inputStyle={styles.searchInput}
                     style={styles.search}
+                    onSubmitEditing={this.onHandleSearch}
                   />
                   <TouchableOpacity style={styles.searchPos} onPress={this.onHandleSearch}>
                     <AntDesign name="search1" size={25} color="#000" />
