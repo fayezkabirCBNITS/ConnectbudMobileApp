@@ -3,6 +3,7 @@ import {View, Text, Image} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import styles from './styles';
+import Swiper from 'react-native-swiper'
 
 class HowWorks extends Component {
   constructor() {
@@ -39,9 +40,15 @@ class HowWorks extends Component {
 
   render() {
     return (
-      <View>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+      <View style={styles.wrap}>
+        <Swiper
+          loop={true}
+          showsPagination={false}
+          showsButtons
+        >
+        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
           {this.state.whyHire.map((item, i) => (
+            <View key={i} style={styles.swiperWrap}>
             <View key={i} style={styles.width220}>
               <View style={styles.imgSec}>
                 <Image
@@ -56,8 +63,10 @@ class HowWorks extends Component {
                 </Text>
               </View>
             </View>
+            </View>
           ))}
-        </ScrollView>
+        {/* </ScrollView> */}
+        </Swiper>
       </View>
     );
   }

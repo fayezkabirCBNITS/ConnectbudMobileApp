@@ -9,6 +9,7 @@ import { makePostRequestMultipart } from '../../services/http-connectors';
 import { updateJobId } from "../../redux/actions/user-data";
 import { connect } from "react-redux";
 import { withNavigation } from 'react-navigation';
+import Swiper from 'react-native-swiper'
 
 class LatestProjects extends Component {
   constructor() {
@@ -42,29 +43,37 @@ class LatestProjects extends Component {
 
   render() {
     return (
-      <View style={CommonStyles.main}>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+      <View style={styles.wrap2}>
+        <Swiper
+          loop={true}
+          showsPagination={false}
+          showsButtons
+        >
+        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
           {this.state.projectSet.map((item, i) => (
-            <View key={i} style={styles.wrap}>
-              <View style={styles.imgSec}>
-                <Image
-                  source={require('../../assets/images/bnr.jpg')}
-                  style={CommonStyles.image}
-                />
-                <View style={styles.priceCircle}>
-                  <Text style={styles.priceCircleText}>${item.price_amount}</Text>
+             <View key={i} style={styles.swiperWrap}>
+              <View style={styles.wrap}>
+                <View style={styles.imgSec}>
+                  <Image
+                    source={require('../../assets/images/bnr.jpg')}
+                    style={CommonStyles.image}
+                  />
+                  <View style={styles.priceCircle}>
+                    <Text style={styles.priceCircleText}>${item.price_amount}</Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.content}>
-                <Text style={styles.hdng}>{item.name}</Text>
-                <Text style={styles.boldText}>{item.category}</Text>
-                <TouchableOpacity style={styles.knowMoreBtn} onPress={() => this.viewProject(item.id)}>
-                  <Text style={styles.knowMoreBtnText}>KNOW MORE</Text>
-                </TouchableOpacity>
+                <View style={styles.content}>
+                  <Text style={styles.hdng}>{item.name}</Text>
+                  <Text style={styles.boldText}>{item.category}</Text>
+                  <TouchableOpacity style={styles.knowMoreBtn} onPress={() => this.viewProject(item.id)}>
+                    <Text style={styles.knowMoreBtnText}>KNOW MORE</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           ))}
-        </ScrollView>
+        {/* </ScrollView> */}
+        </Swiper>
       </View>
     );
   }

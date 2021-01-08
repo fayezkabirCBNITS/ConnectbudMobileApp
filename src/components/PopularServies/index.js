@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_URL } from "../../config/url";
 import { withNavigation } from 'react-navigation'
 // import { Link } from "react-router-dom";
+import Swiper from 'react-native-swiper'
 
 class PopularServies extends Component {
   constructor(props) {
@@ -30,11 +31,17 @@ class PopularServies extends Component {
 
   render() {
     return (
-      <View>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+      <View  style={styles.wrap}>
+        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
+        <Swiper
+          loop={true}
+          showsPagination={false}
+          showsButtons
+        >
           {this.state.categoryList.map((item, i) => {
             if (i < 4) {
               return (
+                <View key={i} style={{width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: '5%'}}>
                 <TouchableOpacity key={i} style={styles.popSec} onPress={() => this.props.navigation.navigate('LatestProjectList', {tagName : item.tagName})}>
                   <Image source={{ uri: item.description }} style={styles.image} />
 
@@ -43,10 +50,12 @@ class PopularServies extends Component {
                     {/* <Text style={styles.lgText}>{item.lgText}</Text> */}
                   </View>
                 </TouchableOpacity>
+                </View>
               );
             }
           })}
-        </ScrollView>
+          </Swiper>
+        {/* </ScrollView> */}
       </View>
     );
   }
