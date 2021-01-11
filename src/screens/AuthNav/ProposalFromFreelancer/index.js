@@ -269,7 +269,7 @@ class ProposalFromFreelancer extends Component {
         this.setState({
           showLoader: false,
         });
-        this.props.navigation.navigate('ChatListScreen');
+        this.props.navigation.navigate('EmployeeInner');
         alert('You ignored the proposal!');
       })
       .catch((error) => {
@@ -309,7 +309,7 @@ class ProposalFromFreelancer extends Component {
         this.setState({
           showLoader: false,
         });
-        this.props.navigation.navigate('ChatListScreen');
+        this.props.navigation.navigate('EmployeeInner');
         alert('Successfully accepted the proposal!');
       })
       .catch((error) => {

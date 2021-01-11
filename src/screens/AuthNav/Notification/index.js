@@ -21,6 +21,7 @@ class NotificationScreen extends Component {
       notification: [],
       loginType: '',
       showLoader: false,
+      status: ''
     };
   }
 
@@ -41,8 +42,9 @@ class NotificationScreen extends Component {
       await this.setState({
         notification: res.data,
         showLoader: false,
+        status: res.data[0].message
       });
-      console.log(this.state.notification);
+      console.log(this.state.status);
     });
   };
 
@@ -75,7 +77,7 @@ class NotificationScreen extends Component {
               style={styles.scroll}>
               {this.state.loginType === 'WQ==' ? (
                 <>
-                  {this.state.notification.map((data, i) => (
+                  {this.state.status !== "N" ? (this.state.notification.map((data, i) => (
                     <TouchableOpacity style={styles.head}>
                       <View style={styles.wrapper}>
                         <View style={styles.imgSec}>
@@ -173,11 +175,16 @@ class NotificationScreen extends Component {
                         {data.notification_time}
                       </Text>
                     </TouchableOpacity>
-                  ))}
+                  ))) : 
+                  <View style={styles.noChat}>
+                  <Image source={require('../../../assets/images/noti.png')} />
+                  <Text style={styles.userChat2}>No Notification</Text>
+                </View>
+                }
                 </>
               ) : (
                 <>
-                  {this.state.notification.map((data, i) => (
+                  {this.state.status !== "N" ? (this.state.notification.map((data, i) => (
                     <TouchableOpacity style={styles.head}>
                       <View style={styles.wrapper}>
                         <View style={styles.imgSec}>
@@ -242,7 +249,12 @@ class NotificationScreen extends Component {
                         {data.notification_time}
                       </Text>
                     </TouchableOpacity>
-                  ))}
+                  ))):
+                  <View style={styles.noChat}>
+                  <Image source={require('../../../assets/images/noti.png')} />
+                  <Text style={styles.userChat2}>No Notification</Text>
+                </View>
+                }
                 </>
               )}
             </ScrollView>
