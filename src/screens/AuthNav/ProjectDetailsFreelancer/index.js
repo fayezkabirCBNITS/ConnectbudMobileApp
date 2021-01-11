@@ -175,15 +175,15 @@ class ProjectDetailsFreelancer extends Component {
     });
     const obj = {
       milestone_id: '',
-      receiver_id: EmpId,
+      receiver_id: EmpId.toString(),
       sender_id: this.state.user_id,
-      job_type: 'recruiter',
-      job_id: this.state.job_id,
+      job_type: 'freelancer',
+      job_id: this.state.job_id.toString(),
       status: 'no',
       confirmation_type: 'invitation',
     };
 
-    console.log(obj);
+    console.log(obj,"payload");
 
     await axios
       .post(API_URL + 'confirmation', obj, {

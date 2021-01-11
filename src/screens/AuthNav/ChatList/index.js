@@ -253,6 +253,7 @@ class ChatListScreen extends Component {
     // this.props.navigateToDetails();
     console.log(this.state.ProjectType);
     if(this.state.ProjectType === "normal"){
+      console.log("called project");
     this.props.navigation.navigate('ProjectDetailsFreelancer', {
       page_status: 'invitation',
     });

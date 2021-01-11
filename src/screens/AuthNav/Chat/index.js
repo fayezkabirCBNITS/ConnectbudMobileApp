@@ -44,6 +44,14 @@ class ChatScreen extends Component {
   };
 
   componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.chatUserUpdate();
+    })
+    this.chatUserUpdate();
+  }
+
+  chatUserUpdate = () => {
     this.setState({ showLoader: true });
     let taglistbody = new FormData();
     taglistbody.append("sender_id", base64.decode(this.props.userDeatailResponse.user_id));
