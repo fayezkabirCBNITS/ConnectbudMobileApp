@@ -142,6 +142,7 @@ export default {
     fontFamily: 'Poppins-Regular',
     color: 'rgba(0,0,0,0.8)',
     fontSize: 16,
+    textAlign: 'left'
   },
   project: {
     paddingVertical: 15,    
