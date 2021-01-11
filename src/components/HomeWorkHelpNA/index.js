@@ -54,7 +54,8 @@ class HomeWorkHelp extends Component {
       errendTime: false,
       errSelectedSkills: false,
       errgradeValue: false,
-      ConnectBud: 'connectbud',
+      // ConnectBud: 'connectbud',
+      ConnectBud: '',
       errConnectBud: false,
       selectedSkills: [],
       selectedSkillIndex: null,
@@ -73,12 +74,13 @@ class HomeWorkHelp extends Component {
     headerShown: false,
   };
 
-  onActiveBtn = (test) => {
+  onActiveBtn = async(test) => {
     if (test == 'cb') {
-      this.setState({ConnectBud: 'connectbud'});
-      console.log(this.state.ConnectBud);
+      await this.setState({ConnectBud: 'connectbud'});
+      console.log(this.state.ConnectBud,"post by CB");
     } else if (test == 'he') {
-      this.setState({ConnectBud: 'me'});
+      await this.setState({ConnectBud: 'me'});
+    console.log(this.state.ConnectBud,"post by own");
     }
     this.setState({
       showActiveTabBtn: !this.state.showActiveTabBtn,
@@ -374,31 +376,31 @@ class HomeWorkHelp extends Component {
                 <Text style={styles.inputHead}>Hire By</Text>
 
                 <View style={[styles.formSubGroup2, {flexDirection: 'row'}]}>
-                  <View
+                  <TouchableOpacity
                     style={
-                      this.state.showActiveTabBtn == true
+                      this.state.ConnectBud !== 'connectbud'
                         ? styles.skillTab
                         : styles.ActiveskillTab
                     }>
                     <Text
                       style={
-                        this.state.showActiveTabBtn == true
+                        this.state.ConnectBud !== 'connectbud'
                           ? styles.skillText
                           : styles.ActiveSkillText
                       }
                       onPress={() => this.onActiveBtn('cb')}>
                       ConnectBud
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                   <View
                     style={
-                      !this.state.showActiveTabBtn == true
+                      this.state.ConnectBud !== 'me'
                         ? styles.skillTab
                         : styles.ActiveskillTab
                     }>
                     <Text
                       style={
-                        !this.state.showActiveTabBtn == true
+                        this.state.ConnectBud !== 'me'
                           ? styles.skillText
                           : styles.ActiveSkillText
                       }

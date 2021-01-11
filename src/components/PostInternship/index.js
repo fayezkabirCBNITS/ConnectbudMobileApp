@@ -55,6 +55,8 @@ class PostInternship extends Component {
       showAdditional: false,
 
       errJobTitle: false,
+      errJobChara: false,
+      errJobDescChara: false,
       errJobDesc: false,
       errCompanyname: false,
       errSkills: false,
@@ -168,11 +170,17 @@ class PostInternship extends Component {
     if (this.state.jobTitle === '') {
       this.setState({errJobTitle: true});
     }
+    if (this.state.jobTitle.length > 0 && this.state.jobTitle.length <5 ) {
+      this.setState({errJobChara: true});
+    }
     if (this.state.companyName === '') {
       this.setState({errCompanyname: true});
     }
     if (this.state.jobDescription === '') {
       this.setState({errJobDesc: true});
+    }
+    if (this.state.jobDescription.length > 0 && this.state.jobDescription.length <50) {
+      this.setState({errJobDescChara: true});
     }
     if (this.state.selectedSkills.length === 0) {
       this.setState({errSkills: true});
@@ -198,8 +206,10 @@ class PostInternship extends Component {
     } else {
       this.setState({
         errJobTitle: false,
+        errJobChara: false,
         errCompanyname: false,
         errJobDesc: false,
+        errJobDescChara: false,
         errSkills: false,
         errLocationName: false,
         errJobType: false,
@@ -303,7 +313,13 @@ class PostInternship extends Component {
             {this.state.errJobTitle === true ? (
               <ErrorMsg errorMsg="Enter Project Title" />
             ) : (
+              <>
+              {this.state.errJobChara === true ? (
+              <ErrorMsg errorMsg="Enter minimum 5 characters" />
+              ) : (
               <></>
+              )}
+              </>
             )}
 
             <View style={{marginHorizontal: '5%', marginVertical: 15}}>
@@ -336,7 +352,13 @@ class PostInternship extends Component {
             {this.state.errJobDesc === true ? (
               <ErrorMsg errorMsg="Enter Project Description" />
             ) : (
+              <>
+              {this.state.errJobDescChara === true ? (
+              <ErrorMsg errorMsg="Enter minimum 50 characters" />
+              ) : (
               <></>
+              )}
+              </>
             )}
             <Text style={[styles.title, {marginTop: 15}]}>Skills </Text>
 
