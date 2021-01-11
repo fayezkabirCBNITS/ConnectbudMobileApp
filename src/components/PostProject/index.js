@@ -265,6 +265,7 @@ class PostProject extends Component {
                 keyboardType="default"
                 numberOfLines={5}
                 multiline={true}
+                value={this.state.des}
                 onChangeText={this.handleInputDes}
               />
             </View>
