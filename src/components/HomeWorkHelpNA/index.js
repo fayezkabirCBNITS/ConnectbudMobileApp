@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,16 +9,17 @@ import {
   ActivityIndicator,
   TextInput,
   Modal,
+  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Antdesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
-import {Picker} from '@react-native-community/picker';
+import { Picker } from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
@@ -26,10 +27,10 @@ import {
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
-import {connect} from 'react-redux';
-import {withNavigation} from 'react-navigation';
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import base64 from 'base-64';
-import {updateTmpPostJob} from '../../redux/actions/user-data';
+import { updateTmpPostJob } from '../../redux/actions/user-data';
 
 class HomeWorkHelp extends Component {
   constructor(props) {
@@ -60,8 +61,8 @@ class HomeWorkHelp extends Component {
       selectedSkillIndex: null,
       skills: [],
       filteredSkills: [],
-      skillValuePlaceHolder: [{value: 'Select Skill', label: 'Select skill'}],
-      datePlaceHolder: [{value: 'Select Date', label: 'Select date'}],
+      skillValuePlaceHolder: [{ value: 'Select a subject', label: 'Select a subject' }],
+      datePlaceHolder: [{ value: 'Select Date', label: 'Select date' }],
       selectedDate: [],
       selectedDateIndex: null,
       isModalVisible: false,
@@ -75,28 +76,25 @@ class HomeWorkHelp extends Component {
 
   onActiveBtn = (test) => {
     if (test == 'cb') {
-      this.setState({ConnectBud: 'connectbud'});
-      console.log(this.state.ConnectBud);
+      this.setState({ ConnectBud: 'connectbud' });
     } else if (test == 'he') {
-      this.setState({ConnectBud: 'me'});
+      this.setState({ ConnectBud: 'me' });
     }
     this.setState({
       showActiveTabBtn: !this.state.showActiveTabBtn,
     });
   };
 
-
-
   static navigationOptions = {
     headerShown: false,
   };
 
   hideDatePicker = () => {
-    this.setState({showDatePicker: false});
+    this.setState({ showDatePicker: false });
   };
 
-  handleConfirm = async(date) => {
-    this.setState({
+  handleConfirm = async (date) => {
+    await this.setState({
       selectedDate: [
         ...this.state.selectedDate,
         moment(date).format('MM/DD/YYYY'),
@@ -118,7 +116,7 @@ class HomeWorkHelp extends Component {
     body.append("category_id", 3);
 
     let response = await makePostRequestMultipart(ApiUrl.FilterSkill, false, body);
-    this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
+    this.setState({ skills: this.state.skillValuePlaceHolder.concat(response) });
   }
 
   reverseAddSkills = async (index) => {
@@ -128,32 +126,32 @@ class HomeWorkHelp extends Component {
     });
     let data = this.state.selectedSkills[index];
     await this.setState({
-      skills: this.state.skills.concat({value: data, label: data}).sort(),
+      skills: this.state.skills.concat({ value: data, label: data }).sort(),
     });
-    this.setState({skills: this.state.skills.sort()});
+    this.setState({ skills: this.state.skills.sort() });
   };
 
   handleSubmit = async () => {
     if (this.state.selectedSkills === '') {
-      this.setState({errSelectedSkills: true});
+      this.setState({ errSelectedSkills: true });
       return;
     } else if (this.state.gradeValue === '') {
-      this.setState({errgradeValue: true});
+      this.setState({ errgradeValue: true });
       return;
     } else if (this.state.selectedDate === '') {
-      this.setState({errselectedDate: true});
+      this.setState({ errselectedDate: true });
       return;
     } else if (this.state.startTime === '') {
-      this.setState({errstartTime: true});
+      this.setState({ errstartTime: true });
       return;
     } else if (this.state.endTime === '') {
-      this.setState({errendTime: true});
+      this.setState({ errendTime: true });
       return;
     } else if (this.state.totalCost === '') {
-      this.setState({errTotalCost: true});
+      this.setState({ errTotalCost: true });
       return;
     } else if (this.state.ConnectBud === '') {
-      this.setState({errConnectBud: true});
+      this.setState({ errConnectBud: true });
       return;
     } else {
       this.setState({
@@ -165,7 +163,6 @@ class HomeWorkHelp extends Component {
         errgradeValue: false,
         errConnectBud: false,
       });
-
       const date = JSON.stringify(this.state.selectedDate).replace(
         /[\[\]']+/g,
         '',
@@ -215,13 +212,13 @@ class HomeWorkHelp extends Component {
         //this.props.navigation.navigate('SignInScreen');
 
         //  modal dismiss navigate login
-        this.setState({isModalVisible: true});
+        this.setState({ isModalVisible: true });
       }
     }
   };
   onDismissModel = () => {
-    this.setState({isModalVisible: false});
-    this.props.navigation.navigate('SignInScreen', {userType: 'employee'});
+    this.setState({ isModalVisible: false });
+    this.props.navigation.navigate('SignInScreen', { userType: 'employee' });
   };
   render() {
     return (
@@ -246,7 +243,7 @@ class HomeWorkHelp extends Component {
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>
               <View>
-                <Text style={[styles.inputHead, {marginTop: 20}]}>
+                <Text style={[styles.inputHead, { marginTop: 20 }]}>
                   Select a subject
                 </Text>
                 {this.state.selectedSkills.length > 0 ? (
@@ -258,7 +255,7 @@ class HomeWorkHelp extends Component {
                         <View
                           style={[
                             styles.formSubGroup22,
-                            {flexWrap: 'wrap', flexDirection: 'row'},
+                            { flexWrap: 'wrap', flexDirection: 'row' },
                           ]}>
                           <View
                             style={[
@@ -268,7 +265,7 @@ class HomeWorkHelp extends Component {
                                 flexDirection: 'row',
                               },
                             ]}>
-                            <Text style={[styles.skillText, {color: '#fff'}]}>
+                            <Text style={[styles.skillText, { color: '#fff' }]}>
                               {data}
                             </Text>
                             <FontAwesome name="close" size={20} color="#fff" />
@@ -278,14 +275,15 @@ class HomeWorkHelp extends Component {
                     );
                   })
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                <View style={[styles.formSubGroup2, { width: '100%', height: 50, overflow: 'hidden' }]}>
                     <Picker
                       style={{
                         width: '100%',
                         height: 45,
+                        marginTop: -80,
                         fontFamily: 'Poppins-Regular',
                       }}
                       selectedValue={this.state.skills}
@@ -305,32 +303,32 @@ class HomeWorkHelp extends Component {
                           return (
                             <Picker.Item
                               label={data.label}
-                              value={data.value}
+                              value={data.label}
                               key={idx}
                             />
                           );
                         })
                       ) : (
-                        <></>
-                      )}
+                          <></>
+                        )}
                     </Picker>
                   </View>
                 </View>
                 {this.state.errSelectedSkills === true ? (
                   <ErrorMsg errorMsg="Please select subject" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <Text style={styles.inputHead}>What is your grade level</Text>
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                <View style={[styles.formSubGroup2, { width: '100%', height: 50, overflow: 'hidden' }]}>
                     <Picker
-                      style={{width: '100%', height: 45}}
+                      style={{ width: '100%', height: 45, marginTop: -80 }}
                       selectedValue={this.state.gradeValue}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setState({gradeValue: itemValue})
+                        this.setState({ gradeValue: itemValue })
                       }>
                       <Picker.Item label="Select Grade" value="TH" />
                       <Picker.Item label="Kindergaten" value="Kindergaten" />
@@ -368,12 +366,12 @@ class HomeWorkHelp extends Component {
                 {this.state.errgradeValue === true ? (
                   <ErrorMsg errorMsg="Please select grade" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <Text style={styles.inputHead}>Hire By</Text>
 
-                <View style={[styles.formSubGroup2, {flexDirection: 'row'}]}>
+                <View style={[styles.formSubGroup2, { flexDirection: 'row' }]}>
                   <View
                     style={
                       this.state.showActiveTabBtn == true
@@ -410,8 +408,8 @@ class HomeWorkHelp extends Component {
                 {this.state.errConnectBud === true ? (
                   <ErrorMsg errorMsg="Please select one" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <Text style={styles.inputHead}>When is it :</Text>
                 <Text style={styles.inputHead}>Date</Text>
@@ -427,22 +425,22 @@ class HomeWorkHelp extends Component {
                   <View
                     style={[
                       styles.formSubGroup2,
-                      {flexDirection: 'row', flexWrap: 'wrap'},
+                      { flexDirection: 'row', flexWrap: 'wrap' },
                     ]}>
                     {this.state.selectedDate.length > 0 &&
-                    this.state.selectedDate ? (
-                      this.state.selectedDate.map((dt, i) => (
-                        <Text style={styles.inputHead2} key={i}>
-                          {JSON.stringify(dt).replace(/[\[\]']+/g, '')}
-                        </Text>
-                      ))
-                    ) : (
-                      <Text style={styles.dateField}>Start Date</Text>
-                    )}
+                      this.state.selectedDate ? (
+                        this.state.selectedDate.map((dt, i) => (
+                          <Text style={styles.inputHead2} key={i}>
+                            {JSON.stringify(dt).replace(/[\[\]']+/g, '')}
+                          </Text>
+                        ))
+                      ) : (
+                        <Text style={styles.dateField}>Start Date</Text>
+                      )}
                   </View>
                   <View style={styles.formSubGroup1}>
                     <TouchableOpacity
-                      onPress={() => this.setState({showDatePicker: true})}>
+                      onPress={() => this.setState({ showDatePicker: true })}>
                       <FontAwesome name="calendar" size={25} color="#d7d7d8" />
                     </TouchableOpacity>
                   </View>
@@ -450,17 +448,17 @@ class HomeWorkHelp extends Component {
                 {this.state.errstartDate === true ? (
                   <ErrorMsg errorMsg="Please select date" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <Text style={styles.inputHead}>Time</Text>
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                <View style={[styles.formSubGroup2, { width: '100%', height: 50, overflow: 'hidden' }]}>
                     <Picker
-                      style={{width: '100%', height: 45}}
+                      style={{ width: '100%', height: 45, marginTop: -80 }}
                       selectedValue={this.state.startTime}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setState({startTime: itemValue})
+                        this.setState({ startTime: itemValue })
                       }>
                       <Picker.Item label="Select Start Time" value="TH" />
                       <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -517,16 +515,16 @@ class HomeWorkHelp extends Component {
                 {this.state.errstartTime === true ? (
                   <ErrorMsg errorMsg="Please select start time" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <View style={styles.formGroup1}>
-                  <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                <View style={[styles.formSubGroup2, { width: '100%', height: 50, overflow: 'hidden' }]}>
                     <Picker
-                      style={{width: '100%', height: 45}}
+                      style={{ width: '100%', height: 45, marginTop: -80 }}
                       selectedValue={this.state.endTime}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setState({endTime: itemValue})
+                        this.setState({ endTime: itemValue })
                       }>
                       <Picker.Item label="Select End Time" value="TH" />
                       <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -583,8 +581,8 @@ class HomeWorkHelp extends Component {
                 {this.state.errendTime === true ? (
                   <ErrorMsg errorMsg="Please select end time" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <Text style={styles.inputHead}>Total Cost</Text>
                 <View style={styles.formGroup1}>
@@ -596,10 +594,11 @@ class HomeWorkHelp extends Component {
                       keyboardType="number-pad"
                       value={this.state.totalCost}
                       onChange={(e) =>
-                        this.setState({totalCost: e.nativeEvent.text})
+                        this.setState({ totalCost: e.nativeEvent.text })
                       }
                     />
                   </View>
+
                   <View style={styles.formSubGroup1}>
                     <FontAwesome name="dollar" size={25} color="#d7d7d8" />
                   </View>
@@ -607,14 +606,14 @@ class HomeWorkHelp extends Component {
                 {this.state.errTotalCost === true ? (
                   <ErrorMsg errorMsg="Please enter total cost" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
                 <Text>*Charges = $5/class/hr.</Text>
 
                 <TouchableOpacity
                   activeOpacity={0.9}
                   onPress={() => this.handleSubmit()}
-                  style={[styles.authBtn]}>
+                  style={[styles.authBtn, { marginBottom: 30, marginTop: 15 }]}>
                   <Text style={styles.authBtnText}>Submit</Text>
                   {this.state.showLoader && (
                     <ActivityIndicator

@@ -77,7 +77,7 @@ class SignInScreen extends Component {
       pageStatus: this.props.navigation.state.params
         ? this.props.navigation.state.params.page_status
         : '',
-        projectType: this.props.navigation.state.params
+      projectType: this.props.navigation.state.params
         ? this.props.navigation.state.params.project_type
         : '',
       showLoader: false,
@@ -256,7 +256,7 @@ class SignInScreen extends Component {
         response[0]?.Flag === 'WQ=='
           ? this.props.navigation.navigate('StudentInner', {
               page_status: this.state.pageStatus,
-              project_type: this.state.projectType 
+              project_type: this.state.projectType,
             })
           : response[0]?.Flag === 'Rg=='
           ? // ? (this.props.userDeatailResponse?.tmpPostJob && this.props.userDeatailResponse?.tmpPostJob?.tmpJobID)
@@ -275,7 +275,7 @@ class SignInScreen extends Component {
     ///
   };
   validateLogin = async () => {
-    console.log('called update id');
+    console.log(this.props.userDeatailResponse?.tmpPostJob?.hire_by);
     if (this.props.userDeatailResponse?.tmpPostJob.hasOwnProperty('tmpJobID')) {
       console.log('called update id if');
 
@@ -302,14 +302,14 @@ class SignInScreen extends Component {
         jobDescription,
       );
       if (response && response[0].message === 'success') {
-        if (this.props.userDeatailResponse?.tmpPostJob?.hire_by === 'me') {
-          alert('Successfully posted the Project!');
-          this.props.navigation.navigate('PostedProjectByEmployee');
-        } else {
+        if (this.props.userDeatailResponse?.tmpPostJob?.hire_by === 'connectbud') {
           this.props.navigation.navigate('CheckoutScreen', {
             page_status: 'tutorlanding',
             job_id: this.state.jobId,
           });
+        } else {
+          alert('Successfully posted the Project!');
+          this.props.navigation.navigate('PostedProjectByEmployee');
         }
       }
     } else {

@@ -86,7 +86,7 @@ class EmployeeProfileScreen extends Component {
   };
 
   updateData = async () => {
-    console.log("update hit");
+    
     this.setState({ showLoader: true });
     const { userData } = this.props;
     let body = new FormData();
@@ -286,7 +286,7 @@ class EmployeeProfileScreen extends Component {
                         return (
                           <View style={[styles.hdngSec2, styles.marTop30]}>
                             <Text style={styles.hdngTextBlk}>Project posted by:</Text>
-                            <Text style={styles.hdngTextGrey}>{base64.decode(userData.name)}</Text>
+                            <Text style={styles.hdngTextGrey}>{userData.name}</Text>
                           </View>
                         )
                       return null
@@ -297,7 +297,7 @@ class EmployeeProfileScreen extends Component {
                           <View style={styles.project}>
                             <Text style={styles.projTitle}>{index + 1}. {value.job_name}</Text>
 
-                            <TouchableOpacity style={{ marginLeft: 'auto' }}>
+                            <TouchableOpacity style={{ marginRight: 'auto' }}>
                               <ReadMore
                                 numberOfLines={3}
                                 renderTruncatedFooter={this._renderTruncatedFooter}
@@ -325,7 +325,7 @@ class EmployeeProfileScreen extends Component {
                           return (
                             <View style={[styles.hdngSec2, styles.marTop30]}>
                               <Text style={styles.hdngTextBlk}>Job posted by:</Text>
-                              <Text style={styles.hdngTextGrey}>{base64.decode(userData.name)}</Text>
+                              <Text style={styles.hdngTextGrey}>{userData.name}</Text>
                             </View>
                           )
                         return null
@@ -335,7 +335,7 @@ class EmployeeProfileScreen extends Component {
                           return (
                             <View style={styles.project}>
                               <Text style={styles.projTitle}>{index + 1}. {value.job_title}</Text>
-                              <TouchableOpacity style={{ marginLeft: 'auto' }}>
+                              <TouchableOpacity style={{ marginRight: 'auto' }}>
                                 <ReadMore
                                   numberOfLines={3}
                                   renderTruncatedFooter={this._renderTruncatedFooter}

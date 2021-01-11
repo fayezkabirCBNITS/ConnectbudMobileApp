@@ -269,6 +269,6 @@ export default {
     paddingLeft:7 ,
   },
   scroll: {
-    height: deviceHeight - 84,
+    height: deviceHeight - 140,
   },
 };

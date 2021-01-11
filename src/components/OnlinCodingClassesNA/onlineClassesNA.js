@@ -753,9 +753,9 @@ class OnlineCodingClasses extends Component {
 
                         <Text style={styles.syllabusText}>Timing:</Text>
                         <View style={styles.formGroup1}>
-                          <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                        <View style={[styles.formSubGroup2, {width: '100%', height: 50, overflow: 'hidden'}]}>
                             <Picker
-                              style={{width: '100%', height: 45}}
+                              style={{width: '100%', height: 45, marginTop: -80}}
                               selectedValue={this.state.startTime}
                               onValueChange={(itemValue, itemIndex) =>
                                 this.setState({startTime: itemValue})

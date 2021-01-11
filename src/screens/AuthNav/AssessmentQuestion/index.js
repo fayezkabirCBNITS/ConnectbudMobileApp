@@ -207,7 +207,11 @@ class AssessmentQuestion extends Component {
           alert('Proposal sent successfully !');
           this.props.navigation.navigate('ChatScreen');
         })
-        .catch((error) => {});
+        .catch((error) => {
+          this.setState({
+            showLoader: false,
+          })
+        });
     }
   };
 

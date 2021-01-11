@@ -319,7 +319,9 @@ class HireTutor extends Component {
 
               {this.state.homeworkTab && (
                 <View>
-                  <Text style={styles.inputHead}>Select a subject</Text>
+                  <Text style={[styles.inputHead, { marginTop: 20 }]}>
+                  Select a subject
+                </Text>
                   {this.state.selectedSkills.length > 0 ? (
                     this.state.selectedSkills?.map((data, index) => {
                       return (
@@ -509,7 +511,7 @@ class HireTutor extends Component {
                             </Text>
                           ))
                         ) : (
-                          <Text style={styles.dateField}>Select Date</Text>
+                          <Text style={styles.dateField}>Start Date</Text>
                         )}
                     </View>
                     <View style={styles.formSubGroup1}>
@@ -696,7 +698,7 @@ class HireTutor extends Component {
                     <View style={styles.formSubGroup2}>
                       <TextInput
                         returnKeyType="done"
-                        placeholder="Please enter your amount"
+                        placeholder="Please enter the amount"
                         style={styles.inputGroup}
                         keyboardType="number-pad"
                         value={this.state.totalCost}
