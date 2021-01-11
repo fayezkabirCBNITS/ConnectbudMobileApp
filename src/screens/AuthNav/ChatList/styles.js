@@ -206,4 +206,19 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  tabSec: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  viewBtn: {
+    width: '47%',
+    height: 40,
+    marginBottom: 15,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#71b85f',
+    borderWidth: 1.5,
+  },
 };
