@@ -125,6 +125,9 @@ class TutorDetailsFreelancer extends Component {
 
   // this.props.navigation.navigate('ProjectDetailsFreelancer');
   employeracceptIgnore = async (EmpId) => {
+    this.setState({
+      showLoader: true,
+    });
     const obj = {
       freelancer_id: this.state.user_id,
       hirer_id: EmpId,
@@ -143,10 +146,10 @@ class TutorDetailsFreelancer extends Component {
         console.log(response);
         alert('Invitation ignored!');
         this.props.navigation.navigate('StudentInner');
-        this.setState({isLoading: false});
+        this.setState({isLoading: false, showLoader: false});
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({isLoading: false, showLoader: false});
       });
   };
 
