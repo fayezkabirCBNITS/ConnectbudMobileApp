@@ -26,6 +26,8 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 
 import {updateJobId} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
+import { withNavigation } from "react-navigation";
+
 
 class ChatListScreen extends Component {
   constructor(props) {
@@ -77,7 +79,10 @@ class ChatListScreen extends Component {
   };
 
   componentDidMount() {
-    console.log(this.state.user_type);
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+    this.chatFullDetails();
+    })
     this.chatFullDetails();
   }
 
@@ -112,7 +117,7 @@ class ChatListScreen extends Component {
           ProjectType: response.data[0].detail_type,
           recImage: response.data[0].receiver_image,
         });
-        console.log(this.state.recImage);
+        console.log(this.state.request_status);
         setTimeout(() => {
           if (this.refs && this.refs.scrollView) {
             this.refs.scrollView.scrollToEnd(true);
@@ -356,8 +361,8 @@ class ChatListScreen extends Component {
               },
             }}>
             <View style={styles.btmSheet}>
-              {this.state.pageStatus === 'joblist' &&
-              this.state.user_type === 'Rg==' ? (
+              {(this.state.pageStatus === 'joblist' &&
+              this.state.user_type === 'Rg==') || this.state.request_status !== 'accept' ? (
                 <></>
               ) : (
                 <TouchableOpacity
@@ -491,6 +496,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatListScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ChatListScreen));
 
 // export default ChatListScreen;

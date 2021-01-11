@@ -201,7 +201,7 @@ class ProjectDetailsFreelancer extends Component {
         this.props.navigation.navigate('StudentInner');
       })
       .catch((error) => {
-        this.setState({isLoading: false, showLoader: true});
+        this.setState({isLoading: false, showLoader: false});
       });
   };
 

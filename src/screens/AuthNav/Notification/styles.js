@@ -9,6 +9,18 @@ export default {
     borderBottomColor: 'rgba(113,184,95,0.3)',
     borderBottomWidth: 1,
   },
+  userChat2: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 20,
+    paddingBottom: 70,
+    color: '#71b85f'
+  },
+  noChat: {
+    width: '100%',
+    height: deviceHeight - 160,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   wrapper: {
     width: '100%',
     flexDirection: 'row',
