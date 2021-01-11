@@ -402,6 +402,7 @@ class EmployeeEditProfileScreen extends Component {
                       onValueChange={(itemValue, itemIndex) =>
                         this.selectCountry(itemValue)
                       }>
+                      <Picker.Item label="Select Country" value="" />
                       <Picker.Item label="India" value="India" />
                       <Picker.Item label="USA" value="USA" />
                     </Picker>
@@ -422,6 +423,7 @@ class EmployeeEditProfileScreen extends Component {
                       onValueChange={(itemValue, itemIndex) =>
                         this.selectCity(itemValue)
                       }>
+                      <Picker.Item label="Select City" value="" />
                       {this.state.CityList.map((value) => (
                         <Picker.Item label={value.label} value={value.label} />
                       ))}
