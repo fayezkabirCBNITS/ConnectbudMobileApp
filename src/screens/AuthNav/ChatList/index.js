@@ -99,7 +99,6 @@ class ChatListScreen extends Component {
       body.append('type', 'recruiter');
     }
 
-    console.log(body);
 
     axios({
       url: API_URL + 'chat/getChat',
@@ -107,6 +106,8 @@ class ChatListScreen extends Component {
       data: body,
     })
       .then((response) => {
+    console.log(response,"sandip kites");
+
         this.setState({showLoader: false});
         this.setState({
           chatMessage: response.data,
@@ -233,12 +234,25 @@ class ChatListScreen extends Component {
   hireStudent = () => {
     console.log(this.state.token);
     //this.RBSheet.close(),
+    if(this.state.ProjectType === "tutor"){
+    console.log("mann mera");
+      this.props.navigation.navigate('HomeworkHire', {
+        proposed_amount: this.state.proposed_amount,
+        job_id: this.state.job_id,
+        token: this.state.token,
+        receiver_id: this.state.receiver_id,
+      });
+    }
+    else{
+    console.log("mann mera p");
+
       this.props.navigation.navigate('HireStudentsScreen', {
         proposed_amount: this.state.proposed_amount,
         job_id: this.state.job_id,
         token: this.state.token,
         receiver_id: this.state.receiver_id,
       });
+    }
   };
   viewProposal = () => {
     //this.RBSheet.close(),
@@ -408,11 +422,21 @@ class ChatListScreen extends Component {
                 this.state.user_type === 'Rg==') ? (
                   <></>
                 ) : (
+                  <>
+                  {this.state.ProjectType === "tutor" ? (
+                    <TouchableOpacity
+                    onPress={this.hireStudent}
+                    style={styles.viewBtn}>
+                    <Text style={styles.loginBtnText2}>Hire Student</Text>
+                  </TouchableOpacity>
+                  ) : (
                   <TouchableOpacity
                     onPress={this.hireStudent}
                     style={styles.viewBtn}>
                     <Text style={styles.loginBtnText2}>Hire Student</Text>
                   </TouchableOpacity>
+                  )}
+                  </>
                 )}
                 {this.state.request_type !== 'invitation' &&
                 this.state.user_type === 'Rg==' ? (
