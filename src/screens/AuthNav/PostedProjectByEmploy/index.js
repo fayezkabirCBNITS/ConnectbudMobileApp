@@ -514,7 +514,7 @@ class PostedProjectByEmployee extends Component {
                                 return (
                                   <Picker.Item
                                     label={data.label}
-                                    value={data.value}
+                                    value={data.label}
                                   />
                                 );
                               })

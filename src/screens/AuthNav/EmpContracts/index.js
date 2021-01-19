@@ -95,7 +95,13 @@ class EmpContactScreen extends Component {
           showLoader: false,
         });
         console.log(this.state.projectData);
-      });
+      })
+      .catch((error) => {
+        this.setState({
+          showLoader: false
+        })
+        
+      })
     });
   };
 
