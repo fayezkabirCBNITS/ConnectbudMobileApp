@@ -43,19 +43,18 @@ import {
   GraphRequestManager,
 } from 'react-native-fbsdk';
 
-// import {
-//   GoogleSignin,
-//   GoogleSigninButton,
-//   statusCodes
-// } from "@react-native-community/google-signin";
+import {
+GoogleSignin,
+GoogleSigninButton,
+statusCodes
+} from "@react-native-community/google-signin";
 
-// GoogleSignin.configure({
-//   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
-//   webClientId:
-//   "367228152991-ft3qki8h4dls21t36j1tpne39gidbltt.apps.googleusercontent.com",
-//   offlineAccess: true,
-//   forceCodeForRefreshToken: true
-// });
+GoogleSignin.configure({
+scopes: ["https://www.googleapis.com/auth/drive.readonly"],
+webClientId: "939760452813-km2tef4lecjv55ivivgg9232julqgnl6.apps.googleusercontent.com",
+offlineAccess: true,
+forceCodeForRefreshToken: true
+});
 
 import axios from 'axios';
 
@@ -325,6 +324,7 @@ class SignInScreen extends Component {
   };
 
   signInFirst = async () => {
+    console.log("hit function");
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
