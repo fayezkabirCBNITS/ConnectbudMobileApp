@@ -18,6 +18,19 @@ export default {
     fontSize: 16,
     color: '#71b85f',
   },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 500,
+    marginTop: 60,
+  },
+  noDataText: {
+    marginTop: 20,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
   redeemBtn: {
     paddingHorizontal: 7,
     paddingVertical: 3,

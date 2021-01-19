@@ -99,7 +99,6 @@ class ChatListScreen extends Component {
       body.append('type', 'recruiter');
     }
 
-    console.log(body);
 
     axios({
       url: API_URL + 'chat/getChat',
@@ -107,6 +106,8 @@ class ChatListScreen extends Component {
       data: body,
     })
       .then((response) => {
+    console.log(response,"sandip kites");
+
         this.setState({showLoader: false});
         this.setState({
           chatMessage: response.data,
@@ -232,16 +233,29 @@ class ChatListScreen extends Component {
 
   hireStudent = () => {
     console.log(this.state.token);
-    this.RBSheet.close(),
+    //this.RBSheet.close(),
+    if(this.state.ProjectType === "tutor"){
+    console.log("mann mera");
+      this.props.navigation.navigate('HomeworkHire', {
+        proposed_amount: this.state.proposed_amount,
+        job_id: this.state.job_id,
+        token: this.state.token,
+        receiver_id: this.state.receiver_id,
+      });
+    }
+    else{
+    console.log("mann mera p");
+
       this.props.navigation.navigate('HireStudentsScreen', {
         proposed_amount: this.state.proposed_amount,
         job_id: this.state.job_id,
         token: this.state.token,
         receiver_id: this.state.receiver_id,
       });
+    }
   };
   viewProposal = () => {
-    this.RBSheet.close(),
+    //this.RBSheet.close(),
     this.props.navigation.navigate('ProposalFromFreelancer', {
       job_id: this.state.job_id,
       receiver_id: this.state.receiver_id,
@@ -253,6 +267,7 @@ class ChatListScreen extends Component {
     // this.props.navigateToDetails();
     console.log(this.state.ProjectType);
     if(this.state.ProjectType === "normal"){
+      console.log("called project");
     this.props.navigation.navigate('ProjectDetailsFreelancer', {
       page_status: 'invitation',
     });
@@ -305,7 +320,7 @@ class ChatListScreen extends Component {
                   <Text style={styles.editBtnText}>Proposal</Text>
                 </TouchableOpacity>): null} */}
 
-            {this.state.request_type === 'invitation' &&
+            {/* {this.state.request_type === 'invitation' &&
             this.state.user_type === 'WQ==' ? (
               <TouchableOpacity
                 onPress={() => this.RBSSheet.open()}
@@ -336,19 +351,19 @@ class ChatListScreen extends Component {
                   </TouchableOpacity>
                 ) : null}
               </View>
-            </RBSheet>
+            </RBSheet> */}
 
-            {this.state.request_type === 'proposal' &&
+            {/* {this.state.request_type === 'proposal' &&
             this.state.user_type === 'Rg==' ? (
               <TouchableOpacity
                 onPress={() => this.RBSheet.open()}
                 style={styles.menuVertical}>
                 <Fontisto name="more-v-a" size={25} color="#fff" />
               </TouchableOpacity>
-            ) : null}
+            ) : null} */}
           </View>
 
-          <RBSheet
+          {/* <RBSheet
             ref={(ref) => {
               this.RBSheet = ref;
             }}
@@ -378,12 +393,61 @@ class ChatListScreen extends Component {
                 <Text style={styles.loginBtnText2}>View Proposal</Text>
               </TouchableOpacity>
             </View>
-          </RBSheet>
+          </RBSheet> */}
 
           <KeyboardAwareScrollView
             resetScrollToCoords={{x: 0, y: 0}}
             contentContainerStyle={styles.keyboard}
             scrollEnabled={false}>
+              {/* //Freelancer view button */}
+              {this.state.user_type === 'WQ==' ? (
+                <>
+              {this.state.request_type === 'invitation' &&
+                this.state.user_type === 'WQ==' ? (
+              <View style={[CommonStyles.container, styles.tabSec, {marginTop: 15}]}>
+
+                  <TouchableOpacity
+                    onPress={() => this.PageNav()}
+                    style={styles.viewBtn}>
+                    <Text style={styles.loginBtnText2}>View Proposal</Text>
+                  </TouchableOpacity>
+              </View>
+                ) : null}
+                </>
+              ) : (
+
+              <View style={[CommonStyles.container, styles.tabSec, {marginTop: 15}]}>
+                {(this.state.pageStatus === 'joblist' &&
+                this.state.user_type === 'Rg==') || (this.state.request_status !== 'accept' &&
+                this.state.user_type === 'Rg==') ? (
+                  <></>
+                ) : (
+                  <>
+                  {this.state.ProjectType === "tutor" ? (
+                    <TouchableOpacity
+                    onPress={this.hireStudent}
+                    style={styles.viewBtn}>
+                    <Text style={styles.loginBtnText2}>Hire Student</Text>
+                  </TouchableOpacity>
+                  ) : (
+                  <TouchableOpacity
+                    onPress={this.hireStudent}
+                    style={styles.viewBtn}>
+                    <Text style={styles.loginBtnText2}>Hire Student</Text>
+                  </TouchableOpacity>
+                  )}
+                  </>
+                )}
+                {this.state.request_type !== 'invitation' &&
+                this.state.user_type === 'Rg==' ? (
+                <TouchableOpacity
+                  onPress={this.viewProposal}
+                  style={styles.viewBtn}>
+                  <Text style={styles.loginBtnText2}>View Proposal</Text>
+                </TouchableOpacity>
+                ): null}
+              </View>
+              )}
             <ScrollView ref="scrollView" showsVerticalScrollIndicator={false}>
               <View style={CommonStyles.container}>
                 <View>
