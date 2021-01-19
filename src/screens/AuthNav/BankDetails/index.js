@@ -197,6 +197,7 @@ class BankDetailScreen extends Component {
           />
           <StatusBar />
           {/* header section */}
+          
           <View style={CommonStyles.header}>
             <TouchableOpacity
               style={CommonStyles.hambarIcon}
@@ -216,12 +217,13 @@ class BankDetailScreen extends Component {
             </TouchableOpacity>
           </View>
           {/* header section end */}
-          <KeyboardAvoidingView>
 
           <View style={CommonStyles.container}>
             <ScrollView
               showsVerticalScrollIndicator={false}
               style={styles.scroll}>
+                <KeyboardAvoidingView>
+
               <Text style={styles.heading}>Enter Bank Details</Text>
 
               <View style={styles.slctCntry}>
@@ -286,7 +288,6 @@ class BankDetailScreen extends Component {
                   />
                 </View>
                 <Text style={styles.errorText}>{this.state.errors.route}</Text>
-
                 <View>
                   <Text style={styles.slctCntryText}>Account Number *</Text>
                   <TextInput
@@ -294,11 +295,13 @@ class BankDetailScreen extends Component {
                     style={[styles.input, styles.marBtm0]}
                     onChangeText={(e) => this.handelAccountNumber(e)}
                     value={this.state.account}
+                    keyboardType="numeric"
                   />
                 </View>
                 <Text style={styles.errorText}>
                   {this.state.errors.account}
                 </Text>
+
 
                 <TouchableOpacity
                   style={styles.submitBtn}
@@ -306,10 +309,9 @@ class BankDetailScreen extends Component {
                   <Text style={styles.submitBtnText}>Submit</Text>
                 </TouchableOpacity>
               </View>
-              
+              </KeyboardAvoidingView>
             </ScrollView>
           </View>
-          </KeyboardAvoidingView>
 
         </View>
       </SafeAreaView>

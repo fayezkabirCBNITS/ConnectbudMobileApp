@@ -18,10 +18,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
-
 import base64 from 'base-64';
-
-
 
 // import StripeCheckout from 'react-stripe-checkout';
 
@@ -29,7 +26,6 @@ import axios from 'axios';
 import {API_URL} from '../../../config/url';
 
 import {connect} from 'react-redux';
-
 
 class CheckoutScreen extends Component {
   constructor(props) {
@@ -73,11 +69,10 @@ class CheckoutScreen extends Component {
       showLoader: true,
     });
     if (this.state.pageStatus === 'tutor') {
-      console.log("called if");
+      console.log('called if');
       let body = new FormData();
       body.append('milestone_id', '');
       body.append('job_id', this.state.jobId);
-
 
       await axios({
         url: API_URL + 'checkout',
@@ -97,13 +92,11 @@ class CheckoutScreen extends Component {
             showLoader: false,
           });
         });
-    } 
-    else if (this.state.pageStatus === 'tutorlanding') {
-      console.log("called if");
+    } else if (this.state.pageStatus === 'tutorlanding') {
+      console.log('called if');
       let body = new FormData();
       body.append('milestone_id', '');
       body.append('job_id', this.state.jobId);
-
 
       await axios({
         url: API_URL + 'checkout',
@@ -123,9 +116,8 @@ class CheckoutScreen extends Component {
             showLoader: false,
           });
         });
-    }
-    else {
-      console.log("called if");
+    } else {
+      console.log('called if');
 
       let body = new FormData();
       body.append('milestone_id', this.state.milestone_id);
@@ -174,10 +166,14 @@ class CheckoutScreen extends Component {
           card: '',
           month: '',
           year: '',
-          cvc: ''
+          cvc: '',
         });
       })
       .catch((error) => {
+        alert("Please check your card details.");
+        this.setState({
+          showLoader : false
+        })
       });
 
     if (this.state.pageStatus === 'tutor') {
@@ -205,16 +201,17 @@ class CheckoutScreen extends Component {
             showLoader: false,
           });
         })
-        .catch((error) => {
-        });
-    } 
-    else if (this.state.pageStatus === 'tutorlanding') {
-    const {userDeatailResponse} = this.props;
-      console.log("called else if");
+        .catch((error) => {});
+    } else if (this.state.pageStatus === 'tutorlanding') {
+      const {userDeatailResponse} = this.props;
+      console.log('called else if');
       let body = new FormData();
       body.append('milestone_id', null);
       body.append('job_id', this.state.jobId.toString());
-      body.append('hirer_id', base64.decode(userDeatailResponse.userData.user_id));
+      body.append(
+        'hirer_id',
+        base64.decode(userDeatailResponse.userData.user_id),
+      );
       body.append('freelancer_id', '');
       body.append('name', this.state.name);
       body.append('type', 'tutor');
@@ -235,10 +232,8 @@ class CheckoutScreen extends Component {
             showLoader: false,
           });
         })
-        .catch((error) => {
-        });
-    }
-    else {
+        .catch((error) => {});
+    } else {
       let body = new FormData();
       body.append('milestone_id', this.state.milestone_id);
       body.append('job_id', '');
@@ -417,13 +412,15 @@ class CheckoutScreen extends Component {
                 />
                 <View style={styles.cardField}>
                   <TextInput
-                    placeholder="MM/YY"
+                    placeholder="MM/YYYY"
+                    maxLength={6}
                     keyboardType="numeric"
                     style={styles.monthCvv}
                     onChangeText={(e) => this.handelMonth(e)}
                   />
                   <TextInput
                     placeholder="CVV"
+                    maxLength={3}
                     keyboardType="numeric"
                     onChangeText={(e) => this.handelcvc(e)}
                     style={styles.monthCvv}
@@ -451,6 +448,5 @@ const mapStateToProps = (state) => {
     userDeatailResponse: state,
   };
 };
-
 
 export default connect(mapStateToProps, null)(CheckoutScreen);

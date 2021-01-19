@@ -50,7 +50,6 @@ class TransactionScreen extends Component {
           historydata: res.data,
           Status: res.data[0].message,
         });
-        console.log(this.state.historydata);
       })
       .catch((error) => {});
 
@@ -65,13 +64,11 @@ class TransactionScreen extends Component {
       method: 'POST',
       data: taglist,
     }).then((res) => {
-      console.log('called');
       this.setState({
         amountData: res.data,
         redeemAmount: res.data[0].earned_amount,
         showLoader: false,
       });
-      console.log(this.state.amountData);
     });
   };
 
@@ -104,7 +101,7 @@ class TransactionScreen extends Component {
           showLoader: false,
         });
         //post method START
-        this.props.navigation.navigate('BankDetailScreen');
+        // this.props.navigation.navigate('BankDetailScreen');
         this.bankDetails();
       } else {
         alert('Please fill your bank details!');

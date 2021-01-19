@@ -368,7 +368,7 @@ class PostProjectNA extends Component {
                     {this.state.skills.length > 0 ? (
                       this.state?.skills?.map((data) => {
                         return (
-                          <Picker.Item label={data.label} value={data.value} />
+                          <Picker.Item label={data.label} value={data.label} />
                         );
                       })
                     ) : (

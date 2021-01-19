@@ -689,7 +689,7 @@ class JobListingScreen extends Component {
                         {this.state.skills.length > 0 ? (
                           this.state?.skills?.map((data) => {
                             return (
-                              <Picker.Item label={data.label} value={data.value} />
+                              <Picker.Item label={data.label} value={data.label} />
                             );
                           })
                         ) : (
@@ -767,7 +767,7 @@ class JobListingScreen extends Component {
                           {this.state.cityList?.length > 0 ? (
                             this.state?.cityList?.map((data) => {
                               return (
-                                <Picker.Item label={data.label} value={data.value} />
+                                <Picker.Item label={data.label} value={data.label} />
                               );
                             })
                           ) : (
