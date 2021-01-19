@@ -197,6 +197,7 @@ class BankDetailScreen extends Component {
           />
           <StatusBar />
           {/* header section */}
+          
           <View style={CommonStyles.header}>
             <TouchableOpacity
               style={CommonStyles.hambarIcon}
@@ -289,7 +290,6 @@ class BankDetailScreen extends Component {
                   />
                 </View>
                 <Text style={styles.errorText}>{this.state.errors.route}</Text>
-
                 <View>
                   <Text style={styles.slctCntryText}>Account Number *</Text>
                   <TextInput
@@ -297,11 +297,13 @@ class BankDetailScreen extends Component {
                     style={[styles.input, styles.marBtm0]}
                     onChangeText={(e) => this.handelAccountNumber(e)}
                     value={this.state.account}
+                    keyboardType="numeric"
                   />
                 </View>
                 <Text style={styles.errorText}>
                   {this.state.errors.account}
                 </Text>
+
 
                 <TouchableOpacity
                   style={styles.submitBtn}

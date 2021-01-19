@@ -58,7 +58,6 @@ class ForgotPassword extends Component {
   };
 
   handelEmail = async (e) => {
-    console.log(e);
     this.setState({
       email: e,
     });
@@ -76,12 +75,9 @@ class ForgotPassword extends Component {
   };
 
   getOtp = async () => {
-    console.log('called');
     let body = new FormData();
     body.append('email', this.state.email);
     body.append('type', 'mobile');
-
-    console.log(body);
 
     await axios({
       url: API_URL + 'auth/password_mail',
@@ -89,7 +85,6 @@ class ForgotPassword extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response.data[0].userID, 'ss');
         this.setState({
           showLoader: false,
           ID: response.data[0].userID
@@ -100,7 +95,6 @@ class ForgotPassword extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
         alert('Invalid email address!');
         this.setState({isLoading: false, showLoader: false});
         // swal('Facebook-Id already exists');

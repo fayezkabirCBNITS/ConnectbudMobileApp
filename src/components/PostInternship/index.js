@@ -413,7 +413,7 @@ class PostInternship extends Component {
                   {this.state.skills.length > 0 ? (
                     this.state?.skills?.map((data) => {
                       return (
-                        <Picker.Item label={data.label} value={data.value} />
+                        <Picker.Item label={data.label} value={data.label} />
                       );
                     })
                   ) : (
@@ -506,7 +506,7 @@ class PostInternship extends Component {
                           return (
                             <Picker.Item
                               label={data.label}
-                              value={data.value}
+                              value={data.label}
                             />
                           );
                         })

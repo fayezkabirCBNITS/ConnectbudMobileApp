@@ -271,7 +271,7 @@ class StudentProject extends Component {
                 onValueChange={(itemValue) => this.expertProjects(itemValue)}>
                 {this.state.skills.length > 0 ? (
                   this.state?.skills?.map((data) => {
-                    return <Picker.Item label={data.label} value={data.value} />;
+                    return <Picker.Item label={data.label} value={data.label} />;
                   })
                 ) : (
                     <></>

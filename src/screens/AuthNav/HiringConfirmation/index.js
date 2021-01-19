@@ -68,7 +68,6 @@ class HiringConfirmation extends Component {
     body.append('page_type', 'form');
     body.append('user_id', '');
 
-    console.log(body);
 
     await axios({
       url: API_URL + 'fetchmilestones',
@@ -82,11 +81,14 @@ class HiringConfirmation extends Component {
         StatusType: response.data[0].details[0].milestone_status,
         showLoader: false,
       });
-      console.log(this.state.milestone_id);
       // } else {
       //   this.props.history.push('/no-record');
       // }
-    });
+    }).catch((error)=> {
+      this.setState({
+        showLoader: false
+      })
+    })
   };
 
   handleVerified = async () => {
@@ -95,14 +97,13 @@ class HiringConfirmation extends Component {
     });
     const body = {
       status: 'yes',
-      sender_id: this.state.sender_id,
-      receiver_id: this.state.receiver_id,
+      sender_id: this.state.sender_id.toString(),
+      receiver_id: this.state.receiver_id.toString(),
       job_type: 'freelancer',
-      job_id: this.state.job_id,
+      job_id: this.state.job_id.toString(),
       milestone_id: this.state.milestone_id.toString(),
       confirmation_type: 'invitation',
     };
-    console.log(body);
 
     await axios
       .post(API_URL + 'confirmation', body)
@@ -112,15 +113,12 @@ class HiringConfirmation extends Component {
         });
         if (res.data[0].message == 'data inserted') {
           alert(
-            'Thanks!',
-            "You have accepted the employer's request!",
-            'success',
+            'Thanks! You have accepted the hiring request!'
           );
           this.props.navigation.navigate('ChatScreen');
         }
       })
       .catch((error) => {
-        console.log(error);
         this.setState({
           showLoader: false
         })
@@ -133,10 +131,10 @@ class HiringConfirmation extends Component {
     });
     const body = {
       status: 'no',
-      sender_id: this.state.sender_id,
-      receiver_id: this.state.receiver_id,
+      sender_id: this.state.sender_id.toString(),
+      receiver_id: this.state.receiver_id.toString(),
       job_type: 'freelancer',
-      job_id: this.state.job_id,
+      job_id: this.state.job_id.toString(),
       milestone_id: this.state.milestone_id.toString(),
       confirmation_type: 'invitation',
     };

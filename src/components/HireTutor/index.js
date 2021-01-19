@@ -68,6 +68,7 @@ class HireTutor extends Component {
       classCount: '',
       amount: '',
       fetchAmount: '',
+      BtnStatus: false
     };
   }
 
@@ -224,6 +225,9 @@ class HireTutor extends Component {
         errgradeValue: false,
         errConnectBud: false,
       });
+      this.setState({
+        BtnStatus: true
+      })
       const date = JSON.stringify(this.state.selectedDate).replace(
         /[\[\]']+/g,
         '',
@@ -253,7 +257,15 @@ class HireTutor extends Component {
         body,
       );
       if (response[0].hire_by == 'me') {
-        this.setState({ isModalVisible: true });
+        this.setState({
+        isModalVisible: true,
+        BtnStatus: false,
+        totalCost: '',
+        endTime: '',
+        gradeValue: '',
+        startTime: '',
+        selectedSkills: ''
+      });
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
         // this.setState({isModalVisible: true});

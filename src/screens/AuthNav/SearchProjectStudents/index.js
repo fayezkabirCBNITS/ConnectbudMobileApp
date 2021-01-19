@@ -17,7 +17,7 @@ class SearchProjectStudents extends Component {
     super(props);
     this.state = {
       expertSet: [],
-      count: 10,
+      count: 20,
       btnStatus: false,
       showLoader: false,
     };
@@ -42,6 +42,7 @@ class SearchProjectStudents extends Component {
 
     let response = await makePostRequestMultipart(ApiUrl.JobRelatedCandidates, false, body);
     if (response) {
+      console.log(response,"anukram");
       this.setState({
         expertSet: response,
         showLoader: false,
