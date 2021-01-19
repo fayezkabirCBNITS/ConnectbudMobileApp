@@ -1,7 +1,7 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 import HomeScreenAuth from '../screens/AuthNav/Home';
 import ProfileScreen from '../screens/AuthNav/Profile';
 import EditProfileScreen from '../screens/AuthNav/EditProfile';
@@ -40,6 +40,7 @@ import CheckoutScreen from '../screens/AuthNav/CheckOut';
 import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
 import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
 import JobListingScreen from '../screens/AuthNav/JobListing';
+import HomeworkHire from '../screens/AuthNav/homeworkHire';
 
 //non stack pages
 import LatestProjectList from '../screens/NonAuthNav/LatestProjectList';
@@ -113,7 +114,7 @@ export const MainStack = createStackNavigator(
       screen: EditPostedProject,
     },
     SearchProjectStudents: {
-      screen: SearchProjectStudents
+      screen: SearchProjectStudents,
     },
     AssessmentQuestion: {
       screen: AssessmentQuestion,
@@ -164,16 +165,19 @@ export const MainStack = createStackNavigator(
       screen: HireStudentsScreen,
     },
     CheckoutScreen: {
-      screen: CheckoutScreen
+      screen: CheckoutScreen,
     },
     HiringConfirmation: {
-      screen: HiringConfirmation
+      screen: HiringConfirmation,
     },
     AddExperienceNew: {
-      screen: AddExperienceNew
+      screen: AddExperienceNew,
     },
     JobListingScreen: {
-      screen: JobListingScreen
+      screen: JobListingScreen,
+    },
+    HomeworkHire: {
+      screen: HomeworkHire,
     },
   },
 
@@ -203,37 +207,37 @@ const AuthStackNav = createStackNavigator(
       screen: AddSkillScreen,
     },
     OnlineClassesNA: {
-      screen: OnlineClassesNA
+      screen: OnlineClassesNA,
     },
     HomeWorkHelpNA: {
-      screen: HomeWorkHelpNA
+      screen: HomeWorkHelpNA,
     },
     SearchClgStuNA: {
-      screen: SearchClgStuNA
+      screen: SearchClgStuNA,
     },
     StudentProjectNA: {
-      screen: StudentProjectNA
+      screen: StudentProjectNA,
     },
     ViewUserProfileScreen: {
-      screen: ViewUserProfileScreen
+      screen: ViewUserProfileScreen,
     },
     ProjectDetailsFreelancerNA: {
-      screen: ProjectDetailsFreelancerNA
+      screen: ProjectDetailsFreelancerNA,
     },
     PostProjectNA: {
       screen: PostProjectNA,
     },
     LatestProjectList: {
-      screen: LatestProjectList
+      screen: LatestProjectList,
     },
     ForgotPassword: {
-      screen: ForgotPassword
+      screen: ForgotPassword,
     },
     OtpVerification: {
-      screen: OtpVerification
+      screen: OtpVerification,
     },
     ResetPassword: {
-      screen: ResetPassword
+      screen: ResetPassword,
     },
   },
   {
