@@ -122,6 +122,11 @@ class PostProjectNA extends Component {
       errors['about'] = '*Please enter project descriptions';
     }
 
+    if (this.state.des.length > 0 && this.state.des.length < 50) {
+      formIsValid = false;
+      errors['aboutChara'] = '*enter minimum 50 characters';
+    }
+
     if (!this.state.budget) {
       formIsValid = false;
       errors['ctc'] = '*Please specify project amount';
@@ -288,7 +293,10 @@ class PostProjectNA extends Component {
                 onChangeText={this.handleInputTitle}
               />
             </View>
-            <Text style={styles.errorText}>{this.state.errors.title}</Text>
+            <Text style={styles.errorText}>{this.state.errors.title}
+            {this.state.errors.titleChara}
+            </Text>
+
 
             <View style={[styles.formGroup, {height: 100}]}>
               <TextInput
@@ -308,7 +316,10 @@ class PostProjectNA extends Component {
                 onChangeText={this.handleInputDes}
               />
             </View>
-            <Text style={styles.errorText}>{this.state.errors.about}</Text>
+            <Text style={styles.errorText}>{this.state.errors.about}
+            {this.state.errors.aboutChara}
+            </Text>
+
 
             <Text style={[styles.title]}>Skills </Text>
 

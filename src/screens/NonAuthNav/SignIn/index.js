@@ -470,6 +470,7 @@ class SignInScreen extends Component {
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
                     <TextInput
+                      autoCapitalize="none"
                       returnKeyType="done"
                       placeholder="Enter Username"
                       style={styles.inputGroup}
