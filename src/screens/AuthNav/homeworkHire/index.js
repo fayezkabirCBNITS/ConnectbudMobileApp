@@ -164,6 +164,8 @@ class HomeworkHireStudentsScreen extends Component {
   };
 
   projectsendRequest = async () => {
+    console.log(this.state.job_id + '_' + this.state.receiver_id,"san");
+  
     this.setState({
       showLoader: true,
     });
@@ -230,7 +232,7 @@ class HomeworkHireStudentsScreen extends Component {
     });
     let body = new FormData();
     body.append('job_id', this.state.job_id);
-    body.append('room_id', parseInt(this.state.job_id + '_' + this.state.receiver_id));
+    body.append('room_id', parseInt(this.state.job_id) + '_' + parseInt(this.state.receiver_id));
     body.append('type', 'freelancer');
     body.append(
       'hirer_id',
