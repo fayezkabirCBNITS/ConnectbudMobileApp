@@ -12,6 +12,8 @@ import {
   Modal,
   Picker,
   TouchableOpacity,
+  Alert,
+  BackHandler
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -26,6 +28,7 @@ import {countryCodes} from '../../../config/countrycodes';
 import Toast from 'react-native-simple-toast';
 
 import Spinner from 'react-native-loading-spinner-overlay';
+import { openInbox } from 'react-native-email-link'
 
 class SignUpScreen extends Component {
   constructor() {
@@ -58,6 +61,24 @@ class SignUpScreen extends Component {
   static navigationOptions = {
     headerShown: false,
   };
+
+  _handleAppStateChange = (userEmail) => {
+    Alert.alert(
+      'A verification link sent to your email id ' + userEmail,
+      'Please open your mail to verify', [{
+        text: 'OPEN MAIL',
+        onPress: () => this.closeApp()
+      },], {
+      cancelable: false
+    }
+    )
+    return true;
+  };
+
+  closeApp = () => {
+    BackHandler.exitApp()
+    openInbox()
+  }
 
   showHide() {
     this.setState({
@@ -165,8 +186,9 @@ class SignUpScreen extends Component {
       if (response) {
         this.setState({userEmail: response?.email});
         this.setState({isModalVisible: true, showLoader: false});
-        alert('A verification link sent to your email id');
-        this.props.navigation.navigate('SignInScreen');
+        // alert('A verification link sent to your email id');
+        // this.props.navigation.navigate('SignInScreen');
+        this._handleAppStateChange(this.state.userEmail);
       }
     }
     else{

@@ -157,13 +157,13 @@ class SignInScreen extends Component {
 
   handleEmail = async (e) => {
     await this.setState({
-      username: e,
+      username: e.trim(),
     });
   };
 
   handlePassword = async (e) => {
     await this.setState({
-      password: e,
+      password: e.trim(),
     });
   };
 
