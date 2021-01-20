@@ -190,7 +190,7 @@ class FreeContactScreen extends Component {
                 if (item.message !== 'No data found') {
                   return (
                     <>
-                      <Collapse style={styles.collapse}>
+                      <Collapse isCollapsed={true} style={styles.collapse}>
                         <CollapseHeader>
                           <View style={styles.questions}>
                             <Text style={styles.questionsText}>

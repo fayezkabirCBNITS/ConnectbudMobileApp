@@ -12,6 +12,12 @@ import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { API_URL } from "../../config/url";
+import { connect } from "react-redux";
+
+import base64 from 'base-64';
+
+
+
 import {withNavigation} from 'react-navigation';
 
 class PortfolioExperience extends Component {
@@ -29,7 +35,7 @@ class PortfolioExperience extends Component {
 
   componentDidMount = async () => {
     await axios({
-      url: API_URL + "expertProfile/Utkarsh-Sarkar-15",
+      url: API_URL + "expertProfile/" + base64.decode(this.props.userDeatailResponse.slug),
       method: 'GET',
     })
       .then((response) => {
@@ -79,12 +85,16 @@ class PortfolioExperience extends Component {
                       this.state.urlprofessional !== "NULL" && (
                         <>
                           <Text style={styles.hdng}>Additional Url's :</Text>
-                          <Text
-                            style={[styles.details, styles.blueText]}
-                          //onPress={() => Linking.openURL('https://www.facebook.com')}
-                          >
-                            {item.professionalurls.split(",").filter(function (el) { return el; }).map((item) => <> {item} {"\n"} </>)}
+                       
+                            {item.professionalurls.split(",").filter(function (el) { return el; }).map((item) => 
+                               <Text
+                               style={[styles.details, styles.blueText]}
+                               onPress={() => Linking.openURL(item)}
+                             //onPress={() => Linking.openURL('https://www.facebook.com')}
+                             >
+                            <> {item} {"\n"} </>
                           </Text>
+                            )}
                         </>
                       )}
 
@@ -106,4 +116,11 @@ class PortfolioExperience extends Component {
   }
 }
 
-export default withNavigation(PortfolioExperience);
+// export default withNavigation(PortfolioExperience);
+
+const mapStateToProps = (state) => {
+  return {
+    userDeatailResponse: state.userData,
+  };
+};
+export default connect(mapStateToProps, null,)(withNavigation(PortfolioExperience));
