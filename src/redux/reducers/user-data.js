@@ -68,9 +68,6 @@ export const userDataReducer = (state = initialState, action) => {
     }
     case UPDATE_POSTJOB: {
       newState.tmpPostJob = action.payload.jobData;
-      // newState.tmpPostJob.tmpSkillSet = action.payload.jobData.tmpSkillSet;
-      console.log('reducer==============', action.payload.jobData);
-      console.log('reducer2==============', newState.tmpPostJob);
 
       // newState.tmpPostJob={
       //   tmpJob: action.payload.jobData.tmpJobID,

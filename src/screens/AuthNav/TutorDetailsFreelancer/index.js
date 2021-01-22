@@ -4,17 +4,10 @@ import {
   StatusBar,
   View,
   Text,
-  TextInput,
   Pressable,
-  ImageBackground,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
@@ -135,7 +128,6 @@ class TutorDetailsFreelancer extends Component {
       response: 'no',
       confirmation_type: 'invitation',
     };
-    console.log(obj);
     await axios
       .post(API_URL + 'tutorproposal', obj, {
         header: {
@@ -143,7 +135,6 @@ class TutorDetailsFreelancer extends Component {
         },
       })
       .then((response) => {
-        console.log(response);
         alert('Invitation ignored!');
         this.props.navigation.navigate('StudentInner');
         this.setState({isLoading: false, showLoader: false});

@@ -5,10 +5,7 @@ import styles from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-// import DropDownPicker from 'react-native-custom-dropdown';
 import { Picker } from '@react-native-community/picker';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 import axios from 'axios';
 import { API_URL } from '../../../config/url';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -187,7 +184,6 @@ class StudentProject extends Component {
       skillValuePlaceHolder: [{ value: skill, label: skill }],
       selectedSkills: skill,
     });
-    console.log('sssssssssssssssss');
     let taglistbody = new FormData();
     taglistbody.append('user_id', this.state.user_id);
     taglistbody.append('type', 'freelancer');
@@ -201,7 +197,6 @@ class StudentProject extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           expertset: response.data,
         });

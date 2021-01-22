@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView, Pressable} from 'react-native';
-import CommonStyles from '../../../CommonStyles';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, Pressable} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import styles from './styles';
 import {
   Collapse,
@@ -9,7 +8,6 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import Fontisto from 'react-native-vector-icons/Fontisto';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {CheckBox} from 'react-native-elements';
 import ApiUrl from '../../config/ApiUrl';
@@ -115,7 +113,6 @@ class FilterScreen extends Component {
     );
     if (response) {
       if (this.props.ActiveTab === 0) {
-        console.log('o tab called');
         this.setState({
           tutorexpertset: response.sort(function (a, b) {
             if (a.avg_rating > b.avg_rating) return -1;
@@ -144,8 +141,6 @@ class FilterScreen extends Component {
         this.props.ChildSkillset(this.state.childSkills);
         this.props.Skills(this.state.childSkills);
       } else {
-        console.log('3 tab called');
-
         this.setState({
           jobexpertset: response.sort(function (a, b) {
             if (a.avg_rating > b.avg_rating) return -1;

@@ -104,7 +104,6 @@ class EmployeeEditProfileScreen extends Component {
 
       let response = makePostRequestMultipart(ApiUrl.SaveProfileImage, false, body);
       response.then(res => {
-        console.log('ress=====>', res)
       });
     })
   };
@@ -127,7 +126,6 @@ class EmployeeEditProfileScreen extends Component {
 
       let response = makePostRequestMultipart(ApiUrl.SaveCoverImage, false, body);
       response.then(res => {
-        console.log('ress=====>', res)
       });
     })
   };

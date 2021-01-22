@@ -4,18 +4,9 @@ import {
   StatusBar,
   View,
   Text,
-  TextInput,
-  Pressable,
-  ImageBackground,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -24,14 +15,12 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {
   Collapse,
   CollapseHeader,
-  CollapseBody,
 } from 'accordion-collapse-react-native';
-import {Thumbnail, List, ListItem, Separator} from 'native-base';
+import {Separator} from 'native-base';
 import {connect} from 'react-redux';
 
 import axios from 'axios';
 import {API_URL} from '../../../config/url';
-import {Value} from 'react-native-reanimated';
 import base64 from 'base-64';
 
 class ProposalFromFreelancer extends Component {
@@ -60,7 +49,6 @@ class ProposalFromFreelancer extends Component {
     headerShown: false,
   };
   componentDidMount = async () => {
-    console.log('LLLLLLLLLLLLLLLLLLLLLl');
     const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -85,7 +73,6 @@ class ProposalFromFreelancer extends Component {
       data: body1,
     })
       .then(async (response) => {
-        console.log(response);
         if (response.data[0].detail_type === 'tutor') {
           await this.setState({
             FrelancerType: 'tutor',
@@ -107,7 +94,6 @@ class ProposalFromFreelancer extends Component {
             reqStatus: response.data[0].request_status,
           });
         }
-        console.log('sandipppppppppp', this.state.recID);
       })
       .catch((error) => {
         this.setState({isLoading: false});
@@ -125,7 +111,6 @@ class ProposalFromFreelancer extends Component {
     taglistbody.append('videolink', '');
     taglistbody.append('type', this.state.FrelancerType);
 
-    console.log(taglistbody);
 
     await axios({
       url: API_URL + 'freelancerproposal',
@@ -205,7 +190,6 @@ class ProposalFromFreelancer extends Component {
   };
 
   acceptRequest = async () => {
-    console.log('called accept request');
     this.setState({
       showLoader: true,
     });
@@ -218,7 +202,6 @@ class ProposalFromFreelancer extends Component {
       status: 'yes',
       confirmation_type: 'proposal',
     };
-    console.log(obj);
     await axios
       .post(API_URL + 'confirmation', obj, {
         header: {
@@ -226,7 +209,6 @@ class ProposalFromFreelancer extends Component {
         },
       })
       .then((response) => {
-        console.log(response);
         this.setState({
           showLoader: false,
         });

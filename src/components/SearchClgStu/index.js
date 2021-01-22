@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  TextInput,
-  FlatList,
   TouchableOpacity,
   Image,
   Modal,
@@ -16,33 +14,19 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Picker} from '@react-native-community/picker';
 import styles from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
-// import SearchableDropdown from 'react-native-searchable-dropdown';
-// import axios from 'axios';
-// import { API_URL } from '../../config/url';
-import {Value} from 'react-native-reanimated';
-//
 import {connect} from 'react-redux';
-import base64 from 'base-64';
-// import Validator from '../../config/Validator';
 import ApiUrl from '../../config/ApiUrl';
-// import {Icon, CheckBox} from 'react-native-elements';
 import {
   makePostRequestMultipart,
   makeAuthGetRequest,
 } from '../../services/http-connectors';
-import ErrorMsg from '../../components/ErrorMsg';
 import {withNavigation} from 'react-navigation';
-import Toast from 'react-native-simple-toast';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import EmployeeFilterScreen from '../../components/EmployeeFilter';
-//
 import {
   Collapse,
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 class SearchClgStu extends Component {
@@ -120,7 +104,6 @@ class SearchClgStu extends Component {
       false,
       body,
     );
-    console.log('handle feedpage resposne-----', response);
     if (response) {
       this.setState({
         // lodarStatus: false,
@@ -152,7 +135,6 @@ class SearchClgStu extends Component {
       false,
       body,
     );
-    console.log('handle feedpage resposne-----', response);
     if (response) {
       this.setState({
         // lodarStatus: false,
@@ -183,7 +165,6 @@ class SearchClgStu extends Component {
       false,
       body,
     );
-    console.log('handle feedpage resposne-----', response);
     if (response) {
       this.setState({
         // lodarStatus: false,
@@ -220,7 +201,6 @@ class SearchClgStu extends Component {
       false,
       body,
     );
-    console.log('handle feedpage resposne based on IS-----', response);
     if (response) {
       this.setState({
         // lodarStatus: false,
@@ -239,7 +219,6 @@ class SearchClgStu extends Component {
       /[\[\]']+/g,
       '',
     );
-    console.log(skt.replace(/['"]+/g, ''));
     let body = new FormData();
     body.append('skillset', skt.replace(/['"]+/g, ''));
     body.append('location', '');
@@ -249,16 +228,13 @@ class SearchClgStu extends Component {
       false,
       body,
     );
-    console.log('handle post recuiter Initial Search-----', response);
     if (response && response[0]?.message === 'Matching Candidates Not found') {
-      console.log('message not========', response[0].message);
       this.setState({updateInitialSearchState: false});
       this.fetchEmployees();
     } else if (
       response &&
       response[0]?.message === 'Matching Candidates found'
     ) {
-      console.log('message found========', response[0].message);
       this.setState({updateInitialSearchState: false});
       this.fetchEmployeesBasedOnIS(response[0].user_id);
     }
@@ -289,7 +265,6 @@ async fetchFilterList(userIds) {
       false,
       body,
     );
-    console.log('handle feedpage resposne based on IS-----', response);
     if (response) {
       this.setState({
         // lodarStatus: false,
@@ -324,18 +299,15 @@ async fetchFilterList(userIds) {
   };
   selectFilterCategory = (category) => {
     this.setState({filterCategoty: category});
-    console.log('ctg===========',category);
     this.fetchFilteredEmployees();
   };
   selectSortBy = (sort) => {
     this.setState({latestEnable: 'yes'});
-    console.log('sort===========',sort);
     this.fetchFilteredEmployees();
 
   };
   selectCountry = (country) => {
     this.setState({filterCountry: country});
-    console.log('country===========',country);
     this.fetchFilteredEmployees();
 
   };

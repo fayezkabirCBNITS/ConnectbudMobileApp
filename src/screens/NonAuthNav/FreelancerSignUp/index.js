@@ -1,32 +1,29 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   SafeAreaView,
   ImageBackground,
   Pressable,
-  ActivityIndicator,
   TextInput,
-  Picker,
-  Modal,
+  Alert,
+  BackHandler
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import CommonStatusBar from '../../../components/StatusBar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
-import {Icon, CheckBox} from 'react-native-elements';
+import {CheckBox } from 'react-native-elements';
 import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
-import {makePostRequestMultipart} from '../../../services/http-connectors';
+import { makePostRequestMultipart } from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
-import {countryCodes} from '../../../config/countrycodes';
 
 import Spinner from 'react-native-loading-spinner-overlay';
+import { openInbox } from 'react-native-email-link'
 
 
 class FreelancerSignUpScreen extends Component {
@@ -71,6 +68,24 @@ class FreelancerSignUpScreen extends Component {
     this.showHide = this.showHide.bind(this);
   }
 
+  _handleAppStateChange = (userEmail) => {
+    Alert.alert(
+      'A verification link sent to your email id ' + userEmail,
+      'Please open your mail to verify', [{
+        text: 'OPEN MAIL',
+        onPress: () => this.closeApp()
+      },], {
+      cancelable: false
+    }
+    )
+    return true;
+  };
+
+  closeApp = () => {
+    BackHandler.exitApp()
+    openInbox()
+  }
+
   showHide() {
     this.setState({
       type: this.state.type === false ? true : false,
@@ -78,19 +93,19 @@ class FreelancerSignUpScreen extends Component {
   }
 
   setUg = () => {
-    this.setState({ugChecked: true, pgChecked: false});
-    this.setState({courseType: 'Under Graduate'});
+    this.setState({ ugChecked: true, pgChecked: false });
+    this.setState({ courseType: 'Under Graduate' });
   };
 
   setPg = () => {
-    this.setState({pgChecked: true, ugChecked: false});
-    this.setState({courseType: 'Post Graduate'});
+    this.setState({ pgChecked: true, ugChecked: false });
+    this.setState({ courseType: 'Post Graduate' });
   };
 
   handleChange(value, name) {
     let fields = this.state.fields;
     fields[name] = value;
-    this.setState({fields});
+    this.setState({ fields });
     this.setState({
       errors: Validator.validateForm(
         name,
@@ -116,7 +131,6 @@ class FreelancerSignUpScreen extends Component {
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
       if (!pattern.test(text)) {
-        console.log('*Please enter valid college email address.');
       } else {
         let body = new FormData();
         body.append('email', this.state.email);
@@ -125,17 +139,16 @@ class FreelancerSignUpScreen extends Component {
           false,
           body,
         );
-        console.log('handle validate college email -----', response);
         if (response && response[0].message) {
           Toast.show(response[0].message, Toast.LONG);
-          this.setState({showCollegeName: false});
+          this.setState({ showCollegeName: false });
         } else if (response && response[0]?.collegeName) {
           Toast.show(response[0].collegeName, Toast.LONG);
-          this.setState({showCollegeName: true});
-          this.setState({college: response[0].collegeName});
+          this.setState({ showCollegeName: true });
+          this.setState({ college: response[0].collegeName });
         } else {
           Toast.show(response[0].message, Toast.LONG);
-          this.setState({showCollegeName: true});
+          this.setState({ showCollegeName: true });
         }
       }
     }
@@ -148,7 +161,7 @@ class FreelancerSignUpScreen extends Component {
     // this.validateJobForm();
   };
   onSentOtp = async () => {
-    this.setState({isSent: !this.state.isSent});
+    this.setState({ isSent: !this.state.isSent });
 
     if (this.state.fields.phone.length < 10) {
       Toast.show('Enter valid phone number', Toast.LONG);
@@ -167,16 +180,15 @@ class FreelancerSignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle freelancer send sms-----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
-        this.setState({rowID: response[0]?.rowid});
+        this.setState({ rowID: response[0]?.rowid });
       }
     }
   };
 
   validateOtp = async () => {
-    this.setState({isSent: !this.state.isSent});
+    this.setState({ isSent: !this.state.isSent });
     if (this.state.enteredOTP.length > 2) {
       let body = new FormData();
       body.append('rowid', this.state.rowID);
@@ -186,7 +198,6 @@ class FreelancerSignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle freelancer validate -----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         // this.setState({enableSignUp:false});
@@ -198,8 +209,7 @@ class FreelancerSignUpScreen extends Component {
   };
 
   handleSubmit = async () => {
-    // this.setState({showLoader: true});
-    console.log('sgggg=========');
+    //this.setState({showLoader: true});
     this.setState({
       errors: Validator.validateForm(
         null,
@@ -208,17 +218,17 @@ class FreelancerSignUpScreen extends Component {
       ),
     });
     if (this.state.email === '') {
-      this.setState({errEmail: true});
+      this.setState({ errEmail: true });
     } else if (
       this.state.ugChecked === false &&
       this.state.pgChecked === false
     ) {
-      this.setState({errCourseType: true});
+      this.setState({ errCourseType: true });
     } else if (this.state.college === '') {
-      this.setState({errCollege: true});
+      this.setState({ errCollege: true });
     } else if (this.state.errors.formIsValid) {
       this.setState({
-      showLoader: true,
+        showLoader: true,
       })
       let body = new FormData();
       body.append('username', this.state.email);
@@ -229,23 +239,22 @@ class FreelancerSignUpScreen extends Component {
       body.append('collegeName', this.state.college);
       body.append('major', this.state.fields.major);
       body.append('course_type', this.state.courseType);
-      this.setState({errEmail: false});
-      this.setState({errCollege: false});
-      this.setState({errCourseType: false});
-      console.log('handle formdata -----', body);
+      this.setState({ errEmail: false });
+      this.setState({ errCollege: false });
+      this.setState({ errCourseType: false });
 
       let response = await makePostRequestMultipart(
         ApiUrl.FreelancerSignUp,
         false,
         body,
       );
-      console.log('handle freelancer Signup-----', response);
       if (response) {
-        this.setState({userEmail: response?.email});
-        this.setState({isModalVisible: true, showLoader: false});
-        alert('A verification link sent to your email id');
-        this.props.navigation.navigate('SignInScreen');
-        Toast.show(response.msg, Toast.LONG);
+        this.setState({ userEmail: response?.email });
+        this.setState({ isModalVisible: true, showLoader: false });
+        // alert('A verification link sent to your email id');
+        // this.props.navigation.navigate('SignInScreen');
+        // Toast.show(response.msg, Toast.LONG);
+        this._handleAppStateChange(this.state.userEmail);
       } else {
       }
     }
@@ -265,7 +274,7 @@ class FreelancerSignUpScreen extends Component {
           />
           <CommonStatusBar />
           <ImageBackground
-            style={{width: styles.deviceWidth, height: styles.deviceHeight}}
+            style={{ width: styles.deviceWidth, height: styles.deviceHeight }}
             source={require('../../../assets/images/authBg.jpg')}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={[styles.container, styles.inputDiv]}>
@@ -348,8 +357,8 @@ class FreelancerSignUpScreen extends Component {
                 {this.state.errEmail === true ? (
                   <ErrorMsg errorMsg="Invalid Email Address" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 {this.state.showCollegeName === true ? (
                   <>
@@ -379,14 +388,14 @@ class FreelancerSignUpScreen extends Component {
                     {this.state.errCollege === true ? (
                       <ErrorMsg errorMsg="Enter College Name" />
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
 
                     {/* <ErrorMsg errorMsg={this.state.errors['college']} /> */}
                   </>
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 <View style={styles.formGroup1}>
                   <View style={styles.formSubGroup2}>
@@ -418,7 +427,7 @@ class FreelancerSignUpScreen extends Component {
                     uncheckedIcon="circle-thin"
                     checkedColor="#fff"
                     containerStyle={styles.radio}
-                    textStyle={{color: 'white', fontSize: 13}}
+                    textStyle={{ color: 'white', fontSize: 13 }}
                     checked={this.state.ugChecked}
                     onPress={this.setUg}
                   />
@@ -429,7 +438,7 @@ class FreelancerSignUpScreen extends Component {
                     uncheckedIcon="circle-thin"
                     checkedColor="#fff"
                     containerStyle={styles.radio}
-                    textStyle={{color: 'white', fontSize: 13}}
+                    textStyle={{ color: 'white', fontSize: 13 }}
                     checked={this.state.pgChecked}
                     onPress={this.setPg}
                   />
@@ -438,8 +447,8 @@ class FreelancerSignUpScreen extends Component {
                 {this.state.errCourseType === true ? (
                   <ErrorMsg errorMsg="Select Course Type" />
                 ) : (
-                  <></>
-                )}
+                    <></>
+                  )}
 
                 {/* <View style={styles.formGroup1}>
                   <View
@@ -550,13 +559,13 @@ class FreelancerSignUpScreen extends Component {
                         onPress={this.showHide}
                       />
                     ) : (
-                      <FontAwesome
-                        name="eye"
-                        size={20}
-                        color="#fff"
-                        onPress={this.showHide}
-                      />
-                    )}
+                        <FontAwesome
+                          name="eye"
+                          size={20}
+                          color="#fff"
+                          onPress={this.showHide}
+                        />
+                      )}
                   </View>
                 </View>
                 <ErrorMsg errorMsg={this.state.errors['password']} />

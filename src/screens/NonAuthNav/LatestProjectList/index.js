@@ -5,8 +5,6 @@ import CommonStyles from '../../../../CommonStyles';
 import StatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ScrollView } from 'react-native-gesture-handler';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from "axios";
 import { API_URL } from "../../../config/url";
 
@@ -40,7 +38,6 @@ class LatestProjectList extends Component {
     body.append('offset', '30');
 
     await axios.post(API_URL + 'expert_jobsummary',body).then(async (res) => {
-      console.log('resssss==>',res)
       this.setState({
         projectList: res.data,
       });

@@ -12,9 +12,8 @@ import CommonStatusBar from '../../../components/StatusBar';
 import Header from '../../../components/Header';
 import styles from './style';
 import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 import ViewOverview from '../../../components/ViewOverview';
 import ViewPortfolio from '../../../components/ViewPortfolio';
 import ViewWorkHistory from '../../../components/ViewWorkHistory';
@@ -51,7 +50,6 @@ class ViewUserProfileScreen extends Component {
       method: "GET",
     })
       .then((response) => {
-        console.log(response, "viewwwwwwwwww")
         this.setState({
           profiledataset: response.data,
           showLoader: false
