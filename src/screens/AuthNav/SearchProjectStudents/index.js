@@ -42,7 +42,6 @@ class SearchProjectStudents extends Component {
 
     let response = await makePostRequestMultipart(ApiUrl.JobRelatedCandidates, false, body);
     if (response) {
-      console.log(response,"anukram");
       this.setState({
         expertSet: response,
         showLoader: false,

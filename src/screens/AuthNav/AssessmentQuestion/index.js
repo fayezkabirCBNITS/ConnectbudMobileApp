@@ -8,10 +8,8 @@ import {
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Divider, ProgressBar, Colors} from 'react-native-paper';
+import {Divider} from 'react-native-paper';
 import Header from '../../../components/Header';
 
 import axios from 'axios';
@@ -127,7 +125,6 @@ class AssessmentQuestion extends Component {
       taglistbody.append('type', 'freelancer');
     }
 
-    console.log(taglistbody);
 
     await axios({
       url: API_URL + 'expert_jobdetails',
@@ -135,7 +132,6 @@ class AssessmentQuestion extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         if (response.data[0].message === 'No data found') {
           this.setState({
             jobDetails: response.data,
@@ -188,7 +184,6 @@ class AssessmentQuestion extends Component {
       }
       body.append('resumefile', '');
       body.append('videolink', '');
-      console.log(body);
       await axios({
         url: API_URL + 'freelancerproposal',
         method: 'POST',

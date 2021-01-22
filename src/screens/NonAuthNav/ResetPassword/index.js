@@ -98,13 +98,11 @@ class ResetPassword extends Component {
   };
 
   setPass = async () => {
-    console.log('called');
     let body = new FormData();
     body.append('new_password', this.state.password);
     body.append('confirmpassword', this.state.repassword);
     body.append('user_id', this.state.userId.toString());
 
-    console.log(body);
 
     await axios({
       url: API_URL + 'auth/resetpassword',
@@ -112,7 +110,6 @@ class ResetPassword extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response, 'ss');
         this.setState({
           showLoader: false,
         });
@@ -120,7 +117,6 @@ class ResetPassword extends Component {
         this.props.navigation.navigate('SignInScreen');
       })
       .catch((error) => {
-        console.log(error);
         this.setState({isLoading: false, showLoader: false});
         // swal('Facebook-Id already exists');
       });

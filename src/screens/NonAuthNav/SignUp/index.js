@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   SafeAreaView,
-  StatusBar,
   View,
   Text,
   ScrollView,
@@ -9,9 +8,6 @@ import {
   Pressable,
   Image,
   ImageBackground,
-  Modal,
-  Picker,
-  TouchableOpacity,
   Alert,
   BackHandler
 } from 'react-native';
@@ -24,7 +20,6 @@ import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
 import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
-import {countryCodes} from '../../../config/countrycodes';
 import Toast from 'react-native-simple-toast';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -124,7 +119,6 @@ class SignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle employee send sms-----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         this.setState({rowID: response[0]?.rowid});
@@ -145,7 +139,6 @@ class SignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle employee validate -----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         // this.setState({enableSignUp:false});
@@ -167,7 +160,6 @@ class SignUpScreen extends Component {
     });
 
     if (this.state.errors.formIsValid) {
-      console.log('calllllllllllllllllllllllllll');
       let body = new FormData();
       body.append('username', this.state.fields.email);
       body.append('password', this.state.fields.password);
@@ -182,7 +174,6 @@ class SignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle employee Signup-----', response);
       if (response) {
         this.setState({userEmail: response?.email});
         this.setState({isModalVisible: true, showLoader: false});

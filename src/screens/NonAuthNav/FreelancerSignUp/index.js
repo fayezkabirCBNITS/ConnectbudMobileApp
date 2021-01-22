@@ -3,14 +3,10 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   SafeAreaView,
   ImageBackground,
   Pressable,
-  ActivityIndicator,
   TextInput,
-  Picker,
-  Modal,
   Alert,
   BackHandler
 } from 'react-native';
@@ -19,17 +15,14 @@ import CommonStyles from '../../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import CommonStatusBar from '../../../components/StatusBar';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Toast from 'react-native-simple-toast';
-import { Icon, CheckBox } from 'react-native-elements';
+import {CheckBox } from 'react-native-elements';
 import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
 import { makePostRequestMultipart } from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
-import { countryCodes } from '../../../config/countrycodes';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Linking } from 'react-native';
 import { openInbox } from 'react-native-email-link'
 
 
@@ -138,7 +131,6 @@ class FreelancerSignUpScreen extends Component {
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
       if (!pattern.test(text)) {
-        console.log('*Please enter valid college email address.');
       } else {
         let body = new FormData();
         body.append('email', this.state.email);
@@ -147,7 +139,6 @@ class FreelancerSignUpScreen extends Component {
           false,
           body,
         );
-        console.log('handle validate college email -----', response);
         if (response && response[0].message) {
           Toast.show(response[0].message, Toast.LONG);
           this.setState({ showCollegeName: false });
@@ -189,7 +180,6 @@ class FreelancerSignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle freelancer send sms-----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         this.setState({ rowID: response[0]?.rowid });
@@ -208,7 +198,6 @@ class FreelancerSignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle freelancer validate -----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         // this.setState({enableSignUp:false});
@@ -221,7 +210,6 @@ class FreelancerSignUpScreen extends Component {
 
   handleSubmit = async () => {
     //this.setState({showLoader: true});
-    console.log('sgggg=========');
     this.setState({
       errors: Validator.validateForm(
         null,
@@ -254,14 +242,12 @@ class FreelancerSignUpScreen extends Component {
       this.setState({ errEmail: false });
       this.setState({ errCollege: false });
       this.setState({ errCourseType: false });
-      console.log('handle formdata -----', body);
 
       let response = await makePostRequestMultipart(
         ApiUrl.FreelancerSignUp,
         false,
         body,
       );
-      console.log('handle freelancer Signup-----', response);
       if (response) {
         this.setState({ userEmail: response?.email });
         this.setState({ isModalVisible: true, showLoader: false });

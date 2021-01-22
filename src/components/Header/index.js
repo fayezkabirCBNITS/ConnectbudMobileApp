@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Text, View, Image, TouchableOpacity, StatusBar} from 'react-native';
+import {View, Image, TouchableOpacity, StatusBar} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
@@ -37,7 +37,6 @@ class AppHeader extends Component {
         this.setState({
           notiStatus: response.data[0].read_status,
         });
-        console.log(this.state.notiStatus);
         this.setState({isLoading: false});
       })
       .catch((error) => {

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
   Linking,
-  StyleSheet,
   Modal,
   Alert,
 } from 'react-native';
@@ -13,17 +12,14 @@ import styles from './style';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ApiUrl from '../../config/ApiUrl';
 import { makePostRequestMultipart } from '../../services/http-connectors';
-import { WebView } from 'react-native-webview';
 import PortfolioExperience from '../../components/PortfolioExperience'
 import { withNavigation } from 'react-navigation';
 import { connect } from "react-redux";
 import base64 from 'base-64';
-import { BASE_URL } from "../../config/ApiUrl";
 import DocumentPicker from 'react-native-document-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -300,7 +296,6 @@ class Portfolio extends Component {
             {/* <TouchableOpacity
               onPress={() =>
                 launchImageLibrary({ mediaType: 'video' }, (response) => {
-                  console.log(response);
                 })}
             >
               <Text style={styles.addPortfolio}>+ Add Video</Text>

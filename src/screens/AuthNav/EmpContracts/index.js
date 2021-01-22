@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import Header from '../../../components/Header';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
 import {withNavigation} from 'react-navigation';
 
@@ -61,7 +59,6 @@ class EmpContactScreen extends Component {
         projectData: response.data,
         showLoader: false,
       });
-      console.log(this.state.projectData);
     });
   };
 
@@ -94,7 +91,6 @@ class EmpContactScreen extends Component {
           projectData: response.data,
           showLoader: false,
         });
-        console.log(this.state.projectData);
       })
       .catch((error) => {
         this.setState({

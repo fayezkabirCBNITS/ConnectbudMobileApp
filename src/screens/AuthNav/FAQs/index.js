@@ -91,7 +91,6 @@ class FAQsScreen extends Component {
   };
 
   render() {
-    console.log('rese');
     return (
       <SafeAreaView style={CommonStyle.safeAreaView}>
         <View style={CommonStyle.main}>

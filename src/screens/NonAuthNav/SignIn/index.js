@@ -10,8 +10,6 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
-  Linking,
-  Platform,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -27,23 +25,16 @@ import base64 from 'base-64';
 import {updateUserDetails} from '../../../redux/actions/user-data';
 import {connect} from 'react-redux';
 import PushNotification from 'react-native-push-notification';
-import {ThemeContext} from 'react-navigation';
-
-import {deepClone} from '../../../services/helper-methods';
 
 import {withNavigation} from 'react-navigation';
 
 import {
-  LoginButton,
   AccessToken,
   LoginManager,
-  GraphRequest,
-  GraphRequestManager,
 } from 'react-native-fbsdk';
 
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
 
@@ -99,30 +90,24 @@ class SignInScreen extends Component {
   };
 
   componentDidMount = async () => {
-    console.log(this.state.projectType);
-    console.log(this.state.pageStatus);
 
     //  START
     const {navigation} = this.props;
     this.focusListener = navigation.addListener('willFocus', async () => {
-      console.log('kkkkkkkkkkkkkkkk');
     });
 
     // END
-    // console.log(this.state.social_type);
     if (this.state.user_type === 'employer') {
       let body1 = new FormData();
       body1.append('user_id', this.state.user_id);
       body1.append('type', 'yes');
       body1.append('registration_type', 'freelancer');
-      console.log(body1);
       axios({
         url: API_URL + 'recruiterVerification',
         method: 'POST',
         data: body1,
       })
         .then((response) => {
-          console.log('verify', response);
         })
         .catch((error) => {});
     }
@@ -139,7 +124,6 @@ class SignInScreen extends Component {
         // process the action
       },
       onRegistrationError: function (err) {
-        console.error('err.message', err);
       },
       popInitialNotification: true,
       requestPermissions: true,
@@ -205,8 +189,6 @@ class SignInScreen extends Component {
   };
 
   userLogin = async () => {
-    console.log('user loginnnnnnnnnnnn called');
-    console.log(this.props.navigation.state.params.userType);
     this.setState({showLoader: true});
     let obj = {};
     if (this.props.navigation.state.params.userType === 'student') {
@@ -225,7 +207,6 @@ class SignInScreen extends Component {
         deviceTokenId: this.state.deviceTokenId,
         devicetype: this.state.devicetype,
       };
-      console.log(obj);
     } else if (this.state.user_type === 'employer') {
       obj = {
         username: base64.encode(this.state.username),
@@ -234,15 +215,12 @@ class SignInScreen extends Component {
         deviceTokenId: this.state.deviceTokenId,
         devicetype: this.state.devicetype,
       };
-      console.log(obj);
     }
     ///
     let response = await makePostRequest(ApiUrl.LOGIN, false, obj);
-    console.log('login', response);
     if (!response.error) {
       this.setState({showLoader: false});
       //Toast.show(response.msg, Toast.LONG);
-      console.log('sandipppp', response);
       this.props.updateUserDetails(response);
       {
         response.error === 'You are signed up as Employer'
@@ -273,9 +251,7 @@ class SignInScreen extends Component {
     ///
   };
   validateLogin = async () => {
-    console.log(this.props.userDeatailResponse?.tmpPostJob?.hire_by);
     if (this.props.userDeatailResponse?.tmpPostJob.hasOwnProperty('tmpJobID')) {
-      console.log('called update id if');
 
       this.setState({
         jobId: this.props.userDeatailResponse?.tmpPostJob?.tmpJobID,
@@ -292,7 +268,6 @@ class SignInScreen extends Component {
         this.props.userDeatailResponse?.tmpPostJob?.hire_by,
       );
 
-      console.log(jobDescription);
 
       let response = await makePostRequestMultipart(
         ApiUrl.UPDATE_ID,
@@ -337,39 +312,29 @@ class SignInScreen extends Component {
 
       this.sociallogin(email, name, provider_id, picture, provider);
     } catch (error) {
-      console.log('error', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
-        console.log('SIGN_IN_CANCELLED-error', error);
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
-        console.log('IN_PROGRESS-error', error);
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        console.log('PLAY_SERVICES_NOT_AVAILABLE-error', error);
       } else {
         // some other error happened
-        console.log('other-error', error);
       }
     }
   };
 
   faceBookLogin = async () => {
     LoginManager.logOut();
-    console.log('faceBookLogin');
     try {
       const userInfo = await LoginManager.logInWithPermissions([
         'public_profile',
         'email',
       ]);
-      console.log(userInfo);
       if (userInfo.isCancelled) {
-        console.log('Login cancelled');
       } else {
-        console.log('Login success with permissions: ' + userInfo);
         AccessToken.getCurrentAccessToken().then((data) => {
           let accessToken = data.accessToken.toString();
-          console.log('accesstoken', accessToken);
           if (accessToken) {
             fetch(
               'https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' +
@@ -377,7 +342,6 @@ class SignInScreen extends Component {
             )
               .then((response) => response.json())
               .then((json) => {
-                console.log('userdetails', json);
 
                 let email = json.email;
                 let name = json.name;
@@ -385,9 +349,7 @@ class SignInScreen extends Component {
                 let picture = json.picture.data.url;
                 let provider = 'facebook';
 
-                console.log(email);
                 if (email === undefined) {
-                  console.log('ffffffffffffffffffffffff');
                   alert(
                     'No email-id found in your fb account.Please do manual Signup',
                   );
@@ -402,13 +364,11 @@ class SignInScreen extends Component {
         });
       }
     } catch (error) {
-      console.log('signin error', error);
       Toast.show('Something went wrong!');
     }
   };
 
   sociallogin = async (email, name, provider_id, picture, provider) => {
-    console.log('called');
     let body = new FormData();
     body.append('socialLogintype', provider);
     body.append('first_name', name.split(' ')[0]);
@@ -424,7 +384,6 @@ class SignInScreen extends Component {
     body.append('profileImage', picture);
     body.append('email', email);
 
-    console.log(body);
 
     await axios({
       url: API_URL + 'auth/socialLogin',
@@ -432,12 +391,10 @@ class SignInScreen extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response.data, 'ss');
         this.props.updateUserDetails(response.data);
         this.props.navigation.navigate('EmployeeInner');
       })
       .catch((error) => {
-        console.log(error);
         this.setState({isLoading: false});
         // swal('Facebook-Id already exists');
       });

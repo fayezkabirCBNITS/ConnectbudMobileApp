@@ -59,7 +59,6 @@ class MyQuestionScreen extends Component {
         similarQuestionset: feedresponse,
         showLoader: false
       });
-      console.log(this.state.similarQuestionset);
     }
   };
 

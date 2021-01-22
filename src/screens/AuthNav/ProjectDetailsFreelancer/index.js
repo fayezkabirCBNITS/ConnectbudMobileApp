@@ -4,17 +4,10 @@ import {
   StatusBar,
   View,
   Text,
-  TextInput,
   Pressable,
-  ImageBackground,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
@@ -92,7 +85,6 @@ class ProjectDetailsFreelancer extends Component {
           // priceAmount: response.data[0].price_amount,
           // skillSet: response.data[0].key_skill,
         });
-        console.log(this.state.projectType);
         this.setState({isLoading: true});
       })
       .catch((error) => {
@@ -139,7 +131,6 @@ class ProjectDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           jobDetails: response.data,
           showLoader: false,
@@ -183,7 +174,6 @@ class ProjectDetailsFreelancer extends Component {
       confirmation_type: 'invitation',
     };
 
-    console.log(obj,"payload");
 
     await axios
       .post(API_URL + 'confirmation', obj, {
@@ -192,7 +182,6 @@ class ProjectDetailsFreelancer extends Component {
         },
       })
       .then((response) => {
-        console.log(response);
         alert('Invitation ignored');
         this.setState({
           isLoading: false,

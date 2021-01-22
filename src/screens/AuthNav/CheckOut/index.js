@@ -69,7 +69,6 @@ class CheckoutScreen extends Component {
       showLoader: true,
     });
     if (this.state.pageStatus === 'tutor') {
-      console.log('called if');
       let body = new FormData();
       body.append('milestone_id', '');
       body.append('job_id', this.state.jobId);
@@ -93,7 +92,6 @@ class CheckoutScreen extends Component {
           });
         });
     } else if (this.state.pageStatus === 'tutorlanding') {
-      console.log('called if');
       let body = new FormData();
       body.append('milestone_id', '');
       body.append('job_id', this.state.jobId);
@@ -117,7 +115,6 @@ class CheckoutScreen extends Component {
           });
         });
     } else {
-      console.log('called if');
 
       let body = new FormData();
       body.append('milestone_id', this.state.milestone_id);
@@ -185,14 +182,12 @@ class CheckoutScreen extends Component {
       body.append('name', this.state.name);
       body.append('type', 'tutor');
       body.append('id', this.state.paymentId);
-      console.log(body);
       await axios({
         url: API_URL + 'paymentIntend',
         method: 'POST',
         data: body,
       })
         .then((response) => {
-          console.log(response);
           this.props.navigation.navigate('PostedProjectByEmployee'),
             alert(
               'You have successfully escrowed money!Connectbud will get back to you between 6 to 12Hrs.',
@@ -204,7 +199,6 @@ class CheckoutScreen extends Component {
         .catch((error) => {});
     } else if (this.state.pageStatus === 'tutorlanding') {
       const {userDeatailResponse} = this.props;
-      console.log('called else if');
       let body = new FormData();
       body.append('milestone_id', null);
       body.append('job_id', this.state.jobId.toString());
@@ -216,14 +210,12 @@ class CheckoutScreen extends Component {
       body.append('name', this.state.name);
       body.append('type', 'tutor');
       body.append('id', this.state.paymentId);
-      console.log(body);
       await axios({
         url: API_URL + 'paymentIntend',
         method: 'POST',
         data: body,
       })
         .then((response) => {
-          console.log(response);
           this.props.navigation.navigate('PostedProjectByEmployee'),
             alert(
               'You have successfully escrowed money!Connectbud will get back to you between 6 to 12Hrs.',

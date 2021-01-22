@@ -69,7 +69,6 @@ class TutoringJobs extends Component {
 
   componentWillReceiveProps() {
     if (this.props.TutorShowData.length > 0) {
-      console.log("tutor called");
       this.Method();
       this.catSkill();
       this.child();
@@ -77,7 +76,6 @@ class TutoringJobs extends Component {
   }
 
   PageNav = async (JobId) => {
-    console.log(JobId);
     this.props.navigateToDetailsTutor();
     this.props.updateJobId(JobId);
   }

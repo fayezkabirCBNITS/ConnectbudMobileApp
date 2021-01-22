@@ -284,7 +284,6 @@ class JobListingScreen extends Component {
   };
 
   validateJobForm = () => {
-    console.log("came");
     let errors = {};
     let formIsValid = true;
 

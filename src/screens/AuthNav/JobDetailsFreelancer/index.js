@@ -4,28 +4,15 @@ import {
   StatusBar,
   View,
   Text,
-  TextInput,
   Pressable,
-  ImageBackground,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Header from '../../../components/Header';
 import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
-import {
-  // storeAccessToken,
-  // updateUserStatus,
-  // updateUserPaymentMethod,
-  // updateUserDetails,
-  updateJobId,
-} from '../../../redux/actions/user-data';
+import {updateJobId} from '../../../redux/actions/user-data';
 import base64 from 'base-64';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -46,7 +33,7 @@ class JobDetailsFreelancer extends Component {
       jobSet: [],
       user_id: '',
       showLoader: false,
-      job_id: ''
+      job_id: '',
     };
   }
 
@@ -59,7 +46,7 @@ class JobDetailsFreelancer extends Component {
     this.setState({
       showLoader: false,
       user_id: base64.decode(userDeatailResponse.userData.user_id),
-      job_id: userDeatailResponse.userData.JOBID
+      job_id: userDeatailResponse.userData.JOBID,
     });
     let taglistbody = new FormData();
     let body = new FormData();
@@ -75,7 +62,6 @@ class JobDetailsFreelancer extends Component {
       base64.decode(userDeatailResponse.userData.user_id),
     );
     taglistbody.append('type', 'recruiter');
-    console.log(taglistbody, 'an');
 
     await axios({
       url: API_URL + 'expert_jobdetails',
@@ -83,8 +69,6 @@ class JobDetailsFreelancer extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response, 'san');
-
         this.setState({
           jobDetails: response.data,
           showLoader: false,
@@ -180,9 +164,6 @@ class JobDetailsFreelancer extends Component {
       status: 'no',
       confirmation_type: 'invitation',
     };
-
-    console.log(obj);
-
     await axios
       .post(API_URL + 'confirmation', obj, {
         header: {
@@ -190,7 +171,6 @@ class JobDetailsFreelancer extends Component {
         },
       })
       .then((response) => {
-        console.log(response);
         alert('Invitation ignored');
         this.setState({
           showLoader: false,
@@ -353,38 +333,40 @@ class JobDetailsFreelancer extends Component {
                 </View>
               ))}
               {this.state.pageStatus !== 'invitation' ? (
-              <View style={styles.similarJobWrapper}>
-                <View style={styles.slimilarJob}>
-                  <Text style={styles.similiarjobText}>
-                    Similar Jobs for me
-                  </Text>
+                <View style={styles.similarJobWrapper}>
+                  <View style={styles.slimilarJob}>
+                    <Text style={styles.similiarjobText}>
+                      Similar Jobs for me
+                    </Text>
+                  </View>
+                  {this.state.jobSet.map((item, idx) => (
+                    <Pressable onPress={() => this.PageNav(item.id)}>
+                      <View key={idx} style={styles.similarList}>
+                        <View style={styles.iconList}>
+                          <FontAwesome
+                            style={{width: 30}}
+                            name="graduation-cap"
+                            size={15}
+                            color="#d7d7d8"
+                          />
+                          <Text style={styles.iconText}>{item.job_title}</Text>
+                        </View>
+                        <View style={styles.iconList}>
+                          <FontAwesome
+                            style={{width: 30}}
+                            name="tag"
+                            size={15}
+                            color="#d7d7d8"
+                          />
+                          <Text style={styles.iconText}>
+                            {item.match_number}
+                          </Text>
+                        </View>
+                      </View>
+                    </Pressable>
+                  ))}
                 </View>
-                {this.state.jobSet.map((item, idx) => (
-                  <Pressable onPress={() => this.PageNav(item.id)}>
-                    <View key={idx} style={styles.similarList}>
-                      <View style={styles.iconList}>
-                        <FontAwesome
-                          style={{width: 30}}
-                          name="graduation-cap"
-                          size={15}
-                          color="#d7d7d8"
-                        />
-                        <Text style={styles.iconText}>{item.job_title}</Text>
-                      </View>
-                      <View style={styles.iconList}>
-                        <FontAwesome
-                          style={{width: 30}}
-                          name="tag"
-                          size={15}
-                          color="#d7d7d8"
-                        />
-                        <Text style={styles.iconText}>{item.match_number}</Text>
-                      </View>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-               ) : (
+              ) : (
                 <></>
               )}
             </ScrollView>

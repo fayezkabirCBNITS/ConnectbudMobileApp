@@ -4,7 +4,6 @@ import {
   Text,
   SafeAreaView,
   TextInput,
-  FlatList,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -16,9 +15,8 @@ import {Picker} from '@react-native-community/picker';
 import styles from './styles';
 import {connect} from 'react-redux';
 import base64 from 'base-64';
-import Validator from '../../config/Validator';
 import ApiUrl from '../../config/ApiUrl';
-import {Icon, CheckBox} from 'react-native-elements';
+import {CheckBox} from 'react-native-elements';
 import {
   makePostRequestMultipart,
   makeAuthGetRequest,
@@ -236,14 +234,12 @@ class PostInternship extends Component {
       body.append('authorisation_visa', this.state.visaType);
       body.append('skill_name', this.state.additionalName);
 
-      console.log('handle formdata -----', body);
 
       let response = await makePostRequestMultipart(
         ApiUrl.PostJob,
         false,
         body,
       );
-      console.log('handle post a job-----', response);
       if (response) {
         this.setState({
         showLoader : false,

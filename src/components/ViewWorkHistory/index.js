@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  Dimensions,
   ScrollView,
-  FlatList,
-  Modal,
   Image,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
@@ -77,24 +73,20 @@ class ViewWorkHistory extends Component {
             this.setState({
               projectData: response.filter(data => data.contract_end === "false"),
             });
-            console.log(this.state.projectData);
           } else {
             this.setState({
               projectData: [{ message: "No data found" }],
             });
-            console.log(this.state.projectData);
           }
         } else if (this.state.selectedProject === "Completed") {
           if (response.filter(data => data.contract_end === "true")) {
             this.setState({
               projectData: response.filter(data => data.contract_end === "true"),
             });
-            console.log(this.state.projectData);
           } else {
             this.setState({
               projectData: [{ message: "No data found" }],
             });
-            console.log(this.state.projectData);
           }
         } else {
           this.setState({

@@ -30,7 +30,6 @@ class SplashScreen extends Component {
           let id = url.split('?')[1];
           let type = url.split('?')[2];
 
-          console.log(type);
           this.setState({
             deepLinking: true,
             userID: base64.decode(id),
@@ -42,10 +41,8 @@ class SplashScreen extends Component {
 
     if (this.state.deepLinking === false) {
       const {userData} = deepClone(this.props);
-      console.log(userData);
       setTimeout(() => {
         if (userData && userData?.Token && userData?.Token.length) {
-          console.log('open false :>> ');
           this.props.changeAppOpenStatus(false);
           {
             userData?.Flag === 'WQ=='
@@ -56,7 +53,6 @@ class SplashScreen extends Component {
           }
         } else {
           this.props.changeAppOpenStatus(true);
-          console.log('open true :>> ');
           this.props.navigation.navigate('HomeScreen');
           // this.resetStack();
         }

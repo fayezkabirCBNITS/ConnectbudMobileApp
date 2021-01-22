@@ -6,13 +6,11 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Button,
 } from 'react-native';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -164,7 +162,6 @@ class HomeworkHireStudentsScreen extends Component {
   };
 
   projectsendRequest = async () => {
-    console.log(this.state.job_id + '_' + this.state.receiver_id,"san");
   
     this.setState({
       showLoader: true,
@@ -245,10 +242,8 @@ class HomeworkHireStudentsScreen extends Component {
     body.append('description', '');
     body.append('project_type', '');
     body.append('expiry_date', '');
-    console.log(body,"----------->payload");
 
     let response = await makePostRequestMultipart('hirerform', false, body);
-    console.log(response,"----------->Success");
     this.setState({
       showLoader: false,
     });
