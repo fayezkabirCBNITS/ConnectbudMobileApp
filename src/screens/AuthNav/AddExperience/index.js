@@ -20,12 +20,8 @@ import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 // import Header from '../../../components/Header';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
 import { withNavigation } from "react-navigation";
-import { updateslug, updateUserDetails } from "../../../redux/actions/user-data";
 import { connect } from "react-redux";
 import base64 from 'base-64';
 import { BASE_URL } from "../../../config/ApiUrl"
@@ -133,7 +129,6 @@ class AddExperienceScreen extends Component {
   componentDidMount = () => {
     this.setState({ id: this.props.userDeatailResponse.row_id, userID: base64.decode(this.props.userDeatailResponse.user_id) })
 
-    console.log(this.props.userDeatailResponse.row_id, base64.decode(this.props.userDeatailResponse.user_id), " ----------adddddddddexpppppppppp")
   }
 
   static navigationOptions = {
@@ -176,7 +171,6 @@ class AddExperienceScreen extends Component {
   handleSubmit = async () => {
     let addtionUrl = this.state.additionalurls.concat(this.state.valueArray);
     let combinedArr = addtionUrl.map((data) => data.text).join(",")
-    // console.log(combinedArr ,"yessssssssssssssss")
     let body = new FormData();
 
     body.append("id", this.state.id);
@@ -220,7 +214,6 @@ class AddExperienceScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
-    console.log(body , "bodyyyyyyyyyyy")
     await axios
       .post(
         BASE_URL +
@@ -230,7 +223,6 @@ class AddExperienceScreen extends Component {
       )
       .then((res) => {
         if(res.status === 200) this.props.navigation.navigate('ProfileScreen')
-        console.log(res , "add experience response===")
         // this.setState({});
 
         // this.props.history.push(
@@ -257,13 +249,11 @@ class AddExperienceScreen extends Component {
       this.state.additionalurls[0].text = text.nativeEvent.text;
     }
     else if(targetState === "addition") {
-      console.log("hello")
       this.state.valueArray[targetIndex].text = text.nativeEvent.text;
     }
   }
 
   render() {
-    console.log(this.state , "adddexperience stateeeeeeeeee")
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>

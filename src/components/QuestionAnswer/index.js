@@ -4,7 +4,6 @@ import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 
 import axios from 'axios';
 import { API_URL } from '../../config/url';
@@ -22,7 +21,6 @@ class QuestionAnswer extends Component {
   };
 
   componentDidMount = async () => {
-    console.log("called")
     let body = new FormData();
 
     body.append("user_id", "2519");
@@ -41,7 +39,6 @@ class QuestionAnswer extends Component {
           questionset: response.data,
           // loadingState: false,
         });
-        console.log(this.state.questionset)
       })
       .catch((error) => {
         this.setState({ loadingState: false });

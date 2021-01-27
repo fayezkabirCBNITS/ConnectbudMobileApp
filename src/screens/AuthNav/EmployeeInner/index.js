@@ -3,28 +3,20 @@ import {
   View,
   Text,
   SafeAreaView,
-  TouchableOpacity,
-  BackHandler,
-  Alert,
-  Image,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import Header from '../../../components/Header';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 import HireTutor from '../../../components/HireTutor';
 import PostProject from '../../../components/PostProject';
 import PostInternship from '../../../components/PostInternship';
 import SearchClgStu from '../../../components/SearchClgStu';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
-import OnlineClassEmployer from '../../../components/OnlineCodingClassEmployer';
 //
 import { connect } from 'react-redux';
 //import {updateUserDetails} from "../../../redux/actions/user-data";
-import { showLoader } from '../../../redux/actions/loader-data';
 import { withNavigation } from 'react-navigation';
 
 class EmployeeInner extends Component {
@@ -59,49 +51,10 @@ class EmployeeInner extends Component {
         return null;
     }
   };
-  // componentDidMount() {
-  //   console.log('did mount====================');
-  //   const {navigation} = this.props;
-  //   this.focusListener = navigation.addListener('didFocus', () => {
-  //     console.log('did mount focus====================');
-
-  //     BackHandler.addEventListener('hardwareBackPress', this.backPressed);
-  //   });
-  //   BackHandler.addEventListener('hardwareBackPress', this.backPressed);
-  // }
-
-  // componentWillUnmount() {
-  //   this.focusListener.remove();
-  //   BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
-  // }
-  // componentDidUpdate() {
-  //   console.log('did update====');
-  // }
-  // backPressed = () => {
-  //   Alert.alert(
-  //     'Exit ConnectBud',
-  //     'Do you want to exit?',
-  //     [
-  //       {
-  //         text: 'No',
-  //         onPress: () => console.log('Cancel Pressed'),
-  //         style: 'cancel',
-  //       },
-  //       {text: 'Yes', onPress: () => BackHandler.exitApp()},
-  //     ],
-  //     {cancelable: false},
-  //   );
-  //   return true;
-  // };
-  // multipleFunction = async () => {
-  //   this.focusListener.remove();
-  //   BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
-  //   this.props.navigation.openDrawer();
-  // };
+ 
   render() {
     const { userDeatailResponse } = this.props;
 
-    // console.log('user details==========', userDeatailResponse);
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>

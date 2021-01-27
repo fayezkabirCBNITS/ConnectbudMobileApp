@@ -49,7 +49,6 @@ class OtpVerification extends Component {
   };
 
   handelOtp = async (e) => {
-    console.log(e);
     this.setState({
       otp: e,
     });
@@ -67,12 +66,10 @@ class OtpVerification extends Component {
   };
 
   verifyOtp = async () => {
-    console.log('called');
     let body = new FormData();
     body.append('entered_otp', this.state.otp);
     body.append('userID', this.state.userId);
 
-    console.log(body);
 
     await axios({
       url: API_URL + 'verify_otp',
@@ -80,7 +77,6 @@ class OtpVerification extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response, 'ss');
         this.setState({
           showLoader: false,
         });
@@ -93,7 +89,6 @@ class OtpVerification extends Component {
         })
       })
       .catch((error) => {
-        console.log(error);
         alert('Something went wrong!');
         this.setState({isLoading: false, showLoader: false});
         // swal('Facebook-Id already exists');

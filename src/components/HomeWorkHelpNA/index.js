@@ -9,11 +9,9 @@ import {
   ActivityIndicator,
   TextInput,
   Modal,
-  KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -23,7 +21,6 @@ import { Picker } from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
-  makeAuthGetRequest,
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
@@ -193,7 +190,6 @@ class HomeWorkHelp extends Component {
         false,
         body,
       );
-      console.log('Homeork details-----', response);
       /*
             if (response[0].hire_by == 'me') {
                 this.setState({ isModalVisible: true })
@@ -208,7 +204,6 @@ class HomeWorkHelp extends Component {
           tmpSkillSet: '',
           hire_by: response[0]?.hire_by,
         };
-        console.log('tmp post redux data========', tmpJobObj);
         this.props.updateTmpPostJob(tmpJobObj);
         //this.props.navigation.navigate('SignInScreen');
 

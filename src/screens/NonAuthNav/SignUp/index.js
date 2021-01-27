@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   SafeAreaView,
-  StatusBar,
   View,
   Text,
   ScrollView,
@@ -9,10 +8,9 @@ import {
   Pressable,
   Image,
   ImageBackground,
-  Modal,
-  Picker,
   KeyboardAvoidingView,
-  TouchableOpacity,
+  Alert,
+  BackHandler
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,12 +21,12 @@ import Validator from '../../../config/Validator';
 import ApiUrl from '../../../config/ApiUrl';
 import {makePostRequestMultipart} from '../../../services/http-connectors';
 import ErrorMsg from '../../../components/ErrorMsg';
-import {countryCodes} from '../../../config/countrycodes';
 import Toast from 'react-native-simple-toast';
 import {Header} from 'react-navigation-stack'
 // import RNPickerSelect from 'react-native-picker-select';
 
 import Spinner from 'react-native-loading-spinner-overlay';
+import { openInbox } from 'react-native-email-link'
 
 class SignUpScreen extends Component {
   constructor() {
@@ -61,6 +59,24 @@ class SignUpScreen extends Component {
   static navigationOptions = {
     headerShown: false,
   };
+
+  _handleAppStateChange = (userEmail) => {
+    Alert.alert(
+      'A verification link sent to your email id ' + userEmail,
+      'Please open your mail to verify', [{
+        text: 'OPEN MAIL',
+        onPress: () => this.closeApp()
+      },], {
+      cancelable: false
+    }
+    )
+    return true;
+  };
+
+  closeApp = () => {
+    BackHandler.exitApp()
+    openInbox()
+  }
 
   showHide() {
     this.setState({
@@ -106,7 +122,6 @@ class SignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle employee send sms-----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         this.setState({rowID: response[0]?.rowid});
@@ -127,7 +142,6 @@ class SignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle employee validate -----', response);
       if (response) {
         Toast.show(response[0]?.message, Toast.LONG);
         // this.setState({enableSignUp:false});
@@ -149,7 +163,6 @@ class SignUpScreen extends Component {
     });
 
     if (this.state.errors.formIsValid) {
-      console.log('calllllllllllllllllllllllllll');
       let body = new FormData();
       body.append('username', this.state.fields.email);
       body.append('password', this.state.fields.password);
@@ -164,12 +177,12 @@ class SignUpScreen extends Component {
         false,
         body,
       );
-      console.log('handle employee Signup-----', response);
       if (response) {
         this.setState({userEmail: response?.email});
         this.setState({isModalVisible: true, showLoader: false});
-        alert('A verification link sent to your email id');
-        this.props.navigation.navigate('SignInScreen');
+        // alert('A verification link sent to your email id');
+        // this.props.navigation.navigate('SignInScreen');
+        this._handleAppStateChange(this.state.userEmail);
       }
     }
     else{

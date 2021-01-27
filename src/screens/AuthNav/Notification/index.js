@@ -44,7 +44,6 @@ class NotificationScreen extends Component {
         showLoader: false,
         status: res.data[0].message
       });
-      console.log(this.state.notification,"san");
     });
   };
 

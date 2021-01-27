@@ -2,13 +2,8 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
-  Image,
   TouchableOpacity,
-  StatusBar,
-  FlatList,
   ActivityIndicator,
-  TextInput,
   Modal,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
@@ -23,7 +18,6 @@ import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
   makeAuthGetRequest,
-  makePostRequest,
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
@@ -58,7 +52,6 @@ class OnlineCodingClasses extends Component {
 
   fetchFour = async (check) => {
     let response = await makeAuthGetRequest(ApiUrl.Four, false, '');
-    console.log(response, 'fourrespp==>');
     this.setState({
       four: response,
     });
@@ -73,7 +66,6 @@ class OnlineCodingClasses extends Component {
 
   fetchTen = async (check) => {
     let response = await makeAuthGetRequest(ApiUrl.Ten, false, '');
-    console.log(response, 'tenrespp==>');
     this.setState({
       ten: response,
     });
@@ -91,7 +83,6 @@ class OnlineCodingClasses extends Component {
     body.append('id', Id);
     if (cNum == 'four') {
       let response = await makePostRequestMultipart(ApiUrl.Four, false, body);
-      console.log(response, 'fourSyllabus==>');
       this.setState({
         fourSyllabus: response,
         FoursyllabusTab: true,
@@ -99,7 +90,6 @@ class OnlineCodingClasses extends Component {
       });
     } else if (cNum == 'ten') {
       let response = await makePostRequestMultipart(ApiUrl.Ten, false, body);
-      console.log(response, 'TenSyllabus==>');
       this.setState({
         tenSyllabus: response,
         TensyllabusTab: true,
@@ -180,14 +170,12 @@ class OnlineCodingClasses extends Component {
       );
       body.append('free_class', 0);
 
-      console.log(body);
 
       let response = await makePostRequestMultipart(
         ApiUrl.CourseSubmit,
         false,
         body,
       );
-      console.log('CourseSubmit-----', response);
 
       if (response[0].hire_by == 'me') {
         this.setState({
@@ -267,7 +255,6 @@ class OnlineCodingClasses extends Component {
         false,
         body,
       );
-      console.log('CourseSubmit-----', response);
 
       if (response[0].hire_by == 'me') {
         alert('Successfully Posted ');

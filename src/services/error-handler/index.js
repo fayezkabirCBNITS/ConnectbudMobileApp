@@ -1,5 +1,4 @@
 export const handleErrorIfAvailable = (httpResponse) => {
-  // console.log("handleErrorIfAvailable -> httpResponse", httpResponse);
   switch (httpResponse.status) {
     case 401: {
       // Token expired

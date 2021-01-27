@@ -82,9 +82,7 @@ class BankDetailScreen extends Component {
       method: 'POST',
       data: taglistbody,
     }).then((response) => {
-      console.log(response);
       if (response.data[0].message !== 'No data found') {
-        console.log('ssssssssssss');
         this.setState({
           route: response.data[0].routing.trim(),
           name: response.data[0].name.trim(),
@@ -158,7 +156,6 @@ class BankDetailScreen extends Component {
     taglistbody.append('routing', this.state.route);
     taglistbody.append('account', this.state.account);
 
-    console.log(taglistbody);
 
     await axios({
       url: API_URL + 'info',
@@ -166,7 +163,6 @@ class BankDetailScreen extends Component {
       data: taglistbody,
     })
       .then((response) => {
-        console.log(response);
         this.setState({
           route: '',
           name: '',

@@ -5,27 +5,20 @@ import {
     TouchableOpacity,
     SafeAreaView,
     ScrollView,
-    Dimensions,
     Image,
-    ImageBackground,
     TextInput,
-    FlatList,
     ActivityIndicator,
     KeyboardAvoidingView
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { Picker } from '@react-native-community/picker';
 import { withNavigation } from "react-navigation";
-// import { updateslug, updateUserDetails } from "../../../redux/actions/user-data";
 import { connect } from "react-redux";
 import base64 from "base-64"
-// import API_URL from '../../../config/ApiUrl';
-import API_URL, { BASE_URL } from "../../../config/ApiUrl";
+import API_URL from "../../../config/ApiUrl";
 import ApiUrl from '../../../config/ApiUrl';
 import { makePostRequestMultipart } from '../../../services/http-connectors';
 // import ImagePicker from 'react-native-image-picker';
@@ -108,7 +101,6 @@ class AddPortfolioScreen extends Component {
 
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
-      console.log(response);
       if (this.props.navigation.state.params.portfolioID !== "") {
         this.setState({
           porfolioTitle: response[0].portfolio[0].title, portfolioDescription: response[0].portfolio[0].description, portfolioId: response[0].portfolio[0].id,
@@ -188,7 +180,6 @@ class AddPortfolioScreen extends Component {
       includeBase64: true,
       mediaType: 'photo'
     }).then(images => {
-      console.log("images---", images)
       this.setState({ profileImageSource: "data:image/png;base64," + images.data });
     })
   }

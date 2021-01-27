@@ -17,8 +17,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
-  decodeToken,
-  deepClone,
   logoutUser,
 } from '../../services/helper-methods';
 import {NavigationActions, StackActions} from 'react-navigation';
@@ -65,7 +63,6 @@ class Sidebar extends Component {
       data: body,
     })
       .then((response) => {
-        console.log(response);
         if (response.data[0].message !== 'token doesnot match') {
           this.setState({
             profileSet: response.data,

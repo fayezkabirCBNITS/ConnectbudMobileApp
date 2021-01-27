@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ScrollView, Button, Dimensions } from 'react-native';
+import { View, Text, Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
@@ -154,7 +154,6 @@ class QualityTalent extends Component {
       await this.setState({
         expertset: response,
       });
-      console.log(this.state.expertset);
     }
   };
 

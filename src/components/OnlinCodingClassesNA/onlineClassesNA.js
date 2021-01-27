@@ -6,9 +6,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
-  FlatList,
   ActivityIndicator,
-  TextInput,
   Modal,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
@@ -23,7 +21,6 @@ import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
   makeAuthGetRequest,
-  makePostRequest,
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../ErrorMsg';
@@ -59,7 +56,6 @@ class OnlineCodingClasses extends Component {
 
   fetchFour = async (check) => {
     let response = await makeAuthGetRequest(ApiUrl.Four, false, '');
-    console.log(response, 'fourrespp==>');
     this.setState({
       four: response,
     });
@@ -74,7 +70,6 @@ class OnlineCodingClasses extends Component {
 
   fetchTen = async (check) => {
     let response = await makeAuthGetRequest(ApiUrl.Ten, false, '');
-    console.log(response, 'tenrespp==>');
     this.setState({
       ten: response,
     });
@@ -92,7 +87,6 @@ class OnlineCodingClasses extends Component {
     body.append('id', Id);
     if (cNum == 'four') {
       let response = await makePostRequestMultipart(ApiUrl.Four, false, body);
-      console.log(response, 'fourSyllabus==>');
       this.setState({
         fourSyllabus: response,
         FoursyllabusTab: true,
@@ -100,7 +94,6 @@ class OnlineCodingClasses extends Component {
       });
     } else if (cNum == 'ten') {
       let response = await makePostRequestMultipart(ApiUrl.Ten, false, body);
-      console.log(response, 'TenSyllabus==>');
       this.setState({
         tenSyllabus: response,
         TensyllabusTab: true,
@@ -187,7 +180,6 @@ class OnlineCodingClasses extends Component {
         false,
         body,
       );
-      console.log('CourseSubmit-----', response);
 
       if (response[0].message === 'Success' && response[0]?.job_id) {
         let tmpJobObj = {
@@ -195,7 +187,6 @@ class OnlineCodingClasses extends Component {
           tmpSkillSet: '',
           hire_by: response[0]?.hire_by,
         };
-        console.log('tmp post redux data========', tmpJobObj);
         this.props.updateTmpPostJob(tmpJobObj);
         //this.props.navigation.navigate('SignInScreen');
 
@@ -249,14 +240,12 @@ class OnlineCodingClasses extends Component {
       body.append('page_type', 'landing');
       body.append('free_class', 0);
 
-      console.log(body,"landing online");
 
       let response = await makePostRequestMultipart(
         ApiUrl.CourseSubmit,
         false,
         body,
       );
-      console.log('CourseSubmit-----', response);
 
       /*
             if (response[0].hire_by == 'me') {
@@ -273,7 +262,6 @@ class OnlineCodingClasses extends Component {
           tmpSkillSet: '',
           hire_by: response[0]?.hire_by,
         };
-        console.log('tmp post redux data========', tmpJobObj);
         this.props.updateTmpPostJob(tmpJobObj);
         //this.props.navigation.navigate('SignInScreen');
 

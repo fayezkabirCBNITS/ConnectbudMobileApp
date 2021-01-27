@@ -68,10 +68,7 @@ class InternshipJobs extends Component {
   };
 
   componentWillReceiveProps() {
-    console.log(this.props.JobShowData.length);
     if (this.props.JobShowData.length > 0) {
-      console.log("tutor job called");
-
       this.Method();
       this.catSkill();
       this.child();

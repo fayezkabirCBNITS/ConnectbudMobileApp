@@ -52,7 +52,6 @@ class FreeContactScreen extends Component {
       method: 'POST',
       data: body,
     }).then((response) => {
-      console.log(response);
       this.setState({
         projectData: response.data,
         mileData: response.data[0].details,
@@ -71,7 +70,6 @@ class FreeContactScreen extends Component {
       method: 'POST',
       data: taglist,
     }).then((res) => {
-      console.log(res);
       // this.setState({
       //   amount: res.data,
       // });
@@ -103,12 +101,10 @@ class FreeContactScreen extends Component {
           mileData: response.data[0].details,
         });
       }
-      console.log('mileData', this.state.mileData);
     });
   };
 
   moneyRequest = async (mileId, Status) => {
-    console.log(mileId);
     this.setState({
       showLoader: true,
       SWAL: Status,
@@ -128,7 +124,6 @@ class FreeContactScreen extends Component {
         this.milestone();
         // localStorage.setItem("acceptStatus", "true");
         if (this.state.SWAL === 'free') {
-          console.log('if called');
           this.setState({
             showLoader: false
           })
@@ -190,7 +185,7 @@ class FreeContactScreen extends Component {
                 if (item.message !== 'No data found') {
                   return (
                     <>
-                      <Collapse style={styles.collapse}>
+                      <Collapse isCollapsed={true} style={styles.collapse}>
                         <CollapseHeader>
                           <View style={styles.questions}>
                             <Text style={styles.questionsText}>

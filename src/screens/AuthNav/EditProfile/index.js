@@ -205,7 +205,6 @@ class EditProfileScreen extends Component {
 
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
-      console.log(response);
       this.props.updateslug(base64.encode(response[0].slug_name));
       this.setState({ showLoader: false })
       if (response[0].message === "Edit Intro has been Updated with Pic into the DB") {
@@ -243,7 +242,6 @@ class EditProfileScreen extends Component {
 
       const res = axios.post(`${BASE_URL}SaveProfileImage`, body);
       res.then(res => {
-        console.log('ress=====>', res)
       });
     })
 
@@ -275,7 +273,6 @@ class EditProfileScreen extends Component {
 
       const res = axios.post(`${BASE_URL}SaveCoverImage`, body);
       res.then(res => {
-        console.log('ress=====>', res)
       });
     })
   };

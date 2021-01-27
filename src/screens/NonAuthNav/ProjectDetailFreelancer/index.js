@@ -4,19 +4,11 @@ import {
   StatusBar,
   View,
   Text,
-  TextInput,
-  Pressable,
-  ImageBackground,
   Image,
   TouchableOpacity,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import CommonStatusBar from '../../../components/StatusBar';
 import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Header from '../../../components/Header';
 import styles from './style';
 import {ScrollView} from 'react-native-gesture-handler';
 import {updateJobId} from '../../../redux/actions/user-data';
@@ -39,9 +31,7 @@ class ProjectDetailsFreelancerNA extends Component {
   };
 
   componentDidMount = async () => {
-    console.log("sallllllllllllllllll");
     const {params} = this.props.navigation.state;
-    console.log(params);
     this.setState({showLoader: true});
 
     let body = new FormData();
@@ -55,7 +45,6 @@ class ProjectDetailsFreelancerNA extends Component {
       false,
       body,
     );
-    console.log(response, 'type');
     if (response) {
       this.setState({
         jobDetails: response,

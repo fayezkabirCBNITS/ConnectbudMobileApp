@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
+  BackHandler
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -63,6 +64,7 @@ class CategoryScreen extends Component {
   };
 
   componentDidMount = async () => {
+    BackHandler.addEventListener('hardwareBackPress', this._handleAppStateChange);
     let response = await makeGetRequest(ApiUrl.FetchCategory + this.props.navigation.state.params.userID, false, "");
     if (response[0].message === "Profile exists") {
       this.props.navigation.navigate('SignInScreen')
@@ -71,6 +73,14 @@ class CategoryScreen extends Component {
         categorySet: response
       });
     }
+  };
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = () => {
+    BackHandler.exitApp()
   };
 
   static navigationOptions = {

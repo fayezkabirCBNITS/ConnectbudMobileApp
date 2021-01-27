@@ -6,13 +6,11 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Button,
 } from 'react-native';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import CommonStyles from '../../../../CommonStyles';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -90,7 +88,6 @@ class HireStudentsScreen extends Component {
     this.setState({
       projectDetails: response[0],
     });
-    console.log(this.state.projectDetails,"saaaaaaaaaaaaaaaaaa");
   };
   showDateTimePicker = () => {
     this.setState({showStartDatePicker: true});
@@ -104,7 +101,6 @@ class HireStudentsScreen extends Component {
   };
 
   handleProjectDate = (date) => {
-    console.log('A date has been picked: ', date);
   };
   addSection = () => {
     this.setState({

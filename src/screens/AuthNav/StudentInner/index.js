@@ -4,7 +4,7 @@ import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 import TutoringJobs from '../../../components/TutoringJobs';
 import StudentProject from '../../../components/StudentProject';
 import InternshipJobs from '../../../components/InternshipJobs';
@@ -111,12 +111,7 @@ class StudentInner extends Component {
     });
   };
 
-  // ProjectId = async (data) => {
-  //   console.log(data);
-  //   this.setState({
-  //     JobId: data,
-  //   })
-  // };
+  
 
   renderScene = ({ route }) => {
     switch (route.title) {

@@ -163,14 +163,12 @@ class PostProjectNA extends Component {
     jobDescription.append('projects_for', 'All');
     jobDescription.append('page_type', 'landing');
 
-    console.log('post freelancer job=============', jobDescription);
 
     let response = await makePostRequestMultipart(
       ApiUrl.FreelancerJob,
       false,
       jobDescription,
     );
-    console.log('handle freelancer post a job-----', response);
 
     if (response) {
       /*
@@ -200,7 +198,6 @@ class PostProjectNA extends Component {
           tmpSkillSet: response[0].skill_set,
           hire_by: null,
         };
-        console.log('tmp post redux data========', tmpJobObj);
         this.props.updateTmpPostJob(tmpJobObj);
         //this.props.navigation.navigate('SignInScreen');
 
@@ -218,7 +215,6 @@ class PostProjectNA extends Component {
     body.append('type', 'freelancer');
 
     let response = await makePostRequestMultipart(ApiUrl.JobMail, false, body);
-    console.log('handle fire mail-----', response);
   };
   */
   onButtonSubmit = async () => {

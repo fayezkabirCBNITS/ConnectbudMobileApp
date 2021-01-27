@@ -7,6 +7,7 @@ import {
   ScrollView,
   Dimensions,
   Image,
+  BackHandler
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
@@ -83,6 +84,7 @@ class AddskillScreen extends Component {
   };
 
   componentDidMount = async () => {
+    BackHandler.addEventListener('hardwareBackPress', this._handleAppStateChange);
     const body = {
       category_id: this.props.navigation.state.params.tagID.toString(),
       page_type: "maintag"
@@ -92,6 +94,14 @@ class AddskillScreen extends Component {
       skillSet: response
     });
   }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = () => {
+    BackHandler.exitApp()
+  };
 
   // handleChange = async (e) => {
   //   await this.setState({

@@ -41,7 +41,6 @@ class HomeScreen extends Component {
       firstQuery: '',
       showLoader: false,
     };
-    console.log(this.props);
   }
 
   static navigationOptions = {
@@ -81,7 +80,6 @@ class HomeScreen extends Component {
       type: this.state.user
     }).then(res=>{
       if(res.status == 200){
-        console.log(res)
         if(this.state.user === 'freelancer'){
           this.props.navigation.navigate('SearchClgStuNA',{res})
           this.setState({
@@ -101,7 +99,6 @@ class HomeScreen extends Component {
     })
   }
   render() {
-    console.log('this.state.user',this.state.user)
     const { firstQuery } = this.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
