@@ -110,7 +110,7 @@ class AddPortfolioScreen extends Component {
     headerShown: false,
   };
 
-  handleAddPortfolio = async data => {
+  handleAddPortfolio = async() => {
     let body = new FormData();
 
     body.append("id", this.props.userDeatailResponse.row_id);
@@ -154,9 +154,15 @@ class AddPortfolioScreen extends Component {
     body.append("portfolio_id", this.state.portfolioId);
     body.append("devices", "mobile");
 
+    console.log(body,"portfolio");
+
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
+      console.log(response,"connectbud");
       this.props.navigation.navigate('ProfileScreen')
+    }
+    else{
+      console.log("error called")
     }
   }
 

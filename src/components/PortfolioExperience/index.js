@@ -34,6 +34,8 @@ class PortfolioExperience extends Component {
   };
 
   componentDidMount = async () => {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', async() => {
     await axios({
       url: API_URL + "expertProfile/" + base64.decode(this.props.userDeatailResponse.slug),
       method: 'GET',
@@ -47,6 +49,22 @@ class PortfolioExperience extends Component {
         });
       })
       .catch(() => { });
+    });
+
+    await axios({
+      url: API_URL + "expertProfile/" + base64.decode(this.props.userDeatailResponse.slug),
+      method: 'GET',
+    })
+      .then((response) => {
+        this.setState({
+          experienceset: response.data[0].experiences,
+          urlprofessional: response.data[0].experiences.map(
+            (obj) => obj.professionalurls
+          ),
+        });
+      })
+      .catch(() => { });
+
   };
 
   render() {

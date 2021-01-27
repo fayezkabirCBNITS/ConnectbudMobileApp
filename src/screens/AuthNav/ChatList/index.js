@@ -389,7 +389,7 @@ class ChatListScreen extends Component {
                     <TouchableOpacity
                       onPress={() => this.PageNav()}
                       style={styles.viewBtn}>
-                      <Text style={styles.loginBtnText2}>View Proposal</Text>
+                      <Text style={styles.loginBtnText2}>View Invitation</Text>
                     </TouchableOpacity>
                   </View>
                 ) : null}
