@@ -283,7 +283,7 @@ class TutorDetailsFreelancer extends Component {
                   ) : (
                     <></>
                   )}
-
+                  
                   <Text>
                     <Text style={styles.textSemibold}>Course Syllabus :</Text>{' '}
                     <Text style={styles.syllabusText}>{value.description}</Text>
