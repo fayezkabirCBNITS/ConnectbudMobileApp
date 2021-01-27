@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   Linking,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from './styles';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { API_URL } from "../../config/url";
 import { connect } from "react-redux";
