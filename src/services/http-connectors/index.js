@@ -40,7 +40,6 @@ export const makeGetRequest = async (
   if (params) {
     queryString = structureQueryParams(params);
   }
-  console.log("url, attachToken, params :>> ", CONNECTBUD_API_BASE_URL+url, attachToken, params);
   let headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -49,7 +48,6 @@ export const makeGetRequest = async (
   let isValid = false;
   if (attachToken) {
     try {
-      console.log("🚀 ~ file: index.js ~ line 51 ~ queryString", queryString);
       const authToken = await getToken();
       if (authToken) {
         headers["Authorization"] = "Bearer " + authToken;
@@ -65,7 +63,6 @@ export const makeGetRequest = async (
       })
       .then(
         async (res) => {
-          console.log('res---', res);
           handleErrorIfAvailable(res);
           return await res.json();
         },
@@ -96,7 +93,6 @@ export const makeAuthGetRequest = async (
   attachToken = false,
   params = {},
 ) => {
-  console.log('GET url --- ', url);
   let headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -110,7 +106,6 @@ export const makeAuthGetRequest = async (
     } catch (e) {}
   }
   return new Promise((resolve, reject) => {
-    console.log('GET final url --- ',CONNECTBUD_API_BASE_URL+ url+params);
 
     try {
       fetch(CONNECTBUD_API_BASE_URL + url + params, {
@@ -144,7 +139,6 @@ export const makePostRequest = async (
   attachToken = false,
   params = {},
 ) => {
-  console.log('POST url :>> ', CONNECTBUD_API_BASE_URL+url, params);
   let headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -169,7 +163,6 @@ export const makePostRequest = async (
       })
         .then(
           async (res) => {
-            console.log('res---', res);
             handleErrorIfAvailable(res);
             return await res.json();
           },
@@ -201,7 +194,6 @@ export const makePostRequestMultipart = async (
   attachToken = false,
   params = {},
 ) => {
-  console.log('POST url :>> ', url, params);
   let headers = {
     Accept: 'application/json',
     'Content-Type': 'multipart/form-data',
@@ -260,7 +252,6 @@ export const makePostRequestMultipart = async (
  * @param {object} params parameters
  */
 export const makePutRequest = async (url, attachToken = false, params = {}) => {
-  console.log("PUT -> url", url, params);
 
   let headers = {
     Accept: "application/json",
@@ -284,7 +275,6 @@ export const makePutRequest = async (url, attachToken = false, params = {}) => {
       })
       .then(
         async (res) => {
-          console.log('res---', res);
           handleErrorIfAvailable(res);
           return await res.json();
         },
@@ -321,7 +311,6 @@ export const makeDeleteRequest = async (
   attachToken = false,
   params = {}
 ) => {
-  console.log("url :>> ", url);
   let headers = {
     Accept: "application/json",
     "Content-Type": 'multipart/form-data',
@@ -345,7 +334,6 @@ export const makeDeleteRequest = async (
       })
       .then(
         async (res) => {
-          console.log('res---', res);
           handleErrorIfAvailable(res);
           return await res.json();
         },
