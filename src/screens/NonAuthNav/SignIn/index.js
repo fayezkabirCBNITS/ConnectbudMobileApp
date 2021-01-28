@@ -39,6 +39,8 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 
+import { appleAuth, AppleAuthCredentialState, } from '@invertase/react-native-apple-authentication';
+
 GoogleSignin.configure({
   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
   webClientId: "939760452813-km2tef4lecjv55ivivgg9232julqgnl6.apps.googleusercontent.com",
@@ -367,6 +369,17 @@ class SignInScreen extends Component {
     } catch (error) {
       Toast.show('Something went wrong!');
     }
+  };
+
+  appleLogin = async () => {
+    return appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    }).then(appleAuthRequestResponse => {
+      //alert("Anukram");
+      let { identityToken, email } = appleAuthRequestResponse;
+      //alert(identityToken + "Email: " + email);
+    });
   };
 
   sociallogin = async (email, name, provider_id, picture, provider) => {

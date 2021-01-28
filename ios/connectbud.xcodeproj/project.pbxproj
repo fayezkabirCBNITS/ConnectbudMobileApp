@@ -107,6 +107,7 @@
 		CEC316C4259B3D80002C9161 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		CEC316C5259B3D80002C9161 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		CEC316C6259B3D81002C9161 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		CEF80A3725C1850900596825 /* connectbud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = connectbud.entitlements; path = connectbud/connectbud.entitlements; sourceTree = "<group>"; };
 		D59D19B6455F4722916AF967 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		D5FB3E6D73CE4480F0DFBD9C /* libPods-connectbud-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-connectbud-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E58B3705718024CF4A4E63BA /* Pods-connectbud-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-connectbud-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-connectbud-tvOSTests/Pods-connectbud-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -171,6 +172,7 @@
 		13B07FAE1A68108700A75B9A /* connectbud */ = {
 			isa = PBXGroup;
 			children = (
+				CEF80A3725C1850900596825 /* connectbud.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -849,6 +851,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = connectbud/connectbud.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -878,6 +881,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = connectbud/connectbud.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
