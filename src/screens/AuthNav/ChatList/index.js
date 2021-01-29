@@ -73,10 +73,10 @@ class ChatListScreen extends Component {
   };
 
   componentDidMount() {
-    const {navigation} = this.props;
+    /* const {navigation} = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.chatFullDetails();
-    });
+    }); */
     this.chatFullDetails();
   }
 
@@ -99,15 +99,15 @@ class ChatListScreen extends Component {
       data: body,
     })
       .then((response) => {
-        this.setState({showLoader: false});
         this.setState({
+          showLoader: false,
           chatMessage: response.data,
           request_type: response.data[0].request_type,
           request_status: response.data[0].request_status,
           room_id: this.state.job_id + '_' + this.state.sender_id,
           proposed_amount: response.data[0].proposed_amount,
           ProjectType: response.data[0].detail_type,
-          recImage: response.data[0].receiver_image,
+          recImage: response.data[0].receiver_image
         });
         setTimeout(() => {
           if (this.refs && this.refs.scrollView) {

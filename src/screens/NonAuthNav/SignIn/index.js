@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -39,7 +40,10 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 
-import { appleAuth, AppleAuthCredentialState, } from '@invertase/react-native-apple-authentication';
+import appleAuth, {
+  AppleAuthRequestScope,
+  AppleAuthRequestOperation,
+  AppleAuthCredintialState} from '@invertase/react-native-apple-authentication';
 
 GoogleSignin.configure({
   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
@@ -371,15 +375,46 @@ class SignInScreen extends Component {
     }
   };
 
-  appleLogin = async () => {
-    return appleAuth.performRequest({
+  appleLogin = () => {
+      return appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      }).then(appleAuthRequestResponse => {
+        let { identityToken, email, fullName } = appleAuthRequestResponse;
+        alert(identityToken + "Email: " + email);
+        if (email === null) {
+          alert(
+            'No email-id found in your apple account.Please do manual Signup',
+          );
+        } else {
+          this.sociallogin(email, fullName, identityToken, null, 'apple');
+        }
+      })
+
+      //const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+      //if (credentialState === AppleAuthCredintialState.AUTHORIZED) {
+      // retrieve identityToken from sign in request
+      //alert("Authenticated")
+      //}
+      // you may also want to send the device's ID to your server to link a device with the account
+      //const deviceId = 'abcdeeeee123';
+
+      
+    
+    
+    /*
+    const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    }).then(appleAuthRequestResponse => {
-      //alert("Anukram");
-      let { identityToken, email } = appleAuthRequestResponse;
-      //alert(identityToken + "Email: " + email);
     });
+    */
+
+    //then(appleAuthRequestResponse => {
+      //alert("Anukram");
+      //let { identityToken, email } = appleAuthRequestResponse;
+      //alert(identityToken + "Email: " + email);
+    //});
   };
 
   sociallogin = async (email, name, provider_id, picture, provider) => {
@@ -390,11 +425,16 @@ class SignInScreen extends Component {
     if (provider === 'google') {
       body.append('appId', '');
       body.append('googleId', provider_id);
+      body.append('appleid', '');
+    } else if (provider === 'apple') {
+      body.append('appleid', provider_id);
+      body.append('appId', '');
+      body.append('googleId', '');
     } else {
       body.append('appId', provider_id);
       body.append('googleId', '');
+      body.append('appleid', '');
     }
-
     body.append('profileImage', picture);
     body.append('email', email);
 

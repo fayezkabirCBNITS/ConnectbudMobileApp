@@ -44,10 +44,10 @@ class ChatScreen extends Component {
   };
 
   componentDidMount() {
-    const { navigation } = this.props;
+    /* const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.chatUserUpdate();
-    })
+    }) */
     this.chatUserUpdate();
   }
 

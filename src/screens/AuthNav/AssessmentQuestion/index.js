@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,14 @@ import {
 } from 'react-native';
 import styles from './style';
 import CommonStyles from '../../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import HeaderTop from '../../../components/Header';
-import {Header} from 'react-navigation-stack';
+import { Header } from 'react-navigation-stack';
 
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
+import { API_URL } from '../../../config/url';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import base64 from 'base-64';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -108,7 +108,7 @@ class AssessmentQuestion extends Component {
   };
 
   componentDidMount = async () => {
-    const {userDeatailResponse} = this.props;
+    const { userDeatailResponse } = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
     });
@@ -152,10 +152,10 @@ class AssessmentQuestion extends Component {
           });
         }
 
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -209,95 +209,104 @@ class AssessmentQuestion extends Component {
     }
   };
 
+  btnName = (textName) => {
+    console.log("Submit calllll");
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <Text style={styles.authBtnText}>{textName}</Text>
+      </View>
+    );
+  };
+
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={Header.HEIGHT + 0}
-          behavior="padding"
-          style={{flex: 1}}
-        >
-          <Spinner
-            visible={this.state.showLoader}
-            animation="fade"
-            textContent={'Loading...'}
-          />
-           <HeaderTop />
-          <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-           
-            <View>
-              <Text style={styles.Heading}>Assessment Questions</Text>
-              {/* <Divider style={styles.divider} /> */}
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={Header.HEIGHT + 0}
+            behavior="padding"
+            style={{ flex: 1 }}
+          >
+            <Spinner
+              visible={this.state.showLoader}
+              animation="fade"
+              textContent={'Loading...'}
+            />
+            <HeaderTop />
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
 
-              <Text style={styles.quesHead}>
-                Q : *Why should you be hired for this tutoring job?
-              </Text>
               <View>
-                <TextInput
-                  returnKeyType="done"
-                  placeholder="Mention in detail what skills you have for this tutoring job"
-                  keyboardType="default"
-                  style={styles.inputBox}
-                  multiline={true}
-                  numberOfLines={5}
-                  onChangeText={(e) => this.handleFirstAns(e)}
-                />
+                <Text style={styles.Heading}>Assessment Questions</Text>
+                {/* <Divider style={styles.divider} /> */}
+
+                <Text style={styles.quesHead}>
+                  Q : *Why should you be hired for this tutoring job?
+              </Text>
+                <View>
+                  <TextInput
+                    returnKeyType="done"
+                    placeholder="Mention in detail what skills you have for this tutoring job"
+                    keyboardType="default"
+                    style={styles.inputBox}
+                    multiline={true}
+                    numberOfLines={5}
+                    onChangeText={(e) => this.handleFirstAns(e)}
+                  />
+                </View>
+                <Text style={styles.errorText}>
+                  {this.state.errors.firstAnswer}
+                  {this.state.errors.firstAnswerChara}
+                </Text>
+
+                <Text style={styles.quesHead}>
+                  Q : *Do you have any past experience?
+              </Text>
+                <View>
+                  <TextInput
+                    returnKeyType="done"
+                    placeholder="Mention in details what past experience you have"
+                    keyboardType="default"
+                    style={styles.inputBox}
+                    multiline={true}
+                    numberOfLines={5}
+                    onChangeText={(e) => this.handleSecondAns(e)}
+                  />
+                </View>
               </View>
               <Text style={styles.errorText}>
-                {this.state.errors.firstAnswer}
-                {this.state.errors.firstAnswerChara}
+                {this.state.errors.secondAnswer}
+                {this.state.errors.secondAnswerChara}
               </Text>
 
               <Text style={styles.quesHead}>
-                Q : *Do you have any past experience?
-              </Text>
+                Q : Do you have any queries about this tutoring job?
+            </Text>
               <View>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="Mention in details what past experience you have"
+                  placeholder="Mention about any queries"
                   keyboardType="default"
                   style={styles.inputBox}
                   multiline={true}
                   numberOfLines={5}
-                  onChangeText={(e) => this.handleSecondAns(e)}
+                  onChangeText={(e) => this.handleThirdAns(e)}
                 />
               </View>
-            </View>
-            <Text style={styles.errorText}>
-              {this.state.errors.secondAnswer}
-              {this.state.errors.secondAnswerChara}
-            </Text>
 
-            <Text style={styles.quesHead}>
-              Q : Do you have any queries about this tutoring job?
-            </Text>
-            <View>
-              <TextInput
-                returnKeyType="done"
-                placeholder="Mention about any queries"
-                keyboardType="default"
-                style={styles.inputBox}
-                multiline={true}
-                numberOfLines={5}
-                onChangeText={(e) => this.handleThirdAns(e)}
-              />
-            </View>
+              <Text style={styles.quesHead}>Proposed Amount(in USD)</Text>
+              <View>
+                <TextInput
+                  returnKeyType="done"
+                  placeholder="Please enter your amount"
+                  keyboardType="default"
+                  style={styles.inputBox}
+                  numberOfLines={1}
+                  value={this.state.priceAmount}
+                  onChangeText={(e) => this.handleCTC(e)}
+                />
+              </View>
 
-            <Text style={styles.quesHead}>Proposed Amount(in USD)</Text>
-            <View>
-              <TextInput
-                returnKeyType="done"
-                placeholder="Please enter your amount"
-                keyboardType="default"
-                style={styles.inputBox}
-                numberOfLines={1}
-                value={this.state.priceAmount}
-                onChangeText={(e) => this.handleCTC(e)}
-              />
-            </View>
-
-            {/* <Text style={styles.quesHead}>Upload Resume (Doxs, pdf - 2MB max)</Text>
+              {/* <Text style={styles.quesHead}>Upload Resume (Doxs, pdf - 2MB max)</Text>
                         <View>
                             <TouchableOpacity
                                 style={[styles.uploadBtn]}>
@@ -317,31 +326,25 @@ class AssessmentQuestion extends Component {
                             />
                         </View> */}
 
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <TouchableOpacity style={[styles.authBtn]}>
-                <Text
-                  style={styles.authBtnText}
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity style={[styles.authBtn]}
                   onPress={() =>
                     this.props.navigation.navigate('StudentInner')
                   }>
-                  CANCEL
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.authBtn]}>
+                  {this.btnName('Cancel')}
+                </TouchableOpacity>
                 {this.state.jobDetails.map((value, index) => {
                   return (
-                    <Text
-                      style={[styles.authBtnText, {color: '#fff'}]}
+                    <TouchableOpacity style={[styles.authBtn]}
                       onPress={() =>
-                        this.onSubmit(value.id, value.user_id, value.token)
+                        this.onSubmit()
                       }>
-                      SUBMIT
-                    </Text>
+                      {this.btnName('Submit')}
+                    </TouchableOpacity>
                   );
                 })}
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
+              </View>
+            </ScrollView>
           </KeyboardAvoidingView>
         </View>
       </SafeAreaView>
