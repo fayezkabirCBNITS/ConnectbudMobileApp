@@ -71,6 +71,12 @@ export default {
   marVer15: {
     marginVertical: 15,
   },
+  padVer15: {
+    paddingTop: 15,
+    backgroundColor: '#f6f8fb',
+    borderBottomColor: '#71b85f',
+    borderBottomWidth: 1.5,
+  },
   hdng: {
     marginBottom: 10,
     fontFamily: 'Poppins-SemiBold',
@@ -176,5 +182,21 @@ export default {
     position: 'absolute',
     top: 12,
     left: 15,
+  },
+  bookClassBtn: {
+    width: 140,
+    height: 30,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    position: 'absolute',
+    bottom: 20,
+    left: '12%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bookClassBtnText: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 12,
+    color: '#71b85f'
   },
 };

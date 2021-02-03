@@ -127,12 +127,25 @@ class HomeScreen extends Component {
           </View>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <TouchableOpacity activeOpacity={1} style={styles.width100}>
+            {/* <TouchableOpacity activeOpacity={1} style={styles.width100}>
               <Image
                 source={require('../../../assets/images/homeBnr.jpg')}
                 style={styles.coverImage}
               />
-            </TouchableOpacity>
+              <View style={{width: 120, height: 50, backgroundColor: '#fff', borderRadius: 7, position: 'absolute', bottom: 0,}}>
+                <Text>Book A You Freeclass</Text>
+              </View>
+            </TouchableOpacity> */}
+
+            <View activeOpacity={1} style={styles.width100}>
+              <Image
+                source={require('../../../assets/images/homeBnr.jpg')}
+                style={styles.coverImage}
+              />
+              <TouchableOpacity style={styles.bookClassBtn}>
+                <Text style={styles.bookClassBtnText}>Book Your Freeclass</Text>
+              </TouchableOpacity>
+            </View>
 
             <View style={CommonStyles.container}>
               <View style={[styles.searchDropSec, styles.marTop15]}>
@@ -179,7 +192,7 @@ class HomeScreen extends Component {
               )}
             </View>
 
-            <View style={styles.marVer15}>
+            <View style={styles.padVer15}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>
                   Recently Joined College Students
