@@ -45,14 +45,14 @@ export default {
   // },
   name: {
     fontFamily: 'Poppins-SemiBold',
-    fontSize: 17,
-    color: '#000',
+    fontSize: 16,
+    color: '#3e4864',
     textAlign: 'center',
   },
   designation: {
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
-    color: '#000',
+    color: '#7e7e7e',
     textAlign: 'center',
     marginTop: -2,
   },

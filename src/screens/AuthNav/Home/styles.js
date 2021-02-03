@@ -71,6 +71,12 @@ export default {
   marVer15: {
     marginVertical: 15,
   },
+  padVer15: {
+    paddingTop: 15,
+    backgroundColor: '#f6f8fb',
+    borderBottomColor: '#71b85f',
+    borderBottomWidth: 1.5,
+  },
   hdng: {
     marginBottom: 10,
     fontFamily: 'Poppins-SemiBold',
@@ -139,25 +145,25 @@ export default {
   hdngLgGreen: {
     fontFamily: 'Poppins-Regular',
     fontSize: 19,
-    color: '#71b85f'
+    color: '#71b85f',
   },
-  lightGrey: {    
+  lightGrey: {
     paddingVertical: 20,
-    backgroundColor: '#f6f8fb'
+    backgroundColor: '#f6f8fb',
   },
-  green: {    
+  green: {
     paddingVertical: 20,
-    backgroundColor: '#70b85f'
+    backgroundColor: '#70b85f',
   },
   hdngWhite: {
     marginTop: -7,
     fontFamily: 'Poppins-Regular',
     fontSize: 21,
-    color: '#fff'
+    color: '#fff',
   },
   marTop15: {
     marginTop: 15,
-  },  
+  },
   search: {
     backgroundColor: '#fff',
     shadowColor: '#0000',
@@ -176,5 +182,21 @@ export default {
     position: 'absolute',
     top: 12,
     left: 15,
+  },
+  bookClassBtn: {
+    width: 140,
+    height: 30,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    position: 'absolute',
+    bottom: 20,
+    left: '12%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bookClassBtnText: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 12,
+    color: '#71b85f'
   },
 };

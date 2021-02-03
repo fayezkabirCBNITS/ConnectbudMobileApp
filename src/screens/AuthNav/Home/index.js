@@ -84,12 +84,15 @@ class HomeScreen extends Component {
 
           <ScrollView showsVerticalScrollIndicator={false}>
             
-            <TouchableOpacity activeOpacity={1} style={[styles.width100, {marginBottom: 15}]}>
+            <View activeOpacity={1} style={styles.width100}>
               <Image
                 source={require('../../../assets/images/homeBnr.jpg')}
                 style={styles.coverImage}
               />
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.bookClassBtn}>
+                <Text style={styles.bookClassBtnText}>Book Your Freeclass</Text>
+              </TouchableOpacity>
+            </View>
 
             <View style={CommonStyles.container}>
               {/* <View style={styles.loginHead}>
@@ -126,7 +129,7 @@ class HomeScreen extends Component {
                 </View>
                 )} 
               </View>
-            <View style={styles.marVer15}>
+            <View style={styles.padVer15}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Recently Joined College Students</Text>
               </View>

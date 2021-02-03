@@ -41,12 +41,13 @@ export default {
   popSec: {
     width: 200,
     marginLeft: 15,
-    borderColor: 'rgba(113,184,95,0.5)',
-    borderWidth: 1,
+    borderColor: '#6fbb5c',
+    borderWidth: 2,
     padding: 10,
     paddingVertical: 20,
     alignItems: 'center',
     borderRadius: 7,
+    backgroundColor: 'rgba(52,52,52,0.11)'
   },
   marTop20: {
     marginTop: 20,
