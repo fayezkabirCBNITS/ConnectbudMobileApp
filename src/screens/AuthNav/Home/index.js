@@ -84,7 +84,7 @@ class HomeScreen extends Component {
 
           <ScrollView showsVerticalScrollIndicator={false}>
             
-            <TouchableOpacity activeOpacity={1} style={styles.width100}>
+            <TouchableOpacity activeOpacity={1} style={[styles.width100, {marginBottom: 15}]}>
               <Image
                 source={require('../../../assets/images/homeBnr.jpg')}
                 style={styles.coverImage}
@@ -100,7 +100,7 @@ class HomeScreen extends Component {
                   <Text style={styles.loginBtnText}>Login</Text>
                 </TouchableOpacity>
               </View> */}
-              <View style={styles.searchDropSec}>
+              {/* <View style={styles.searchDropSec}>
                 <View style={styles.searchPicker}>
                     <Picker
                       style={{color: '#71b85f',}}
@@ -113,7 +113,7 @@ class HomeScreen extends Component {
                 <TouchableOpacity onPress={this.showSearch} style={styles.dropSerachIcon}>
                   <FontAwesome name="search" color="#fff" size={22} />
                 </TouchableOpacity>
-              </View>
+              </View> */}
                 {this.state.showSearchBar && (
                   <View style={styles.searchBar}>
                   <TextInput

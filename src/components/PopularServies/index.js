@@ -152,8 +152,8 @@ class PopularServies extends Component {
 
   render() {
     return (
-      <View  style={styles.wrap}>
-        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
+      <>
+        {/* <View  style={styles.wrap}>
         <Swiper
           loop={true}
           showsPagination={false}
@@ -168,7 +168,6 @@ class PopularServies extends Component {
 
                   <View style={styles.marTop20}>
                     <Text style={styles.smText}>{item.tagName}</Text>
-                    {/* <Text style={styles.lgText}>{item.lgText}</Text> */}
                   </View>
                 </TouchableOpacity>
                 </View>
@@ -176,8 +175,43 @@ class PopularServies extends Component {
             }
           })}
           </Swiper>
-        {/* </ScrollView> */}
-      </View>
+      </View> */}
+
+        <View>
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+            {this.state.categoryList.map((item, i) => {
+              if (i < 4) {
+                return (
+                  // <Link
+                  //   to="/landing-projects"
+                  //   onClick={() =>
+                  //     this.storeCategory(item.tagName, item.type)
+                  //   }
+                  // >
+                  <TouchableOpacity
+                    key={i}
+                    style={styles.popSec}
+                    onPress={() =>
+                      this.props.navigation.navigate('LatestProjectList', {
+                        tagName: item.tagName,
+                      })
+                    }>
+                    <Image
+                      source={{uri: item.description}}
+                      style={styles.image}
+                    />
+                    <View style={styles.marTop20}>
+                      <Text style={styles.smText}>{item.tagName}</Text>
+                      {/* <Text style={styles.lgText}>{item.lgText}</Text> */}
+                    </View>
+                  </TouchableOpacity>
+                  //</Link>
+                );
+              }
+            })}
+          </ScrollView>
+        </View>
+      </>
     );
   }
 }

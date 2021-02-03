@@ -8,6 +8,12 @@ export default {
     width: 160,
     marginLeft: 15,
   },
+  // image: {
+  //   width: '50%',
+  //   height: 75,
+  //   borderRadius: 5,
+  //   overflow: 'hidden',
+  // },
   image: {
     width: '50%',
     height: 75,

@@ -3,7 +3,7 @@ import {View, Text, Image} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import {ScrollView} from 'react-native-gesture-handler';
 import styles from './styles';
-import Swiper from 'react-native-swiper'
+import Swiper from 'react-native-swiper';
 
 class HowWorks extends Component {
   constructor() {
@@ -40,33 +40,49 @@ class HowWorks extends Component {
 
   render() {
     return (
-      <View style={styles.wrap}>
-        <Swiper
-          loop={true}
-          showsPagination={false}
-          showsButtons
-        >
-        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
+      // <View style={styles.wrap}>
+      //   <Swiper
+      //     loop={true}
+      //     showsPagination={false}
+      //     showsButtons
+      //   >
+      //   {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
+      //     {this.state.whyHire.map((item, i) => (
+      //       <View key={i} style={styles.swiperWrap}>
+      //       <View key={i} style={styles.width220}>
+      //         <View style={styles.imgSec}>
+      //           <Image
+      //             source={item.img}
+      //             style={styles.image}
+      //           />
+      //         </View>
+      //         <View style={{alignItems: 'center'}}>
+      //           <Text style={styles.headText}>{item.head}</Text>
+      //           <Text style={styles.detailsText}>
+      //             {item.details}
+      //           </Text>
+      //         </View>
+      //       </View>
+      //       </View>
+      //     ))}
+      //   {/* </ScrollView> */}
+      //   </Swiper>
+      // </View>
+
+      <View>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           {this.state.whyHire.map((item, i) => (
-            <View key={i} style={styles.swiperWrap}>
             <View key={i} style={styles.width220}>
               <View style={styles.imgSec}>
-                <Image
-                  source={item.img}
-                  style={styles.image}
-                />
+                <Image source={item.img} style={styles.image} />
               </View>
               <View style={{alignItems: 'center'}}>
                 <Text style={styles.headText}>{item.head}</Text>
-                <Text style={styles.detailsText}>
-                  {item.details}
-                </Text>
+                <Text style={styles.detailsText}>{item.details}</Text>
               </View>
             </View>
-            </View>
           ))}
-        {/* </ScrollView> */}
-        </Swiper>
+        </ScrollView>
       </View>
     );
   }

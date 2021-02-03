@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image} from 'react-native';
+import { View, Text, Image, ScrollView} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
@@ -170,36 +170,55 @@ class QualityTalent extends Component {
 
   render() {
     return (
-      <>
-        <View style={styles.wrap}>
-          <Swiper
-            loop={true}
-            showsPagination={false}
-            autoplay={true}
-            showsButtons
-          >
-            {this.state.expertset.map((value, i) => (
+      // <>
+      //   <View style={styles.wrap}>
+      //     <Swiper
+      //       loop={true}
+      //       showsPagination={false}
+      //       autoplay={true}
+      //       showsButtons
+      //     >
+      //       {this.state.expertset.map((value, i) => (
 
-                <View key={i} style={styles.swiperWrap}>
-                  <TouchableOpacity style={styles.main} onPress={() => this.viewProfile(value.slug, value.user_id)}>
-                    <View style={styles.image}>
-                      <Image
-                        source={{ uri: value.user_image }}
-                        style={CommonStyles.image}
-                      />
-                    </View>
-                    <View style={styles.des}>
-                      <Text style={styles.name}>{value.expert_Name}</Text>
-                      <Text style={styles.designation}>{value.collegeName}</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ))}
-          </Swiper>
-        </View>
+      //           <View key={i} style={styles.swiperWrap}>
+      //             <TouchableOpacity style={styles.main} onPress={() => this.viewProfile(value.slug, value.user_id)}>
+      //               <View style={styles.image}>
+      //                 <Image
+      //                   source={{ uri: value.user_image }}
+      //                   style={CommonStyles.image}
+      //                 />
+      //               </View>
+      //               <View style={styles.des}>
+      //                 <Text style={styles.name}>{value.expert_Name}</Text>
+      //                 <Text style={styles.designation}>{value.collegeName}</Text>
+      //               </View>
+      //             </TouchableOpacity>
+      //           </View>
+      //         ))}
+      //     </Swiper>
+      //   </View>
 
 
-      </>
+      // </>
+
+      <View>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+          {this.state.expertset.map((value, i) => (
+            <TouchableOpacity key={i} style={styles.main} onPress={() => this.viewProfile(value.slug, value.user_id)}>
+              <View style={styles.image}>
+                <Image
+                  source={{ uri: value.user_image }}
+                  style={CommonStyles.image}
+                />
+              </View>
+              <View style={styles.des}>
+                <Text style={styles.name}>{value.expert_Name}</Text>
+                <Text style={styles.designation}>{value.collegeName}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
     );
   }
 }
