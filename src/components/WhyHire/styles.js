@@ -22,10 +22,11 @@ export default {
     textAlign: 'center',
   },
   detailsText: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Regular',
     fontSize: 17,
     color: '#7e7e7e',
     textAlign: 'center',
+    paddingHorizontal: 15
   },
   width200: {
     width: 200,

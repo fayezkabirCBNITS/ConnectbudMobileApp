@@ -373,7 +373,6 @@ class FilterScreen extends Component {
             <CollapseHeader>
               <View style={[styles.flexRow, styles.height50]}>
                 <Text style={styles.head}>Category</Text>
-                <Pressable>
                   {this.state.collapsedCategory == false ? (
                     <MaterialIcons
                       name="keyboard-arrow-down"
@@ -387,7 +386,6 @@ class FilterScreen extends Component {
                       size={30}
                     />
                   )}
-                </Pressable>
               </View>
             </CollapseHeader>
             <CollapseBody>
@@ -417,7 +415,6 @@ class FilterScreen extends Component {
             <CollapseHeader>
               <View style={[styles.flexRow, styles.height50]}>
                 <Text style={styles.head}>Sort By</Text>
-                <Pressable>
                   {this.state.collapsedSort == false ? (
                     <MaterialIcons
                       name="keyboard-arrow-down"
@@ -431,7 +428,6 @@ class FilterScreen extends Component {
                       size={30}
                     />
                   )}
-                </Pressable>
               </View>
             </CollapseHeader>
             <CollapseBody>
@@ -550,7 +546,6 @@ class FilterScreen extends Component {
             <CollapseHeader>
               <View style={[styles.flexRow, styles.height50]}>
                 <Text style={styles.head}>Country</Text>
-                <Pressable>
                   {this.state.collapsedCountry == false ? (
                     <MaterialIcons
                       name="keyboard-arrow-down"
@@ -564,7 +559,6 @@ class FilterScreen extends Component {
                       size={30}
                     />
                   )}
-                </Pressable>
               </View>
             </CollapseHeader>
             <CollapseBody>

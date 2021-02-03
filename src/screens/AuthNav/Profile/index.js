@@ -127,7 +127,7 @@ class ProfileScreen extends Component {
                 <TouchableOpacity
                   style={CommonStyles.hanPosition}
                   onPress={() => this.props.navigation.openDrawer()}>
-                  <Entypo name="menu" color="#71b85f" size={35} />
+                  <Entypo name="menu" color="#000" size={35} />
                 </TouchableOpacity>
                 <View style={styles.userImg}>
                   <Image

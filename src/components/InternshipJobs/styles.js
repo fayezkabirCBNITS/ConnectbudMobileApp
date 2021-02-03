@@ -60,7 +60,8 @@ export default {
 
     },
     rightSection : {
-        width : "85%",
+        // width : "85%",
+        width: '100%',
         paddingLeft : 8
     },
     leftSection : {

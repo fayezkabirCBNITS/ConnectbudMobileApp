@@ -50,7 +50,7 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 17,
     marginBottom: 10,
-    height: 100,
+    height: 50,
   },
   knowMoreBtn: {
     width: '70%',
@@ -61,7 +61,8 @@ export default {
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 'auto',
+    // marginBottom: 'auto',
+    paddingTop: 2
   },
   knowMoreBtnText: {
     fontFamily: 'Poppins-SemiBold',

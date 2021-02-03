@@ -91,9 +91,9 @@ class InternshipJobs extends Component {
               <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
                 <View style={CommonStyles.container}>
                   <View style={styles.subjectWrapper}>
-                    <View style={styles.leftSection}>
+                    {/* <View style={styles.leftSection}>
                       <FontAwesome name="tv" color="#000" size={25} />
-                    </View>
+                    </View> */}
                     <View style={styles.rightSection}>
                       <Text style={styles.boxTitle}>{item.job_title}</Text>
                       <Text style={styles.boxTexts}>{item.description}</Text>

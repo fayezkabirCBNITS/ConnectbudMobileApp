@@ -28,7 +28,7 @@ class BlogScreen extends Component {
             <TouchableOpacity
               style={CommonStyles.hambarIcon}
               onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
+              <Entypo name="menu" color="#000" size={35} />
             </TouchableOpacity>
             <Image
               source={require('../../../assets/images/logo.png')}
@@ -39,7 +39,7 @@ class BlogScreen extends Component {
                 this.props.navigation.navigate('NotificationScreen')
               }
               style={CommonStyles.bellIcon}>
-              <Feather name="bell" color="#71b85f" size={30} />
+              <Feather name="bell" color="#000" size={30} />
             </TouchableOpacity>
           </View>
           {/* header section end */}

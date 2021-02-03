@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -17,8 +17,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import QualityTalent from '../../../components/QualityTalent';
 import PopularServies from '../../../components/PopularServies';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Picker} from '@react-native-community/picker';
-import FontAwesome from  'react-native-vector-icons/FontAwesome';
+import { Picker } from '@react-native-community/picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import WhyHire from '../../../components/WhyHire';
 import HowWorks from '../../../components/HowWorks';
 import LatestProjects from '../../../components/LatestProjects';
@@ -46,20 +46,20 @@ class HomeScreen extends Component {
   }
 
   updateUser = (user) => {
-    this.setState({user: user});
+    this.setState({ user: user });
   };
 
   showSearch = () => {
-    this.setState({showSearchBar: true});
+    this.setState({ showSearchBar: true });
   };
 
   studentLogin = () => {
     this.RBSheet.close(),
-    this.props.navigation.navigate('SignInScreen')
+      this.props.navigation.navigate('SignInScreen')
   }
   hireStudent = () => {
     this.RBSheet.close(),
-    this.props.navigation.navigate('SignInScreen')
+      this.props.navigation.navigate('SignInScreen')
   }
 
   render() {
@@ -67,31 +67,34 @@ class HomeScreen extends Component {
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
           <StatusBar />
-        {/* header section */}
-          <View style={CommonStyles.header}>         
+          {/* header section */}
+          <View style={CommonStyles.header}>
             <TouchableOpacity style={CommonStyles.hambarIcon} onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
+              <Entypo name="menu" color="#000" size={35} />
             </TouchableOpacity>
             <Image
               source={require('../../../assets/images/logo.png')}
               style={CommonStyles.imageHdr}
             />
             {/* <TouchableOpacity style={CommonStyles.bellIcon}>
-              <Feather name="bell" color="#71b85f" size={30} />
+              <Feather name="bell" color="#000" size={30} />
             </TouchableOpacity> */}
           </View>
           {/* header section end */}
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            
+
             <View activeOpacity={1} style={styles.width100}>
               <Image
                 source={require('../../../assets/images/homeBnr.jpg')}
                 style={styles.coverImage}
               />
-              <TouchableOpacity style={styles.bookClassBtn}>
+              <View style={styles.homeContent}>
+                <Image style={styles.imgTxt} source={require('../../../assets/images/homeContent.png')} />
+              </View>
+              {/* <TouchableOpacity style={styles.bookClassBtn}>
                 <Text style={styles.bookClassBtnText}>Book Your Freeclass</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
 
             <View style={CommonStyles.container}>
@@ -117,27 +120,27 @@ class HomeScreen extends Component {
                   <FontAwesome name="search" color="#fff" size={22} />
                 </TouchableOpacity>
               </View> */}
-                {this.state.showSearchBar && (
-                  <View style={styles.searchBar}>
+              {this.state.showSearchBar && (
+                <View style={styles.searchBar}>
                   <TextInput
                     placeholder='Search for "Name, Skills & Colleges"'
                     style={styles.searchInput}
                   />
                   <View style={styles.searchIcon}>
                     <Fontisto name="search" color="#000" size={20} />
-                  </View>                
+                  </View>
                 </View>
-                )} 
-              </View>
+              )}
+            </View>
             <View style={styles.padVer15}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Recently Joined College Students</Text>
               </View>
 
-              <QualityTalent navigateToviewProfile={this.navigateToviewProfile}/>
+              <QualityTalent navigateToviewProfile={this.navigateToviewProfile} />
             </View>
 
-            <View style={styles.marVer15}>
+            <View style={[styles.padVer15, {paddingTop: 25}]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Popular Professional Servies</Text>
               </View>
@@ -145,7 +148,7 @@ class HomeScreen extends Component {
               <PopularServies />
             </View>
 
-            <View style={[styles.marVer15, styles.lightGrey]}>
+            <View style={[styles.mt15, styles.lightGrey]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng2}>Why hire a</Text>
                 <Text style={styles.hdngLg}>College Student <Text style={styles.hdngLgGreen}>from ConnectBud?</Text></Text>
@@ -161,7 +164,7 @@ class HomeScreen extends Component {
               <HowWorks />
             </View>
 
-            <View style={styles.marVer15}>
+            <View style={[styles.marVer15, {paddingTop: 10}]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Customer Stories</Text>
               </View>
@@ -172,8 +175,8 @@ class HomeScreen extends Component {
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Latest Projects</Text>
               </View>
-              <LatestProjects navProjectDetails={this.navProjectDetails}/>
-            </View> 
+              <LatestProjects navProjectDetails={this.navProjectDetails} />
+            </View>
           </ScrollView>
 
           <RBSheet
@@ -202,9 +205,9 @@ class HomeScreen extends Component {
             </View>
           </RBSheet>
 
-          
 
-          
+
+
         </View>
       </SafeAreaView>
     );

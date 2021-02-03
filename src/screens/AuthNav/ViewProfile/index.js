@@ -96,7 +96,7 @@ class ViewProfileScreen extends Component {
                 source={{ uri: item.cover_image }}
                 style={styles.coverImage}>
                 {/* <TouchableOpacity style={CommonStyles.hanPosition}>
-                  <Entypo name="menu" color="#71b85f" size={35} />
+                  <Entypo name="menu" color="#000" size={35} />
                 </TouchableOpacity> */}
                 <View style={styles.userImg}>
                   <Image

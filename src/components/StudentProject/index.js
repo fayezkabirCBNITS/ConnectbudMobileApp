@@ -231,9 +231,9 @@ class StudentProject extends Component {
             animation="fade"
             textContent={'Loading...'}
           />
-          <View style={CommonStyles.container}>
+          <View style={[CommonStyles.container, {flexDirection: 'row'}]}>
             <Picker
-              style={{width: '100%', height: 45, color: '#3B1D25'}}
+              style={{width: '70%', height: 45, color: '#3B1D25'}}
               // selectedValue={this.state.selectedSkills}
               onValueChange={(itemValue) => this.expertProjects(itemValue)}>
               {this.state.skills.length > 0 ? (
@@ -260,9 +260,9 @@ class StudentProject extends Component {
               <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
                 <View style={CommonStyles.container}>
                   <View style={styles.subjectWrapper}>
-                    <View style={styles.leftSection}>
+                    {/* <View style={styles.leftSection}>
                       <FontAwesome name="tv" color="#000" size={25} />
-                    </View>
+                    </View> */}
                     <View style={styles.rightSection}>
                       <Text style={styles.boxTitle}>{item.job_title}</Text>
                       <Text style={styles.boxTexts}>{item.description}</Text>

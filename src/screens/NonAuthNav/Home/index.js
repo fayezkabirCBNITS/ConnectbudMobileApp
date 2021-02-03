@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   Image,
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import StatusBar from '../../../components/StatusBar';
 import styles from './styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -19,15 +19,15 @@ import Feather from 'react-native-vector-icons/Feather';
 import QualityTalent from '../../../components/QualityTalent';
 import PopularServies from '../../../components/PopularServies';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Picker} from '@react-native-community/picker';
+import { Picker } from '@react-native-community/picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import WhyHire from '../../../components/WhyHire';
 import HowWorks from '../../../components/HowWorks';
 import LatestProjects from '../../../components/LatestProjects';
 import CustomerStories from '../../../components/CustomerStories';
-import {Searchbar} from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
+import { API_URL } from '../../../config/url';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -54,20 +54,20 @@ class HomeScreen extends Component {
   };
 
   updateUser = (user) => {
-    this.setState({user: user});
+    this.setState({ user: user });
   };
 
   showSearch = () => {
-    this.setState({showSearchBar: true});
+    this.setState({ showSearchBar: true });
   };
 
   studentLogin = () => {
     this.RBSheet.close(),
-      this.props.navigation.navigate('SignInScreen', {userType: 'student'});
+      this.props.navigation.navigate('SignInScreen', { userType: 'student' });
   };
   hireStudent = () => {
     this.RBSheet.close(),
-      this.props.navigation.navigate('SignInScreen', {userType: 'employee'});
+      this.props.navigation.navigate('SignInScreen', { userType: 'employee' });
   };
 
   onHandleSearch = () => {
@@ -82,13 +82,13 @@ class HomeScreen extends Component {
       .then((res) => {
         if (res.status == 200) {
           if (this.state.user === 'freelancer') {
-            this.props.navigation.navigate('SearchClgStuNA', {res});
+            this.props.navigation.navigate('SearchClgStuNA', { res });
             this.setState({
               showLoader: false,
               firstQuery: '',
             });
           } else if (this.state.user === 'job') {
-            this.props.navigation.navigate('StudentProjectNA', {res});
+            this.props.navigation.navigate('StudentProjectNA', { res });
             this.setState({
               showLoader: false,
               firstQuery: '',
@@ -99,7 +99,7 @@ class HomeScreen extends Component {
       });
   };
   render() {
-    const {firstQuery} = this.state;
+    const { firstQuery } = this.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -113,7 +113,7 @@ class HomeScreen extends Component {
             <TouchableOpacity
               style={CommonStyles.hambarIcon}
               onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
+              <Entypo name="menu" color="#000" size={35} />
             </TouchableOpacity>
             <Image
               source={require('../../../assets/images/logo.png')}
@@ -122,7 +122,8 @@ class HomeScreen extends Component {
             <TouchableOpacity
               onPress={() => this.RBSheet.open()}
               style={CommonStyles.bellIcon}>
-              <Text style={styles.loginBtnText}>Login</Text>
+              {/* <Text style={styles.loginBtnText}>Login</Text> */}
+              <AntDesign name="login" size={25} color="#000" />
             </TouchableOpacity>
           </View>
 
@@ -142,16 +143,19 @@ class HomeScreen extends Component {
                 source={require('../../../assets/images/homeBnr.jpg')}
                 style={styles.coverImage}
               />
-              <TouchableOpacity style={styles.bookClassBtn}>
+              <View style={styles.homeContent}>
+                <Image style={styles.imgTxt} source={require('../../../assets/images/homeContent.png')} />
+              </View>
+              {/* <TouchableOpacity style={styles.bookClassBtn}>
                 <Text style={styles.bookClassBtnText}>Book Your Freeclass</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
 
             <View style={CommonStyles.container}>
               <View style={[styles.searchDropSec, styles.marTop15]}>
                 <View style={styles.searchPicker}>
                   <Picker
-                    style={{color: '#71b85f'}}
+                    style={{ color: '#71b85f' }}
                     selectedValue={this.state.user}
                     onValueChange={this.updateUser}>
                     <Picker.Item label="College Students" value="freelancer" />
@@ -176,23 +180,23 @@ class HomeScreen extends Component {
                   <Searchbar
                     placeholder="Search for Name, Skills & Colleges"
                     onChangeText={(query) => {
-                      this.setState({firstQuery: query});
+                      this.setState({ firstQuery: query });
                     }}
                     value={firstQuery}
                     inputStyle={styles.searchInput}
                     style={styles.search}
                     onSubmitEditing={this.onHandleSearch}
                   />
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.searchPos}
                     onPress={this.onHandleSearch}>
                     <AntDesign name="search1" size={25} color="#000" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               )}
             </View>
 
-            <View style={styles.padVer15}>
+            <View style={[styles.padVer15, {paddingTop: 25, marginTop: 10}]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>
                   Recently Joined College Students
@@ -204,7 +208,7 @@ class HomeScreen extends Component {
               />
             </View>
 
-            <View style={styles.marVer15}>
+            <View style={[styles.marVer15, {paddingTop: 10}]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Popular Professional Servies</Text>
               </View>
@@ -212,7 +216,7 @@ class HomeScreen extends Component {
               <PopularServies />
             </View>
 
-            <View style={[styles.marVer15, styles.lightGrey]}>
+            <View style={[styles.mt15, styles.lightGrey]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng2}>Why hire a</Text>
                 <Text style={styles.hdngLg}>
@@ -231,7 +235,7 @@ class HomeScreen extends Component {
               <HowWorks />
             </View>
 
-            <View style={styles.marVer15}>
+            <View style={[styles.marVer15, {paddingTop: 10}]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Customer Stories</Text>
               </View>
