@@ -132,14 +132,14 @@ class AddskillScreen extends Component {
           <CommonStatusBar />
           <View style={CommonStyles.header}>
             {/* <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
-          <Entypo name="menu" color="#71b85f" size={35} />
+          <Entypo name="menu" color="#000" size={35} />
         </TouchableOpacity> */}
             <Image
               source={require('../../../assets/images/logo.png')}
               style={styles.image}
             />
             {/* <TouchableOpacity>
-          <Feather name="bell" color="#71b85f" size={30} />
+          <Feather name="bell" color="#000" size={30} />
         </TouchableOpacity> */}
           </View>
           <View style={CommonStyles.container}>

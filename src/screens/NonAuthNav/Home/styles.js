@@ -1,5 +1,5 @@
 const React = require('react-native');
-const {Dimensions} = React;
+const { Dimensions } = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -8,11 +8,14 @@ export default {
     padding: 0,
     paddingRight: 15,
     paddingLeft: 15,
-    alignItems: 'center',
+    //alignItems: 'center',
     height: 50,
     color: '#000',
     fontFamily: 'Poppins-Regular',
     fontSize: 17,
+    width: '100%',
+    position: 'absolute',
+    left: 0
   },
   searchBar: {
     width: '100%',
@@ -70,6 +73,10 @@ export default {
   },
   marVer15: {
     marginVertical: 15,
+  },
+  mt15: {
+    marginTop: 15,
+    paddingTop: 20
   },
   padVer15: {
     paddingTop: 15,
@@ -138,7 +145,7 @@ export default {
     fontSize: 19,
   },
   hdngLg: {
-    marginTop: -7,
+    marginTop: -2,
     fontFamily: 'Poppins-Regular',
     fontSize: 19,
   },
@@ -174,9 +181,10 @@ export default {
     shadowOpacity: 0,
     shadowRadius: 1.0,
     elevation: 0,
-    borderColor: 'rgba(0,0,0,0.2)',
-    borderWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.2)',
+    borderBottomWidth: 1,
     borderRadius: 5,
+    width: '100%'
   },
   searchPos: {
     position: 'absolute',
@@ -199,4 +207,13 @@ export default {
     fontSize: 12,
     color: '#71b85f'
   },
+  homeContent: {
+    position: 'absolute',
+    left: '5%',
+    top: 40
+  },
+  imgTxt: {
+    width: 160,
+    height: 70
+  }
 };

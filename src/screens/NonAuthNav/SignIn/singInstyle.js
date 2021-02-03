@@ -34,14 +34,14 @@ export default {
       },
       forgetDiv:{
         width: '90%', 
-        alignItems: 'flex-end', 
+        alignItems: 'center', 
         marginTop: 20,
         marginBottom: 10
       },
       forgetText:{
-        color: '#f7ec1e',
+        color: '#fff',
         fontSize: 15,
-        fontFamily: 'Poppins-SemiBold',
+        fontFamily: 'Poppins-Regular',
       },
       signinBtn:{
         width: '70%',
@@ -82,7 +82,7 @@ export default {
         flexDirection: 'row',
         padding: 5,
         marginBottom: 15,
-        borderBottomWidth: 2,
+        borderBottomWidth: 1,
         borderBottomColor:'#f7ec1e', 
       },
       formSubGroup1: {

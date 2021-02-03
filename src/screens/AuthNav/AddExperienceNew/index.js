@@ -43,7 +43,7 @@ class AddExperienceNew extends Component {
               style={CommonStyles.imageHdr}
             />
             {/* <TouchableOpacity style={CommonStyles.bellIcon}>
-              <Feather name="bell" color="#71b85f" size={30} />
+              <Feather name="bell" color="#000" size={30} />
             </TouchableOpacity> */}
           </View>
           {/* header section end */}

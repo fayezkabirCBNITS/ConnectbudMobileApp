@@ -67,6 +67,9 @@ class SearchClgStu extends Component {
       filterCategoty:'',
       filterCountry:'',
       latestEnable:'',
+      collapsedCategory: false,
+      collapsedSort: false,
+      collapsedCountry: false,
       //
     };
   }
@@ -312,6 +315,19 @@ async fetchFilterList(userIds) {
 
   };
 
+  handleCollapseCategory = (prevState) => {
+    this.setState({ collapsedCategory: prevState });
+  };
+
+  handleCollapseSort = (prevState) => {
+    this.setState({ collapsedSort: prevState });
+  };
+
+  handleCollapseCountry = (prevState) => {
+    this.setState({ collapsedCountry: prevState });
+  };
+
+
   render() {
     {
       this.state.updateInitialSearchState === true
@@ -423,6 +439,7 @@ async fetchFilterList(userIds) {
             <TouchableOpacity style={{marginTop: -5,}}>
               <ScrollView>
                 {this.state.FreelancerSet.map((item, i) => {
+                  if (item.message != "No data found") {
                   return (
                     <TouchableOpacity style={{marginTop: -5}} onPress={() => this.props.navigation.navigate('ViewProfileScreen', { slugname: item.slug, user_id: item.user_id})}>
                       <View style={CommonStyles.container}>
@@ -513,6 +530,14 @@ async fetchFilterList(userIds) {
                       </View>
                     </TouchableOpacity>
                   );
+                } else {
+                  return (
+                    <View style={styles.noData}>
+                      <Image source={require('../../assets/images/resultNotFound.png')} style={{ width: 120, height: 121 }} />
+                      <Text style={styles.noDataText}>No Result Found</Text>
+                    </View>
+                  );
+                }
                 })}
               </ScrollView>
             </TouchableOpacity>
@@ -532,22 +557,23 @@ async fetchFilterList(userIds) {
                       </Pressable>
                     </View>
 
-                    <Collapse>
+                    <Collapse onToggle={this.handleCollapseCategory}>
                       <CollapseHeader>
                         <View style={[styles.flexRow, styles.height50]}>
                           <Text style={styles.head}>Category</Text>
-                          <Pressable>
+                          {this.state.collapsedCategory == false ? (
                             <MaterialIcons
                               name="keyboard-arrow-down"
                               color="#71b85f"
                               size={30}
                             />
-                            {/* <MaterialIcons
-                    name="keyboard-arrow-up"
-                    color="#71b85f"
-                    size={30}
-                  />                   */}
-                          </Pressable>
+                            ) : (
+                              <MaterialIcons
+                                name="keyboard-arrow-up"
+                                color="#71b85f"
+                                size={30}
+                              />
+                            )}
                         </View>
                       </CollapseHeader>
                       <CollapseBody>
@@ -560,22 +586,23 @@ async fetchFilterList(userIds) {
                       </CollapseBody>
                     </Collapse>
 
-                    <Collapse>
+                    <Collapse onToggle={this.handleCollapseSort}>
                       <CollapseHeader>
                         <View style={[styles.flexRow, styles.height50]}>
                           <Text style={styles.head}>Sort By</Text>
-                          <Pressable>
+                          {this.state.collapsedSort == false ? (
                             <MaterialIcons
                               name="keyboard-arrow-down"
                               color="#71b85f"
                               size={30}
                             />
-                            {/* <MaterialIcons
-                    name="keyboard-arrow-up"
-                    color="#71b85f"
-                    size={30}
-                  />                   */}
-                          </Pressable>
+                            ) : (
+                              <MaterialIcons
+                                name="keyboard-arrow-up"
+                                color="#71b85f"
+                                size={30}
+                              />
+                            )}
                         </View>
                       </CollapseHeader>
                       <CollapseBody>
@@ -597,22 +624,23 @@ async fetchFilterList(userIds) {
                       </CollapseBody>
                     </Collapse>
 
-                    <Collapse>
+                    <Collapse onToggle={this.handleCollapseCountry}>
                       <CollapseHeader>
                         <View style={[styles.flexRow, styles.height50]}>
                           <Text style={styles.head}>Country</Text>
-                          <Pressable>
+                          {this.state.collapsedCountry == false ? (
                             <MaterialIcons
                               name="keyboard-arrow-down"
                               color="#71b85f"
                               size={30}
                             />
-                            {/* <MaterialIcons
-                    name="keyboard-arrow-up"
-                    color="#71b85f"
-                    size={30}
-                  />                   */}
-                          </Pressable>
+                            ) : (
+                              <MaterialIcons
+                                name="keyboard-arrow-up"
+                                color="#71b85f"
+                                size={30}
+                              />
+                            )}
                         </View>
                       </CollapseHeader>
                       <CollapseBody>

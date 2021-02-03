@@ -9,8 +9,8 @@ export default {
   topSec: {
     alignItems: 'center',
     padding: 20,
-    borderBottomColor: 'rgba(255,255,255,0.3)',
-    borderBottomWidth: 1,
+    //borderBottomColor: 'rgba(255,255,255,0.3)',
+    //borderBottomWidth: 1,
   },
   userDetails: {
     marginTop: 10,
@@ -79,7 +79,7 @@ export default {
   },
   socialIcon: {
     width: '100%',
-    paddingHorizontal: '6%',
+    paddingHorizontal: '8%',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -100,5 +100,11 @@ export default {
   collapsePos: {
     position: 'absolute',
     right: 25,
+  },
+  sideLogo: {
+    width: 160,
+    height: 40,
+    marginBottom: 40,
+    alignSelf: 'center'
   },
 };

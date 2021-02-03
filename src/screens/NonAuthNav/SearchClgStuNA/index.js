@@ -71,6 +71,9 @@ class SearchClgStu extends Component {
       filterCategoty: '',
       filterCountry: '',
       latestEnable: '',
+      collapsedCategory: false,
+      collapsedSort: false,
+      collapsedCountry: false,
       //
     };
   }
@@ -288,6 +291,18 @@ class SearchClgStu extends Component {
 
   };
 
+  handleCollapseCategory = (prevState) => {
+    this.setState({ collapsedCategory: prevState });
+  };
+
+  handleCollapseSort = (prevState) => {
+    this.setState({ collapsedSort: prevState });
+  };
+
+  handleCollapseCountry = (prevState) => {
+    this.setState({ collapsedCountry: prevState });
+  };
+
   render() {
     {
       this.state.updateInitialSearchState === true
@@ -304,7 +319,7 @@ class SearchClgStu extends Component {
             <TouchableOpacity
               style={CommonStyles.hambarIcon}
               onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#71b85f" size={35} />
+              <Entypo name="menu" color="#000" size={35} />
             </TouchableOpacity>
             <Image
               source={require('../../../assets/images/logo.png')}
@@ -318,7 +333,7 @@ class SearchClgStu extends Component {
               Search, Connect, Hire( Use talent search to find college students{' '}
             </Text>
             <View>
-              <View style={{paddingHorizontal: '5%'}}>
+              <View style={{ paddingHorizontal: '5%' }}>
                 {this.state.selectedSkills.length > 0 ? (
                   this.state.selectedSkills?.map((data, index) => {
                     return (
@@ -513,7 +528,7 @@ class SearchClgStu extends Component {
                   } else {
                     return (
                       <View style={styles.noData}>
-                        <Image source={require('../../../assets/images/resultNotFound.png')} style={{width: 120, height: 121}}/>
+                        <Image source={require('../../../assets/images/resultNotFound.png')} style={{ width: 120, height: 121 }} />
                         <Text style={styles.noDataText}>No Result Found</Text>
                       </View>
                     );
@@ -538,22 +553,23 @@ class SearchClgStu extends Component {
                       </Pressable>
                     </View>
 
-                    <Collapse>
+                    <Collapse onToggle={this.handleCollapseCategory}>
                       <CollapseHeader>
                         <View style={[styles.flexRow, styles.height50]}>
                           <Text style={styles.head}>Category</Text>
-                          <Pressable>
+                          {this.state.collapsedCategory == false ? (
                             <MaterialIcons
                               name="keyboard-arrow-down"
                               color="#71b85f"
                               size={30}
                             />
-                            {/* <MaterialIcons
-                    name="keyboard-arrow-up"
-                    color="#71b85f"
-                    size={30}
-                  />                   */}
-                          </Pressable>
+                          ) : (
+                              <MaterialIcons
+                                name="keyboard-arrow-up"
+                                color="#71b85f"
+                                size={30}
+                              />
+                            )}
                         </View>
                       </CollapseHeader>
                       <CollapseBody>
@@ -566,22 +582,23 @@ class SearchClgStu extends Component {
                       </CollapseBody>
                     </Collapse>
 
-                    <Collapse>
+                    <Collapse onToggle={this.handleCollapseSort}>
                       <CollapseHeader>
                         <View style={[styles.flexRow, styles.height50]}>
                           <Text style={styles.head}>Sort By</Text>
-                          <Pressable>
+                          {this.state.collapsedSort == false ? (
                             <MaterialIcons
                               name="keyboard-arrow-down"
                               color="#71b85f"
                               size={30}
                             />
-                            {/* <MaterialIcons
-                    name="keyboard-arrow-up"
-                    color="#71b85f"
-                    size={30}
-                  />                   */}
-                          </Pressable>
+                          ) : (
+                              <MaterialIcons
+                                name="keyboard-arrow-up"
+                                color="#71b85f"
+                                size={30}
+                              />
+                            )}
                         </View>
                       </CollapseHeader>
                       <CollapseBody>
@@ -603,22 +620,23 @@ class SearchClgStu extends Component {
                       </CollapseBody>
                     </Collapse>
 
-                    <Collapse>
+                    <Collapse onToggle={this.handleCollapseCountry}>
                       <CollapseHeader>
                         <View style={[styles.flexRow, styles.height50]}>
                           <Text style={styles.head}>Country</Text>
-                          <Pressable>
+                          {this.state.collapsedCountry == false ? (
                             <MaterialIcons
                               name="keyboard-arrow-down"
                               color="#71b85f"
                               size={30}
                             />
-                            {/* <MaterialIcons
-                    name="keyboard-arrow-up"
-                    color="#71b85f"
-                    size={30}
-                  />                   */}
-                          </Pressable>
+                          ) : (
+                              <MaterialIcons
+                                name="keyboard-arrow-up"
+                                color="#71b85f"
+                                size={30}
+                              />
+                            )}
                         </View>
                       </CollapseHeader>
                       <CollapseBody>

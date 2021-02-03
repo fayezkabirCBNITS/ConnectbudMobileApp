@@ -60,7 +60,8 @@ export default {
 
     },
     rightSection : {
-        width : "85%",
+        // width : "85%",
+        width: '100%',
         paddingLeft : 8
     },
     leftSection : {
@@ -85,8 +86,8 @@ export default {
     },
     editBtnText: {
         fontFamily: 'Poppins-Regular',
-        color: '#008000',
-        marginLeft: 10,
+        color: '#fff',
+        // marginLeft: 10,
         fontSize: 16,
         marginTop: 3,
       },
@@ -97,9 +98,9 @@ export default {
         borderRadius: 30 / 2,
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row',
+        // flexDirection: 'row',
         marginLeft: 'auto',
-        marginTop: 20,
-        marginRight: 160
+        marginTop: 7,
+        // marginRight: 160
       },
 }

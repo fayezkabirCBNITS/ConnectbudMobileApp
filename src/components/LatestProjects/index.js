@@ -216,11 +216,11 @@ class LatestProjects extends Component {
                 </View>
                 <View style={styles.content}>
                   <Text style={styles.hdng}>{item.name}</Text>
-                  <Text style={styles.boldText}>{item.category}</Text>
+                  <Text numberOfLines={2} ellipsizeMode='tail' style={styles.boldText}>{item.category}</Text>
                   <TouchableOpacity
                     style={styles.knowMoreBtn}
                     onPress={() => this.viewProject(item.id)}>
-                    <Text style={styles.knowMoreBtnText}>KNOW MORE</Text>
+                    <Text style={styles.knowMoreBtnText}>Know More</Text>
                   </TouchableOpacity>
                 </View>
               </View>

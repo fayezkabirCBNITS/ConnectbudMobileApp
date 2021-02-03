@@ -17,7 +17,7 @@ export default {
     alignItems: 'center',
   },
   name: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 20,
     color: '#000',
   },
@@ -25,7 +25,7 @@ export default {
     marginTop: -5,
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
-    color: '#000',
+    color: 'rgba(0,0,0,0.6)',
     textAlign: 'center',
     paddingHorizontal: '5%',
   },
@@ -38,7 +38,7 @@ export default {
   },
   wrap: {
     width: '100%',
-    height: 370,
+    height: 345,
   },
   feedbackSec: {
     paddingHorizontal: '7%',

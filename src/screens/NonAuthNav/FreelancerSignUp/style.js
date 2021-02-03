@@ -89,7 +89,7 @@ export default {
         flexDirection: 'row',
         padding: 5,
         marginBottom: 15,
-        borderBottomWidth: 2,
+        borderBottomWidth: 1,
         borderBottomColor:'#f7ec1e', 
       },
       formSubGroup1: {

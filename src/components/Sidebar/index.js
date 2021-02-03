@@ -398,7 +398,9 @@ class Sidebar extends Component {
                 </TouchableOpacity>
               </ScrollView>
             ) : (
-              <ScrollView>
+              <>
+              <Image style={styles.sideLogo} source={require('../../assets/images/logoWhite.png')} />
+              <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                 <TouchableOpacity
                     style={styles.menuOptn3}
@@ -472,6 +474,7 @@ class Sidebar extends Component {
                   </TouchableOpacity>
                 </View>
               </ScrollView>
+              </>
             )}
             <View style={styles.socialSec}>
               <Text style={styles.socialText}>Connect with us</Text>
