@@ -45,16 +45,38 @@ class WhyHire extends Component {
 
   render() {
     return (
-      <View style={styles.wrap}>
-        <Swiper
-          loop={true}
-          showsPagination={false}
-          showsButtons
-        >
-        {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
+      // <View style={styles.wrap}>
+      //   <Swiper
+      //     loop={true}
+      //     showsPagination={false}
+      //     showsButtons
+      //   >
+      //   {/* <ScrollView showsHorizontalScrollIndicator={false} horizontal> */}
+      //     {this.state.whyHire.map((item, i) => (
+      //       <View key={i} style={styles.swiperWrap}>
+      //       <View style={[styles.width200, {width: '100%', alignItems: 'center', paddingHorizontal: '5%'}]}>
+      //         <View style={styles.imgSec}>
+      //           <Image
+      //             source={item.img}
+      //             style={styles.image}
+      //           />
+      //         </View>
+      //         <View style={{alignItems: 'center'}}>
+      //           <Text style={styles.headText}>{item.head}</Text>
+      //           <Text style={styles.detailsText}>
+      //             {item.details}
+      //           </Text>
+      //         </View>
+      //       </View>
+      //       </View>
+      //     ))}
+      //   {/* </ScrollView> */}
+      //   </Swiper>
+      // </View>
+      <View>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           {this.state.whyHire.map((item, i) => (
-            <View key={i} style={styles.swiperWrap}>
-            <View style={[styles.width200, {width: '100%', alignItems: 'center', paddingHorizontal: '5%'}]}>
+            <View key={i} style={styles.width200}>
               <View style={styles.imgSec}>
                 <Image
                   source={item.img}
@@ -68,10 +90,8 @@ class WhyHire extends Component {
                 </Text>
               </View>
             </View>
-            </View>
           ))}
-        {/* </ScrollView> */}
-        </Swiper>
+        </ScrollView>
       </View>
     );
   }

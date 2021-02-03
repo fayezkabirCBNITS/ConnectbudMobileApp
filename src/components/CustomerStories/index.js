@@ -35,7 +35,7 @@ class CustomerStories extends Component {
           loop={true}
           autoplay={true}
           showsPagination={false}
-          showsButtons
+          // showsButtons
         >
           {this.state.swiper.map((item, i) => (
             <View key={i} style={{ width: '100%' }}>
