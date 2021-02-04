@@ -125,7 +125,6 @@ class AssessmentQuestion extends Component {
       taglistbody.append('type', 'freelancer');
     }
 
-
     await axios({
       url: API_URL + 'expert_jobdetails',
       method: 'POST',
@@ -203,9 +202,17 @@ class AssessmentQuestion extends Component {
         .catch((error) => {
           this.setState({
             showLoader: false,
-          })
+          });
         });
     }
+  };
+
+  btnName = (textName) => {
+    return (
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <Text style={styles.authBtnText}>{textName}</Text>
+      </View>
+    );
   };
 
   render() {
@@ -311,28 +318,23 @@ class AssessmentQuestion extends Component {
                         </View> */}
 
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <TouchableOpacity style={[styles.authBtn]}>
-                <Text
-                  style={styles.authBtnText}
-                  onPress={() =>
-                    this.props.navigation.navigate('StudentInner')
-                  }>
-                  CANCEL
-                </Text>
+              <TouchableOpacity 
+              style={[styles.authBtn]}
+              onPress={() => this.props.navigation.navigate('StudentInner')}>
+                {this.btnName('Cancel')}
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.authBtn]}>
-                {this.state.jobDetails.map((value, index) => {
-                  return (
-                    <Text
-                      style={styles.authBtnText}
-                      onPress={() =>
-                        this.onSubmit(value.id, value.user_id, value.token)
-                      }>
-                      SUBMIT
-                    </Text>
-                  );
-                })}
+
+              {this.state.jobDetails.map((value, index) => {
+                return (
+              <TouchableOpacity 
+                style={[styles.authBtn]}
+                onPress={() =>
+                  this.onSubmit(value.id, value.user_id, value.token)
+                }>
+                {this.btnName('Submit')}
               </TouchableOpacity>
+              );
+            })}
             </View>
           </ScrollView>
         </View>

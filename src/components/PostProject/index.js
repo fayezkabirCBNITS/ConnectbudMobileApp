@@ -409,8 +409,8 @@ class PostProject extends Component {
             </View>
             <Text style={styles.errorText}>{this.state.errors.ctc}</Text>
 
-            <TouchableOpacity activeOpacity={0.9} style={[styles.authBtn]}>
-              <Pressable style={styles.signinBtn} onPress={this.onButtonSubmit}>
+            <TouchableOpacity activeOpacity={0.9} style={[styles.authBtn]} onPress={this.onButtonSubmit}>
+              <Pressable style={styles.signinBtn}>
                 <Text style={styles.authBtnText}>Submit</Text>
               </Pressable>
             </TouchableOpacity>
