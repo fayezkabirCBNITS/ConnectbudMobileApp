@@ -102,6 +102,9 @@ class AddPortfolioScreen extends Component {
     }
     body.append('devices', 'mobile');
 
+    //For Availability
+    body.append("date", "");
+
     let response = await makePostRequestMultipart(
       ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug),
       false,
@@ -170,6 +173,9 @@ class AddPortfolioScreen extends Component {
     body.append('image', this.state.profileImageSource);
     body.append('portfolio_id', this.state.portfolioId);
     body.append('devices', 'mobile');
+
+    //For Availability
+    body.append("date", "");
 
     let response = await makePostRequestMultipart(
       ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug),
@@ -341,7 +347,7 @@ class AddPortfolioScreen extends Component {
               <TouchableOpacity
                 activeOpacity={0.9}
                 onPress={() => this.handleSubmit()}
-                style={[styles.authBtn]}>
+                style={[styles.authBtnCancel]}>
                 <Text style={styles.authBtnText}>Cancel</Text>
                 {this.state.showLoader && (
                   <ActivityIndicator

@@ -253,96 +253,94 @@ class StudentProject extends Component {
             />
           </View>
           {/* {/ header section end /} */}
-          <View style={CommonStyles.main}>
-            <Spinner
-              visible={this.state.showLoader}
-              animation="fade"
-              textContent={'Loading...'}
-            />
-            <View style={CommonStyles.container}>
-              <Picker
-                style={{ width: '100%', height: 45, color: '#3B1D25' }}
-                // selectedValue={this.state.selectedSkills}
-                onValueChange={(itemValue) => this.expertProjects(itemValue)}>
-                {this.state.skills.length > 0 ? (
-                  this.state?.skills?.map((data) => {
-                    return <Picker.Item label={data.label} value={data.label} />;
-                  })
-                ) : (
-                    <></>
-                  )}
-              </Picker>
-              {this.state.selectedSkills !== '' ? (
-                <TouchableOpacity style={styles.editBtn}>
-                  {/* <MaterialIcons name="mode-edit" color="#fff" size={18} /> */}
-                  <Text style={styles.editBtnText} onPress={this.resetProjects}>
-                    Reset
-                </Text>
-                </TouchableOpacity>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
+          <View style={[CommonStyles.container, { flexDirection: 'row' }]}>
+            <Picker
+              style={{ width: '70%', height: 45, color: '#3B1D25' }}
+              // selectedValue={this.state.selectedSkills}
+              onValueChange={(itemValue) => this.expertProjects(itemValue)}>
+              {this.state.skills.length > 0 ? (
+                this.state?.skills?.map((data) => {
+                  return <Picker.Item label={data.label} value={data.label} />;
+                })
               ) : (
                   <></>
                 )}
-            </View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {this.state.expertset.map((item, idx) => {
-                if (item.message != "No data found") {
-                  return (
-                    <TouchableOpacity key={idx} onPress={() => this.viewProject(item.id)}>
-                      <View style={CommonStyles.container}>
-                        <View style={styles.subjectWrapper}>
-                          <View style={styles.leftSection}>
+            </Picker>
+            {this.state.selectedSkills !== '' ? (
+              <TouchableOpacity style={styles.editBtn}>
+                {/* <MaterialIcons name="mode-edit" color="#fff" size={18} /> */}
+                <Text style={styles.editBtnText} onPress={this.resetProjects}>
+                  Reset
+                </Text>
+              </TouchableOpacity>
+            ) : (
+                <></>
+              )}
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {this.state.expertset.map((item, idx) => {
+              if (item.message != "No data found") {
+                return (
+                  <TouchableOpacity key={idx} onPress={() => this.viewProject(item.id)}>
+                    <View style={CommonStyles.container}>
+                      <View style={styles.subjectWrapper}>
+                        {/* <View style={styles.leftSection}>
                             <FontAwesome name="tv" color="#000" size={25} />
+                          </View> */}
+                        <View style={styles.rightSection}>
+                          <Text style={styles.boxTitle}>{item.job_title}</Text>
+                          <Text style={styles.boxTexts}>{item.description}</Text>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <Entypo name="time-slot" color="rgba(0,0,0,0.3)" size={15} />
+                            <Text style={styles.iconText}>{item.posted_date}</Text>
                           </View>
-                          <View style={styles.rightSection}>
-                            <Text style={styles.boxTitle}>{item.job_title}</Text>
-                            <Text style={styles.boxTexts}>{item.description}</Text>
-                            <View style={[styles.flexstyle, styles.timeAgo]}>
-                              <Entypo name="time-slot" color="rgba(0,0,0,0.3)" size={15} />
-                              <Text style={styles.iconText}>{item.posted_date}</Text>
-                            </View>
-                            <View style={[styles.flexstyle, styles.timeAgo]}>
-                              <FontAwesome name="tag" color="rgba(0,0,0,0.3)" size={15} />
-                              <Text style={styles.iconText}>{item.key_skill}</Text>
-                            </View>
-                            <View style={[styles.flexstyle, styles.timeAgo]}>
-                              <FontAwesome name="user" color="rgba(0,0,0,0.3)" size={15} />
-                              <Text style={styles.iconText}>{item.match_number}</Text>
-                            </View>
-                            <View style={[styles.flexstyle, styles.timeAgo]}>
-                              <FontAwesome
-                                name="search-plus"
-                                color="rgba(0,0,0,0.3)"
-                                size={15}
-                              />
-                              <Text style={styles.iconText}>
-                                {item.applied_number}
-                              </Text>
-                            </View>
-                            <View style={[styles.flexstyle, styles.moneyContainer]}>
-                              <Text style={styles.usdText}>
-                                {item.price_amount} USD
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <FontAwesome name="tag" color="rgba(0,0,0,0.3)" size={15} />
+                            <Text style={styles.iconText}>{item.key_skill}</Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <FontAwesome name="user" color="rgba(0,0,0,0.3)" size={15} />
+                            <Text style={styles.iconText}>{item.match_number}</Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <FontAwesome
+                              name="search-plus"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>
+                              {item.applied_number}
+                            </Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.moneyContainer]}>
+                            <Text style={styles.usdText}>
+                              {item.price_amount} USD
                         </Text>
-                              <Text style={styles.inrtxt}>
-                                ({item.price_amount * 70} INR)
+                            <Text style={styles.inrtxt}>
+                              ({item.price_amount * 70} INR)
                         </Text>
-                            </View>
                           </View>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                  );
-                } else {
-                  return (
-                    <View style={styles.noData}>
-                      <Image source={require('../../../assets/images/resultNotFound.png')} style={{width: 120, height: 121}}/>
-                      <Text style={styles.noDataText}>No Result Found</Text>
                     </View>
-                  );
-                }
-              })}
-              <View style={{ marginBottom: 80 }}></View>
-            </ScrollView>
-          </View>
+                  </TouchableOpacity>
+                );
+              } else {
+                return (
+                  <View style={styles.noData}>
+                    <Image source={require('../../../assets/images/resultNotFound.png')} style={{ width: 120, height: 121 }} />
+                    <Text style={styles.noDataText}>No Result Found</Text>
+                  </View>
+                );
+              }
+            })}
+            <View style={{ marginBottom: 80 }}></View>
+          </ScrollView>
         </View>
       </SafeAreaView>
     );

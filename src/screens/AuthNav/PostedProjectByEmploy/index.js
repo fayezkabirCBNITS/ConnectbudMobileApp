@@ -640,7 +640,7 @@ class PostedProjectByEmployee extends Component {
                     <View style={styles.actionEdtBtn}>
                       <TouchableOpacity
                         activeOpacity={0.9}
-                        style={[styles.authBtn]}
+                        style={[styles.authBtnCancel]}
                         onPress={() =>
                           this.setState({ show: false, showAdditional: false })
                         }>

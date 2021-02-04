@@ -27,7 +27,7 @@ export default {
   },
   smText: {
     fontFamily: 'Poppins-SemiBold',
-    fontSize: 20,
+    fontSize: 18,
     color: '#000',
     textAlign: 'center',
   },

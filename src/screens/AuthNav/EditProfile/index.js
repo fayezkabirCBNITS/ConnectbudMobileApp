@@ -124,6 +124,9 @@ class EditProfileScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
+    //For Availability
+    body.append("date", "");
+
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
       this.setState({
@@ -201,6 +204,9 @@ class EditProfileScreen extends Component {
     body.append("portfolio_category", "");
     body.append("portfolio_link", "");
     body.append("image", "");
+
+    //For Availability
+    body.append("date", "");
 
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {

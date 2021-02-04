@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -84,76 +84,84 @@ class TutoringJobs extends Component {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
-        <Spinner
+          <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
           />
           <ScrollView showsVerticalScrollIndicator={false}>
-            {
-              this.state.tutorexpertset.map((item, idx) => (
-                <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
-                  <View style={CommonStyles.container}>
-                    <View style={styles.subjectWrapper}>
-                      {/* <View style={styles.leftSection}>
+            {this.state.tutorexpertset.map((item, idx) => {
+              if (item.message != "No data found") {
+                return (
+                  <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
+                    <View style={CommonStyles.container}>
+                      <View style={styles.subjectWrapper}>
+                        {/* <View style={styles.leftSection}>
                         <FontAwesome
                           name="tv"
                           color="#000"
                           size={25}
                         />
                       </View> */}
-                      <View style={styles.rightSection}>
-                        <Text style={styles.boxTitle}>{item.job_title}</Text>
-                        <Text style={styles.boxTexts}>{item.description}
-                        </Text>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+                        <View style={styles.rightSection}>
+                          <Text style={styles.boxTitle}>{item.job_title}</Text>
+                          <Text style={styles.boxTexts}>{item.description}
+                          </Text>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
 
-                          <Entypo
-                            name="time-slot"
-                            color="rgba(0,0,0,0.3)"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>{item.posted_date}</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <Entypo
+                              name="time-slot"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>{item.posted_date}</Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
 
-                          <FontAwesome
-                            name="tag"
-                            color="rgba(0,0,0,0.3)"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>{item.key_skill}</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <FontAwesome
+                              name="tag"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>{item.key_skill}</Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
 
-                          <FontAwesome
-                            name="user"
-                            color="rgba(0,0,0,0.3)"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>{item.match_number}</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.timeAgo]}>
+                            <FontAwesome
+                              name="user"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>{item.match_number}</Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.timeAgo]}>
 
-                          <FontAwesome
-                            name="search-plus"
-                            color="rgba(0,0,0,0.3)"
-                            size={15}
-                          />
-                          <Text style={styles.iconText}>{item.applied_number}</Text>
-                        </View>
-                        <View style={[styles.flexstyle, styles.moneyContainer]}>
-                          <Text style={styles.usdText}>{item.price_amount} USD</Text>
-                          <Text style={styles.inrtxt}>({item.price_amount * 70} INR)</Text>
+                            <FontAwesome
+                              name="search-plus"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>{item.applied_number}</Text>
+                          </View>
+                          <View style={[styles.flexstyle, styles.moneyContainer]}>
+                            <Text style={styles.usdText}>{item.price_amount} USD</Text>
+                            <Text style={styles.inrtxt}>({item.price_amount * 70} INR)</Text>
+                          </View>
                         </View>
                       </View>
                     </View>
+                  </TouchableOpacity>
+                );
+              } else {
+                return (
+                  <View style={styles.noData}>
+                    <Image source={require('../../assets/images/resultNotFound.png')} style={{ width: 120, height: 121 }} />
+                    <Text style={styles.noDataText}>No Result Found</Text>
                   </View>
-                </TouchableOpacity>
-
-              ))
-            }
-            <View style={{marginBottom: 80}}></View>
+                );
+              }
+            })}
+            <View style={{ marginBottom: 80 }}></View>
           </ScrollView>
         </View>
       </SafeAreaView>

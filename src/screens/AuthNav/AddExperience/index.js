@@ -212,6 +212,9 @@ class AddExperienceScreen extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
+    //For Availability
+    body.append("date", "");
+
     await axios
       .post(
         BASE_URL +
