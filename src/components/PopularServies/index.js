@@ -177,6 +177,33 @@ class PopularServies extends Component {
           </Swiper>
       </View> */}
 
+        {/* <View>
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+            {this.state.categoryList.map((item, i) => {
+              if (i < 4) {
+                return (
+                  <TouchableOpacity
+                    key={i}
+                    style={styles.popSec}
+                    onPress={() =>
+                      this.props.navigation.navigate('LatestProjectList', {
+                        tagName: item.tagName,
+                      })
+                    }>
+                    <Image
+                      source={{uri: item.description}}
+                      style={styles.image}
+                    />
+                    <View style={styles.marTop20}>
+                      <Text style={styles.smText}>{item.tagName}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
+            })}
+          </ScrollView>
+        </View> */}
+
         <View>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal>
             {this.state.categoryList.map((item, i) => {

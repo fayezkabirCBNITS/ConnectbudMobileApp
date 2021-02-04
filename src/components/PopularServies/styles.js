@@ -38,8 +38,19 @@ export default {
     textAlign: 'center',
     marginTop: -2,
   },
+  // popSec: {
+  //   width: 200,
+  //   marginLeft: 15,
+  //   borderColor: '#6fbb5c',
+  //   borderWidth: 2,
+  //   padding: 10,
+  //   paddingVertical: 20,
+  //   alignItems: 'center',
+  //   borderRadius: 7,
+  //   backgroundColor: 'rgba(52,52,52,0.11)'
+  // },
   popSec: {
-    width: 200,
+    width: deviceWidth / 2.25,
     marginLeft: 15,
     borderColor: '#6fbb5c',
     borderWidth: 2,

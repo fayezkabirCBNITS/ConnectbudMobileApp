@@ -196,7 +196,7 @@ class HomeScreen extends Component {
               )}
             </View>
 
-            <View style={[styles.padVer15, {paddingTop: 25, marginTop: 10}]}>
+            <View style={[styles.padVer15, styles.talent]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>
                   Recently Joined College Students
