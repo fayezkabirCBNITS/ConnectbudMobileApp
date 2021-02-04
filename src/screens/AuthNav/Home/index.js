@@ -132,7 +132,7 @@ class HomeScreen extends Component {
                 </View>
               )}
             </View>
-            <View style={styles.padVer15}>
+            <View style={[styles.padVer15, styles.talent]}>
               <View style={CommonStyles.container}>
                 <Text style={styles.hdng}>Recently Joined College Students</Text>
               </View>

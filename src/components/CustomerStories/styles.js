@@ -38,7 +38,7 @@ export default {
   },
   wrap: {
     width: '100%',
-    height: 345,
+    height: 355,
   },
   feedbackSec: {
     paddingHorizontal: '7%',

@@ -81,8 +81,8 @@ export default {
   padVer15: {
     paddingTop: 15,
     backgroundColor: '#f6f8fb',
-    // borderBottomColor: '#71b85f',
-    // borderBottomWidth: 1.5,
+    borderBottomColor: '#71b85f',
+    borderBottomWidth: 1.5,
   },
   hdng: {
     marginBottom: 10,
@@ -215,5 +215,10 @@ export default {
   imgTxt: {
     width: 160,
     height: 70
-  }
+  },
+  talent: {
+    paddingTop: 25,
+    marginTop: 10,
+    paddingBottom: 15,
+  },
 };

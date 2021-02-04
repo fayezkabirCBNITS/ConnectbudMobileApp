@@ -8,8 +8,12 @@ export default {
   //   // width: 160,
   //   marginLeft: 15,
   // },
+  // main: {
+  //   width: 160,
+  //   marginLeft: 15,
+  // },
   main: {
-    width: 160,
+    width: deviceWidth / 3.5,
     marginLeft: 15,
   },
   // image: {
@@ -19,9 +23,15 @@ export default {
   //   overflow: 'hidden',
   //   alignSelf: 'center',
   // },
+  // image: {
+  //   width: '100%',
+  //   height: 150,
+  //   borderRadius: 5,
+  //   overflow: 'hidden'
+  // },
   image: {
     width: '100%',
-    height: 150,
+    height: 100,
     borderRadius: 5,
     overflow: 'hidden'
   },
@@ -51,10 +61,10 @@ export default {
   },
   designation: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 14,
+    fontSize: 13,
     color: '#7e7e7e',
     textAlign: 'center',
-    marginTop: -2,
+    // marginTop: -2,
   },
   wrap: {
     width: '100%',

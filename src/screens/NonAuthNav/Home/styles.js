@@ -1,5 +1,5 @@
 const React = require('react-native');
-const { Dimensions } = React;
+const {Dimensions} = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -15,7 +15,7 @@ export default {
     fontSize: 17,
     width: '100%',
     position: 'absolute',
-    left: 0
+    left: 0,
   },
   searchBar: {
     width: '100%',
@@ -76,7 +76,7 @@ export default {
   },
   mt15: {
     marginTop: 15,
-    paddingTop: 20
+    paddingTop: 20,
   },
   padVer15: {
     paddingTop: 15,
@@ -184,7 +184,7 @@ export default {
     borderBottomColor: 'rgba(0,0,0,0.2)',
     borderBottomWidth: 1,
     borderRadius: 5,
-    width: '100%'
+    width: '100%',
   },
   searchPos: {
     position: 'absolute',
@@ -205,15 +205,20 @@ export default {
   bookClassBtnText: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 12,
-    color: '#71b85f'
+    color: '#71b85f',
   },
   homeContent: {
     position: 'absolute',
     left: '5%',
-    top: 40
+    top: 40,
   },
   imgTxt: {
     width: 160,
-    height: 70
-  }
+    height: 70,
+  },
+  talent: {
+    paddingTop: 25,
+    marginTop: 10,
+    paddingBottom: 15,
+  },
 };
