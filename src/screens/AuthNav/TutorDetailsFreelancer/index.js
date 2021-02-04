@@ -202,6 +202,19 @@ class TutorDetailsFreelancer extends Component {
       .catch((error) => {});
   };
 
+  btnName = (textName) => {
+    return (
+      <View
+        style={{
+          width: '100%',
+          paddingHorizontal: '5%',
+          // marginTop: 10,
+        }}>
+        <Text style={styles.applyBtnText}>{textName}</Text>
+      </View>
+    );
+  };
+
   render() {
     return (
       <SafeAreaView style={[CommonStyles.safeAreaView, styles.bgColorWhite]}>
@@ -289,12 +302,12 @@ class TutorDetailsFreelancer extends Component {
                     <Text style={styles.syllabusText}>{value.description}</Text>
                   </Text>
 
-                  <View
+                  {/* <View
                     style={{
                       width: '100%',
                       paddingHorizontal: '5%',
                       marginTop: 10,
-                    }}>
+                    }}> */}
                     {this.state.jobDetails.map((value, index) => {
                       return (
                         <>
@@ -306,16 +319,13 @@ class TutorDetailsFreelancer extends Component {
                           ) : (
                             <>
                               {this.state.btnStatus === '' ? (
-                                <TouchableOpacity style={styles.newBtn2}>
-                                  <Text
-                                    style={styles.applyBtnText}
-                                    onPress={() =>
-                                      this.props.navigation.navigate(
-                                        'SignInScreen',
-                                      )
-                                    }>
-                                    Apply
-                                  </Text>
+                                <TouchableOpacity style={styles.newBtn2}
+                                onPress={() =>
+                                  this.props.navigation.navigate(
+                                    'SignInScreen',
+                                  )
+                                }>
+                                  {this.btnName('Apply')}
                                 </TouchableOpacity>
                               ) : (
                                 <>
@@ -331,42 +341,33 @@ class TutorDetailsFreelancer extends Component {
                                       'invitation' ? (
                                         <View style={styles.btnSection}>
                                           <TouchableOpacity
-                                            style={styles.newBtn}>
-                                            <Text
-                                              style={styles.authBtnText}
-                                              onPress={() =>
-                                                this.props.navigation.navigate(
-                                                  'AssessmentQuestion',
-                                                )
-                                              }>
-                                              Apply
-                                            </Text>
-                                          </TouchableOpacity>
-                                          <TouchableOpacity
-                                            style={styles.newBtn}>
-                                            <Text
-                                              style={styles.authBtnText}
-                                              onPress={() =>
-                                                this.employeracceptIgnore(
-                                                  value.user_id,
-                                                )
-                                              }>
-                                              Ignore
-                                            </Text>
-                                          </TouchableOpacity>
-                                        </View>
-                                      ) : (
-                                        <TouchableOpacity
-                                          style={styles.newBtn2}>
-                                          <Text
-                                            style={styles.applyBtnText}
+                                            style={styles.newBtn}
                                             onPress={() =>
                                               this.props.navigation.navigate(
                                                 'AssessmentQuestion',
                                               )
                                             }>
-                                            Apply
-                                          </Text>
+                                           {this.btnName('Apply')}
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            style={styles.newBtn}
+                                            onPress={() =>
+                                              this.employeracceptIgnore(
+                                                value.user_id,
+                                              )
+                                            }>
+                                            {this.btnName('Ignore')}
+                                          </TouchableOpacity>
+                                        </View>
+                                      ) : (
+                                        <TouchableOpacity
+                                          style={styles.newBtn2}
+                                          onPress={() =>
+                                            this.props.navigation.navigate(
+                                              'AssessmentQuestion',
+                                            )
+                                          }>
+                                        {this.btnName('Apply')}
                                         </TouchableOpacity>
                                       )}
                                     </>
@@ -379,7 +380,7 @@ class TutorDetailsFreelancer extends Component {
                       );
                     })}
                   </View>
-                </View>
+                // </View>
               ))}
               {this.state.pageStatus !== 'invitation' ? (
                 <View style={styles.similarJobWrapper}>
