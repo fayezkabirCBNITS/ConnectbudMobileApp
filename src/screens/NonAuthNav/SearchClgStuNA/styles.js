@@ -50,10 +50,11 @@ export default {
     margin: 5,
   },
   skillText: {
-    fontSize: 11,
+    fontSize: 14,
     fontFamily: 'Poppins-Regular',
     color: '#000',
     marginLeft: 3,
+    marginRight: 7,
     textAlign: "center",
   },
   flatList: {
@@ -68,8 +69,9 @@ export default {
     flexDirection: 'row',
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: 14,
+    fontFamily: 'Poppins-SemiBold',
+    //fontWeight: 'bold',
+    fontSize: 16,
     marginLeft: 20,
     marginTop: 10,
     marginBottom: 10,
@@ -100,9 +102,9 @@ export default {
     alignItems: "flex-start"
   },
   subjectWrapper: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    //flexDirection: "row",
     width: "100%",
     borderColor: "rgba(113,184,95,0.3)",
     borderWidth: 2,
@@ -138,20 +140,21 @@ export default {
     // flexDirection: 'row'
   },
   formPicker: {
-    width: '88%',
-    height: 55,
-    backgroundColor: '#f8f8f8',
-    borderRadius: 4,
-    // borderWidth: 1,
+    width: '100%',
+    height: 50,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    borderColor: 'rgba(0,0,0,0.5)',
+    borderWidth: 1,
     // borderColor:'rgba(59,29,37,0.5)',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.23,
+    // shadowRadius: 2.62,
+    // elevation: 4,
     textAlignVertical: 'top'
   },
   formGroup01: {
@@ -160,6 +163,7 @@ export default {
     backgroundColor: '#0000',
     borderRadius: 4,
     fontSize: 16,
+    marginTop: 5,
     //borderWidth: 1,
     //borderColor: "rgba(113,184,95,0.3)",
     //borderColor:'rgba(59,29,37,0.5)',
@@ -177,6 +181,7 @@ export default {
   rightSection: {
     width: "78%",
     paddingLeft: 5,
+    marginBottom: 20
   },
   leftSection: {
     width: "22%"
@@ -189,7 +194,8 @@ export default {
     //marginLeft: 10,
     fontSize: 12,
     fontFamily: 'Poppins-Bold',
-    color: 'rgba(59,29,37,0.5)',
+    color: '#000',
+    width: '20%'
   },
   btnGrp: {
     width: '100%',
@@ -202,7 +208,7 @@ export default {
     borderRadius: 40,
     // width: '30%', 
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     paddingVertical: 5,
     marginHorizontal: 3,
     marginBottom: 10,
@@ -214,7 +220,7 @@ export default {
   //
   wrap: {
     width: '100%',
-    height: '80%',
+    // height: '80%',
     paddingHorizontal: 25,
     backgroundColor: '#fff',
   },
@@ -276,7 +282,7 @@ export default {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    height: deviceHeight - 470,
+    height: deviceHeight - 330,
   },
   noDataText: {
     marginTop: 15,
@@ -284,5 +290,21 @@ export default {
     fontFamily: 'Poppins-SemiBold',
     color: '#71b85f',
   },
-
+  filterSec2: {
+    // width: '100%',
+    // height: 60,
+    // borderTopColor: '#71b85f',
+    // borderTopWidth: 1,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    width: 55,
+    height: 55,
+    borderRadius: 55 / 2,
+    backgroundColor: '#71b85f',
+    // borderTopWidth: 1,
+    // flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }

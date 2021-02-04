@@ -284,13 +284,13 @@ class AssessmentQuestion extends Component {
               />
             </View>
 
-            <Text style={styles.quesHead}>Proposed Amount(in USD)</Text>
+            <Text style={[styles.quesHead, {marginTop: 25}]}>Proposed Amount(in USD)</Text>
             <View>
               <TextInput
                 returnKeyType="done"
                 placeholder="Please enter your amount"
                 keyboardType="default"
-                style={styles.inputBox}
+                style={styles.inputBox2}
                 numberOfLines={1}
                 value={this.state.priceAmount}
                 onChangeText={(e) => this.handleCTC(e)}
@@ -319,7 +319,7 @@ class AssessmentQuestion extends Component {
 
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableOpacity 
-              style={[styles.authBtn]}
+              style={[styles.authBtnCancel]}
               onPress={() => this.props.navigation.navigate('StudentInner')}>
                 {this.btnName('Cancel')}
               </TouchableOpacity>

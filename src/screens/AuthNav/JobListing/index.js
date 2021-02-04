@@ -884,7 +884,7 @@ class JobListingScreen extends Component {
                 </TouchableOpacity>
 
                 <View style={styles.actionEdtBtn}>
-                  <TouchableOpacity activeOpacity={0.9} style={[styles.authBtn]} onPress={() => this.setState({ show: false, showAdditional: false })}>
+                  <TouchableOpacity activeOpacity={0.9} style={[styles.authBtnCancel]} onPress={() => this.setState({ show: false, showAdditional: false })}>
                     <Text style={styles.authBtnText}>Cancel</Text>
                   </TouchableOpacity>
 
@@ -975,7 +975,7 @@ class JobListingScreen extends Component {
                         </TouchableOpacity>
 
                         <View style={styles.actionEdtBtn}>
-                          <TouchableOpacity activeOpacity={0.9} style={[styles.authBtn]} onPress={this.JobHideModal}>
+                          <TouchableOpacity activeOpacity={0.9} style={[styles.authBtnCancel]} onPress={this.JobHideModal}>
                             <Text style={styles.authBtnText}>Cancel</Text>
                           </TouchableOpacity>
 

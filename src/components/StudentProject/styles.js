@@ -1,87 +1,87 @@
 const React = require('react-native');
-const {Dimensions} = React;
+const { Dimensions } = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
 export default {
-    popins : {
-        fontFamily : "Poppins"
+    popins: {
+        fontFamily: "Poppins"
     },
-    flexstyle : {
-        flexDirection : "row",
-        alignItems : "center"
+    flexstyle: {
+        flexDirection: "row",
+        alignItems: "center"
     },
-    subjectWrapper : {
-        justifyContent : "center",
-        alignItems : "flex-start",
-        flexDirection : "row",
-        width : "100%",
-        borderColor : "rgba(113,184,95,0.3)",
-        borderWidth : 2,
-        marginVertical : 15,
-        padding : 15,
-        borderRadius : 8
+    subjectWrapper: {
+        justifyContent: "center",
+        alignItems: "flex-start",
+        flexDirection: "row",
+        width: "100%",
+        borderColor: "rgba(113,184,95,0.3)",
+        borderWidth: 2,
+        marginVertical: 15,
+        padding: 15,
+        borderRadius: 8
     },
-    moneyContainer : {
-        borderColor : "rgba(113,184,95,1)",
-        borderWidth : 1,
-        flexDirection : "row",
-        alignItems : "center",
-        justifyContent : "space-around",
-        overflow : "hidden",
-        borderRadius : 7,
-        marginTop : 15,        
+    moneyContainer: {
+        borderColor: "rgba(113,184,95,1)",
+        borderWidth: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        overflow: "hidden",
+        borderRadius: 7,
+        marginTop: 15,
         backgroundColor: '#fff'
     },
-    inrtxt : {
-        backgroundColor : "#71b85f",
+    inrtxt: {
+        backgroundColor: "#71b85f",
         color: "#fff",
         width: "50%",
-        textAlign : "center",
-        paddingVertical : 7,
+        textAlign: "center",
+        paddingVertical: 7,
         fontSize: 16,
         fontFamily: 'Poppins-SemiBold',
         textAlignVertical: 'center',
         paddingTop: 10
     },
-    usdText : {
-        backgroundColor : "#fff",
+    usdText: {
+        backgroundColor: "#fff",
         color: "#000",
         width: "50%",
-        textAlign : "center",
-        paddingVertical : 7,
+        textAlign: "center",
+        paddingVertical: 7,
         fontSize: 16,
         fontFamily: 'Poppins-SemiBold',
         textAlignVertical: 'center',
         paddingTop: 10
     },
-    timeAgo : {
-        marginBottom : 5,
+    timeAgo: {
+        marginBottom: 5,
 
     },
-    rightSection : {
+    rightSection: {
         // width : "85%",
         width: '100%',
-        paddingLeft : 8
+        paddingLeft: 8
     },
-    leftSection : {
-        width : "15%",
-        alignItems : 'center',
+    leftSection: {
+        width: "15%",
+        alignItems: 'center',
         marginTop: 3
     },
-    boxTitle : {
-        fontSize : 16,
+    boxTitle: {
+        fontSize: 16,
         fontFamily: 'Poppins-SemiBold',
     },
-    boxTexts : {
-        fontSize : 12,
-        color : "rgba(0,0,0,0.55)",
+    boxTexts: {
+        fontSize: 12,
+        color: "rgba(0,0,0,0.55)",
         fontFamily: 'Poppins-Regular',
-        marginBottom : 10
+        marginBottom: 10
     },
-    iconText : {
-        marginLeft : 12,
-        fontSize : 11,
+    iconText: {
+        marginLeft: 12,
+        fontSize: 11,
         fontFamily: 'Poppins-Regular',
     },
     editBtnText: {
@@ -90,8 +90,8 @@ export default {
         // marginLeft: 10,
         fontSize: 16,
         marginTop: 3,
-      },
-      editBtn: {
+    },
+    editBtn: {
         width: 85,
         height: 30,
         backgroundColor: '#71b85f',
@@ -102,5 +102,17 @@ export default {
         marginLeft: 'auto',
         marginTop: 7,
         // marginRight: 160
-      },
+    },
+    noData: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: deviceHeight - 250,
+    },
+    noDataText: {
+        marginTop: 15,
+        fontSize: 22,
+        fontFamily: 'Poppins-SemiBold',
+        color: '#71b85f',
+    },
 }

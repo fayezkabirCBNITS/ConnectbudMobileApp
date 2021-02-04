@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TextInput,
-  FlatList,
   TouchableOpacity,
   Image,
-  Modal,
   Pressable,
   SafeAreaView,
   StatusBar
@@ -25,13 +22,14 @@ import {
 } from '../../../services/http-connectors';
 import { withNavigation } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
 import {
   Collapse,
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 class SearchClgStu extends Component {
   constructor(props) {
@@ -82,11 +80,9 @@ class SearchClgStu extends Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.fetchSkills();
-      // this.fetchEmployees();
       this.fetchSearchedEmployees();
     });
     this.fetchSkills();
-    // this.fetchEmployees();
     this.fetchSearchedEmployees();
   }
   async fetchSkills() {
@@ -255,7 +251,6 @@ class SearchClgStu extends Component {
       this.fetchEmployeesBasedOnIS(response[0].user_id);
     }
   }
-
   static navigationOptions = {
     headerShown: false,
   };
@@ -309,7 +304,6 @@ class SearchClgStu extends Component {
         ? this.fetchInitialSearch()
         : '';
     }
-
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -328,9 +322,8 @@ class SearchClgStu extends Component {
           </View>
           {/* {/ header section end /} */}
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-            {/* <View style={CommonStyles.main}> */}
-            <Text style={styles.title}>
-              Search, Connect, Hire( Use talent search to find college students{' '}
+            <Text style={[styles.title, { fontSize: 18, paddingHorizontal: '5%', paddingLeft: 0, color: '#71b85f' }]}>
+              Search, Connect, Hire(Use talent search to find college students){' '}
             </Text>
             <View>
               <View style={{ paddingHorizontal: '5%' }}>
@@ -347,14 +340,11 @@ class SearchClgStu extends Component {
                             { flexWrap: 'wrap', flexDirection: 'row' },
                           ]}>
                           <View
-                            style={[
-                              styles.skillTab,
-                              { backgroundColor: '#71b85f', flexDirection: 'row' },
-                            ]}>
-                            <Text style={[styles.skillText, { color: '#fff' }]}>
+                            style={[styles.skillTab]}>
+                            <Text style={[styles.skillText]}>
                               {data}
                             </Text>
-                            <FontAwesome name="close" size={20} color="#fff" />
+                            <FontAwesome name="close" size={15} color='rgba(0,0,0,0.5)' />
                           </View>
                         </View>
                       </TouchableOpacity>
@@ -370,7 +360,7 @@ class SearchClgStu extends Component {
                     <Picker
                       style={{
                         //width: '90%',
-                        height: 55,
+                        height: 50,
                         color: '#000',
                         fontFamily: 'Poppins-Regular',
                         borderColor: 'rgba(113,184,95,0.3)',
@@ -404,26 +394,20 @@ class SearchClgStu extends Component {
                         )}
                     </Picker>
                   </View>
-                  <TouchableOpacity
-                    onPress={this.handleFilterModal}
+                  {/* <TouchableOpacity
+                    onPress={() => this.RBSheet.open()}
                     style={{
                       backgroundColor: '#60a84e',
-                      borderRadius: 4,
+                      borderRadius: 5,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      height: 55,
-                      width: 55,
+                      height: 50,
+                      width: 50,
+                      marginLeft: 'auto'
                     }}
-                  //style={{marginLeft: 'auto'}}
                   >
                     <MaterialIcons name="filter-list" color="#fff" size={32} />
-                    {/* <AntDesign
-                      name="plussquare"
-                      size={55}
-                      color="#60a84e"
-                      style={{marginLeft: 10}}
-                    /> */}
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </View>
@@ -439,87 +423,91 @@ class SearchClgStu extends Component {
                         onPress={() => this.props.navigation.navigate('ViewUserProfileScreen', { username: item.slug })}>
                         <View style={CommonStyles.container}>
                           <View style={styles.subjectWrapper}>
-                            <View style={[styles.leftSection]}>
-                              <Image
-                                source={{ uri: item.user_image }}
-                                style={styles.userImg}
-                              />
+                            <View style={{ flexDirection: 'row' }}>
+                              <View style={[styles.leftSection]}>
+                                <Image
+                                  source={{ uri: item.user_image }}
+                                  style={styles.userImg}
+                                />
+                              </View>
+                              <View style={styles.rightSection}>
+                                <Text style={styles.boxTitle}>{item.name}</Text>
+                              </View>
                             </View>
-                            <View style={styles.rightSection}>
-                              <Text style={styles.boxTitle}>{item.name}</Text>
-                              <View style={[styles.flexstyle, styles.timeAgo]}>
-                                <FontAwesome
-                                  name="graduation-cap"
-                                  color="#71b85f"
-                                  size={15}
-                                />
-                                <Text style={styles.iconText}>Institute :</Text>
-                                <Text
-                                  style={{
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins-SemiBold',
-                                    width: '70%',
-                                    paddingLeft: 10,
-                                  }}>
-                                  {item.institute}
-                                </Text>
-                              </View>
-                              <View style={[styles.flexstyle, styles.timeAgo]}>
-                                <FontAwesome
-                                  name="institution"
-                                  color="#71b85f"
-                                  size={15}
-                                />
-                                <Text style={styles.iconText}>Prefered :</Text>
-                                <Text
-                                  style={{
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins-SemiBold',
-                                    width: '70%',
-                                    paddingLeft: 10,
-                                  }}
-                                  numberOfLines={3}
-                                  ellipsizeMode="tail">
-                                  {item.prefferedskill}
-                                </Text>
-                              </View>
-                              <View
-                                style={[
-                                  styles.flexstyle,
-                                  styles.timeAgo,
-                                  { marginLeft: -5, marginTop: -5 },
-                                ]}>
-                                <Entypo
-                                  name="location-pin"
-                                  color="#71b85f"
-                                  size={25}
-                                />
-                                <View
-                                  style={{ display: 'flex', flexDirection: 'row' }}>
-                                  <Text style={styles.iconText}>Location :</Text>
-                                  <Text
-                                    style={{
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins-SemiBold',
-                                      width: '70%',
-                                      paddingLeft: 10,
-                                    }}
-                                    numberOfLines={3}
-                                    ellipsizeMode="tail">{item.location}
+                            <View style={[styles.flexstyle, styles.timeAgo, { marginTop: 10 }]}>
+                              <FontAwesome
+                                name="graduation-cap"
+                                color="#71b85f"
+                                size={15}
+                                style={{ width: '8%', marginTop: 2 }}
+                              />
+                              <Text style={styles.iconText}>Institute :</Text>
+                              <Text
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins-Regular',
+                                  width: '72%',
+                                  paddingLeft: 10,
+                                  color: '#000'
+                                }}>
+                                {item.institute}
+                              </Text>
+                            </View>
+                            <View style={[styles.flexstyle, styles.timeAgo]}>
+                              <FontAwesome
+                                name="institution"
+                                color="#71b85f"
+                                size={15}
+                                style={{ width: '8%', marginTop: 2 }}
+                              />
+                              <Text style={styles.iconText}>Prefered :</Text>
+                              <Text
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins-Regular',
+                                  width: '72%',
+                                  paddingLeft: 10,
+                                  color: '#000'
+                                }}
+                                numberOfLines={3}
+                                ellipsizeMode="tail">
+                                {item.prefferedskill}
+                              </Text>
+                            </View>
+                            <View
+                              style={[
+                                styles.flexstyle,
+                                styles.timeAgo,
+                                // { marginLeft: -5, marginTop: -5 },
+                              ]}>
+                              <Entypo
+                                name="location-pin"
+                                color="#71b85f"
+                                size={20}
+                                style={{ width: '8%', marginTop: 2, marginRight: 2 }}
+                              />
+                              <Text style={styles.iconText}>Location :</Text>
+                              <Text
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins-Regular',
+                                  width: '72%',
+                                  paddingLeft: 10,
+                                  color: '#000'
+                                }}
+                                numberOfLines={3}
+                                ellipsizeMode="tail">{item.location}
+                              </Text>
+                            </View>
+                            <View style={styles.btnGrp}>
+                              {item.skillset.map((value, i) => (
+                                <TouchableOpacity style={styles.subBtn}>
+                                  <Text style={styles.btnText}>
+                                    {value.skill_name}
                                   </Text>
-                                </View>
-                              </View>
-                              <View style={styles.btnGrp}>
-                                {item.skillset.map((value, i) => (
+                                </TouchableOpacity>
 
-                                  <TouchableOpacity style={styles.subBtn}>
-                                    <Text style={styles.btnText}>
-                                      {value.skill_name}
-                                    </Text>
-                                  </TouchableOpacity>
-
-                                ))}
-                              </View>
+                              ))}
                             </View>
                           </View>
                         </View>
@@ -536,154 +524,22 @@ class SearchClgStu extends Component {
                 })}
               </ScrollView>
             </TouchableOpacity>
+            <View style={{marginBottom: 70}}/>
             {/* </View> */}
           </ScrollView>
         </View>
-        {this.state.showFilterModal === true ? (
-          <Modal transparent={true} isVisible={this.state.showFilterModal}>
-            <View style={CommonStyles.modalBg}>
-              <View style={[CommonStyles.modalContent, { paddingVertical: 10 }]}>
-                <View style={styles.wrap}>
-                  <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={[styles.flexRow, styles.underline]}>
-                      <Text style={styles.head}>Filters</Text>
-                      {/*  onPress={()=>this.fetchResetEmployees()} */}
-                      <Pressable>
-                        <Text style={styles.resetAll}>Reset All</Text>
-                      </Pressable>
-                    </View>
-
-                    <Collapse onToggle={this.handleCollapseCategory}>
-                      <CollapseHeader>
-                        <View style={[styles.flexRow, styles.height50]}>
-                          <Text style={styles.head}>Category</Text>
-                          {this.state.collapsedCategory == false ? (
-                            <MaterialIcons
-                              name="keyboard-arrow-down"
-                              color="#71b85f"
-                              size={30}
-                            />
-                          ) : (
-                              <MaterialIcons
-                                name="keyboard-arrow-up"
-                                color="#71b85f"
-                                size={30}
-                              />
-                            )}
-                        </View>
-                      </CollapseHeader>
-                      <CollapseBody>
-                        {this.state.category.map((item, i) => (
-                          <Pressable key={i} style={styles.filterOptnBtn} onPress={() => this.selectFilterCategory(item.optn)}>
-                            <Text style={styles.filterOptn}>{item.optn}</Text>
-                            {/* select option text - style={styles.filterOptnSlct} */}
-                          </Pressable>
-                        ))}
-                      </CollapseBody>
-                    </Collapse>
-
-                    <Collapse onToggle={this.handleCollapseSort}>
-                      <CollapseHeader>
-                        <View style={[styles.flexRow, styles.height50]}>
-                          <Text style={styles.head}>Sort By</Text>
-                          {this.state.collapsedSort == false ? (
-                            <MaterialIcons
-                              name="keyboard-arrow-down"
-                              color="#71b85f"
-                              size={30}
-                            />
-                          ) : (
-                              <MaterialIcons
-                                name="keyboard-arrow-up"
-                                color="#71b85f"
-                                size={30}
-                              />
-                            )}
-                        </View>
-                      </CollapseHeader>
-                      <CollapseBody>
-                        {this.state.sort.map((item, i) => (
-                          <Pressable style={styles.filterOptnBtnSlct} key={i} onPress={() => this.selectSortBy(item.optn)}>
-                            <Fontisto
-                              name="radio-btn-passive"
-                              color="#000"
-                              size={25}
-                            />
-                            {/* <Fontisto
-                    name="radio-btn-active"
-                    color="#000"
-                    size={25}
-                  /> */}
-                            <Text style={styles.filterOptn2}>{item.optn}</Text>
-                          </Pressable>
-                        ))}
-                      </CollapseBody>
-                    </Collapse>
-
-                    <Collapse onToggle={this.handleCollapseCountry}>
-                      <CollapseHeader>
-                        <View style={[styles.flexRow, styles.height50]}>
-                          <Text style={styles.head}>Country</Text>
-                          {this.state.collapsedCountry == false ? (
-                            <MaterialIcons
-                              name="keyboard-arrow-down"
-                              color="#71b85f"
-                              size={30}
-                            />
-                          ) : (
-                              <MaterialIcons
-                                name="keyboard-arrow-up"
-                                color="#71b85f"
-                                size={30}
-                              />
-                            )}
-                        </View>
-                      </CollapseHeader>
-                      <CollapseBody>
-                        {this.state.country.map((item, i) => (
-                          <Pressable key={i} style={styles.filterOptnBtnSlct} onPress={() => this.selectCountry(item.optn)}>
-                            <Fontisto
-                              name="radio-btn-passive"
-                              color="#000"
-                              size={25}
-                            />
-                            {/* <Fontisto
-                    name="radio-btn-active"
-                    color="#000"
-                    size={25}
-                  /> */}
-                            <Text style={styles.filterOptn2}>{item.optn}</Text>
-                          </Pressable>
-                        ))}
-                      </CollapseBody>
-                    </Collapse>
-                  </ScrollView>
-                </View>
-
-                <TouchableOpacity
-                  style={CommonStyles.modalCross}
-                  onPress={this.onDismissModel}>
-                  <Entypo name="circle-with-cross" color="#71b85f" size={35} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-        ) : (
-            <></>
-          )}
-
-        {/* <TouchableOpacity
-          onPress={() => this.RBSheet.open()}
-          style={styles.filterSec}>
-          <MaterialIcons name="filter-list" color="#fff" size={40} />
-          <Text style={styles.filterText}>Filter</Text>
-        </TouchableOpacity>
-
+        <View style={{ width: '100%', paddingHorizontal: '5%', height: 90, alignItems: 'flex-end', justifyContent: 'center', position: 'absolute', bottom: 0 }}>
+          <TouchableOpacity
+            onPress={() => this.RBSheet.open()}
+            style={styles.filterSec2}>
+            <AntDesign name="filter" color="#fff" size={30} />
+          </TouchableOpacity>
+        </View>
         <RBSheet
           ref={(ref) => {
             this.RBSheet = ref;
           }}
-          height={300}
+          height={250}
           openDuration={600}
           customStyles={{
             container: {
@@ -691,8 +547,124 @@ class SearchClgStu extends Component {
               alignItems: 'center',
             },
           }}>
-          <EmployeeFilterScreen />
-        </RBSheet> */}
+          <View>
+            <View style={styles.wrap}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={[styles.flexRow, styles.underline]}>
+                  <Text style={styles.head}>Filters</Text>
+                  <Pressable onPress={()=>this.fetchResetEmployees()}>
+                    <Text style={styles.resetAll}>Reset All</Text>
+                  </Pressable>
+                </View>
+
+                <Collapse onToggle={this.handleCollapseCategory}>
+                  <CollapseHeader>
+                    <View style={[styles.flexRow, styles.height50]}>
+                      <Text style={styles.head}>Category</Text>
+                      {this.state.collapsedCategory == false ? (
+                        <MaterialIcons
+                          name="keyboard-arrow-down"
+                          color="#71b85f"
+                          size={30}
+                        />
+                      ) : (
+                          <MaterialIcons
+                            name="keyboard-arrow-up"
+                            color="#71b85f"
+                            size={30}
+                          />
+                        )}
+                    </View>
+                  </CollapseHeader>
+                  <CollapseBody>
+                    {this.state.category.map((item, i) => (
+                      <Pressable key={i} style={styles.filterOptnBtn} onPress={() => this.selectFilterCategory(item.optn)}>
+                        <Text style={styles.filterOptn}>{item.optn}</Text>
+                        {/* select option text - style={styles.filterOptnSlct} */}
+                      </Pressable>
+                    ))}
+                  </CollapseBody>
+                </Collapse>
+
+                <Collapse onToggle={this.handleCollapseSort}>
+                  <CollapseHeader>
+                    <View style={[styles.flexRow, styles.height50]}>
+                      <Text style={styles.head}>Sort By</Text>
+                      {this.state.collapsedSort == false ? (
+                        <MaterialIcons
+                          name="keyboard-arrow-down"
+                          color="#71b85f"
+                          size={30}
+                        />
+                      ) : (
+                          <MaterialIcons
+                            name="keyboard-arrow-up"
+                            color="#71b85f"
+                            size={30}
+                          />
+                        )}
+                    </View>
+                  </CollapseHeader>
+                  <CollapseBody>
+                    {this.state.sort.map((item, i) => (
+                      <Pressable style={styles.filterOptnBtnSlct} key={i} onPress={() => this.selectSortBy(item.optn)}>
+                        <Fontisto
+                          name="radio-btn-passive"
+                          color="#000"
+                          size={25}
+                        />
+                        {/* <Fontisto
+                    name="radio-btn-active"
+                    color="#000"
+                    size={25}
+                  /> */}
+                        <Text style={styles.filterOptn2}>{item.optn}</Text>
+                      </Pressable>
+                    ))}
+                  </CollapseBody>
+                </Collapse>
+
+                <Collapse onToggle={this.handleCollapseCountry}>
+                  <CollapseHeader>
+                    <View style={[styles.flexRow, styles.height50]}>
+                      <Text style={styles.head}>Country</Text>
+                      {this.state.collapsedCountry == false ? (
+                        <MaterialIcons
+                          name="keyboard-arrow-down"
+                          color="#71b85f"
+                          size={30}
+                        />
+                      ) : (
+                          <MaterialIcons
+                            name="keyboard-arrow-up"
+                            color="#71b85f"
+                            size={30}
+                          />
+                        )}
+                    </View>
+                  </CollapseHeader>
+                  <CollapseBody>
+                    {this.state.country.map((item, i) => (
+                      <Pressable key={i} style={styles.filterOptnBtnSlct} onPress={() => this.selectCountry(item.optn)}>
+                        <Fontisto
+                          name="radio-btn-passive"
+                          color="#000"
+                          size={25}
+                        />
+                        {/* <Fontisto
+                    name="radio-btn-active"
+                    color="#000"
+                    size={25}
+                  /> */}
+                        <Text style={styles.filterOptn2}>{item.optn}</Text>
+                      </Pressable>
+                    ))}
+                  </CollapseBody>
+                </Collapse>
+              </ScrollView>
+            </View>
+          </View>
+        </RBSheet>
       </SafeAreaView>
     );
   }

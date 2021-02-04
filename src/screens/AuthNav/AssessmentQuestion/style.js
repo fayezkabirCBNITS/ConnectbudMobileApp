@@ -5,8 +5,8 @@ const deviceWidth = Dimensions.get('window').width;
 
 export default {
     Heading: {
-        fontWeight: 'bold',
-        fontSize: 15,
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 18,
         padding: 20,
     },
     divider: {
@@ -17,8 +17,9 @@ export default {
         marginTop:-10
     },
     quesHead: {
-        marginVertical: '5%',
         marginHorizontal: '5%',
+        marginBottom: 15,
+        marginTop: 10,
         color: 'rgba(59,20,37,0.5)',
         fontSize: 14,
         fontWeight: 'bold',
@@ -30,26 +31,14 @@ export default {
         borderRadius: 4, 
         paddingHorizontal: 10,
         marginHorizontal: '5%'
-
-        // textAlignVertical: 'top', 
-        // marginHorizontal: '5%',
-        // width: '90%',
-        // flexDirection: 'row',
-        // padding: 5,
-        // marginBottom: 15,
-        // backgroundColor: '#f8f8f8',
-        // borderRadius: 5,
-        // color: '#000',
-        // fontSize: 16,
-        // shadowColor: '#000',
-        // shadowOffset: {
-        //   width: 0,
-        //   height: 2,
-        // },
-        // shadowOpacity: 0.23,
-        // shadowRadius: 2.62,
-        // elevation: 4,
-
+    },
+    inputBox2:{
+        textAlignVertical: 'center', 
+        borderColor: 'rgba(59,29,37,0.5)', 
+        borderWidth: 1, 
+        borderRadius: 4, 
+        paddingHorizontal: 10,
+        marginHorizontal: '5%'
     },
     uploadBtn: {
         width: '30%',
@@ -78,16 +67,28 @@ export default {
         marginVertical: 30,
         margin: 5,
     },
+    authBtnCancel: {
+        width: '40%',
+        height: 40,
+        borderRadius: 40,
+        backgroundColor: '#ed374a',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 30,
+        margin: 5,
+    },
     authBtnText: {
         color: '#fff',
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
         letterSpacing: 1,
+        marginTop: 2
     },
     errorText: {
         width: '100%',
         color: '#fc0303',
-        marginLeft: 14,
+        marginLeft: '5%',
       },
 }
 

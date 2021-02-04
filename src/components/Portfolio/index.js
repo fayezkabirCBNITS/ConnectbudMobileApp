@@ -93,6 +93,9 @@ class Portfolio extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
 
+    //For Availability
+    body.append("date", "");
+
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
       this.setState({
@@ -149,6 +152,9 @@ class Portfolio extends Component {
     body.append("portfolio_link", "");
     body.append("image", "");
     body.append("device", "mobile");
+
+    //For Availability
+    body.append("date", "");
 
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body, { headers: headers });
     if (response) {

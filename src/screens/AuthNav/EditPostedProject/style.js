@@ -87,11 +87,22 @@ export default {
         justifyContent: 'center',
         marginVertical: 20,
     },
+    authBtnCancel: {
+        width: '45%',
+        height: 46,
+        borderRadius: 40,
+        backgroundColor: '#ed374a',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+    },
     authBtnText: {
         color: '#fff',
-        fontSize: 14,
-        fontWeight: 'bold',
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
         letterSpacing: 1,
+        marginTop: 2
     },
     divider: {
         backgroundColor: 'rgba(59,29,37,0.5)',

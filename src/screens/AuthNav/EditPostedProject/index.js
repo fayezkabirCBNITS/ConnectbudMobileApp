@@ -101,7 +101,7 @@ class EditPostedProject extends Component {
                                 <TouchableOpacity
                                     activeOpacity={0.9}
                                     onPress={() => this.handleSubmit()}
-                                    style={[styles.authBtn]}>
+                                    style={[styles.authBtnCancel]}>
                                     <Text style={styles.authBtnText}>CANCEL</Text>
                                     {this.state.showLoader && (
                                         <ActivityIndicator
