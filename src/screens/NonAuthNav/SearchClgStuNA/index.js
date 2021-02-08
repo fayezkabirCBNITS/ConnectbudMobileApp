@@ -19,6 +19,7 @@ import ApiUrl from '../../../config/ApiUrl';
 import {
   makePostRequestMultipart,
   makeAuthGetRequest,
+  makeGetRequest
 } from '../../../services/http-connectors';
 import { withNavigation } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -27,64 +28,50 @@ import {
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { CheckBox } from 'react-native-elements';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class SearchClgStu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSkills: false,
       FreelancerSet: [],
-      skillOptions: [],
-      //
-      selectedSkills: [],
-      selectedSkillIndex: null,
+      CategoryList: [],
       skills: [],
-      filteredSkills: [],
+      selectedSkills: [],
       skillValuePlaceHolder: [{ value: 'Select Skill', label: 'Select skill' }],
       updateInitialSearchState: false,
-      showFilterModal: false,
-
-      category: [
-        { optn: 'Software Development' },
-        { optn: 'Online Coding' },
-        { optn: 'Homework' },
-        { optn: 'Design' },
-        { optn: 'Language' },
-        { optn: 'Music & Arts' },
-        { optn: 'Fitness' },
-      ],
-      sort: [
-        { optn: 'Latest' },
-      ],
-      /*
-      
-        {optn: 'Most Relevant'},
-        {optn: 'Low - High (Amount)'},
-        {optn: 'High - Low (Amount)'},
-      */
-      country: [{ optn: 'All' }, { optn: 'India' }, { optn: 'USA' }],
-      filterCategoty: '',
-      filterCountry: '',
-      latestEnable: '',
+      Category: '',
+      Country: '',
+      Latest: '',
+      isActiveIndex: "",
+      lodarStatus: false,
+      selectedValue: '',
+      selectedCountry: '',
       collapsedCategory: false,
       collapsedSort: false,
       collapsedCountry: false,
-      //
     };
   }
+
+  static navigationOptions = {
+    headerShown: false,
+  };
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       this.fetchSkills();
       this.fetchSearchedEmployees();
+      this.AllCategory();
     });
     this.fetchSkills();
     this.fetchSearchedEmployees();
+    this.AllCategory();
   }
+
   async fetchSkills() {
     let response = await makeAuthGetRequest(ApiUrl.FetchSkills, false, '');
     this.setState({ skills: this.state.skillValuePlaceHolder.concat(response) });
@@ -97,7 +84,13 @@ class SearchClgStu extends Component {
     })
   }
 
+  AllCategory = async () => {
+    let response = await makeGetRequest(ApiUrl.FetchProjectCategory, false, '');
+    this.setState({ CategoryList: response });
+  };
+
   async fetchEmployees() {
+    this.setState({ lodarStatus: true });
     let body = new FormData();
     body.append('user_id', '');
     body.append('job_id', '');
@@ -109,7 +102,7 @@ class SearchClgStu extends Component {
     body.append('job_type', '');
     body.append('job_location', '');
     body.append('key_skill', '');
-    body.append('offset', '0');
+    body.append('offset', '30');
     body.append('type', 'freelancer');
     let response = await makePostRequestMultipart(
       ApiUrl.RecrutierFeedPage,
@@ -118,17 +111,30 @@ class SearchClgStu extends Component {
     );
     if (response) {
       this.setState({
-        // lodarStatus: false,
+        lodarStatus: false,
         FreelancerSet: response.sort(function (a, b) {
           if (a.avg_rating > b.avg_rating) return -1;
           else if (a.avg_rating > b.avg_rating) return 1;
           return 0;
         }),
+        collapsedCategory: false,
+        collapsedSort: false,
+        collapsedCountry: false,
       });
+      this.RBSheet.close();
     }
-    //this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
-  fetchResetEmployees = async () => {
+  ResetEmployees = async () => {
+    this.setState({
+      lodarStatus: true,
+      FreelancerSet: [],
+      Category: '',
+      Country: '',
+      Latest: '',
+      isActiveIndex: "",
+      selectedValue: '',
+      selectedCountry: '',
+    });
     let body = new FormData();
     body.append('user_id', '');
     body.append('job_id', '');
@@ -140,7 +146,7 @@ class SearchClgStu extends Component {
     body.append('job_type', '');
     body.append('job_location', '');
     body.append('key_skill', '');
-    body.append('offset', '0');
+    body.append('offset', '30');
     body.append('type', 'freelancer');
     let response = await makePostRequestMultipart(
       ApiUrl.RecrutierFeedPage,
@@ -149,25 +155,28 @@ class SearchClgStu extends Component {
     );
     if (response) {
       this.setState({
-        // lodarStatus: false,
+        lodarStatus: false,
         FreelancerSet: response.sort(function (a, b) {
           if (a.avg_rating > b.avg_rating) return -1;
           else if (a.avg_rating > b.avg_rating) return 1;
           return 0;
         }),
+        collapsedCategory: false,
+        collapsedSort: false,
+        collapsedCountry: false,
       });
+      this.RBSheet.close()
     }
-    //this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
   async fetchFilteredEmployees() {
-    this.onDismissModel();
+    this.setState({ lodarStatus: true });
     let body = new FormData();
     body.append('search_type', 'filter');
-    body.append('category', this.state.filterCategoty);
-    body.append('latest', this.state.latestEnable);
+    body.append('category', this.state.Category);
+    body.append('latest', this.state.Latest);
     body.append('user_id', '');
-    body.append('offset', 30);
-    body.append('location', this.state.filterCountry);
+    body.append('offset', '30');
+    body.append('location', this.state.Country);
     body.append('status', '');
     body.append('skillset', '');
     body.append('relocate', '');
@@ -179,22 +188,25 @@ class SearchClgStu extends Component {
     );
     if (response) {
       this.setState({
-        // lodarStatus: false,
+        lodarStatus: false,
         FreelancerSet: response.sort(function (a, b) {
           if (a.avg_rating > b.avg_rating) return -1;
           else if (a.avg_rating > b.avg_rating) return 1;
           return 0;
         }),
+        collapsedCategory: false,
+        collapsedSort: false,
+        collapsedCountry: false,
       });
+      this.RBSheet.close()
     }
-    //this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
   async fetchEmployeesBasedOnIS(userIds) {
     const skt = JSON.stringify(this.state.selectedSkills).replace(
       /[\[\]']+/g,
       '',
     );
-
+    this.setState({ lodarStatus: true });
     let body = new FormData();
     body.append('user_id', userIds);
     body.append('job_id', '');
@@ -206,7 +218,7 @@ class SearchClgStu extends Component {
     body.append('job_type', '');
     body.append('job_location', '');
     body.append('key_skill', '');
-    body.append('offset', '0');
+    body.append('offset', '30');
     body.append('type', 'freelancer');
     let response = await makePostRequestMultipart(
       ApiUrl.RecrutierFeedPage,
@@ -215,7 +227,7 @@ class SearchClgStu extends Component {
     );
     if (response) {
       this.setState({
-        // lodarStatus: false,
+        lodarStatus: false,
         FreelancerSet: response.sort(function (a, b) {
           if (a.avg_rating > b.avg_rating) return -1;
           else if (a.avg_rating > b.avg_rating) return 1;
@@ -223,7 +235,6 @@ class SearchClgStu extends Component {
         }),
       });
     }
-    //this.setState({skills: this.state.skillValuePlaceHolder.concat(response)});
   }
 
   async fetchInitialSearch() {
@@ -251,9 +262,7 @@ class SearchClgStu extends Component {
       this.fetchEmployeesBasedOnIS(response[0].user_id);
     }
   }
-  static navigationOptions = {
-    headerShown: false,
-  };
+
   reverseAddSkills = async (index) => {
     this.setState({
       selectedSkills: this.state.selectedSkills.filter((_, i) => i !== index),
@@ -265,25 +274,35 @@ class SearchClgStu extends Component {
     this.setState({ skills: this.state.skills.sort() });
     this.fetchInitialSearch();
   };
-  handleFilterModal = async () => {
-    this.setState({ showFilterModal: true });
-  };
-  onDismissModel = () => {
-    this.setState({ showFilterModal: false });
-  };
-  selectFilterCategory = (category) => {
-    this.setState({ filterCategoty: category });
-    this.fetchFilteredEmployees();
-  };
-  selectSortBy = (sort) => {
-    this.setState({ latestEnable: 'yes' });
-    this.fetchFilteredEmployees();
 
-  };
-  selectCountry = (country) => {
-    this.setState({ filterCountry: country });
+  selectFilterCategory = (label, id) => {
+    this.setState({ Category: label, isActiveIndex: id });
     this.fetchFilteredEmployees();
+  };
 
+  selectSortBy = async () => {
+    this.setState({ Latest: 'yes', selectedValue: 'latest' });
+    this.fetchFilteredEmployees();
+  };
+
+  selectCountry = async (country) => {
+    if (country === 'All') {
+      await this.setState({
+        Country: 'All',
+        selectedCountry: 'all',
+      });
+    } else if (country === 'India') {
+      await this.setState({
+        Country: 'India',
+        selectedCountry: 'india',
+      });
+    } else {
+      await this.setState({
+        Country: 'USA',
+        selectedCountry: 'usa',
+      });
+    }
+    this.fetchFilteredEmployees();
   };
 
   handleCollapseCategory = (prevState) => {
@@ -304,6 +323,8 @@ class SearchClgStu extends Component {
         ? this.fetchInitialSearch()
         : '';
     }
+    const { selectedValue } = this.state;
+    const { selectedCountry } = this.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={CommonStyles.main}>
@@ -320,6 +341,11 @@ class SearchClgStu extends Component {
               style={CommonStyles.imageHdr}
             />
           </View>
+          <Spinner
+            visible={this.state.lodarStatus}
+            animation="fade"
+            textContent={'Loading...'}
+          />
           {/* {/ header section end /} */}
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <Text style={[styles.title, { fontSize: 18, paddingHorizontal: '5%', paddingLeft: 0, color: '#71b85f' }]}>
@@ -524,7 +550,7 @@ class SearchClgStu extends Component {
                 })}
               </ScrollView>
             </TouchableOpacity>
-            <View style={{marginBottom: 70}}/>
+            <View style={{ marginBottom: 70 }} />
             {/* </View> */}
           </ScrollView>
         </View>
@@ -552,7 +578,7 @@ class SearchClgStu extends Component {
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={[styles.flexRow, styles.underline]}>
                   <Text style={styles.head}>Filters</Text>
-                  <Pressable onPress={()=>this.fetchResetEmployees()}>
+                  <Pressable onPress={() => this.ResetEmployees()}>
                     <Text style={styles.resetAll}>Reset All</Text>
                   </Pressable>
                 </View>
@@ -577,12 +603,24 @@ class SearchClgStu extends Component {
                     </View>
                   </CollapseHeader>
                   <CollapseBody>
-                    {this.state.category.map((item, i) => (
-                      <Pressable key={i} style={styles.filterOptnBtn} onPress={() => this.selectFilterCategory(item.optn)}>
-                        <Text style={styles.filterOptn}>{item.optn}</Text>
-                        {/* select option text - style={styles.filterOptnSlct} */}
-                      </Pressable>
-                    ))}
+                    {this.state.CategoryList.map((value, index) => {
+                      return (
+                        <Pressable
+                          key={index}
+                          style={styles.filterOptnBtn}
+                          onPress={() => this.selectFilterCategory(value.label, value.value)}>
+                          <Text
+                            style={[
+                              styles.filterOptn,
+                              this.state.isActiveIndex === value.value
+                                ? styles.filterOptnSlct
+                                : '',
+                            ]}>
+                            {value.label}
+                          </Text>
+                        </Pressable>
+                      );
+                    })}
                   </CollapseBody>
                 </Collapse>
 
@@ -606,21 +644,19 @@ class SearchClgStu extends Component {
                     </View>
                   </CollapseHeader>
                   <CollapseBody>
-                    {this.state.sort.map((item, i) => (
-                      <Pressable style={styles.filterOptnBtnSlct} key={i} onPress={() => this.selectSortBy(item.optn)}>
-                        <Fontisto
-                          name="radio-btn-passive"
-                          color="#000"
-                          size={25}
-                        />
-                        {/* <Fontisto
-                    name="radio-btn-active"
-                    color="#000"
-                    size={25}
-                  /> */}
-                        <Text style={styles.filterOptn2}>{item.optn}</Text>
-                      </Pressable>
-                    ))}
+                    <Pressable style={styles.filterOptnBtnSlct}>
+                      <CheckBox
+                        center
+                        title="Latest"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-thin"
+                        checkedColor="#71b85f"
+                        containerStyle={styles.radio}
+                        textStyle={{ color: '#000', fontSize: 18 }}
+                        checked={selectedValue === 'latest'}
+                        onPress={() => this.selectSortBy()}
+                      />
+                    </Pressable>
                   </CollapseBody>
                 </Collapse>
 
@@ -644,21 +680,41 @@ class SearchClgStu extends Component {
                     </View>
                   </CollapseHeader>
                   <CollapseBody>
-                    {this.state.country.map((item, i) => (
-                      <Pressable key={i} style={styles.filterOptnBtnSlct} onPress={() => this.selectCountry(item.optn)}>
-                        <Fontisto
-                          name="radio-btn-passive"
-                          color="#000"
-                          size={25}
-                        />
-                        {/* <Fontisto
-                    name="radio-btn-active"
-                    color="#000"
-                    size={25}
-                  /> */}
-                        <Text style={styles.filterOptn2}>{item.optn}</Text>
-                      </Pressable>
-                    ))}
+                    <Pressable style={styles.filterOptnBtnSlct}>
+                      <CheckBox
+                        center
+                        title="All"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-thin"
+                        checkedColor="#71b85f"
+                        containerStyle={styles.radio}
+                        textStyle={{ color: '#000', fontSize: 18 }}
+                        checked={selectedCountry === 'all'}
+                        onPress={() => this.selectCountry('All')}
+                      />
+                      <CheckBox
+                        center
+                        title="India"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-thin"
+                        checkedColor="#71b85f"
+                        containerStyle={styles.radio}
+                        textStyle={{ color: '#000', fontSize: 18 }}
+                        checked={selectedCountry === 'india'}
+                        onPress={() => this.selectCountry('India')}
+                      />
+                      <CheckBox
+                        center
+                        title="USA"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-thin"
+                        checkedColor="#71b85f"
+                        containerStyle={styles.radio}
+                        textStyle={{ color: '#000', fontSize: 18 }}
+                        checked={selectedCountry === 'usa'}
+                        onPress={() => this.selectCountry('USA')}
+                      />
+                    </Pressable>
                   </CollapseBody>
                 </Collapse>
               </ScrollView>

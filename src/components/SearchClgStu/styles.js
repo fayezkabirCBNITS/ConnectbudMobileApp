@@ -254,9 +254,9 @@ export default {
   },
   filterOptnBtnSlct: {
     width: '100%',
-    height: 40,
-    alignItems: 'center',
-    flexDirection: 'row'
+    //height: 40,
+    alignItems: 'flex-start',
+    //flexDirection: 'row'
   },
   filterOptn: {
     fontSize: 18,
