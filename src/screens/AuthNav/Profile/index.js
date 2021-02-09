@@ -30,6 +30,8 @@ import NewPortfolio from '../../../components/NewPortfolio';
 import NewExperience from '../../../components/NewExperience';
 import NewWorkHistory from '../../../components/NewWorkHistory';
 import UpdateDocument from '../../../components/UpdateDocument';
+import {WebView} from 'react-native-webview';
+import NewAvailability from '../../../components/NewAvailability';
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -138,7 +140,7 @@ class ProfileScreen extends Component {
   render() {
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
-        <View style={CommonStyles.main}>
+        <View style={[CommonStyles.main, styles.whiteBg]}>
           <CommonStatusBar />
           <Spinner
             visible={this.state.showLoader}
@@ -161,7 +163,19 @@ class ProfileScreen extends Component {
           </View>
           <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             <View style={styles.userProfle}>
-              <View style={styles.videoSec}></View>
+              <View style={styles.videoSec}>
+                <WebView
+                  style={{width: '100%', height: '100%'}}
+                  javaScriptEnabled={true}
+                  domStorageEnabled={true}
+                  allowsFullscreenVideo={true}
+                  mediaPlaybackRequiresUserAction={false}
+                  allowsInlineMediaPlayback={true}
+                  source={{
+                    uri: 'https://www.youtube.com/embed/MOhYD7va19k',
+                  }}
+                />
+              </View>
               <View style={styles.newProfile}>
                 <Image
                   source={require('../../../assets/images/user.png')}
@@ -200,6 +214,7 @@ class ProfileScreen extends Component {
               </View>
             </View>
             <NewOverview />
+            <NewAvailability />
             <NewPortfolio />
             <NewExperience />
             <UpdateDocument />

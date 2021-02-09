@@ -120,28 +120,31 @@ export default {
 
   userProfle: {
     width: '100%',
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(0,0,0,0.02)',
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomWidth: 1,
   },
   videoSec: {
     width: '100%',
-    height: 150,
+    height: 200,
     backgroundColor: '#fff',
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
+    overflow: 'hidden',
   },
   newProfile: {
     width: 90,
     height: 90,
-    borderRadius: 90/2,
-    marginTop: -15,
-    backgroundColor: '#ff0',
+    borderRadius: 90 / 2,
+    marginTop: -20,
+    backgroundColor: 'rgba(0,0,0,0.05)',
     overflow: 'hidden',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   newSocial: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   newSocialIcon: {
     marginHorizontal: 7,
@@ -164,5 +167,8 @@ export default {
     fontSize: 14,
     color: '#000',
     textAlign: 'center',
+  },
+  whiteBg: {
+    backgroundColor: '#fff',
   },
 };
