@@ -49,7 +49,7 @@ export default {
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,1)',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   indicator: {
     backgroundColor: '#71b85f',
@@ -113,8 +113,56 @@ export default {
     justifyContent: 'center',
   },
   noDateText: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: 'Poppins-Regular',
     fontSize: 18,
-    color: '#000'
-  }
+    color: '#000',
+  },
+
+  userProfle: {
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+  videoSec: {
+    width: '100%',
+    height: 150,
+    backgroundColor: '#fff',
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+  },
+  newProfile: {
+    width: 90,
+    height: 90,
+    borderRadius: 90/2,
+    marginTop: -15,
+    backgroundColor: '#ff0',
+    overflow: 'hidden',
+    alignSelf: 'center'
+  },
+  newSocial: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  newSocialIcon: {
+    marginHorizontal: 7,
+    marginTop: 5,
+  },
+  newUserDetails: {
+    paddingHorizontal: '5%',
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  newUserName: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 18,
+    color: '#000',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  newUserInfo: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: '#000',
+    textAlign: 'center',
+  },
 };

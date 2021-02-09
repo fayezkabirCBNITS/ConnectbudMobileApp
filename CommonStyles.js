@@ -179,4 +179,32 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  newHdng: {
+    width: '100%',
+    marginTop: 30,
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  newHdngText: {
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#000',
+  },
+  newEditBtn: {
+    height: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#71b85f',
+    borderRadius: 30 / 2,
+  },
+  newEditText: {
+    color: '#fff',
+    marginLeft: 5,
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+    marginTop: 3,
+  },
 };
