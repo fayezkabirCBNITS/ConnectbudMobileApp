@@ -22,7 +22,10 @@ class UpdateDocument extends Component {
         </View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
             <TouchableOpacity style={styles.newDocumentSec}>
-                <Text>Document</Text>
+                <AntDesign name="pdffile1" color="#e95340" size={50} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.newDocumentSec}>
+                <AntDesign name="pdffile1" color="#e95340" size={50} />
             </TouchableOpacity>
         </ScrollView>
       </View>
