@@ -61,6 +61,7 @@ import StudentProjectNA from '../screens/NonAuthNav/StudentProjectNA';
 import ForgotPassword from '../screens/NonAuthNav/ForgotPassword';
 import OtpVerification from '../screens/NonAuthNav/OtpVerification';
 import ResetPassword from '../screens/NonAuthNav/ResetPassword';
+import IntroSliderScreen from '../screens/NonAuthNav/IntroSlider';
 //non stack pages
 
 export const MainStack = createStackNavigator(
@@ -238,6 +239,9 @@ const AuthStackNav = createStackNavigator(
     },
     ResetPassword: {
       screen: ResetPassword,
+    },
+    IntroSliderScreen: {
+      screen: IntroSliderScreen,
     },
   },
   {
