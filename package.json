@@ -25,6 +25,7 @@
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-calendar-picker": "^7.0.9",
+    "react-native-calendars": "^1.1249.0",
     "react-native-custom-dropdown": "^1.0.1",
     "react-native-document-picker": "^4.1.1",
     "react-native-elements": "^3.0.0",
