@@ -70,7 +70,7 @@ class HireTutor extends Component {
       classCount: '',
       amount: '',
       fetchAmount: '',
-      BtnStatus: false
+      BtnStatus: false,
     };
   }
 
@@ -231,8 +231,8 @@ class HireTutor extends Component {
         errConnectBud: false,
       });
       this.setState({
-        BtnStatus: true
-      })
+        BtnStatus: true,
+      });
       const date = JSON.stringify(this.state.selectedDate).replace(
         /[\[\]']+/g,
         '',
@@ -262,14 +262,15 @@ class HireTutor extends Component {
         body,
       );
       if (response[0].hire_by == 'me') {
-        this.setState({isModalVisible: true,
-        BtnStatus: false,
-        totalCost: '',
-        endTime: '',
-        gradeValue: '',
-        startTime: '',
-        selectedSkills: ''
-      });
+        this.setState({
+          isModalVisible: true,
+          BtnStatus: false,
+          totalCost: '',
+          endTime: '',
+          gradeValue: '',
+          startTime: '',
+          selectedSkills: '',
+        });
         this.props.navigation.navigate('PostedProjectByEmployee');
       } else if (response[0].hire_by == 'connectbud') {
         // this.setState({isModalVisible: true});
@@ -527,7 +528,11 @@ class HireTutor extends Component {
                   <View style={styles.formSubGroup1}>
                     <TouchableOpacity
                       onPress={() => this.setState({showDatePicker: true})}>
-                      <FontAwesome name="calendar" size={25} color="#d7d7d8" />
+                      <FontAwesome
+                        name="calendar"
+                        size={25}
+                        color="rgba(0,0,0,0.5)"
+                      />
                     </TouchableOpacity>
                   </View>
                 </View>
