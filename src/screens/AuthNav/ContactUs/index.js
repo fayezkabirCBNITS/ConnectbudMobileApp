@@ -152,8 +152,8 @@ class ContactUs extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             <Header />
             <View style={{marginHorizontal: '5%', marginTop: 20}}>
-              <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 20}}>
-                Contact Us
+              <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 20, color:"#71b85f"}}>
+                Write to us
               </Text>
 
               <View style={{marginVertical: '2%', marginTop: 20}}>
@@ -184,7 +184,7 @@ class ContactUs extends Component {
               <View style={{marginVertical: '2%'}}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="Write your message"
+                  placeholder="* Write your message"
                   keyboardType="default"
                   numberOfLines={5}
                   multiline={true}

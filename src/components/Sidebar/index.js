@@ -472,6 +472,75 @@ class Sidebar extends Component {
                     }>
                     <Text style={styles.menuOptnText}>Fitness</Text>
                   </TouchableOpacity>
+                  <TouchableOpacity
+                  style={styles.menuOptn3}
+                  onPress={() => this.props.navigation.navigate('ContactUs')}>
+                  <Text style={styles.menuOptnText}>Write to us</Text>
+                </TouchableOpacity>
+                  <Collapse
+                  onToggle={() =>
+                    this.setState({pressed: !this.state.pressed})
+                  }>
+                  <CollapseHeader>
+                    <View
+                      style={
+                        this.state.pressed ? styles.menuOptn2 : styles.menuOptn3
+                      }>
+                      {/* {this.state.pressed ? (
+                        <FontAwesome5
+                          name="building"
+                          color="#71b85f"
+                          size={27}
+                        />
+                      ) : (
+                        <FontAwesome5 name="building" color="#fff" size={27} />
+                      )} */}
+                      <Text
+                        style={
+                          this.state.pressed
+                            ? styles.menuOptnText2
+                            : styles.menuOptnText
+                        }>
+                        Company
+                      </Text>
+                      <View style={styles.collapsePos}>
+                        {this.state.pressed ? (
+                          <Entypo name="chevron-up" color="#71b85f" size={25} />
+                        ) : (
+                          <Entypo name="chevron-right" color="#fff" size={25} />
+                        )}
+                      </View>
+                    </View>
+                  </CollapseHeader>
+                  <CollapseBody>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() => this.props.navigation.navigate('AboutUs')}>
+                      <Text style={styles.menuOptnText}>About Us</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() =>
+                        this.props.navigation.navigate('FAQsScreen')
+                      }>
+                      <Text style={styles.menuOptnText}>FAQ</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() =>
+                        this.props.navigation.navigate('TermsOfServices')
+                      }>
+                      <Text style={styles.menuOptnText}>Terms of Service</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.menuOptn}
+                      onPress={() =>
+                        this.props.navigation.navigate('PrivacyPolicy')
+                      }>
+                      <Text style={styles.menuOptnText}>Privacy Policy</Text>
+                    </TouchableOpacity>
+                  </CollapseBody>
+                </Collapse>
                 </View>
               </ScrollView>
               </>
