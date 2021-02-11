@@ -474,7 +474,7 @@ class Sidebar extends Component {
                   </TouchableOpacity>
                   <TouchableOpacity
                   style={styles.menuOptn3}
-                  onPress={() => this.props.navigation.navigate('ContactUs')}>
+                  onPress={() => this.props.navigation.navigate('ContactScreen')}>
                   <Text style={styles.menuOptnText}>Write to us</Text>
                 </TouchableOpacity>
                   <Collapse
@@ -515,27 +515,27 @@ class Sidebar extends Component {
                   <CollapseBody>
                     <TouchableOpacity
                       style={styles.menuOptn}
-                      onPress={() => this.props.navigation.navigate('AboutUs')}>
+                      onPress={() => this.props.navigation.navigate('AboutScreen')}>
                       <Text style={styles.menuOptnText}>About Us</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.menuOptn}
                       onPress={() =>
-                        this.props.navigation.navigate('FAQsScreen')
+                        this.props.navigation.navigate('FaqNA')
                       }>
                       <Text style={styles.menuOptnText}>FAQ</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.menuOptn}
                       onPress={() =>
-                        this.props.navigation.navigate('TermsOfServices')
+                        this.props.navigation.navigate('TermsScreen')
                       }>
                       <Text style={styles.menuOptnText}>Terms of Service</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.menuOptn}
                       onPress={() =>
-                        this.props.navigation.navigate('PrivacyPolicy')
+                        this.props.navigation.navigate('PrivacyScreen')
                       }>
                       <Text style={styles.menuOptnText}>Privacy Policy</Text>
                     </TouchableOpacity>

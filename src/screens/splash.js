@@ -6,6 +6,7 @@ import {deepClone} from '../services/helper-methods';
 import {connect} from 'react-redux';
 import {changeAppOpenStatus} from '../redux/actions/user-data';
 import base64 from 'base-64';
+import SecondScreen from '../screens/NonAuthNav/IntroSlider'
 
 class SplashScreen extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class SplashScreen extends Component {
           }
         } else {
           this.props.changeAppOpenStatus(true);
-          this.props.navigation.navigate('HomeScreen');
+          this.props.navigation.navigate('IntroSliderScreen');
           // this.resetStack();
         }
       }, 3000);
@@ -97,6 +98,7 @@ class SplashScreen extends Component {
           source={require('../assets/images/logoWhite.png')}
           style={CommonStyles.splashImg}
         />
+        {/* <SecondScreen /> */}
       </View>
     );
   }

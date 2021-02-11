@@ -158,8 +158,8 @@ class HomeScreen extends Component {
                     style={{ color: '#71b85f' }}
                     selectedValue={this.state.user}
                     onValueChange={this.updateUser}>
-                    <Picker.Item label="College Students" value="freelancer" />
-                    <Picker.Item label="Projects" value="job" />
+                    <Picker.Item label="Hire a College Student" value="freelancer" />
+                    <Picker.Item label="Hire a Tutor" value="job" />
                   </Picker>
                 </View>
                 <TouchableOpacity

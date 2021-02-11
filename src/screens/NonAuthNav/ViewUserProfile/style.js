@@ -47,7 +47,9 @@ export default {
     borderRadius: 7,
     marginTop: 10,
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.85)',
+    backgroundColor: 'rgba(255,255,255,1)',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   indicator: {
     backgroundColor: '#71b85f',
@@ -55,7 +57,7 @@ export default {
   },
   tabSec: {
     width: '100%',
-    height: deviceHeight - 290,
+    height: deviceHeight - 240,
     marginTop: 20,
   },
   tab: {
@@ -70,7 +72,7 @@ export default {
     overflow: 'hidden',
   },
   label: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
     fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
@@ -79,7 +81,7 @@ export default {
     textAlign: 'center',
   },
   label2: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
     fontFamily: 'OpenSans-Bold',
     letterSpacing: 1,
@@ -96,6 +98,77 @@ export default {
     borderRadius: 40 / 2,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  noDate: {
+    width: '100%',
+    height: 125,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noDate2: {
+    width: '100%',
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noDateText: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 18,
+    color: '#000',
+  },
+
+  userProfle: {
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.02)',
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomWidth: 1,
+  },
+  videoSec: {
+    width: '100%',
+    height: 200,
+    backgroundColor: '#fff',
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    overflow: 'hidden',
+  },
+  newProfile: {
+    width: 90,
+    height: 90,
+    borderRadius: 90 / 2,
+    marginTop: -20,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    overflow: 'hidden',
+    alignSelf: 'center',
+  },
+  newSocial: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  newSocialIcon: {
+    marginHorizontal: 7,
+    marginTop: 5,
+  },
+  newUserDetails: {
+    paddingHorizontal: '5%',
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  newUserName: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 18,
+    color: '#000',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  newUserInfo: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: '#000',
+    textAlign: 'center',
+  },
+  whiteBg: {
     backgroundColor: '#fff',
   },
 };

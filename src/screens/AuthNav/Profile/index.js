@@ -37,6 +37,7 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      videoResume: '',
       index: 0,
       routes: [
         {key: 'first', title: 'Overview'},
@@ -45,6 +46,7 @@ class ProfileScreen extends Component {
       ],
       profiledataset: [],
       showLoader: false,
+      userImg:'',
       newOverview: [
         {hdng: 'College', details: 'natit solved'},
         {hdng: 'Major', details: 'Computer Science'},
@@ -63,15 +65,15 @@ class ProfileScreen extends Component {
   };
 
   componentDidMount = () => {
-    const {navigation} = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
-      this.FetchUserProfile();
-    });
+    // const {navigation} = this.props;
+    // this.focusListener = navigation.addListener('didFocus', () => {
+    //   this.FetchUserProfile();
+    // });
     this.FetchUserProfile();
   };
 
   FetchUserProfile = async () => {
-    this.setState({showLoader: true});
+    // this.setState({showLoader: true});
 
     let body = new FormData();
 
@@ -132,6 +134,8 @@ class ProfileScreen extends Component {
     if (response) {
       this.setState({
         profiledataset: response,
+        videoResume: response[0].videoresume[0].videoresume,
+        userImg: response[0].user_image,
         showLoader: false,
       });
     }
@@ -172,23 +176,25 @@ class ProfileScreen extends Component {
                   mediaPlaybackRequiresUserAction={false}
                   allowsInlineMediaPlayback={true}
                   source={{
-                    uri: 'https://www.youtube.com/embed/MOhYD7va19k',
+                    uri: this.state.videoResume,
                   }}
                 />
               </View>
               <View style={styles.newProfile}>
                 <Image
-                  source={require('../../../assets/images/user.png')}
+                  source={{uri : this.state.userImg}}
                   style={CommonStyles.image}
                 />
               </View>
               <View style={styles.newUserDetails}>
-                <Text style={styles.newUserName}>Sandip Hazra</Text>
+                {this.state.profiledataset.map((value,i)=>(
+                  <>
+                <Text style={styles.newUserName}>{value.first_name}{" "}{value.last_name}</Text>
                 <Text style={styles.newUserInfo}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s.
+                  {value.about}
                 </Text>
+                </>
+                ))}
                 <View style={styles.newSocial}>
                   <TouchableOpacity style={styles.newSocialIcon}>
                     <AntDesign
