@@ -1,77 +1,47 @@
 const React = require('react-native');
-const { Dimensions } = React;
+const {Dimensions} = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
 export default {
-  editBtn: {
-    // width: 85,
-    // height: 30,
-    // backgroundColor: '#71b85f',
-    // borderRadius: 30 / 2,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // flexDirection: 'row',
-    // marginLeft: 'auto',
-    marginTop: 20,
+  newUserSec: {
+    width: '100%',
+    paddingHorizontal: '5%',
   },
-  editBtnText: {
-    fontFamily: 'Poppins-Regular',
-    color: '#fff',
-    marginLeft: 10,
-    fontSize: 16,
-    marginTop: 3,
-  },
-  userInfoHead: {
-    width: '33%',
-    fontSize: 17,
-    fontFamily: 'Poppins-SemiBold',
-  },
-  userInfoDetails: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-  },
-  details: {
+  newDetails: {
+    width: '100%',
+    marginVertical: 10,
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  skillSec: {
+  newUserImg: {
+    width: 70,
+    height: 70,
+    borderRadius: 70 / 2,
+  },
+  newUserDeatils: {
+    width: '75%',
+  },
+  overview: {
+    width: '100%',
+    paddingHorizontal: '5%',
+  },
+  overviewSec: {
+    width: '100%',
+  },
+  newOverviewSec: {
     width: '100%',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start'
   },
-  skillTab: {
-    minWidth: 90,
-    backgroundColor: '#E4E4E4',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 50 / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 5,
-    marginRight: 10,
-  },
-  skillHead: {
-    fontSize: 20,
+  overviewHdng: {
+    width: '35%',
+    fontSize: 16,
     fontFamily: 'Poppins-SemiBold',
-    marginTop: 12,
-    color: '#71b85f'
   },
-  skillText: {
-    fontSize: 15,
+  overviewDetails: {
+    width: '65%',
+    fontSize: 16,
     fontFamily: 'Poppins-Regular',
-    color: '#000',
-    textAlign: "center"
-  },
-  socialIconSec: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  socialIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
   },
 };

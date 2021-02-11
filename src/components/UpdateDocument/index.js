@@ -181,7 +181,7 @@ class UpdateDocument extends Component {
     return (
       <View style={styles.updateDocument}>
         <View style={[CommonStyles.newHdng, styles.padHz5]}>
-          <Text style={CommonStyles.newHdngText}>Update Document</Text>
+          <Text style={CommonStyles.newHdngText}>Uploaded Document</Text>
           <TouchableOpacity style={CommonStyles.newEditBtn} onPress={(data) => this.handleAddNewDocument()}>
             <AntDesign name="plus" color="#fff" size={16} />
             <Text style={CommonStyles.newEditText}>Add</Text>
