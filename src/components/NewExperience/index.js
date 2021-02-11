@@ -103,7 +103,7 @@ class NewExperience extends Component {
       <View style={styles.portfolio}>
         <View style={[CommonStyles.newHdng, styles.padHz5]}>
           <Text style={CommonStyles.newHdngText}>Experience</Text>
-          <TouchableOpacity style={CommonStyles.newEditBtn}>
+          <TouchableOpacity style={CommonStyles.newEditBtn} onPress={()=>this.props.navigation.navigate('AddExperienceScreen')}>
             <AntDesign name="plus" color="#fff" size={16} />
             <Text style={CommonStyles.newEditText}>Add</Text>
           </TouchableOpacity>

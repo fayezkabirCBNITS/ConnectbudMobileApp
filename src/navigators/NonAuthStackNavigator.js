@@ -6,6 +6,7 @@ import FreelancerSignUpScreen from '../screens/NonAuthNav/FreelancerSignUp';
 import HomeScreen from '../screens/NonAuthNav/Home';
 import CategoryScreen from '../screens/NonAuthNav/Category';
 import AddSkillScreen from '../screens/NonAuthNav/AddSkill';
+import ContactScreen from "../screens/NonAuthNav/ContactUsNA";
 // import StudentInner from '../screens/AuthNav/StudentInner';
 // import EmployeeInner from '../screens/AuthNav/EmployeeInner';
 export const NonAuthStackNav = createStackNavigator(
@@ -28,6 +29,9 @@ export const NonAuthStackNav = createStackNavigator(
     AddSkillScreen: {
       screen: AddSkillScreen,
     },
+    ContactScreen: {
+      screen : ContactScreen
+    }
     // EmployeeInner: {
     //   screen: EmployeeInner,
     // },

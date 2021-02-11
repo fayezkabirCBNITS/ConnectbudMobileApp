@@ -97,12 +97,17 @@ class NewPortfolio extends Component {
       });
     }
   };
+
+  gotoPortPage = data => {
+    this.props.navigation.navigate('AddPortfolioScreen', { portfolioID: "" })
+  }
+
   render() {
     return (
       <View style={styles.portfolio}>
         <View style={[CommonStyles.newHdng, styles.padHz5]}>
           <Text style={CommonStyles.newHdngText}>Portfolio</Text>
-          <TouchableOpacity style={CommonStyles.newEditBtn}>
+          <TouchableOpacity style={CommonStyles.newEditBtn} onPress={this.gotoPortPage}>
             <AntDesign name="plus" color="#fff" size={16} />
             <Text style={CommonStyles.newEditText}>Add</Text>
           </TouchableOpacity>

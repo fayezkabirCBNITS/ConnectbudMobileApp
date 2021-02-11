@@ -18,7 +18,7 @@ import axios from 'axios';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
-class ContactUs extends Component {
+class ContactUsNA extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -210,4 +210,4 @@ class ContactUs extends Component {
   }
 }
 
-export default ContactUs;
+export default ContactUsNA;
