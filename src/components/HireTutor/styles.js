@@ -12,7 +12,7 @@ export default {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  
+
   headerText: {
     fontSize: 22,
     color: '#fff',
@@ -20,7 +20,7 @@ export default {
   },
   details: {
     width: '100%',
-    height:30,
+    height: 30,
   },
   container: {
     width: '100%',
@@ -29,7 +29,8 @@ export default {
   formGroup1: {
     width: '100%',
     flexDirection: 'row',
-    padding: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
     marginBottom: 15,
 
     backgroundColor: '#f8f8f8',
@@ -48,30 +49,31 @@ export default {
   formSubGroup1: {
     width: '20%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   formSubGroup2: {
     width: '80%',
   },
   inputHead: {
-    color:'black',
+    color: 'black',
     fontSize: 14,
     fontFamily: 'Poppins-SemiBold',
     marginBottom: 5,
-    marginLeft:5,
+    marginLeft: 5,
   },
   inputHead2: {
     fontSize: 14,
     fontFamily: 'Poppins-Regular',
-    marginTop: 10,
-    paddingHorizontal:2,
-    paddingVertical:5,
+    marginRight: 7,
+    // marginTop: 10,
+    // paddingHorizontal:2,
+    // paddingVertical:5,
   },
   inputGroup: {
     color: '#3B1D25',
     height: 45,
     fontSize: 15,
-    width:'100%'
+    width: '100%',
   },
   datePickerStyle: {
     dateIcon: {
@@ -82,9 +84,9 @@ export default {
       height: 0,
       marginLeft: 0,
     },
-    bold:{
-         // fontFamily: '',
-        },
+    bold: {
+      // fontFamily: '',
+    },
     dateInput: {
       height: 45,
       borderColor: '#0000',
@@ -179,7 +181,7 @@ export default {
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   skillTab: {
     // width: '45%',
@@ -191,7 +193,7 @@ export default {
     alignItems: 'center',
     marginVertical: 5,
     marginRight: 10,
-    flexDirection:'row',
+    flexDirection: 'row',
   },
   ActiveskillTab: {
     backgroundColor: '#71b85f',
@@ -202,24 +204,24 @@ export default {
     alignItems: 'center',
     marginVertical: 5,
     marginRight: 10,
-    flexDirection:'row',
+    flexDirection: 'row',
   },
-  marginRight3:{
-      margin:5,
+  marginRight3: {
+    margin: 5,
   },
   skillText: {
     fontSize: 11,
     fontFamily: 'Poppins-SemiBold',
     color: '#000',
-    marginLeft:3,
-    textAlign: "center",
+    marginLeft: 3,
+    textAlign: 'center',
   },
   ActiveSkillText: {
     fontSize: 11,
     fontFamily: 'Poppins-Bold',
     color: '#fff',
-    marginLeft:3,
-    textAlign: "center",
+    marginLeft: 3,
+    textAlign: 'center',
   },
   logo: {
     width: 110,
@@ -262,10 +264,10 @@ export default {
     position: 'absolute',
     right: 15,
   },
-  dateField:{
-    paddingVertical:12,
+  dateField: {
+    // paddingVertical:12,
     fontFamily: 'Poppins-Regular',
-    fontSize:15,
-    paddingLeft:7 ,
-  }
+    fontSize: 15,
+    marginRight: 7,
+  },
 };
