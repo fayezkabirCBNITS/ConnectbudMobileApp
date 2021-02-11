@@ -528,14 +528,14 @@ class Sidebar extends Component {
                     <TouchableOpacity
                       style={styles.menuOptn}
                       onPress={() =>
-                        this.props.navigation.navigate('TermsOfServices')
+                        this.props.navigation.navigate('TermsScreen')
                       }>
                       <Text style={styles.menuOptnText}>Terms of Service</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.menuOptn}
                       onPress={() =>
-                        this.props.navigation.navigate('PrivacyPolicy')
+                        this.props.navigation.navigate('PrivacyScreen')
                       }>
                       <Text style={styles.menuOptnText}>Privacy Policy</Text>
                     </TouchableOpacity>

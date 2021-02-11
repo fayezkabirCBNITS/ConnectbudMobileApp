@@ -65,6 +65,8 @@ import IntroSliderScreen from '../screens/NonAuthNav/IntroSlider';
 import ContactScreen from '../screens/NonAuthNav/ContactUsNA';
 import AboutScreen from '../screens/NonAuthNav/AboutUsNA';
 import FaqNA from '../screens/NonAuthNav/FAQsNA';
+import PrivacyScreen from '../screens/NonAuthNav/PrivacyPolicyNA';
+import TermsScreen from '../screens/NonAuthNav/TermsOfServicesNA';
 
 
 //non stack pages
@@ -256,6 +258,12 @@ const AuthStackNav = createStackNavigator(
     },
     FaqNA: {
       screen: FaqNA,
+    },
+    PrivacyScreen: {
+      screen : PrivacyScreen
+    },
+    TermsScreen: {
+      screen : TermsScreen,
     }
   },
   {

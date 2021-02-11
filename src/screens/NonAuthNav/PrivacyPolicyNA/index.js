@@ -7,7 +7,7 @@ import Header from '../../../components/Header';
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 
-class PrivacyPolicy extends Component {
+class PrivacyPolicyNA extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -154,4 +154,4 @@ class PrivacyPolicy extends Component {
     }
 }
 
-export default PrivacyPolicy
+export default PrivacyPolicyNA

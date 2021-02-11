@@ -10,7 +10,7 @@ import {
   CollapseBody,
 } from 'accordion-collapse-react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import style from '../Profile/style';
+// import style from '../Profile/style';
 
 class FAQsNA extends Component {
   constructor(props) {
