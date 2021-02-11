@@ -62,6 +62,13 @@ import ForgotPassword from '../screens/NonAuthNav/ForgotPassword';
 import OtpVerification from '../screens/NonAuthNav/OtpVerification';
 import ResetPassword from '../screens/NonAuthNav/ResetPassword';
 import IntroSliderScreen from '../screens/NonAuthNav/IntroSlider';
+import ContactScreen from '../screens/NonAuthNav/ContactUsNA';
+import AboutScreen from '../screens/NonAuthNav/AboutUsNA';
+import FaqNA from '../screens/NonAuthNav/FAQsNA';
+import PrivacyScreen from '../screens/NonAuthNav/PrivacyPolicyNA';
+import TermsScreen from '../screens/NonAuthNav/TermsOfServicesNA';
+
+
 //non stack pages
 
 export const MainStack = createStackNavigator(
@@ -243,6 +250,21 @@ const AuthStackNav = createStackNavigator(
     IntroSliderScreen: {
       screen: IntroSliderScreen,
     },
+    ContactScreen: {
+      screen: ContactScreen,
+    },
+    AboutScreen: {
+      screen :AboutScreen,
+    },
+    FaqNA: {
+      screen: FaqNA,
+    },
+    PrivacyScreen: {
+      screen : PrivacyScreen
+    },
+    TermsScreen: {
+      screen : TermsScreen,
+    }
   },
   {
     initialRouteName: 'HomeScreen',
