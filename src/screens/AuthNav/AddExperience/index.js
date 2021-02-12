@@ -391,7 +391,7 @@ class AddExperienceScreen extends Component {
               onPress={this.handleSubmit}
                 activeOpacity={0.9}
                 style={[styles.authBtn, { marginTop: 10, marginBottom: 100, }]}>
-                <Text style={styles.authBtnText}>Add</Text>
+                <Text style={styles.authBtnText}>Update</Text>
                 {this.state.showLoader && (
                   <ActivityIndicator
                     size="large"

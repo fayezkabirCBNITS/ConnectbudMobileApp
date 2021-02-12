@@ -29,6 +29,7 @@ import { makePostRequestMultipart, makeGetRequest } from '../../../services/http
 import base64 from 'base-64';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-crop-picker';
+import { WebView } from 'react-native-webview';
 
 class EditProfileScreen extends Component {
   static navigationOptions = {
@@ -135,7 +136,8 @@ class EditProfileScreen extends Component {
         location: response[0].location, categoriesData: response[0].category, skillsData: response[0].skills,
         startDate: (response[0].startDate), endDate: (response[0].endDate), community: response[0].community,
         socialUrl: response[0].socialurls, info: response[0].about, coverImageSource: response[0].cover_image,
-        profileImageSource: response[0].user_image, showLoader: false
+        profileImageSource: response[0].user_image, showLoader: false,
+        videoResume: response[0].videoresume[0].videoresume,
       });
     }
   }
@@ -323,7 +325,7 @@ class EditProfileScreen extends Component {
   }
 
   handleType = async (type) => {
-    await this.setState({ typeValue : type})
+    await this.setState({ typeValue: type })
   }
 
   selectedCategory = async (item, index) => {
@@ -415,18 +417,18 @@ class EditProfileScreen extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <View style={styles.uploadSec}>
-                <View style={styles.cover}>
-                  <Image
-                    style={styles.uploadcoverImage}
+                <View style={styles.videoSec}>
+                  <WebView
+                    style={{ width: '100%', height: '100%' }}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    allowsFullscreenVideo={true}
+                    mediaPlaybackRequiresUserAction={false}
+                    allowsInlineMediaPlayback={true}
                     source={{
-                      uri: `${this.state.coverImageSource ? this.state.coverImageSource : "../../../assets/images/bnr.jpg"}`,
+                      uri: this.state.videoResume,
                     }}
                   />
-                  <TouchableOpacity
-                    onPress={this.selectCoverPhoto}
-                    style={styles.coverUpload}>
-                    <FontAwesome name="camera" size={20} color="#71b85f" />
-                  </TouchableOpacity>
                 </View>
 
                 <View style={styles.logo}>
@@ -569,7 +571,7 @@ class EditProfileScreen extends Component {
                           this.state.listedSkill.length > 0 ? this.state.listedSkill.map((item, index) => (
                             <TouchableOpacity style={styles.headSec} key={index}>
                               <View style={styles.details}>
-                                <Text style={styles.inputHead}onPress={() => this.selectedSkill(item)}>{item.label}</Text>
+                                <Text style={styles.inputHead} onPress={() => this.selectedSkill(item)}>{item.label}</Text>
                               </View>
                             </TouchableOpacity>
 

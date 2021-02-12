@@ -44,4 +44,11 @@ export default {
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
+  overviewDetails2: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+  },
+  wid65: {
+    width: '65%'
+  }
 };

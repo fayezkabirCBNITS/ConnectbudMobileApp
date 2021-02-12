@@ -57,6 +57,11 @@ class ProfileScreen extends Component {
         {hdng: 'Categories', details: 'Software Development, Online Coding'},
         {hdng: 'Skills', details: 'C, React js,'},
       ],
+      sampleEvents: [],
+      year: "",
+      month: "",
+      date: "",
+      fullDate: ""
     };
   }
 
@@ -137,7 +142,38 @@ class ProfileScreen extends Component {
         videoResume: response[0].videoresume[0].videoresume,
         userImg: response[0].user_image,
         showLoader: false,
+        year: response[0].dates_availability.map((obj)=> (((((obj.date.split("/").join("-").split("-")[2]))+"5"+((obj.date.split("/").join("-").split("-")[0]))+"-"+((obj.date.split("/").join("-").split("-")[1]))).replace('"5"', "-"))+" "+"14:00:00")),
       });
+      this.setState({
+        sampleEvents: [
+          { 'start': this.state.year[0], 'duration': '00:20:00', 'note': 'Available for class' },
+          { 'start': this.state.year[1], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[2], 'duration': '00:30:00', 'note': 'Available for class' },
+          { 'start': this.state.year[3], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[4], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[5], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[6], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[7], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[8], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[9], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[10], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[11], 'duration': '01:30:00', 'note': 'Available for class' },
+          { 'start': this.state.year[12], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[13], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[14], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[15], 'duration': '01:30:00', 'note': 'Available for class' },
+          { 'start': this.state.year[16], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[17], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[18], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[19], 'duration': '01:30:00', 'note': 'Available for class' },
+          { 'start': this.state.year[20], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[21], 'duration': '01:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[22], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[23], 'duration': '01:30:00', 'note': 'Available for class' },
+          { 'start': this.state.year[24], 'duration': '02:00:00', 'note': 'Available for class' },
+          { 'start': this.state.year[25], 'duration': '01:00:00', 'note': 'Available for class' },
+        ]
+      })
     }
   };
 
@@ -220,7 +256,7 @@ class ProfileScreen extends Component {
               </View>
             </View>
             <NewOverview />
-            <NewAvailability />
+            <NewAvailability dates={this.state.sampleEvents}/>
             <NewPortfolio />
             <NewExperience />
             <UpdateDocument />
