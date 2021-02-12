@@ -41,6 +41,7 @@ import HiringConfirmation from '../screens/AuthNav/HiringConfirmation';
 import AddExperienceNew from '../screens/AuthNav/AddExperienceNew';
 import JobListingScreen from '../screens/AuthNav/JobListing';
 import HomeworkHire from '../screens/AuthNav/homeworkHire';
+import EditAvailabilityScreen from '../screens/AuthNav/EditAvailability';
 
 //non stack pages
 import LatestProjectList from '../screens/NonAuthNav/LatestProjectList';
@@ -187,6 +188,9 @@ export const MainStack = createStackNavigator(
     HomeworkHire: {
       screen: HomeworkHire,
     },
+    EditAvailabilityScreen : {
+      screen: EditAvailabilityScreen
+    }
   },
 
   {

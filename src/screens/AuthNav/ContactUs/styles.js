@@ -14,7 +14,7 @@ export default {
     borderColor: 'rgba(0,0,0,0.15)',
     borderWidth: 1,
     textAlignVertical: 'center',
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Regular',
   },
   formGroup2: {
     width: '100%',
@@ -26,7 +26,7 @@ export default {
     borderColor: 'rgba(0,0,0,0.15)',
     borderWidth: 1,
     textAlignVertical: 'top',
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Regular',
   },
   authBtn: {
     width: '55%',
