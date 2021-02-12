@@ -344,9 +344,9 @@ class AddPortfolioScreen extends Component {
             </View>
 
             <View style={styles.btnGrp}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 activeOpacity={0.9}
-                onPress={() => this.handleSubmit()}
+                onPress={() => this.props.navigation.goBack()}
                 style={[styles.authBtnCancel]}>
                 <Text style={styles.authBtnText}>Cancel</Text>
                 {this.state.showLoader && (
@@ -356,7 +356,7 @@ class AddPortfolioScreen extends Component {
                     // style={CommonStyles.loader}
                   />
                 )}
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 activeOpacity={0.9}
                 onPress={() => this.handleAddPortfolio()}

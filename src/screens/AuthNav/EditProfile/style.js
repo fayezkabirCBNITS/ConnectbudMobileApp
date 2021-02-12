@@ -278,4 +278,12 @@ export default {
     shadowRadius: 2.62,
     elevation: 4,
   },
+  videoSec: {
+    width: '100%',
+    height: 180,
+    backgroundColor: '#fff',
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    overflow: 'hidden',
+  },
 };

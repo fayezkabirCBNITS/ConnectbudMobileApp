@@ -63,7 +63,8 @@ export default {
     marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    justifyContent: 'center'
   },
   cancelBtn: {
     width: '45%',
