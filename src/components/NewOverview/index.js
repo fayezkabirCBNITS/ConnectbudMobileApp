@@ -88,7 +88,6 @@ class Overview extends Component {
 
     let response = await makePostRequestMultipart(ApiUrl.ExpertProfile + base64.decode(this.props.userDeatailResponse.slug), false, body);
     if (response) {
-      console.log(response)
       this.setState({
         profiledataset: response,
         urlsocialset: response.map((item) => item.socialurls.map((obj) => obj.socialurl)),

@@ -1,22 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import styles from './styles';
 import CommonStyle from '../../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../../../components/Header';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-
-import {API_URL} from '../../../config/url';
+import { API_URL } from '../../../config/url';
 import axios from 'axios';
-
 import Spinner from 'react-native-loading-spinner-overlay';
+import { connect } from 'react-redux';
 
 class ContactUs extends Component {
   constructor(props) {
@@ -61,12 +58,12 @@ class ContactUs extends Component {
 
     if (!this.state.name) {
       formIsValid = false;
-      errors['name'] = '*Please enter the name';
+      errors['name'] = '*Please enter your name.';
     }
 
     if (this.state.name.length > 0 && this.state.name.length < 3) {
       formIsValid = false;
-      errors['namechar'] = '*enter minimum 3 characters';
+      errors['namechar'] = '*Please type minimum 3 characters';
     }
 
     if (!this.state.email) {
@@ -81,18 +78,18 @@ class ContactUs extends Component {
       );
       if (!pattern.test(this.state.email)) {
         formIsValid = false;
-        errors['email'] = '*Please enter valid email address.';
+        errors['email'] = '*Please enter a valid email address.';
       }
     }
 
     if (!this.state.message) {
       formIsValid = false;
-      errors['message'] = '*Please enter the message';
+      errors['message'] = '*Please write your query.';
     }
 
     if (this.state.message.length > 0 && this.state.message.length < 5) {
       formIsValid = false;
-      errors['messagechar'] = '*enter minimum 5 characters';
+      errors['messagechar'] = '*Please type minimum 5 characters';
     }
 
     this.setState({
@@ -102,6 +99,7 @@ class ContactUs extends Component {
   };
 
   userContact = async () => {
+    const { userData } = this.props;
     const obj = {
       name: this.state.name,
       email: this.state.email,
@@ -119,15 +117,15 @@ class ContactUs extends Component {
           this.setState({
             showLoader: false,
           });
-          alert(
-            'Thank You! for contacting us',
-            'ConnectBud team will contact you asap',
-            'info',
-          );
-          this.props.navigation.navigate('StudentInner');
+          alert('Thank You! for contacting us, ConnectBud team will contact you asap');
+          if (userData?.Flag === 'WQ==') {
+            this.props.navigation.navigate('StudentInner');
+          } else {
+            this.props.navigation.navigate('EmployeeInner')
+          }
         }
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   ContactForm = () => {
@@ -151,15 +149,15 @@ class ContactUs extends Component {
           />
           <ScrollView showsVerticalScrollIndicator={false}>
             <Header />
-            <View style={{marginHorizontal: '5%', marginTop: 20}}>
-              <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 20, color:"#71b85f"}}>
+            <View style={{ marginHorizontal: '5%', marginTop: 20 }}>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 20, color: "#71b85f" }}>
                 Write to us
               </Text>
 
-              <View style={{marginVertical: '2%', marginTop: 20}}>
+              <View style={{ marginVertical: '2%', marginTop: 20 }}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="* Enter your user name"
+                  placeholder="*Enter name"
                   keyboardType="default"
                   style={styles.formGroup}
                   onChangeText={(e) => this.handelName(e)}
@@ -170,10 +168,10 @@ class ContactUs extends Component {
                 {this.state.errors.namechar}
               </Text>
 
-              <View style={{marginVertical: '2%'}}>
+              <View style={{ marginVertical: '2%' }}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="* Enter your Email"
+                  placeholder="*Enter email"
                   keyboardType="email-address"
                   style={styles.formGroup}
                   onChangeText={(e) => this.handelEmail(e)}
@@ -181,10 +179,10 @@ class ContactUs extends Component {
               </View>
               <Text style={styles.errorText}>{this.state.errors.email}</Text>
 
-              <View style={{marginVertical: '2%'}}>
+              <View style={{ marginVertical: '2%' }}>
                 <TextInput
                   returnKeyType="done"
-                  placeholder="* Write your message"
+                  placeholder="*Write your message"
                   keyboardType="default"
                   numberOfLines={5}
                   multiline={true}
@@ -197,8 +195,8 @@ class ContactUs extends Component {
                 {this.state.errors.messagechar}
               </Text>
 
-              <TouchableOpacity activeOpacity={0.9} style={[styles.authBtn]}>
-                <Text style={styles.authBtnText} onPress={this.ContactForm}>
+              <TouchableOpacity activeOpacity={0.9} style={[styles.authBtn]} onPress={this.ContactForm}>
+                <Text style={styles.authBtnText}>
                   Submit
                 </Text>
               </TouchableOpacity>
@@ -209,5 +207,9 @@ class ContactUs extends Component {
     );
   }
 }
-
-export default ContactUs;
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userData,
+  };
+};
+export default connect(mapStateToProps)(ContactUs);

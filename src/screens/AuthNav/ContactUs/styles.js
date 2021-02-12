@@ -48,7 +48,6 @@ export default {
   },
   errorText: {
     width: '100%',
-    color: '#fc0303',
-    marginLeft: 14,
+    color: '#fc0303'
   },
 };

@@ -51,11 +51,12 @@ class OnlineCodingClasses extends Component {
       errHireBy: false,
       ActiveId: '',
       isModalVisible: false,
+      classNumber: ''
     };
   }
 
   fetchFour = async (check) => {
-    let response = await makeAuthGetRequest(ApiUrl.Four, false, '');
+    let response = await makeAuthGetRequest(ApiUrl.course, false, '');
     this.setState({
       four: response,
     });
@@ -69,7 +70,7 @@ class OnlineCodingClasses extends Component {
   };
 
   fetchTen = async (check) => {
-    let response = await makeAuthGetRequest(ApiUrl.Ten, false, '');
+    let response = await makeAuthGetRequest(ApiUrl.course, false, '');
     this.setState({
       ten: response,
     });
@@ -82,18 +83,28 @@ class OnlineCodingClasses extends Component {
     }
   };
 
-  fetchSyllabus = async (Id, cNum) => {
+  fetchSyllabus = async (Id, name, cNum) => {
+    if (cNum === 'four') {
+      await this.setState({
+        classNumber : 4
+      });
+    } else {
+      await this.setState({
+        classNumber : 4
+      });
+    }
     let body = new FormData();
-    body.append('id', Id);
+    body.append('name', name);
+    body.append('classes', this.state.classNumber);
     if (cNum == 'four') {
-      let response = await makePostRequestMultipart(ApiUrl.Four, false, body);
+      let response = await makePostRequestMultipart(ApiUrl.course.replace("/",""), false, body);
       this.setState({
         fourSyllabus: response,
         FoursyllabusTab: true,
         ActiveId: Id,
       });
     } else if (cNum == 'ten') {
-      let response = await makePostRequestMultipart(ApiUrl.Ten, false, body);
+      let response = await makePostRequestMultipart(ApiUrl.course.replace("/",""), false, body);
       this.setState({
         tenSyllabus: response,
         TensyllabusTab: true,
@@ -352,7 +363,7 @@ class OnlineCodingClasses extends Component {
                       {this.state.four.length > 0 &&
                         this.state.four.map((item, idx) => (
                           <TouchableOpacity
-                            onPress={() => this.fetchSyllabus(item.id, 'four')}
+                            onPress={() => this.fetchSyllabus(item.id, item.name, 'four')}
                             // style={styles.courseBtn}
                             style={
                               this.state.ActiveId == item.id
@@ -392,7 +403,7 @@ class OnlineCodingClasses extends Component {
                                 : styles.courseBtn
                             }
                             key={idx}
-                            onPress={() => this.fetchSyllabus(item.id, 'ten')}>
+                            onPress={() => this.fetchSyllabus(item.id, item.name, 'ten')}>
                             <Text
                               style={
                                 this.state.ActiveId == item.id

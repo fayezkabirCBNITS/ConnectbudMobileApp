@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,13 @@ import {
   Modal,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Antdesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
-import {Picker} from '@react-native-community/picker';
+import { Picker } from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
@@ -21,8 +21,8 @@ import {
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
-import {connect} from 'react-redux';
-import {withNavigation} from 'react-navigation';
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 import base64 from 'base-64';
 
 class OnlineCodingClasses extends Component {
@@ -47,11 +47,12 @@ class OnlineCodingClasses extends Component {
       errHireBy: false,
       ActiveId: '',
       isModalVisible: false,
+      classNumber: ''
     };
   }
 
   fetchFour = async (check) => {
-    let response = await makeAuthGetRequest(ApiUrl.Four, false, '');
+    let response = await makeAuthGetRequest(ApiUrl.course, false, '');
     this.setState({
       four: response,
     });
@@ -65,7 +66,7 @@ class OnlineCodingClasses extends Component {
   };
 
   fetchTen = async (check) => {
-    let response = await makeAuthGetRequest(ApiUrl.Ten, false, '');
+    let response = await makeAuthGetRequest(ApiUrl.course, false, '');
     this.setState({
       ten: response,
     });
@@ -78,18 +79,28 @@ class OnlineCodingClasses extends Component {
     }
   };
 
-  fetchSyllabus = async (Id, cNum) => {
+  fetchSyllabus = async (Id, name, cNum) => {
+    if (cNum === 'four') {
+      await this.setState({
+        classNumber : 4
+      });
+    } else {
+      await this.setState({
+        classNumber : 4
+      });
+    }
     let body = new FormData();
-    body.append('id', Id);
+    body.append('name', name);
+    body.append('classes', this.state.classNumber);
     if (cNum == 'four') {
-      let response = await makePostRequestMultipart(ApiUrl.Four, false, body);
+      let response = await makePostRequestMultipart(ApiUrl.course.replace("/",""), false, body);
       this.setState({
         fourSyllabus: response,
         FoursyllabusTab: true,
         ActiveId: Id,
       });
     } else if (cNum == 'ten') {
-      let response = await makePostRequestMultipart(ApiUrl.Ten, false, body);
+      let response = await makePostRequestMultipart(ApiUrl.course.replace("/",""), false, body);
       this.setState({
         tenSyllabus: response,
         TensyllabusTab: true,
@@ -115,11 +126,11 @@ class OnlineCodingClasses extends Component {
   };
 
   hideDatePicker = () => {
-    this.setState({showDatePicker: false});
+    this.setState({ showDatePicker: false });
   };
 
   handleConfirm = (date) => {
-    this.setState({startDate: date});
+    this.setState({ startDate: date });
     this.hideDatePicker();
   };
 
@@ -320,14 +331,14 @@ class OnlineCodingClasses extends Component {
             {/* Start Choose a course Tab */}
             {this.state.fourCourse && (
               <View>
-                <Text style={[styles.classText, {marginLeft: 5}]}>
+                <Text style={[styles.classText, { marginLeft: 5 }]}>
                   Choose a course
                 </Text>
                 <View style={styles.selectCourseDiv}>
                   {this.state.four.length > 0 &&
                     this.state.four.map((item, idx) => (
                       <TouchableOpacity
-                        onPress={() => this.fetchSyllabus(item.id, 'four')}
+                        onPress={() => this.fetchSyllabus(item.id, item.name, 'four')}
                         // style={styles.courseBtn}
                         style={
                           this.state.ActiveId == item.id
@@ -341,7 +352,7 @@ class OnlineCodingClasses extends Component {
                               ? styles.AselectBtnText
                               : styles.selectBtnText
                           }
-                          // style={styles.selectBtnText}
+                        // style={styles.selectBtnText}
                         >
                           {item.name}
                         </Text>
@@ -353,7 +364,7 @@ class OnlineCodingClasses extends Component {
 
             {this.state.tenCourse && (
               <View>
-                <Text style={[styles.classText, {marginLeft: 5}]}>
+                <Text style={[styles.classText, { marginLeft: 5 }]}>
                   Choose a course
                 </Text>
                 <View style={styles.selectCourseDiv}>
@@ -367,14 +378,14 @@ class OnlineCodingClasses extends Component {
                             : styles.courseBtn
                         }
                         key={idx}
-                        onPress={() => this.fetchSyllabus(item.id, 'ten')}>
+                        onPress={() => this.fetchSyllabus(item.id, item.name, 'ten')}>
                         <Text
                           style={
                             this.state.ActiveId == item.id
                               ? styles.AselectBtnText
                               : styles.selectBtnText
                           }
-                          // style={styles.selectBtnText}
+                        // style={styles.selectBtnText}
                         >
                           {item.name}
                         </Text>
@@ -394,7 +405,7 @@ class OnlineCodingClasses extends Component {
                     {this.state.tenSyllabus[0].syllabus}
                   </Text>
                 </View>
-                <View style={{marginTop: 10}}>
+                <View style={{ marginTop: 10 }}>
                   <Text style={styles.syllabusHeader}>Hire by</Text>
                   <View style={styles.selectBtnDiv}>
                     <TouchableOpacity
@@ -434,8 +445,8 @@ class OnlineCodingClasses extends Component {
                   {this.state.errHireBy === true ? (
                     <ErrorMsg errorMsg="Please select one" />
                   ) : (
-                    <></>
-                  )}
+                      <></>
+                    )}
                 </View>
 
                 <View>
@@ -474,7 +485,7 @@ class OnlineCodingClasses extends Component {
 
                     <Text style={styles.syllabusText}>Start date:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, {height: 45}]}>
+                      <View style={[styles.formSubGroup2, { height: 45 }]}>
                         <Text style={styles.inputHead2}>
                           {this.state.startDate
                             ? moment(this.state.startDate).format('MM/DD/YYYY')
@@ -483,7 +494,7 @@ class OnlineCodingClasses extends Component {
                       </View>
                       <View style={styles.formSubGroup1}>
                         <TouchableOpacity
-                          onPress={() => this.setState({showDatePicker: true})}>
+                          onPress={() => this.setState({ showDatePicker: true })}>
                           <FontAwesome
                             name="calendar"
                             size={25}
@@ -495,17 +506,17 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartDate === true ? (
                       <ErrorMsg errorMsg="Please select Date" />
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
 
                     <Text style={styles.syllabusText}>Timing:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                      <View style={[styles.formSubGroup2, { width: '100%' }]}>
                         <Picker
-                          style={{width: '100%', height: 45}}
+                          style={{ width: '100%', height: 45 }}
                           selectedValue={this.state.startTime}
                           onValueChange={(itemValue, itemIndex) =>
-                            this.setState({startTime: itemValue})
+                            this.setState({ startTime: itemValue })
                           }>
                           <Picker.Item label="Select Time" value="TH" />
                           <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -562,8 +573,8 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartTime === true ? (
                       <ErrorMsg errorMsg="Please select Time" />
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
 
                     <TouchableOpacity
                       activeOpacity={0.9}
@@ -594,7 +605,7 @@ class OnlineCodingClasses extends Component {
                   </Text>
                 </View>
 
-                <View style={{marginTop: 10}}>
+                <View style={{ marginTop: 10 }}>
                   <Text style={styles.syllabusHeader}>Hire by</Text>
                   <View style={styles.selectBtnDiv}>
                     <TouchableOpacity
@@ -634,8 +645,8 @@ class OnlineCodingClasses extends Component {
                   {this.state.errHireBy === true ? (
                     <ErrorMsg errorMsg="Please select one" />
                   ) : (
-                    <></>
-                  )}
+                      <></>
+                    )}
                 </View>
 
                 <View>
@@ -685,7 +696,7 @@ class OnlineCodingClasses extends Component {
 
                     <Text style={styles.syllabusText}>Start date:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, {height: 45}]}>
+                      <View style={[styles.formSubGroup2, { height: 45 }]}>
                         <Text style={styles.inputHead2}>
                           {this.state.startDate
                             ? moment(this.state.startDate).format('MM/DD/YYYY')
@@ -694,7 +705,7 @@ class OnlineCodingClasses extends Component {
                       </View>
                       <View style={styles.formSubGroup1}>
                         <TouchableOpacity
-                          onPress={() => this.setState({showDatePicker: true})}>
+                          onPress={() => this.setState({ showDatePicker: true })}>
                           <FontAwesome
                             name="calendar"
                             size={25}
@@ -706,17 +717,17 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartDate === true ? (
                       <ErrorMsg errorMsg="Please select Date" />
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
 
                     <Text style={styles.syllabusText}>Timing:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, {width: '100%'}]}>
+                      <View style={[styles.formSubGroup2, { width: '100%' }]}>
                         <Picker
-                          style={{width: '100%', height: 45}}
+                          style={{ width: '100%', height: 45 }}
                           selectedValue={this.state.startTime}
                           onValueChange={(itemValue, itemIndex) =>
-                            this.setState({startTime: itemValue})
+                            this.setState({ startTime: itemValue })
                           }>
                           <Picker.Item label="Select Time" value="TH" />
                           <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -773,8 +784,8 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartTime === true ? (
                       <ErrorMsg errorMsg="Please select Time" />
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
 
                     <TouchableOpacity
                       activeOpacity={0.9}
@@ -803,7 +814,7 @@ class OnlineCodingClasses extends Component {
                   </Text>
                   <TouchableOpacity
                     style={CommonStyles.modalCross}
-                    onPress={() => this.setState({isModalVisible: false})}>
+                    onPress={() => this.setState({ isModalVisible: false })}>
                     <Entypo
                       name="circle-with-cross"
                       color="#71b85f"

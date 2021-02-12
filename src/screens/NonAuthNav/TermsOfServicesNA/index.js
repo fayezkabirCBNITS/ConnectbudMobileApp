@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import styles from './style'
-import CommonStyle from '../../../../CommonStyles'
+import CommonStyles from '../../../../CommonStyles';
+import Entypo from 'react-native-vector-icons/Entypo';
 import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../../../components/Header';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -37,11 +38,20 @@ class TermsOfServicesNA extends Component {
 
     render() {
         return (
-            <SafeAreaView style={CommonStyle.safeAreaView}>
-                <View style={CommonStyle.main}>
+            <SafeAreaView style={CommonStyles.safeAreaView}>
+                <View style={CommonStyles.main}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <Header />
-
+                        <View style={CommonStyles.header}>
+                            <TouchableOpacity
+                                style={CommonStyles.hambarIcon}
+                                onPress={() => this.props.navigation.openDrawer()}>
+                                <Entypo name="menu" color="#000" size={35} />
+                            </TouchableOpacity>
+                            <Image
+                                source={require('../../../assets/images/logo.png')}
+                                style={CommonStyles.imageHdr}
+                            />
+                        </View>
                         <View style={{ marginHorizontal: '5%' }}>
                             <Text style={styles.headText}>ConnectBud Terms of Service</Text>
 
@@ -58,7 +68,7 @@ class TermsOfServicesNA extends Component {
                                 The following terms of service (these "Terms of Service"), govern your access to and use of the ConnectBud website, including any content, functionality and services offered on or through <Text style={{ color: '#71b85f' }}>www.connectbud.com</Text>. Please read the Terms of Service carefully before you start to use the Site. By using the Site, opening an account or by clicking to accept or agree to the Terms of Service when this option is made available to you, you accept and agree to be bound and abide by these Terms of Service and our Privacy Policy.
                             </Text>
 
-                            <Text style={[styles.fonts],{marginTop: 15} }>
+                            <Text style={[styles.fonts], { marginTop: 15 }}>
                                 THESE TERMS PROVIDE THAT ALL DISPUTES BETWEEN YOU AND CONNECTBUD WILL BE RESOLVED BY BINDING ARBITRATION. YOU AGREE TO GIVE UP YOUR RIGHT TO GO TO COURT TO ASSERT OR DEFEND YOUR RIGHTS UNDER OR RELATING TO THIS CONTRACT, DO NOT ACCESS OR USE ANY OF THE SERVICES IF YOU DO NOT AGREE TO THESE TERMS IN THEIR ENTIRETY.
                             </Text>
 
@@ -67,7 +77,7 @@ class TermsOfServicesNA extends Component {
                             <Text style={styles.SemiBold}>(A) Eligibility</Text>
                             <Text style={styles.fonts}>To access our Services through our Website, you must be a legal entity, or an individual of eighteen (18) years of age or older who can form legally binding contracts.</Text>
 
-                            <Text style={[styles.fonts],{marginVertical: 10} }>To become a Registered User, you must accept all of the terms and conditions in, incorporated by reference in, and linked to, these Terms of Service. By becoming a Registered User, you agree to:</Text>
+                            <Text style={[styles.fonts], { marginVertical: 10 }}>To become a Registered User, you must accept all of the terms and conditions in, incorporated by reference in, and linked to, these Terms of Service. By becoming a Registered User, you agree to:</Text>
                             <View style={{ flexDirection: 'row', marginHorizontal: '5%' }}>
                                 <AntDesign name="checkcircle"
                                     color="#71b85f"
@@ -95,7 +105,7 @@ class TermsOfServicesNA extends Component {
                                 </Text>
                             </View>
 
-                            <Text style={[styles.fonts],{marginVertical: 10} }>connectbud.com reserves the right, in its sole discretion, to refuse, suspend, or terminate Services to anyone.</Text>
+                            <Text style={[styles.fonts], { marginVertical: 10 }}>connectbud.com reserves the right, in its sole discretion, to refuse, suspend, or terminate Services to anyone.</Text>
 
                             <Text style={styles.SemiBold}>(B) Registration</Text>
                             <Text style={styles.fonts}>To become a Registered User and to access Services you must register for an Account. You agree to provide true, accurate and complete information as prompted by the registration form and all forms you access on the Website, and to update this information to maintain its truthfulness, accuracy and completeness.</Text>
@@ -184,7 +194,7 @@ class TermsOfServicesNA extends Component {
 
                             <Text style={styles.subHeader}>FEEDBACK</Text>
                             <Text style={styles.fonts}>
-                                If you have any questions about this User Agreement or if you wish to report breaches of this User Agreement, please contact us at <Text style={{color:'#71b85f'}}>support@connectbud.com</Text>
+                                If you have any questions about this User Agreement or if you wish to report breaches of this User Agreement, please contact us at <Text style={{ color: '#71b85f' }}>support@connectbud.com</Text>
                             </Text>
                         </View>
                     </ScrollView>

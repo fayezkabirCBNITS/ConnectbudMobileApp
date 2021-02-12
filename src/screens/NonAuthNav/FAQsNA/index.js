@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
-import {View, Text, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import CommonStyle from '../../../../CommonStyles';
-import {ScrollView} from 'react-native-gesture-handler';
+import CommonStyles from '../../../../CommonStyles';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../../../components/Header';
 import {
   Collapse,
@@ -16,7 +17,7 @@ class FAQsNA extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: {isTrue: false, ind: []},
+      collapsed: { isTrue: false, ind: [] },
       list: [
         {
           id: 1,
@@ -83,7 +84,7 @@ class FAQsNA extends Component {
   handleCollapse = (cl, id) => {
     const arr = this.state.collapsed.ind;
     arr.push(id);
-    this.setState({collapsed: {...this.state.collapsed, isTrue: cl, ind: arr}});
+    this.setState({ collapsed: { ...this.state.collapsed, isTrue: cl, ind: arr } });
   };
 
   static navigationOptions = {
@@ -92,9 +93,19 @@ class FAQsNA extends Component {
 
   render() {
     return (
-      <SafeAreaView style={CommonStyle.safeAreaView}>
-        <View style={CommonStyle.main}>
-        <Header />
+      <SafeAreaView style={CommonStyles.safeAreaView}>
+        <View style={CommonStyles.main}>
+          <View style={CommonStyles.header}>
+            <TouchableOpacity
+              style={CommonStyles.hambarIcon}
+              onPress={() => this.props.navigation.openDrawer()}>
+              <Entypo name="menu" color="#000" size={35} />
+            </TouchableOpacity>
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={CommonStyles.imageHdr}
+            />
+          </View>
           <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
             <View style={styles.mainContainer}>
               <Text style={styles.headerText}>FAQs</Text>
@@ -119,27 +130,27 @@ class FAQsNA extends Component {
                           {item.title}
                         </Text>
                       </View>
-                      <View style={[styles.collapseId, {marginLeft: 30}]}>
+                      <View style={[styles.collapseId, { marginLeft: 30 }]}>
                         {this.state.collapsed.isTrue &&
-                        this.state.collapsed.ind.includes(idx) ? (
-                          <FontAwesome
-                            name="angle-up"
-                            color="#fff"
-                            size={25}
-                          />
-                        ) : (
-                          <FontAwesome
-                            name="angle-down"
-                            color="#fff"
-                            size={25}
-                          />
-                        )}
+                          this.state.collapsed.ind.includes(idx) ? (
+                            <FontAwesome
+                              name="angle-up"
+                              color="#fff"
+                              size={25}
+                            />
+                          ) : (
+                            <FontAwesome
+                              name="angle-down"
+                              color="#fff"
+                              size={25}
+                            />
+                          )}
                       </View>
                     </CollapseHeader>
                     <CollapseBody style={styles.CollapseBody}>
-                          <Text style={styles.collapseBodyText}>
-                            {item.body}
-                          </Text>
+                      <Text style={styles.collapseBodyText}>
+                        {item.body}
+                      </Text>
                     </CollapseBody>
                   </Collapse>
                 ))}

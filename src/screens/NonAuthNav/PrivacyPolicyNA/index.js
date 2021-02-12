@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import styles from './style'
-import CommonStyle from '../../../../CommonStyles'
+import CommonStyles from '../../../../CommonStyles';
+import Entypo from 'react-native-vector-icons/Entypo';
 import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../../../components/Header';
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -31,10 +32,20 @@ class PrivacyPolicyNA extends Component {
 
     render() {
         return (
-            <SafeAreaView style={CommonStyle.safeAreaView}>
-                <View style={CommonStyle.main}>
+            <SafeAreaView style={CommonStyles.safeAreaView}>
+                <View style={CommonStyles.main}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <Header />
+                        <View style={CommonStyles.header}>
+                            <TouchableOpacity
+                                style={CommonStyles.hambarIcon}
+                                onPress={() => this.props.navigation.openDrawer()}>
+                                <Entypo name="menu" color="#000" size={35} />
+                            </TouchableOpacity>
+                            <Image
+                                source={require('../../../assets/images/logo.png')}
+                                style={CommonStyles.imageHdr}
+                            />
+                        </View>
 
                         <View style={{ marginHorizontal: '5%' }}>
                             <Text style={styles.headText}>ConnectBud Privacy Policy</Text>
@@ -112,39 +123,39 @@ class PrivacyPolicyNA extends Component {
                             </Text>
 
                             <Text style={styles.pText}><Text style={styles.SemiBold}>Legal and Regulatory Requirements - </Text>
-                                We may disclose information about you in response to a subpoena, court order, or other governmental requests. 
-                                We may share your personal data with third parties if we are under a duty to disclose or share your 
-                                personal data in order to comply with any legal obligation, or in order to enforce or apply our site 
+                                We may disclose information about you in response to a subpoena, court order, or other governmental requests.
+                                We may share your personal data with third parties if we are under a duty to disclose or share your
+                                personal data in order to comply with any legal obligation, or in order to enforce or apply our site
                                 terms of use or to protect the rights, property or safety of our site, our users, and others.
                             </Text>
 
                             <Text style={styles.pText}><Text style={styles.SemiBold}>Business Transfers - </Text>
-                                As we develop our business, we might sell or buy businesses or assets. 
+                                As we develop our business, we might sell or buy businesses or assets.
                                 In the event of a corporate sale, merger, reorganization, dissolution or similar event,
                                 Personal Data may be part of the transferred assets.
                             </Text>
 
                             <Text style={styles.primaryHead}>CHILDREN</Text>
                             <Text style={styles.pText}>
-                                The ConnectBud website is intended for children under 18 years old. We do not 
-                                knowingly collect personal information from children under 18. No one under the 
-                                age of 18 years is allowed to provide any Personal Information to connectbud.com. 
-                                If you are less than 18 years old at the time of your first visit to connectbud.com, 
+                                The ConnectBud website is intended for children under 18 years old. We do not
+                                knowingly collect personal information from children under 18. No one under the
+                                age of 18 years is allowed to provide any Personal Information to connectbud.com.
+                                If you are less than 18 years old at the time of your first visit to connectbud.com,
                                 you are prohibited from using the website further entirely on your own.
                             </Text>
 
                             <Text style={styles.primaryHead}>CHANGES TO PRIVACY STATEMENT</Text>
                             <Text style={styles.pText}>
-                                Changes to this privacy policy will be made when required in response to changing legal, 
-                                technical or business development. We recommend that you regularly check for changes and 
-                                that you review this policy when visiting our website. If you do not agree with any aspect of 
+                                Changes to this privacy policy will be made when required in response to changing legal,
+                                technical or business development. We recommend that you regularly check for changes and
+                                that you review this policy when visiting our website. If you do not agree with any aspect of
                                 the updated policy, you must cease using our services.
                             </Text>
 
                             <Text style={styles.primaryHead}>CONTACT</Text>
                             <Text style={styles.pText}>
-                                If you have questions about your User account, job alerts, applications to Job Advertisements, 
-                                or any other Services-related questions, please contact us by email at <Text style={{color:'#71b85f'}}>support@connectbud.com</Text>
+                                If you have questions about your User account, job alerts, applications to Job Advertisements,
+                                or any other Services-related questions, please contact us by email at <Text style={{ color: '#71b85f' }}>support@connectbud.com</Text>
                             </Text>
                         </View>
                     </ScrollView>
