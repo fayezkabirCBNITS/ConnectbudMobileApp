@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ImageBackground,
   Image,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  Linking
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import Header from '../../../components/Header';
 import styles from './style';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TabView, TabBar } from 'react-native-tab-view';
 import ViewOverview from '../../../components/ViewOverview';
+import ViewAvailability from '../../../components/ViewAvailability';
 import ViewPortfolio from '../../../components/ViewPortfolio';
 import ViewWorkHistory from '../../../components/ViewWorkHistory';
 import ViewExperience from '../../../components/ViewExperience';
@@ -23,24 +22,24 @@ import axios from 'axios';
 import { API_URL } from "../../../config/url";
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {WebView} from 'react-native-webview';
+import Zocial from 'react-native-vector-icons/Zocial';
+import { WebView } from 'react-native-webview';
 
 
 class ViewUserProfileScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       videoResume: '',
-      index: 0,
-      routes: [
-        { key: 'first', title: 'Overview' },
-        { key: 'second', title: 'Portfolio' },
-        { key: 'third', title: 'Work History' },
-      ],
       profiledataset: [],
       showLoader: false,
       userImg: '',
+      sampleEvents: [],
+      year: "",
+      urlsocialset: "",
+      urlsocial: ""
     };
   }
 
@@ -61,6 +60,41 @@ class ViewUserProfileScreen extends Component {
           videoResume: response.data[0].videoresume[0].videoresume,
           userImg: response.data[0].user_image,
           showLoader: false,
+          urlsocialset: response.data.map((item) => item.socialurls.map((obj) => obj.socialurl)),
+          year: response.data[0].dates_availability.map((obj) => (((((obj.date.split("/").join("-").split("-")[2])) + "5" + ((obj.date.split("/").join("-").split("-")[0])) + "-" + ((obj.date.split("/").join("-").split("-")[1]))).replace('"5"', "-")) + " " + "14:00:00")),
+        });
+        this.setState({
+          sampleEvents: [
+            { 'start': this.state.year[0], 'duration': '00:20:00', 'note': 'Available for class' },
+            { 'start': this.state.year[1], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[2], 'duration': '00:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[3], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[4], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[5], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[6], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[7], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[8], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[9], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[10], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[11], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[12], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[13], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[14], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[15], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[16], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[17], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[18], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[19], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[20], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[21], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[22], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[23], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[24], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[25], 'duration': '01:00:00', 'note': 'Available for class' },
+          ]
+        });
+        this.setState({
+          urlsocial: this.state.urlsocialset.toString().split(" ,").join(", "),
         });
       })
       .catch(() => {
@@ -115,37 +149,105 @@ class ViewUserProfileScreen extends Component {
                       </Text>
                     </>
                   ))}
-                  <View style={styles.newSocial}>
-                    <TouchableOpacity style={styles.newSocialIcon}>
-                      <AntDesign
-                        name="linkedin-square"
-                        color="#014670"
-                        size={30}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.newSocialIcon}>
-                      <AntDesign name="youtube" color="#f44336" size={30} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.newSocialIcon}>
-                      <AntDesign
-                        name="facebook-square"
-                        color="#3c5a9a"
-                        size={30}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.newSocialIcon}>
-                      <AntDesign name="github" color="#212121" size={30} />
-                    </TouchableOpacity>
-                  </View>
+                  {this.state.profiledataset.map((item, i) => {
+                    return (
+                      <>
+                        {this.state.urlsocial !== "" &&
+                          this.state.urlsocial !== "NULL" && (
+                            <View style={styles.newSocial}>
+                              {item.socialurls.map((value) => {
+                                if (value.type === "linkedin") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="linkedin-square" color="#014670" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "youtube") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="youtube" color="#f44336" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "facebook") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="facebook-square" color="#3c5a9a" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "twitter") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="twitter" color='#00acee' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "instagram") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="instagram" color='#3f729b' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "github") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="github" color="#212121" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "stackoverflow") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <Zocial name="stackoverflow" color='#f48024' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "other") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <FontAwesome name="external-link" color='#71B85F' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                            </View>
+                          )}
+                      </>
+                    );
+                  })}
                 </View>
               </View>
               <ViewOverview slugname={params.username} />
-              {/* <NewAvailability /> */}
+              <ViewAvailability dates={this.state.sampleEvents} />
               <ViewPortfolio slugname={params.username} />
               <ViewExperience slugname={params.username} />
               <ViewDocument slugname={params.username} />
               <ViewWorkHistory freeId={userDeatail.view_user_id} />
-
             </ScrollView>
           </View>
         </View>

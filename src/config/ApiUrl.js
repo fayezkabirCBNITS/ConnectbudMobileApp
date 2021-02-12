@@ -23,6 +23,7 @@ export default EndPoint = {
   JobSummary: 'expert_jobsummary',
   Four: '/course/four',
   Ten: '/course/ten',
+  course: '/course',
   CourseSubmit: 'course_submit',
   FetchMilestones: 'fetchmilestones',
   PLACEHOLDER_SQUARE_IMAGE: require('../assets/images/userPro.jpg'),

@@ -2,40 +2,44 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ImageBackground,
   Image,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  Linking
 } from 'react-native';
 import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import Header from '../../../components/Header';
 import styles from './style';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import ViewOverview from '../../../components/ViewOverview';
+import ViewAvailability from '../../../components/ViewAvailability';
 import ViewPortfolio from '../../../components/ViewPortfolio';
 import ViewWorkHistory from '../../../components/ViewWorkHistory';
+import ViewExperience from '../../../components/ViewExperience';
+import ViewDocument from '../../../components/ViewDocument';
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Zocial from 'react-native-vector-icons/Zocial';
+import { WebView } from 'react-native-webview';
 
 
 class ViewProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
-      routes: [
-        { key: 'first', title: 'Overview' },
-        { key: 'second', title: 'Portfolio' },
-        { key: 'third', title: 'Work History' },
-      ],
+      videoResume: '',
       profiledataset: [],
       showLoader: false,
+      userImg: '',
+      sampleEvents: [],
+      year: "",
+      urlsocialset: "",
+      urlsocial: ""
     };
   }
 
@@ -53,7 +57,44 @@ class ViewProfileScreen extends Component {
       .then((response) => {
         this.setState({
           profiledataset: response.data,
-          showLoader: false
+          videoResume: response.data[0].videoresume[0].videoresume,
+          userImg: response.data[0].user_image,
+          showLoader: false,
+          urlsocialset: response.data.map((item) => item.socialurls.map((obj) => obj.socialurl)),
+          year: response.data[0].dates_availability.map((obj) => (((((obj.date.split("/").join("-").split("-")[2])) + "5" + ((obj.date.split("/").join("-").split("-")[0])) + "-" + ((obj.date.split("/").join("-").split("-")[1]))).replace('"5"', "-")) + " " + "14:00:00")),
+        });
+        this.setState({
+          sampleEvents: [
+            { 'start': this.state.year[0], 'duration': '00:20:00', 'note': 'Available for class' },
+            { 'start': this.state.year[1], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[2], 'duration': '00:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[3], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[4], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[5], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[6], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[7], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[8], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[9], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[10], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[11], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[12], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[13], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[14], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[15], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[16], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[17], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[18], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[19], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[20], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[21], 'duration': '01:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[22], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[23], 'duration': '01:30:00', 'note': 'Available for class' },
+            { 'start': this.state.year[24], 'duration': '02:00:00', 'note': 'Available for class' },
+            { 'start': this.state.year[25], 'duration': '01:00:00', 'note': 'Available for class' },
+          ]
+        });
+        this.setState({
+          urlsocial: this.state.urlsocialset.toString().split(" ,").join(", "),
         });
       })
       .catch(() => {
@@ -61,111 +102,154 @@ class ViewProfileScreen extends Component {
       });
   };
 
-  renderScene = ({ route }) => {
-    const { params } = this.props.navigation.state;
-    switch (route.title) {
-      case 'Overview':
-        return <ViewOverview slugname={params.slugname} />;
-      case 'Portfolio':
-        return <ViewPortfolio slugname={params.slugname} />
-      case 'Work History':
-        return <ViewWorkHistory freeId={params.user_id} />;
-      default:
-        return null;
-    }
-  };
-
   render() {
     const { userDeatail } = this.props;
+    const { params } = this.props.navigation.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
-        <Spinner
-          visible={this.state.showLoader}
-          animation="fade"
-          textContent={'Loading...'}
-        />
-        <View style={CommonStyles.main}>
-          {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
-            <Header />
-          ) : (
-              <CommonStatusBar />
-            )}
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-            {this.state.profiledataset.map((item, i) => (
-              <ImageBackground
-                source={{ uri: item.cover_image }}
-                style={styles.coverImage}>
-                {/* <TouchableOpacity style={CommonStyles.hanPosition}>
-                  <Entypo name="menu" color="#000" size={35} />
-                </TouchableOpacity> */}
-                <View style={styles.userImg}>
-                  <Image
-                    source={{ uri: item.user_image }}
-                    style={CommonStyles.usrImage}
+        <View style={[CommonStyles.main, styles.whiteBg]}>
+          <Spinner
+            visible={this.state.showLoader}
+            animation="fade"
+            textContent={'Loading...'}
+          />
+          <View style={CommonStyles.main}>
+            {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
+              <Header />
+            ) : (
+                <CommonStatusBar />
+              )}
+            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+              <View style={styles.userProfle}>
+                <View style={styles.videoSec}>
+                  <WebView
+                    style={{ width: '100%', height: '100%' }}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    allowsFullscreenVideo={true}
+                    mediaPlaybackRequiresUserAction={false}
+                    allowsInlineMediaPlayback={true}
+                    source={{
+                      uri: this.state.videoResume,
+                    }}
                   />
-                  {/* <TouchableOpacity style={CommonStyles.userPhoto}>
-                    <FontAwesome name="camera" color="#71b85f" size={22} />
-                  </TouchableOpacity> */}
                 </View>
-                {/* <TouchableOpacity style={styles.camPosition}>
-                  <FontAwesome name="camera" color="#71b85f" size={22} />
-                </TouchableOpacity> */}
-              </ImageBackground>
-            ))}
-
-            {this.state.profiledataset.map((item, i) => (
-              <ScrollView
-                style={{ flexDirection: 'row', marginTop: -70 }}
-                showsHorizontalScrollIndicator={false}
-                horizontal>
-                <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>Name</Text>
-                  <Text style={styles.userInfoDetails}>{item.first_name}{" "}{item.last_name}</Text>
+                <View style={styles.newProfile}>
+                  <Image
+                    source={{ uri: this.state.userImg }}
+                    style={CommonStyles.image}
+                  />
                 </View>
-
-                <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>College</Text>
-                  <Text style={styles.userInfoDetails}>{item.college}</Text>
+                <View style={styles.newUserDetails}>
+                  {this.state.profiledataset.map((value, i) => (
+                    <>
+                      <Text style={styles.newUserName}>{value.first_name}{" "}{value.last_name}</Text>
+                      <Text style={styles.newUserInfo}>
+                        {value.about}
+                      </Text>
+                    </>
+                  ))}
+                  {this.state.profiledataset.map((item, i) => {
+                    return (
+                      <>
+                        {this.state.urlsocial !== "" &&
+                          this.state.urlsocial !== "NULL" && (
+                            <View style={styles.newSocial}>
+                              {item.socialurls.map((value) => {
+                                if (value.type === "linkedin") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="linkedin-square" color="#014670" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "youtube") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="youtube" color="#f44336" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "facebook") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="facebook-square" color="#3c5a9a" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "twitter") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="twitter" color='#00acee' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "instagram") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="instagram" color='#3f729b' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "github") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <AntDesign name="github" color="#212121" size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "stackoverflow") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <Zocial name="stackoverflow" color='#f48024' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                              {item.socialurls.map((value) => {
+                                if (value.type === "other") {
+                                  return (
+                                    <TouchableOpacity
+                                      onPress={() => Linking.openURL(value.socialurl)} style={styles.newSocialIcon}>
+                                      <FontAwesome name="external-link" color='#71B85F' size={30} />
+                                    </TouchableOpacity>
+                                  );
+                                }
+                              })}
+                            </View>
+                          )}
+                      </>
+                    );
+                  })}
                 </View>
-
-                <View style={styles.details}>
-                  <Text style={styles.userInfoHead}>Department</Text>
-                  <Text style={styles.userInfoDetails}>{item.department}</Text>
-                </View>
-              </ScrollView>
-            ))}
-
-            <View style={styles.tabSec}>
-              <TabView
-                navigationState={this.state}
-                // renderScene={SceneMap({
-                //   first: ViewOverview,
-                //   second: ViewPortfolio,
-                //   third: ViewWorkHistory,
-                // })}
-                renderScene={this.renderScene}
-                onIndexChange={(index) => this.setState({ index })}
-                style={{ flex: 1, justifyContent: 'center' }}
-                renderTabBar={(props) => {
-                  return (
-                    <TabBar
-                      scrollEnabled
-                      {...props}
-                      renderLabel={({ route, focused, color }) => (
-                        <Text style={focused ? styles.label : styles.label2}>
-                          {route.title}
-                        </Text>
-                      )}
-                      indicatorStyle={styles.indicator}
-                      style={styles.tab}
-                      inactiveColor={'#a5a5b4'}
-                      activeColor={'#6e83e3'}
-                    />
-                  );
-                }}
-              />
-            </View>
-          </ScrollView>
+              </View>
+              <ViewOverview slugname={params.slugname} />
+              <ViewAvailability dates={this.state.sampleEvents} />
+              <ViewPortfolio slugname={params.slugname} />
+              <ViewExperience slugname={params.slugname} />
+              <ViewDocument slugname={params.slugname} />
+              <ViewWorkHistory freeId={params.user_id} />
+            </ScrollView>
+          </View>
         </View>
       </SafeAreaView>
     );

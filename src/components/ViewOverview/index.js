@@ -32,7 +32,6 @@ class ViewOverview extends Component {
         urlsocialset: response.map((item) => item.socialurls.map((obj) => obj.socialurl)),
         showLoader: false
       });
-      console.log(this.state.profiledataset);
       this.setState({
         urlsocial: this.state.urlsocialset.toString().split(" ,").join(", "),
       });
@@ -73,16 +72,20 @@ class ViewOverview extends Component {
             </View>
             <View key={i} style={styles.newOverviewSec}>
               <Text style={styles.overviewHdng}>Categories</Text>
+              <View style={styles.wid65}>
               {item.category.map((value, i) => (
-                <Text style={styles.overviewDetails}>{value.label}</Text>
+                <Text style={styles.overviewDetails2}>{value.label}</Text>
               ))}
+            </View>
             </View>
             <View key={i} style={styles.newOverviewSec}>
               <Text style={styles.overviewHdng}>Skills</Text>
+              <View style={styles.wid65}>
               {item.skills.map((value, i) => (
-                <Text style={styles.overviewDetails}>{value.label}</Text>
+                <Text style={styles.overviewDetails2}>{value.label}</Text>
               ))}
             </View>
+          </View>
           </View>
         ))}
       </View>

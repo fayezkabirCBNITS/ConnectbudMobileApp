@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';
 
 
-class UpdateDocument extends Component {
+class ViewDocument extends Component {
   constructor() {
     super();
     this.state = {
@@ -54,4 +54,4 @@ const mapStateToProps = (state) => {
     userDeatailResponse: state.userData,
   };
 };
-export default connect(mapStateToProps, null)(withNavigation(UpdateDocument));
+export default connect(mapStateToProps, null)(withNavigation(ViewDocument));

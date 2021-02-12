@@ -190,7 +190,7 @@ class Sidebar extends Component {
                   style={styles.menuOptn}
                   onPress={() => this.props.navigation.navigate('ContactUs')}>
                   <AntDesign name="contacts" color="#fff" size={27} />
-                  <Text style={styles.menuOptnText}>Contact Us</Text>
+                  <Text style={styles.menuOptnText}>Write to us</Text>
                 </TouchableOpacity>
 
                 <Collapse
@@ -315,6 +315,13 @@ class Sidebar extends Component {
                   style={styles.menuOptn}>
                   <MaterialIcons name="payment" color="#fff" size={27} />
                   <Text style={styles.menuOptnText}>Contracts</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.menuOptn}
+                  onPress={() => this.props.navigation.navigate('ContactUs')}>
+                  <AntDesign name="contacts" color="#fff" size={27} />
+                  <Text style={styles.menuOptnText}>Write to us</Text>
                 </TouchableOpacity>
 
                 {/* <TouchableOpacity
