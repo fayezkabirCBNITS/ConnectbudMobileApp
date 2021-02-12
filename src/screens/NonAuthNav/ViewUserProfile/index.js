@@ -11,22 +11,19 @@ import CommonStyles from '../../../../CommonStyles';
 import CommonStatusBar from '../../../components/StatusBar';
 import styles from './style';
 import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ScrollView} from 'react-native-gesture-handler';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import Overview from '../../../components/ViewOverview';
-import Portfolio from '../../../components/Portfolio';
-import WorkHistory from '../../../components/WorkHistory';
-import ApiUrl from '../../../config/ApiUrl';
-import {makePostRequestMultipart} from '../../../services/http-connectors';
-import {connect} from 'react-redux';
-import {withNavigation} from 'react-navigation';
+import { ScrollView } from 'react-native-gesture-handler';
+import { TabView, TabBar } from 'react-native-tab-view';
+import ViewOverview from '../../../components/ViewOverview';
+import ViewPortfolio from '../../../components/ViewPortfolio';
+import ViewWorkHistory from '../../../components/ViewWorkHistory';
+import ViewExperience from '../../../components/ViewExperience';
+import ViewDocument from '../../../components/ViewDocument';
+import axios from 'axios';
+import { API_URL } from "../../../config/url";
+import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
-import base64 from 'base-64';
-import style from './style';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {WebView} from 'react-native-webview';
-import NewAvailability from '../../../components/NewAvailability';
 
 import axios from 'axios';
 import { API_URL } from "../../../config/url";
@@ -44,17 +41,7 @@ class ViewUserProfileScreen extends Component {
       ],
       profiledataset: [],
       showLoader: false,
-      userImg:'',
-      newOverview: [
-        {hdng: 'College', details: 'natit solved'},
-        {hdng: 'Major', details: 'Computer Science'},
-        {hdng: 'Enrolment', details: 'Under Graduate'},
-        {hdng: 'Type', details: 'Part timer'},
-        {hdng: 'Duration', details: '03 August 2015 - 21 June 2019'},
-        {hdng: 'City', details: 'Kolkata'},
-        {hdng: 'Categories', details: 'Software Development, Online Coding'},
-        {hdng: 'Skills', details: 'C, React js,'},
-      ],
+      userImg: '',
     };
   }
 
@@ -79,10 +66,10 @@ class ViewUserProfileScreen extends Component {
     })
       .then((response) => {
         this.setState({
-          profiledataset: response,
-          videoResume: response[0].videoresume[0].videoresume,
-        userImg: response[0].user_image,
-          showLoader: false
+          profiledataset: response.data,
+          videoResume: response.data[0].videoresume[0].videoresume,
+          userImg: response.data[0].user_image,
+          showLoader: false,
         });
       })
       .catch(() => {
@@ -91,171 +78,85 @@ class ViewUserProfileScreen extends Component {
   };
 
   render() {
+    const { userDeatail } = this.props;
+    const { params } = this.props.navigation.state;
     return (
       <SafeAreaView style={CommonStyles.safeAreaView}>
         <View style={[CommonStyles.main, styles.whiteBg]}>
-          <CommonStatusBar />
           <Spinner
             visible={this.state.showLoader}
             animation="fade"
             textContent={'Loading...'}
           />
-          <View style={CommonStyles.header}>
-            <TouchableOpacity
-              style={CommonStyles.hambarIcon}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Entypo name="menu" color="#000" size={35} />
-            </TouchableOpacity>
-            <Image
-              source={require('../../../assets/images/logo.png')}
-              style={CommonStyles.imageHdr}
-            />
-            {/* <TouchableOpacity style={CommonStyles.bellIcon}>
-              <Feather name="bell" color="#000" size={30} />
-            </TouchableOpacity> */}
-          </View>
-          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-            <View style={styles.userProfle}>
-              <View style={styles.videoSec}>
-                <WebView
-                  style={{width: '100%', height: '100%'}}
-                  javaScriptEnabled={true}
-                  domStorageEnabled={true}
-                  allowsFullscreenVideo={true}
-                  mediaPlaybackRequiresUserAction={false}
-                  allowsInlineMediaPlayback={true}
-                  source={{
-                    uri: this.state.videoResume,
-                  }}
-                />
-              </View>
-              <View style={styles.newProfile}>
-                <Image
-                  source={{uri : this.state.userImg}}
-                  style={CommonStyles.image}
-                />
-              </View>
-              <View style={styles.newUserDetails}>
-                {this.state.profiledataset.map((value,i)=>(
-                  <>
-                <Text style={styles.newUserName}>{value.first_name}{" "}{value.last_name}</Text>
-                <Text style={styles.newUserInfo}>
-                  {value.about}
-                </Text>
-                </>
-                ))}
-                <View style={styles.newSocial}>
-                  <TouchableOpacity style={styles.newSocialIcon}>
-                    <AntDesign
-                      name="linkedin-square"
-                      color="#014670"
-                      size={30}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.newSocialIcon}>
-                    <AntDesign name="youtube" color="#f44336" size={30} />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.newSocialIcon}>
-                    <AntDesign
-                      name="facebook-square"
-                      color="#3c5a9a"
-                      size={30}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.newSocialIcon}>
-                    <AntDesign name="github" color="#212121" size={30} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-            <Overview />
-            {/* <NewAvailability />
-            <NewPortfolio />
-            <NewExperience />
-            <UpdateDocument />
-            <NewWorkHistory /> */}
-
-            {/* {this.state.profiledataset.map((item, i) => (
-              <ImageBackground key={i}
-                source={{ uri: item.cover_image }}
-                style={styles.coverImage}>
-                <TouchableOpacity
-                  style={CommonStyles.hanPosition}
-                  onPress={() => this.props.navigation.openDrawer()}>
-                  <Entypo name="menu" color="#000" size={35} />
-                </TouchableOpacity>
-                <View style={styles.userImg}>
-                  <Image
-                    source={{ uri: item.user_image }}
-                    style={CommonStyles.usrImage}
+          <View style={CommonStyles.main}>
+            {userDeatail.user_id !== "" && userDeatail.user_id !== "undefined" && userDeatail.Status !== "" ? (
+              <Header />
+            ) : (
+                <CommonStatusBar />
+              )}
+            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+              <View style={styles.userProfle}>
+                <View style={styles.videoSec}>
+                  <WebView
+                    style={{ width: '100%', height: '100%' }}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                    allowsFullscreenVideo={true}
+                    mediaPlaybackRequiresUserAction={false}
+                    allowsInlineMediaPlayback={true}
+                    source={{
+                      uri: this.state.videoResume,
+                    }}
                   />
                 </View>
-              </ImageBackground>
-            ))}
-            {this.state.profiledataset.map((item, i) => (
-              <ScrollView
-                style={{ flexDirection: 'row', marginTop: -70 }}
-                showsHorizontalScrollIndicator={false}
-                key={i}
-                horizontal>
-                <View style={styles.details}>
-                  <FontAwesome name="user" color="#71b85f" size={30} />
-                  <View style={{ marginLeft: 10 }}>
-                    <Text style={styles.userInfoHead}>Name</Text>
-                    <Text style={styles.userInfoDetails}>
-                      {item.first_name} {item.last_name}
-                    </Text>
+                <View style={styles.newProfile}>
+                  <Image
+                    source={{ uri: this.state.userImg }}
+                    style={CommonStyles.image}
+                  />
+                </View>
+                <View style={styles.newUserDetails}>
+                  {this.state.profiledataset.map((value, i) => (
+                    <>
+                      <Text style={styles.newUserName}>{value.first_name}{" "}{value.last_name}</Text>
+                      <Text style={styles.newUserInfo}>
+                        {value.about}
+                      </Text>
+                    </>
+                  ))}
+                  <View style={styles.newSocial}>
+                    <TouchableOpacity style={styles.newSocialIcon}>
+                      <AntDesign
+                        name="linkedin-square"
+                        color="#014670"
+                        size={30}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.newSocialIcon}>
+                      <AntDesign name="youtube" color="#f44336" size={30} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.newSocialIcon}>
+                      <AntDesign
+                        name="facebook-square"
+                        color="#3c5a9a"
+                        size={30}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.newSocialIcon}>
+                      <AntDesign name="github" color="#212121" size={30} />
+                    </TouchableOpacity>
                   </View>
                 </View>
+              </View>
+              <ViewOverview slugname={params.username} />
+              {/* <NewAvailability /> */}
+              <ViewPortfolio slugname={params.username} />
+              <ViewExperience slugname={params.username} />
+              <ViewDocument slugname={params.username} />
+              <ViewWorkHistory freeId={userDeatail.view_user_id} />
 
-                <View style={styles.details}>
-                  <FontAwesome name="bank" color="#71b85f" size={30} />
-                  <View style={{ marginLeft: 10 }}>
-                    <Text style={styles.userInfoHead}>College</Text>
-                    <Text style={styles.userInfoDetails}>{item.college}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.details}>
-                  <FontAwesome name="graduation-cap" color="#71b85f" size={30} />
-                  <View style={{ marginLeft: 10 }}>
-                    <Text style={styles.userInfoHead}>Department</Text>
-                    <Text style={styles.userInfoDetails}>{item.department}</Text>
-                  </View>
-                </View>
-              </ScrollView>
-            ))}
-
-            <View style={styles.tabSec}>
-              <TabView
-                navigationState={this.state}
-                renderScene={SceneMap({
-                  first: Overview,
-                  second: Portfolio,
-                  third: WorkHistory,
-                })}
-                onIndexChange={(index) => this.setState({ index })}
-                style={{ flex: 1, justifyContent: 'center' }}
-                renderTabBar={(props) => {
-                  return (
-                    <TabBar
-                      scrollEnabled
-                      {...props}
-                      renderLabel={({ route, focused, color }) => (
-                        <Text style={focused ? styles.label : styles.label2}>
-                          {route.title}
-                        </Text>
-                      )}
-                      indicatorStyle={styles.indicator}
-                      style={styles.tab}
-                      inactiveColor={'#a5a5b4'}
-                      activeColor={'#6e83e3'}
-                    />
-                  );
-                }}
-              />
-            </View> */}
-          </ScrollView>
+            </ScrollView>
+          </View>
         </View>
       </SafeAreaView>
     );

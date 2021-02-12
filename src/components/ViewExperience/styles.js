@@ -10,12 +10,11 @@ export default {
   portfolio: {
     width: '100%',
   },
-  newHistorySec: {
+  newexperienceSec: {
     width: deviceWidth / 1.3,
     paddingVertical: 15,
     backgroundColor: '#fff',
     marginLeft: 20,
-    marginBottom: 120,
     padding: 10,
     borderColor: 'rgba(0,0,0,0.15)',
     borderWidth: 1,
@@ -38,29 +37,21 @@ export default {
   lines: {
     marginTop: 5,
     width: 1,
-    height: 45,
+    height: 170,
     backgroundColor: '#71b85f',
   },
   deatilsSec: {
     width: '79%',
     marginLeft: 10,
   },
-  historyDate: {
+  experienceHdng: {
     width: '100%',
     fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    color: '#8b88b8'
-  },
-  historyProjectName: {
-    width: '100%',
-    fontSize: 22,
     fontFamily: 'Poppins-SemiBold',
-    marginTop: 5,
   },
-  historyProjectSub: {
+  experienceDetails: {
     width: '100%',
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
-    color: '#535c7f'
   },
 };

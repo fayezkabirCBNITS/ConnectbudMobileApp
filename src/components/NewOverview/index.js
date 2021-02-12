@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CommonStyles from '../../../CommonStyles';
 import ApiUrl from '../../config/ApiUrl';
-import {makePostRequestMultipart} from '../../services/http-connectors';
+import { makePostRequestMultipart } from '../../services/http-connectors';
 import base64 from 'base-64';
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
@@ -16,14 +16,14 @@ class Overview extends Component {
       profiledataset: [],
       showLoader: false,
       newOverview: [
-        {hdng: 'College', details: 'natit solved'},
-        {hdng: 'Major', details: 'Computer Science'},
-        {hdng: 'Enrolment', details: 'Under Graduate'},
-        {hdng: 'Type', details: 'Part timer'},
-        {hdng: 'Duration', details: '03 August 2015 - 21 June 2019'},
-        {hdng: 'City', details: 'Kolkata'},
-        {hdng: 'Categories', details: 'Software Development, Online Coding'},
-        {hdng: 'Skills', details: 'C, React js,'},
+        { hdng: 'College', details: 'natit solved' },
+        { hdng: 'Major', details: 'Computer Science' },
+        { hdng: 'Enrolment', details: 'Under Graduate' },
+        { hdng: 'Type', details: 'Part timer' },
+        { hdng: 'Duration', details: '03 August 2015 - 21 June 2019' },
+        { hdng: 'City', details: 'Kolkata' },
+        { hdng: 'Categories', details: 'Software Development, Online Coding' },
+        { hdng: 'Skills', details: 'C, React js,' },
       ],
     };
   }
@@ -115,27 +115,47 @@ class Overview extends Component {
           </TouchableOpacity>
         </View>
         {this.state.profiledataset.map((item, i) => (
-          <View key={i} style={styles.newOverviewSec}>
-            <Text style={styles.overviewHdng}>College</Text>
-            <Text style={styles.overviewDetails}>{item.college}</Text>
-            <Text style={styles.overviewHdng}>Major</Text>
-            <Text style={styles.overviewDetails}>{item.department}</Text>
-            <Text style={styles.overviewHdng}>Enrolment</Text>
-            <Text style={styles.overviewDetails}>{item.title}</Text>
-            <Text style={styles.overviewHdng}>Type</Text>
-            <Text style={styles.overviewDetails}>{item.type}</Text>
-            <Text style={styles.overviewHdng}>Duration</Text>
-            <Text style={styles.overviewDetails}>{item.startDateFormat} - {item.endDateFormat}</Text>
-            <Text style={styles.overviewHdng}>City</Text>
-            <Text style={styles.overviewDetails}>{item.location}</Text>
-            <Text style={styles.overviewHdng}>Categories</Text>
-            {item.category.map((value,i)=> (
-            <Text style={styles.overviewDetails}>{value.label}</Text>
-            ))}
-            <Text style={styles.overviewHdng}>Skills</Text>
-            {item.skills.map((value,i)=> (
-            <Text style={styles.overviewDetails}>{value.label}</Text>
-            ))}
+          <View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>College</Text>
+              <Text style={styles.overviewDetails}>{item.college}</Text>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>Major</Text>
+              <Text style={styles.overviewDetails}>{item.department}</Text>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>Enrolment</Text>
+              <Text style={styles.overviewDetails}>{item.title}</Text>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>Type</Text>
+              <Text style={styles.overviewDetails}>{item.type}</Text>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>Duration</Text>
+              <Text style={styles.overviewDetails}>{item.startDateFormat} - {item.endDateFormat}</Text>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>City</Text>
+              <Text style={styles.overviewDetails}>{item.location}</Text>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>Categories</Text>
+              <View style={styles.wid65}>
+                {item.category.map((value, i) => (
+                  <Text style={styles.overviewDetails2}>{value.label}</Text>
+                ))}
+              </View>
+            </View>
+            <View key={i} style={styles.newOverviewSec}>
+              <Text style={styles.overviewHdng}>Skills</Text>
+              <View style={styles.wid65}>
+              {item.skills.map((value, i) => (
+                <Text style={styles.overviewDetails2}>{value.label}</Text>
+              ))}
+              </View>
+            </View>
           </View>
         ))}
       </View>

@@ -108,6 +108,7 @@ class HireTutor extends Component {
   };
 
   handleConfirm = async (date) => {
+    if (this.state.selectedDate.includes(moment(date).format('MM/DD/YYYY')) == false) {
     await this.setState({
       selectedDate: [
         ...this.state.selectedDate,
@@ -120,6 +121,7 @@ class HireTutor extends Component {
     this.setState({
       amount: this.state.classCount * 5,
     });
+  } else {}
     // this.setState({ startDate: date });
     this.hideDatePicker();
   };
