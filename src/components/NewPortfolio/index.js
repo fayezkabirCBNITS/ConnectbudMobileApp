@@ -7,7 +7,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import ApiUrl from '../../config/ApiUrl';
 import {makePostRequestMultipart} from '../../services/http-connectors';
 import base64 from 'base-64';
-import {withNavigation} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import {connect} from 'react-redux';
 
 class NewPortfolio extends Component {
