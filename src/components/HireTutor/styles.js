@@ -114,8 +114,11 @@ export default {
     borderColor: 'rgba(0,0,0,0.15)',
   },
   form: {
-    margin: 20,
-    padding: 10,
+    // margin: 20,
+    // padding: 10,
+    width: '100%',
+    paddingHorizontal: '5%',
+    marginTop: 20,
   },
   title: {
     color: 'green',

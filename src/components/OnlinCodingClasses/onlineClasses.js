@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Image,
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Antdesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
-import { Picker } from '@react-native-community/picker';
+import {Picker} from '@react-native-community/picker';
 import ApiUrl from '../../config/ApiUrl';
 import {
   makePostRequestMultipart,
@@ -21,8 +22,8 @@ import {
 } from '../../services/http-connectors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import ErrorMsg from '../../components/ErrorMsg';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
+import {connect} from 'react-redux';
+import {withNavigation} from 'react-navigation';
 import base64 from 'base-64';
 
 class OnlineCodingClasses extends Component {
@@ -47,7 +48,7 @@ class OnlineCodingClasses extends Component {
       errHireBy: false,
       ActiveId: '',
       isModalVisible: false,
-      classNumber: ''
+      classNumber: '',
     };
   }
 
@@ -82,25 +83,33 @@ class OnlineCodingClasses extends Component {
   fetchSyllabus = async (Id, name, cNum) => {
     if (cNum === 'four') {
       await this.setState({
-        classNumber : 4
+        classNumber: 4,
       });
     } else {
       await this.setState({
-        classNumber : 4
+        classNumber: 4,
       });
     }
     let body = new FormData();
     body.append('name', name);
     body.append('classes', this.state.classNumber);
     if (cNum == 'four') {
-      let response = await makePostRequestMultipart(ApiUrl.course.replace("/",""), false, body);
+      let response = await makePostRequestMultipart(
+        ApiUrl.course.replace('/', ''),
+        false,
+        body,
+      );
       this.setState({
         fourSyllabus: response,
         FoursyllabusTab: true,
         ActiveId: Id,
       });
     } else if (cNum == 'ten') {
-      let response = await makePostRequestMultipart(ApiUrl.course.replace("/",""), false, body);
+      let response = await makePostRequestMultipart(
+        ApiUrl.course.replace('/', ''),
+        false,
+        body,
+      );
       this.setState({
         tenSyllabus: response,
         TensyllabusTab: true,
@@ -126,11 +135,11 @@ class OnlineCodingClasses extends Component {
   };
 
   hideDatePicker = () => {
-    this.setState({ showDatePicker: false });
+    this.setState({showDatePicker: false});
   };
 
   handleConfirm = (date) => {
-    this.setState({ startDate: date });
+    this.setState({startDate: date});
     this.hideDatePicker();
   };
 
@@ -180,7 +189,6 @@ class OnlineCodingClasses extends Component {
         this.state.tenSyllabus[0].Number_of_classes,
       );
       body.append('free_class', 0);
-
 
       let response = await makePostRequestMultipart(
         ApiUrl.CourseSubmit,
@@ -290,7 +298,7 @@ class OnlineCodingClasses extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.form}>
             {/* Choose Class Tab */}
-            <Text style={styles.classText}>Choose number of classes</Text>
+            <Text style={styles.classText}>BOOK YOUR CLASS</Text>
             <View style={styles.selectBtnDiv}>
               <TouchableOpacity
                 style={
@@ -299,13 +307,22 @@ class OnlineCodingClasses extends Component {
                     : styles.selectBtn
                 }
                 onPress={() => this.fetchFour('four')}>
+                {this.state.fourCourse ? (
+                  <View style={styles.tickPosition}>
+                    <Antdesign
+                      name="check"
+                      color="rgba(255,255,255,1)"
+                      size={60}
+                    />
+                  </View>
+                ) : null}
                 <Text
                   style={
                     this.state.fourCourse
                       ? styles.ActiveSelectBtnText
                       : styles.selectBtnText
                   }>
-                  4 Classes
+                  Book 4 Classes at $20 1Hr/Per Class
                 </Text>
               </TouchableOpacity>
 
@@ -316,13 +333,22 @@ class OnlineCodingClasses extends Component {
                     : styles.selectBtn
                 }
                 onPress={() => this.fetchTen('ten')}>
+                {this.state.tenCourse ? (
+                  <View style={styles.tickPosition}>
+                    <Antdesign
+                      name="check"
+                      color="rgba(255,255,255,1)"
+                      size={60}
+                    />
+                  </View>
+                ) : null}
                 <Text
                   style={
                     this.state.tenCourse
                       ? styles.ActiveSelectBtnText
                       : styles.selectBtnText
                   }>
-                  10 Classes
+                  Book 4 Classes at $50 1Hr/Per Class
                 </Text>
               </TouchableOpacity>
             </View>
@@ -331,14 +357,16 @@ class OnlineCodingClasses extends Component {
             {/* Start Choose a course Tab */}
             {this.state.fourCourse && (
               <View>
-                <Text style={[styles.classText, { marginLeft: 5 }]}>
+                <Text style={[styles.classText, {marginLeft: 5}]}>
                   Choose a course
                 </Text>
                 <View style={styles.selectCourseDiv}>
                   {this.state.four.length > 0 &&
                     this.state.four.map((item, idx) => (
                       <TouchableOpacity
-                        onPress={() => this.fetchSyllabus(item.id, item.name, 'four')}
+                        onPress={() =>
+                          this.fetchSyllabus(item.id, item.name, 'four')
+                        }
                         // style={styles.courseBtn}
                         style={
                           this.state.ActiveId == item.id
@@ -346,16 +374,38 @@ class OnlineCodingClasses extends Component {
                             : styles.courseBtn
                         }
                         key={idx}>
-                        <Text
+                        <View style={styles.imgBg}>
+                          <Image
+                            source={require('../../assets/images/userPro.jpg')}
+                            style={CommonStyles.image}
+                          />
+                        </View>
+                        <View
                           style={
                             this.state.ActiveId == item.id
-                              ? styles.AselectBtnText
-                              : styles.selectBtnText
-                          }
-                        // style={styles.selectBtnText}
-                        >
-                          {item.name}
-                        </Text>
+                              ? styles.hdngBgSelect
+                              : styles.hdngBg
+                          }>
+                          {this.state.ActiveId == item.id ? (
+                            <View style={styles.tickPosition}>
+                              <Antdesign
+                                name="check"
+                                color="rgba(255,255,255,1)"
+                                size={60}
+                              />
+                            </View>
+                          ) : null}
+                          <Text
+                            style={
+                              this.state.ActiveId == item.id
+                                ? styles.AselectBtnText
+                                : styles.selectBtnText
+                            }
+                            // style={styles.selectBtnText}
+                          >
+                            {item.name}
+                          </Text>
+                        </View>
                       </TouchableOpacity>
                     ))}
                 </View>
@@ -364,7 +414,7 @@ class OnlineCodingClasses extends Component {
 
             {this.state.tenCourse && (
               <View>
-                <Text style={[styles.classText, { marginLeft: 5 }]}>
+                <Text style={[styles.classText, {marginLeft: 5}]}>
                   Choose a course
                 </Text>
                 <View style={styles.selectCourseDiv}>
@@ -378,17 +428,42 @@ class OnlineCodingClasses extends Component {
                             : styles.courseBtn
                         }
                         key={idx}
-                        onPress={() => this.fetchSyllabus(item.id, item.name, 'ten')}>
-                        <Text
+                        onPress={() =>
+                          this.fetchSyllabus(item.id, item.name, 'ten')
+                        }>
+                        <View style={styles.imgBg}>
+                          <Image
+                            source={require('../../assets/images/userPro.jpg')}
+                            style={CommonStyles.image}
+                          />
+                        </View>
+                        <View
                           style={
                             this.state.ActiveId == item.id
-                              ? styles.AselectBtnText
-                              : styles.selectBtnText
-                          }
-                        // style={styles.selectBtnText}
-                        >
-                          {item.name}
-                        </Text>
+                              ? styles.hdngBgSelect
+                              : styles.hdngBg
+                          }>
+                          {this.state.ActiveId == item.id ? (
+                            <View style={styles.tickPosition}>
+                              <Antdesign
+                                name="check"
+                                color="rgba(255,255,255,1)"
+                                size={60}
+                              />
+                            </View>
+                          ) : null}
+
+                          <Text
+                            style={
+                              this.state.ActiveId == item.id
+                                ? styles.AselectBtnText
+                                : styles.selectBtnText
+                            }
+                            // style={styles.selectBtnText}
+                          >
+                            {item.name}
+                          </Text>
+                        </View>
                       </TouchableOpacity>
                     ))}
                 </View>
@@ -399,13 +474,19 @@ class OnlineCodingClasses extends Component {
             {/* Start 10 Class syllabus */}
             {this.state.TensyllabusTab && (
               <View>
+                <View style={styles.imgBgSec}>
+                  <Image
+                    source={require('../../assets/images/bnr.jpg')}
+                    style={CommonStyles.image}
+                  />
+                </View>
                 <Text style={styles.syllabusHeader}>Syllabus</Text>
                 <View style={styles.syllabus}>
                   <Text style={styles.syllabusText}>
                     {this.state.tenSyllabus[0].syllabus}
                   </Text>
                 </View>
-                <View style={{ marginTop: 10 }}>
+                {/* <View style={{marginTop: 10}}>
                   <Text style={styles.syllabusHeader}>Hire by</Text>
                   <View style={styles.selectBtnDiv}>
                     <TouchableOpacity
@@ -445,16 +526,16 @@ class OnlineCodingClasses extends Component {
                   {this.state.errHireBy === true ? (
                     <ErrorMsg errorMsg="Please select one" />
                   ) : (
-                      <></>
-                    )}
-                </View>
+                    <></>
+                  )}
+                </View> */}
 
-                <View>
+                <View style={{marginTop: 10, marginBottom: 50}}>
                   <Text style={styles.syllabusHeader}>
                     Course Details of {this.state.tenSyllabus[0].course_name}
                   </Text>
                   <View style={styles.syllabus}>
-                    <Text style={styles.syllabusText}>
+                    {/* <Text style={styles.syllabusText}>
                       Class duration :{' '}
                       <Text style={styles.boldText}>
                         {this.state.tenSyllabus[0].course_duration} hrs.
@@ -473,7 +554,7 @@ class OnlineCodingClasses extends Component {
                       <Text style={styles.boldText}>
                         {this.state.tenSyllabus[0].Number_of_classes}
                       </Text>
-                    </Text>
+                    </Text> */}
 
                     <DateTimePickerModal
                       isVisible={this.state.showDatePicker}
@@ -485,7 +566,7 @@ class OnlineCodingClasses extends Component {
 
                     <Text style={styles.syllabusText}>Start date:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, { height: 45 }]}>
+                      <View style={[styles.formSubGroup2, {height: 45}]}>
                         <Text style={styles.inputHead2}>
                           {this.state.startDate
                             ? moment(this.state.startDate).format('MM/DD/YYYY')
@@ -494,7 +575,7 @@ class OnlineCodingClasses extends Component {
                       </View>
                       <View style={styles.formSubGroup1}>
                         <TouchableOpacity
-                          onPress={() => this.setState({ showDatePicker: true })}>
+                          onPress={() => this.setState({showDatePicker: true})}>
                           <FontAwesome
                             name="calendar"
                             size={25}
@@ -506,17 +587,17 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartDate === true ? (
                       <ErrorMsg errorMsg="Please select Date" />
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
 
                     <Text style={styles.syllabusText}>Timing:</Text>
-                    <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                    <View style={[styles.formGroup1, {paddingLeft: 0}]}>
+                      <View style={[styles.formSubGroup2, {width: '100%'}]}>
                         <Picker
-                          style={{ width: '100%', height: 45 }}
+                          style={{width: '100%', height: 45}}
                           selectedValue={this.state.startTime}
                           onValueChange={(itemValue, itemIndex) =>
-                            this.setState({ startTime: itemValue })
+                            this.setState({startTime: itemValue})
                           }>
                           <Picker.Item label="Select Time" value="TH" />
                           <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -573,8 +654,8 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartTime === true ? (
                       <ErrorMsg errorMsg="Please select Time" />
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
 
                     <TouchableOpacity
                       activeOpacity={0.9}
@@ -598,6 +679,12 @@ class OnlineCodingClasses extends Component {
             {/* Start 4 Class syllabus */}
             {this.state.FoursyllabusTab && (
               <View>
+                <View style={styles.imgBgSec}>
+                  <Image
+                    source={require('../../assets/images/bnr.jpg')}
+                    style={CommonStyles.image}
+                  />
+                </View>
                 <Text style={styles.syllabusHeader}>Syllabus</Text>
                 <View style={styles.syllabus}>
                   <Text style={styles.syllabusText}>
@@ -605,7 +692,7 @@ class OnlineCodingClasses extends Component {
                   </Text>
                 </View>
 
-                <View style={{ marginTop: 10 }}>
+                {/* <View style={{marginTop: 10}}>
                   <Text style={styles.syllabusHeader}>Hire by</Text>
                   <View style={styles.selectBtnDiv}>
                     <TouchableOpacity
@@ -645,11 +732,11 @@ class OnlineCodingClasses extends Component {
                   {this.state.errHireBy === true ? (
                     <ErrorMsg errorMsg="Please select one" />
                   ) : (
-                      <></>
-                    )}
-                </View>
+                    <></>
+                  )}
+                </View> */}
 
-                <View>
+                <View style={{marginTop: 15, marginBottom: 50}}>
                   <Text style={styles.syllabusHeader}>
                     Course Details of{' '}
                     {this.state.fourSyllabus
@@ -657,7 +744,7 @@ class OnlineCodingClasses extends Component {
                       : ''}
                   </Text>
                   <View style={styles.syllabus}>
-                    <Text style={styles.syllabusText}>
+                    {/* <Text style={styles.syllabusText}>
                       Class duration :{' '}
                       <Text style={styles.boldText}>
                         {this.state.fourSyllabus
@@ -684,7 +771,7 @@ class OnlineCodingClasses extends Component {
                           ? this.state.fourSyllabus[0].Number_of_classes
                           : ''}
                       </Text>
-                    </Text>
+                    </Text> */}
 
                     <DateTimePickerModal
                       isVisible={this.state.showDatePicker}
@@ -696,7 +783,7 @@ class OnlineCodingClasses extends Component {
 
                     <Text style={styles.syllabusText}>Start date:</Text>
                     <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, { height: 45 }]}>
+                      <View style={[styles.formSubGroup2, {height: 45}]}>
                         <Text style={styles.inputHead2}>
                           {this.state.startDate
                             ? moment(this.state.startDate).format('MM/DD/YYYY')
@@ -705,7 +792,7 @@ class OnlineCodingClasses extends Component {
                       </View>
                       <View style={styles.formSubGroup1}>
                         <TouchableOpacity
-                          onPress={() => this.setState({ showDatePicker: true })}>
+                          onPress={() => this.setState({showDatePicker: true})}>
                           <FontAwesome
                             name="calendar"
                             size={25}
@@ -717,17 +804,17 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartDate === true ? (
                       <ErrorMsg errorMsg="Please select Date" />
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
 
                     <Text style={styles.syllabusText}>Timing:</Text>
-                    <View style={styles.formGroup1}>
-                      <View style={[styles.formSubGroup2, { width: '100%' }]}>
+                    <View style={[styles.formGroup1, {paddingLeft: 0}]}>
+                      <View style={[styles.formSubGroup2, {width: '100%'}]}>
                         <Picker
-                          style={{ width: '100%', height: 45 }}
+                          style={{width: '100%', height: 45}}
                           selectedValue={this.state.startTime}
                           onValueChange={(itemValue, itemIndex) =>
-                            this.setState({ startTime: itemValue })
+                            this.setState({startTime: itemValue})
                           }>
                           <Picker.Item label="Select Time" value="TH" />
                           <Picker.Item label="12:00 AM" value="12:00 AM" />
@@ -784,8 +871,8 @@ class OnlineCodingClasses extends Component {
                     {this.state.errStartTime === true ? (
                       <ErrorMsg errorMsg="Please select Time" />
                     ) : (
-                        <></>
-                      )}
+                      <></>
+                    )}
 
                     <TouchableOpacity
                       activeOpacity={0.9}
@@ -814,7 +901,7 @@ class OnlineCodingClasses extends Component {
                   </Text>
                   <TouchableOpacity
                     style={CommonStyles.modalCross}
-                    onPress={() => this.setState({ isModalVisible: false })}>
+                    onPress={() => this.setState({isModalVisible: false})}>
                     <Entypo
                       name="circle-with-cross"
                       color="#71b85f"
