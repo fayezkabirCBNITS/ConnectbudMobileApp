@@ -240,4 +240,8 @@ export default {
     overflow: 'hidden',
     borderRadius: 5,
   },
+  errorText: {
+    width: '100%',
+    color: '#fc0303',
+  },
 };
