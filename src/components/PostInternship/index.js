@@ -168,38 +168,36 @@ class PostInternship extends Component {
     if (this.state.jobTitle === '') {
       this.setState({errJobTitle: true});
     }
-    if (this.state.jobTitle.length > 0 && this.state.jobTitle.length <5 ) {
+     else if (this.state.jobTitle.length > 0 && this.state.jobTitle.length <5 ) {
       this.setState({errJobChara: true});
     }
-    if (this.state.companyName === '') {
+    else if (this.state.companyName === '') {
       this.setState({errCompanyname: true});
     }
-    if (this.state.jobDescription === '') {
+    else if (this.state.jobDescription === '') {
       this.setState({errJobDesc: true});
     }
-    if (this.state.jobDescription.length > 0 && this.state.jobDescription.length <50) {
+    else if (this.state.jobDescription.length > 0 && this.state.jobDescription.length <50) {
       this.setState({errJobDescChara: true});
     }
-    if (this.state.selectedSkills.length === 0) {
+    else if (this.state.selectedSkills.length === 0) {
       this.setState({errSkills: true});
     }
-    if (this.state.countryValue === 'Select Country') {
+    else if (this.state.countryValue === 'Select Country') {
       this.setState({errLocationName: true});
     }
-    if (this.state.selectedSkills === 'Select skill') {
+    else if (this.state.selectedSkills === 'Select skill') {
       this.setState({errSkills: true});
     }
-    if (
-      this.state.countryValue === 'India' &&
-      this.state.countryValue === 'USA' &&
+    else if (
       this.state.cityValue === 'Select City'
     ) {
       this.setState({errCityName: true});
     }
-    if (this.state.jobType === 'Select Job Type') {
+    else if (this.state.jobType === 'Select Job Type') {
       this.setState({errJobType: true});
     }
-    if (this.state.price === '') {
+    else if (this.state.price === '') {
       this.setState({errPrice: true});
     } else {
       this.setState({
@@ -212,6 +210,7 @@ class PostInternship extends Component {
         errLocationName: false,
         errJobType: false,
         errPrice: false,
+        errCityName: false
       });
       this.setState({
         showLoader : true,
@@ -244,10 +243,10 @@ class PostInternship extends Component {
         this.setState({
         showLoader : false,
         selectedSkills: '',
-        cityValue:'',
+        cityValue:'Select City',
         countryValue:'',
         price: '',
-        jobType: '',
+        jobType: 'Select Job Type',
         jobTitle: '',
         jobDescription: '',
         companyName:'',
