@@ -45,29 +45,40 @@ class ViewPortfolio extends Component {
           <Text style={CommonStyles.newHdngText}>Portfolio</Text>
         </View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.profiledataset.map((item, i) => (
-            <View key={i} style={styles.newportfolioSec}>
-              <View style={styles.imgSec}>
-                <Image source={{uri: item.image}} style={CommonStyles.image} />
-              </View>
-              <View>
-                <View style={styles.details}>
-                  <Text
-                    style={styles.portfolioHdng}
-                    onPress={() => Linking.openURL(item.link)}>
-                    {item.title}
-                  </Text>
-                  <Text
-                    numberOfLines={3}
-                    ellipsizeMode="tail"
-                    style={styles.portfolioDetails}>
-                    {item.description}
-                  </Text>
-                  <Text style={styles.portfolioWeb}>{item.link}</Text>
+          {this.state.profiledataset.map((item, i) => {
+            if (item.id.length > 0) {
+              return (
+                <View key={i} style={styles.newportfolioSec}>
+                  <View style={styles.imgSec}>
+                    <Image source={{ uri: item.image }} style={CommonStyles.image} />
+                  </View>
+                  <View>
+                    <View style={styles.details}>
+                      <Text
+                        style={styles.portfolioHdng}
+                        onPress={() => Linking.openURL(item.link)}>
+                        {item.title}
+                      </Text>
+                      <Text
+                        numberOfLines={3}
+                        ellipsizeMode="tail"
+                        style={styles.portfolioDetails}>
+                        {item.description}
+                      </Text>
+                      <Text style={styles.portfolioWeb}>{item.link}</Text>
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
-          ))}
+              );
+            } else {
+              return (
+                <View style={styles.noData}>
+                  <Image source={require('../../assets/images/noData.png')} />
+                  <Text style={styles.noDataText}>No Data Found</Text>
+                </View>
+              );
+            }
+          })}
         </ScrollView>
       </View>
     );

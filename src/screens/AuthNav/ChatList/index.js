@@ -240,6 +240,7 @@ class ChatListScreen extends Component {
     this.props.navigation.navigate('ProposalFromFreelancer', {
       job_id: this.state.job_id,
       receiver_id: this.state.receiver_id,
+      page_status: this.state.pageStatus
     });
   };
 

@@ -1,5 +1,5 @@
 const React = require('react-native');
-const {Dimensions} = React;
+const { Dimensions } = React;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
@@ -50,5 +50,18 @@ export default {
   },
   wid65: {
     width: '65%'
-  }
+  },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 470,
+    paddingHorizontal: 110
+  },
+  noDataText: {
+    marginTop: 15,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
 };

@@ -331,7 +331,7 @@ class HireTutor extends Component {
               </View>
             </View>
 
-            {this.state.OnlineTab && <OnlineCodingClasses />}
+            {this.state.OnlineTab && <OnlineCodingClasses hireType={this.state.OnlineTab}/>}
 
             {this.state.homeworkTab && (
               <View>

@@ -376,9 +376,11 @@ class SignInScreen extends Component {
     if (provider === 'google') {
       body.append('appId', '');
       body.append('googleId', provider_id);
+      body.append('appleid', '');
     } else {
       body.append('appId', provider_id);
       body.append('googleId', '');
+      body.append('appleid', '');
     }
 
     body.append('profileImage', picture);
