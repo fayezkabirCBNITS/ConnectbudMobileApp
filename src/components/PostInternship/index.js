@@ -226,8 +226,8 @@ class PostInternship extends Component {
       );
       body.append('job_description', this.state.jobDescription);
       body.append('country', this.state.countryValue);
-      body.append('city', this.state.cityValue);
-      body.append('job_type', this.state.jobType);
+      body.append('city', this.state.cityValue === 'Select City' ? "" : this.state.cityValue);
+      body.append('job_type', this.state.jobType === 'Select Job Type' ? "" : this.state.jobType);
       body.append('unit', this.state.currencyType);
       body.append('job_amount', this.state.price);
       body.append('authorisation_visa', this.state.visaType);

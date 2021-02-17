@@ -44,50 +44,61 @@ class ViewOverview extends Component {
         <View style={CommonStyles.newHdng}>
           <Text style={CommonStyles.newHdngText}>Overview</Text>
         </View>
-        {this.state.profiledataset.map((item, i) => (
-          <View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>College</Text>
-              <Text style={styles.overviewDetails}>{item.college}</Text>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>Major</Text>
-              <Text style={styles.overviewDetails}>{item.department}</Text>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>Enrolment</Text>
-              <Text style={styles.overviewDetails}>{item.title}</Text>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>Type</Text>
-              <Text style={styles.overviewDetails}>{item.type}</Text>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>Duration</Text>
-              <Text style={styles.overviewDetails}>{item.startDateFormat} - {item.endDateFormat}</Text>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>City</Text>
-              <Text style={styles.overviewDetails}>{item.location}</Text>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>Categories</Text>
-              <View style={styles.wid65}>
-              {item.category.map((value, i) => (
-                <Text style={styles.overviewDetails2}>{value.label}</Text>
-              ))}
-            </View>
-            </View>
-            <View key={i} style={styles.newOverviewSec}>
-              <Text style={styles.overviewHdng}>Skills</Text>
-              <View style={styles.wid65}>
-              {item.skills.map((value, i) => (
-                <Text style={styles.overviewDetails2}>{value.label}</Text>
-              ))}
-            </View>
-          </View>
-          </View>
-        ))}
+        {this.state.profiledataset.map((item, i) => {
+          if (this.state.profiledataset.length > 0) {
+            return (
+              <View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>College</Text>
+                  <Text style={styles.overviewDetails}>{item.college}</Text>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>Major</Text>
+                  <Text style={styles.overviewDetails}>{item.department}</Text>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>Enrolment</Text>
+                  <Text style={styles.overviewDetails}>{item.title}</Text>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>Type</Text>
+                  <Text style={styles.overviewDetails}>{item.type}</Text>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>Duration</Text>
+                  <Text style={styles.overviewDetails}>{item.startDateFormat} - {item.endDateFormat}</Text>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>City</Text>
+                  <Text style={styles.overviewDetails}>{item.location}</Text>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>Categories</Text>
+                  <View style={styles.wid65}>
+                    {item.category.map((value, i) => (
+                      <Text style={styles.overviewDetails2}>{value.label}</Text>
+                    ))}
+                  </View>
+                </View>
+                <View key={i} style={styles.newOverviewSec}>
+                  <Text style={styles.overviewHdng}>Skills</Text>
+                  <View style={styles.wid65}>
+                    {item.skills.map((value, i) => (
+                      <Text style={styles.overviewDetails2}>{value.label}</Text>
+                    ))}
+                  </View>
+                </View>
+              </View>
+            );
+          } else {
+            return (
+              <View style={styles.noData}>
+                <Image source={require('../../assets/images/noData.png')} />
+                <Text style={styles.noDataText}>No Data Found</Text>
+              </View>
+            );
+          }
+        })}
       </View>
     );
   }

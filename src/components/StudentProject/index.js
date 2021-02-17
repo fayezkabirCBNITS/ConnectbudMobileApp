@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import styles from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Picker } from '@react-native-community/picker';
+import {Picker} from '@react-native-community/picker';
 import axios from 'axios';
-import { API_URL } from '../../config/url';
+import {API_URL} from '../../config/url';
 import Spinner from 'react-native-loading-spinner-overlay';
 //for redux
-import { updateJobId } from '../../redux/actions/user-data';
-import { connect } from 'react-redux';
+import {updateJobId} from '../../redux/actions/user-data';
+import {connect} from 'react-redux';
 import base64 from 'base-64';
-
 
 class StudentProject extends Component {
   constructor() {
@@ -25,7 +24,7 @@ class StudentProject extends Component {
       SearchSkill: [],
       user_id: '',
       skills: [],
-      selectedSkills: '',
+      selectedSkills: 'select',
       showLoader: false,
       skillValuePlaceHolder: [],
     };
@@ -36,7 +35,7 @@ class StudentProject extends Component {
   };
 
   componentDidMount = async () => {
-    const { userDeatailResponse } = this.props;
+    const {userDeatailResponse} = this.props;
     await this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
       showLoader: true,
@@ -68,7 +67,7 @@ class StudentProject extends Component {
           expertset: response.data,
         });
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   resetProjects = async () => {
@@ -94,10 +93,10 @@ class StudentProject extends Component {
           expertset: response.data,
           showLoader: false,
         });
-        this.setState({ isLoading: true });
+        this.setState({isLoading: true});
       })
       .catch((error) => {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
       });
   };
 
@@ -141,7 +140,7 @@ class StudentProject extends Component {
             showLoader: false,
           });
         })
-        .catch((error) => { });
+        .catch((error) => {});
 
       // this.expertProjects;
     } else {
@@ -166,13 +165,13 @@ class StudentProject extends Component {
             expertset: response.data,
           });
         })
-        .catch((error) => { });
+        .catch((error) => {});
     }
   };
 
   expertProjects = async (skill) => {
     this.setState({
-      skillValuePlaceHolder: [{ value: skill, label: skill }],
+      skillValuePlaceHolder: [{value: skill, label: skill}],
       selectedSkills: skill,
     });
     let taglistbody = new FormData();
@@ -192,7 +191,7 @@ class StudentProject extends Component {
           expertset: response.data,
         });
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   Method = async () => {
@@ -214,7 +213,6 @@ class StudentProject extends Component {
   };
 
   componentWillReceiveProps() {
-
     if (this.props.ProjectShowData.length > 0) {
       this.Method();
       this.catSkill();
@@ -231,18 +229,20 @@ class StudentProject extends Component {
             animation="fade"
             textContent={'Loading...'}
           />
-          <View style={[CommonStyles.container, { flexDirection: 'row' }]}>
+          <View style={[CommonStyles.container, {flexDirection: 'row'}]}>
             <Picker
-              style={{ width: '70%', height: 45, color: '#3B1D25' }}
-              // selectedValue={this.state.selectedSkills}
+              style={{width: '70%', height: 45, color: '#3B1D25'}}
+              selectedValue={this.state.selectedSkills}
+              placeholder="san"
               onValueChange={(itemValue) => this.expertProjects(itemValue)}>
+              <Picker.Item label="Select Skill" value="" />
               {this.state.skills.length > 0 ? (
                 this.state?.skills?.map((data) => {
                   return <Picker.Item label={data.label} value={data.label} />;
                 })
               ) : (
-                  <></>
-                )}
+                <></>
+              )}
             </Picker>
             {this.state.selectedSkills !== '' ? (
               <TouchableOpacity style={styles.editBtn}>
@@ -252,14 +252,16 @@ class StudentProject extends Component {
                 </Text>
               </TouchableOpacity>
             ) : (
-                <></>
-              )}
+              <></>
+            )}
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.state.expertset.map((item, idx) => {
-              if (item.message != "No data found") {
+              if (item.message != 'No data found') {
                 return (
-                  <TouchableOpacity key={idx} onPress={() => this.PageNav(item.id)}>
+                  <TouchableOpacity
+                    key={idx}
+                    onPress={() => this.PageNav(item.id)}>
                     <View style={CommonStyles.container}>
                       <View style={styles.subjectWrapper}>
                         {/* <View style={styles.leftSection}>
@@ -267,18 +269,38 @@ class StudentProject extends Component {
                     </View> */}
                         <View style={styles.rightSection}>
                           <Text style={styles.boxTitle}>{item.job_title}</Text>
-                          <Text style={styles.boxTexts}>{item.description}</Text>
+                          <Text style={styles.boxTexts}>
+                            {item.description}
+                          </Text>
                           <View style={[styles.flexstyle, styles.timeAgo]}>
-                            <Entypo name="time-slot" color="rgba(0,0,0,0.3)" size={15} />
-                            <Text style={styles.iconText}>{item.posted_date}</Text>
+                            <Entypo
+                              name="time-slot"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>
+                              {item.posted_date}
+                            </Text>
                           </View>
                           <View style={[styles.flexstyle, styles.timeAgo]}>
-                            <FontAwesome name="tag" color="rgba(0,0,0,0.3)" size={15} />
-                            <Text style={styles.iconText}>{item.key_skill}</Text>
+                            <FontAwesome
+                              name="tag"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>
+                              {item.key_skill}
+                            </Text>
                           </View>
                           <View style={[styles.flexstyle, styles.timeAgo]}>
-                            <FontAwesome name="user" color="rgba(0,0,0,0.3)" size={15} />
-                            <Text style={styles.iconText}>{item.match_number}</Text>
+                            <FontAwesome
+                              name="user"
+                              color="rgba(0,0,0,0.3)"
+                              size={15}
+                            />
+                            <Text style={styles.iconText}>
+                              {item.match_number}
+                            </Text>
                           </View>
                           <View style={[styles.flexstyle, styles.timeAgo]}>
                             <FontAwesome
@@ -290,13 +312,14 @@ class StudentProject extends Component {
                               {item.applied_number}
                             </Text>
                           </View>
-                          <View style={[styles.flexstyle, styles.moneyContainer]}>
+                          <View
+                            style={[styles.flexstyle, styles.moneyContainer]}>
                             <Text style={styles.usdText}>
                               {item.price_amount} USD
-                        </Text>
+                            </Text>
                             <Text style={styles.inrtxt}>
                               ({item.price_amount * 70} INR)
-                        </Text>
+                            </Text>
                           </View>
                         </View>
                       </View>
@@ -306,13 +329,16 @@ class StudentProject extends Component {
               } else {
                 return (
                   <View style={styles.noData}>
-                    <Image source={require('../../assets/images/resultNotFound.png')} style={{ width: 120, height: 121 }} />
+                    <Image
+                      source={require('../../assets/images/resultNotFound.png')}
+                      style={{width: 120, height: 121}}
+                    />
                     <Text style={styles.noDataText}>No Result Found</Text>
                   </View>
                 );
               }
             })}
-            <View style={{ marginBottom: 80 }}></View>
+            <View style={{marginBottom: 80}}></View>
           </ScrollView>
         </View>
       </SafeAreaView>

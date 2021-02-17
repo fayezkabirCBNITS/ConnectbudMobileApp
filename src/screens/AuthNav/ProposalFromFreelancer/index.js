@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -9,18 +9,18 @@ import {
 import CommonStyles from '../../../../CommonStyles';
 import Header from '../../../components/Header';
 import styles from './style';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import {
   Collapse,
   CollapseHeader,
 } from 'accordion-collapse-react-native';
-import {Separator} from 'native-base';
-import {connect} from 'react-redux';
+import { Separator } from 'native-base';
+import { connect } from 'react-redux';
 
 import axios from 'axios';
-import {API_URL} from '../../../config/url';
+import { API_URL } from '../../../config/url';
 import base64 from 'base-64';
 
 class ProposalFromFreelancer extends Component {
@@ -42,6 +42,9 @@ class ProposalFromFreelancer extends Component {
       receiver_id: this.props.navigation.state.params
         ? this.props.navigation.state.params.receiver_id
         : '',
+      pageStatus: this.props.navigation.state.params
+        ? this.props.navigation.state.params.page_status
+        : '',
     };
   }
 
@@ -49,7 +52,7 @@ class ProposalFromFreelancer extends Component {
     headerShown: false,
   };
   componentDidMount = async () => {
-    const {userDeatailResponse} = this.props;
+    const { userDeatailResponse } = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
       showLoader: true,
@@ -96,7 +99,7 @@ class ProposalFromFreelancer extends Component {
         }
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
 
     let taglistbody = new FormData();
@@ -146,7 +149,7 @@ class ProposalFromFreelancer extends Component {
               //    this.setState({ isLoading: false });
             })
             .catch((error) => {
-              this.setState({isLoading: false});
+              this.setState({ isLoading: false });
             });
           // END GETCHAT
           this.setState({
@@ -182,10 +185,10 @@ class ProposalFromFreelancer extends Component {
         //      });
         //    }
 
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -214,10 +217,10 @@ class ProposalFromFreelancer extends Component {
         });
         alert('Successfully accepted the proposal!');
         this.props.navigation.navigate('ChatListScreen');
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
     // var payload = {
     //   action: "sendmessage",
@@ -255,7 +258,7 @@ class ProposalFromFreelancer extends Component {
         alert('You ignored the proposal!');
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
     // var payload = {
     //   action: "sendmessage",
@@ -295,7 +298,7 @@ class ProposalFromFreelancer extends Component {
         alert('Successfully accepted the proposal!');
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -329,7 +332,7 @@ class ProposalFromFreelancer extends Component {
         });
       })
       .catch((error) => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       });
   };
 
@@ -375,15 +378,19 @@ class ProposalFromFreelancer extends Component {
                           </View>
                         </>
                       ))}
+                      {this.state.pageStatus !== "joblist" ? (
+                        <>
                       {this.state.questionset.map((data, index) => {
-                        if(index < 1){
-                        return (
-                          <View style={styles.quesAns}>
-                            <Text>Proposed Amount: {data.proposed_amount} USD</Text>
-                          </View>
-                        );
-                      }
+                        if (index < 1) {
+                          return (
+                            <View style={styles.quesAns}>
+                              <Text>Proposed Amount: {data.proposed_amount} USD</Text>
+                            </View>
+                          );
+                        }
                       })}
+                      </>
+                      ): (<></>)}
                       <View style={styles.reqprSkill}>
                         <Text>Required skills for the Project</Text>
                         {this.state.jobskillset.map((item, i) => (
@@ -407,44 +414,44 @@ class ProposalFromFreelancer extends Component {
                       {this.state.reqStatus === 'accept' ? (
                         <></>
                       ) : (
-                        <>
-                          {this.state.FrelancerType === 'tutor' ? (
-                            <View style={styles.btnWrapper}>
-                              <TouchableOpacity style={styles.accbtn}>
-                                <Text
-                                  style={styles.btnText}
-                                  onPress={() => this.tutoracceptRequest()}>
-                                  Accept
+                          <>
+                            {this.state.FrelancerType === 'tutor' ? (
+                              <View style={styles.btnWrapper}>
+                                <TouchableOpacity style={styles.accbtn}>
+                                  <Text
+                                    style={styles.btnText}
+                                    onPress={() => this.tutoracceptRequest()}>
+                                    Accept
                                 </Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={styles.rejBtn}>
-                                <Text
-                                  style={styles.btnText}
-                                  onPress={() => this.tutoracceptIgnore()}>
-                                  Reject
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.rejBtn}>
+                                  <Text
+                                    style={styles.btnText}
+                                    onPress={() => this.tutoracceptIgnore()}>
+                                    Reject
                                 </Text>
-                              </TouchableOpacity>
-                            </View>
-                          ) : (
-                            <View style={styles.btnWrapper}>
-                              <TouchableOpacity style={styles.accbtn}>
-                                <Text
-                                  style={styles.btnText}
-                                  onPress={() => this.acceptRequest()}>
-                                  Accept
+                                </TouchableOpacity>
+                              </View>
+                            ) : (
+                                <View style={styles.btnWrapper}>
+                                  <TouchableOpacity style={styles.accbtn}>
+                                    <Text
+                                      style={styles.btnText}
+                                      onPress={() => this.acceptRequest()}>
+                                      Accept
                                 </Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={styles.rejBtn}>
-                                <Text
-                                  style={styles.btnText}
-                                  onPress={() => this.acceptIgnore()}>
-                                  Reject
+                                  </TouchableOpacity>
+                                  <TouchableOpacity style={styles.rejBtn}>
+                                    <Text
+                                      style={styles.btnText}
+                                      onPress={() => this.acceptIgnore()}>
+                                      Reject
                                 </Text>
-                              </TouchableOpacity>
-                            </View>
-                          )}
-                        </>
-                      )}
+                                  </TouchableOpacity>
+                                </View>
+                              )}
+                          </>
+                        )}
                     </View>
                   </CollapseHeader>
                 </Collapse>

@@ -106,31 +106,42 @@ class ViewWorkHistory extends Component {
           <Text style={CommonStyles.newHdngText}>Work History</Text>
         </View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.projectData.map((item, i) => (
-            <View key={i} style={styles.newHistorySec}>
-              <View style={styles.iconSec}>
-                <SimpleLineIcons name="briefcase" color="#71b85f" size={25} />
-                <View style={styles.lines} />
-              </View>
-              <View style={styles.deatilsSec}>
-                <View>
-                  <Text style={styles.historyHdng}>Project Name</Text>
-                  <Text style={styles.historyProjectName}>{item.job_name}</Text>
-                  <Text style={styles.historyProjectName}>
-                    {item.job_description}
-                  </Text>
-                  {item.details.map((value, i) => {
-                    if (i < 1){
-                      return(
-                      <Text style={styles.historyProjectSub}>
-                        {value.start_date} - {value.end_date}
-                      </Text>);
-                    }
-                  })}
+          {this.state.projectData.map((item, i) => {
+            if (item.message !== "No data found") {
+              return (
+                <View key={i} style={styles.newHistorySec}>
+                  <View style={styles.iconSec}>
+                    <SimpleLineIcons name="briefcase" color="#71b85f" size={25} />
+                    <View style={styles.lines} />
+                  </View>
+                  <View style={styles.deatilsSec}>
+                    <View>
+                      <Text style={styles.historyHdng}>Project Name</Text>
+                      <Text style={styles.historyProjectName}>{item.job_name}</Text>
+                      <Text style={styles.historyProjectName}>
+                        {item.job_description}
+                      </Text>
+                      {item.details.map((value, i) => {
+                        if (i < 1) {
+                          return (
+                            <Text style={styles.historyProjectSub}>
+                              {value.start_date} - {value.end_date}
+                            </Text>);
+                        }
+                      })}
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
-          ))}
+              );
+            } else {
+              return (
+                <View style={styles.noData}>
+                  <Image source={require('../../assets/images/noData.png')} />
+                  <Text style={styles.noDataText}>No Data Found</Text>
+                </View>
+              );
+            }
+          })}
         </ScrollView>
       </View>
     );

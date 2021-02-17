@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Linking,
+  Image
 } from 'react-native';
 import CommonStyles from '../../../CommonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -47,32 +48,43 @@ class ViewPortfolioExperience extends Component {
           <Text style={CommonStyles.newHdngText}>Experience</Text>
         </View>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {this.state.experienceset.map((item, i) => (
-            <View key={i} style={styles.newexperienceSec}>
-              <View style={styles.iconSec}>
-                <SimpleLineIcons name="briefcase" color="#71b85f" size={25} />
-                <View style={styles.lines} />
-              </View>
-              <View style={styles.deatilsSec}>
-                <View>
-                  <Text style={styles.experienceHdng}>Project Name</Text>
-                  <Text style={styles.experienceDetails}>{item.experience}</Text>
+          {this.state.experienceset.map((item, i) => {
+            if (item.experience.length > 0) {
+              return (
+                <View key={i} style={styles.newexperienceSec}>
+                  <View style={styles.iconSec}>
+                    <SimpleLineIcons name="briefcase" color="#71b85f" size={25} />
+                    <View style={styles.lines} />
+                  </View>
+                  <View style={styles.deatilsSec}>
+                    <View>
+                      <Text style={styles.experienceHdng}>Project Name</Text>
+                      <Text style={styles.experienceDetails}>{item.experience}</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.experienceHdng}>Project URL</Text>
+                      <Text style={styles.experienceDetails}>{item.projecturl}</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.experienceHdng}>Project Description</Text>
+                      <Text style={styles.experienceDetails}>{item.description}</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.experienceHdng}>Additional URL's</Text>
+                      <Text style={styles.experienceDetails}>{item.professionalurls}</Text>
+                    </View>
+                  </View>
                 </View>
-                <View>
-                  <Text style={styles.experienceHdng}>Project URL</Text>
-                  <Text style={styles.experienceDetails}>{item.projecturl}</Text>
+              );
+            } else {
+              return (
+                <View style={styles.noData}>
+                  <Image source={require('../../assets/images/noData.png')} />
+                  <Text style={styles.noDataText}>No Data Found</Text>
                 </View>
-                <View>
-                  <Text style={styles.experienceHdng}>Project Description</Text>
-                  <Text style={styles.experienceDetails}>{item.description}</Text>
-                </View>
-                <View>
-                  <Text style={styles.experienceHdng}>Additional URL's</Text>
-                  <Text style={styles.experienceDetails}>{item.professionalurls}</Text>
-                </View>
-              </View>
-            </View>
-          ))}
+              )
+            }
+          })}
         </ScrollView>
       </View>
     );

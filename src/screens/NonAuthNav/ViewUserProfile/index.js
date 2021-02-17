@@ -121,19 +121,35 @@ class ViewUserProfileScreen extends Component {
               )}
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
               <View style={styles.userProfle}>
-                <View style={styles.videoSec}>
-                  <WebView
-                    style={{ width: '100%', height: '100%' }}
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    allowsFullscreenVideo={true}
-                    mediaPlaybackRequiresUserAction={false}
-                    allowsInlineMediaPlayback={true}
-                    source={{
-                      uri: this.state.videoResume,
-                    }}
-                  />
-                </View>
+                {this.state.videoResume.length > 0 ? (
+                  <View style={styles.videoSec}>
+                    <WebView
+                      style={{ width: '100%', height: '100%' }}
+                      javaScriptEnabled={true}
+                      domStorageEnabled={true}
+                      allowsFullscreenVideo={true}
+                      mediaPlaybackRequiresUserAction={false}
+                      allowsInlineMediaPlayback={true}
+                      source={{
+                        uri: this.state.videoResume,
+                      }}
+                    />
+                  </View>
+                ) : (
+                    <View style={styles.videoSec}>
+                      <WebView
+                        style={{ width: '100%', height: '100%' }}
+                        javaScriptEnabled={true}
+                        domStorageEnabled={true}
+                        allowsFullscreenVideo={true}
+                        mediaPlaybackRequiresUserAction={false}
+                        allowsInlineMediaPlayback={true}
+                        source={{
+                          uri: 'https://api-prod.connectbud.com/media/temp_79ndJxu.png',
+                        }}
+                      />
+                    </View>
+                  )}
                 <View style={styles.newProfile}>
                   <Image
                     source={{ uri: this.state.userImg }}

@@ -107,6 +107,7 @@ class AssessmentQuestion extends Component {
   };
 
   componentDidMount = async () => {
+    console.log(this.state.page_status, 'sandip');
     const {userDeatailResponse} = this.props;
     this.setState({
       user_id: base64.decode(userDeatailResponse.userData.user_id),
@@ -284,18 +285,26 @@ class AssessmentQuestion extends Component {
               />
             </View>
 
-            <Text style={[styles.quesHead, {marginTop: 25}]}>Proposed Amount(in USD)</Text>
-            <View>
-              <TextInput
-                returnKeyType="done"
-                placeholder="Please enter your amount"
-                keyboardType="default"
-                style={styles.inputBox2}
-                numberOfLines={1}
-                value={this.state.priceAmount}
-                onChangeText={(e) => this.handleCTC(e)}
-              />
-            </View>
+            {this.state.page_status !== 'job' ? (
+              <>
+                <Text style={[styles.quesHead, {marginTop: 25}]}>
+                  Proposed Amount(in USD)
+                </Text>
+                <View>
+                  <TextInput
+                    returnKeyType="done"
+                    placeholder="Please enter your amount"
+                    keyboardType="default"
+                    style={styles.inputBox2}
+                    numberOfLines={1}
+                    value={this.state.priceAmount}
+                    onChangeText={(e) => this.handleCTC(e)}
+                  />
+                </View>
+              </>
+            ) : (
+              <></>
+            )}
 
             {/* <Text style={styles.quesHead}>Upload Resume (Doxs, pdf - 2MB max)</Text>
                         <View>
@@ -318,23 +327,23 @@ class AssessmentQuestion extends Component {
                         </View> */}
 
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <TouchableOpacity 
-              style={[styles.authBtnCancel]}
-              onPress={() => this.props.navigation.navigate('StudentInner')}>
+              <TouchableOpacity
+                style={[styles.authBtnCancel]}
+                onPress={() => this.props.navigation.navigate('StudentInner')}>
                 {this.btnName('Cancel')}
               </TouchableOpacity>
 
               {this.state.jobDetails.map((value, index) => {
                 return (
-              <TouchableOpacity 
-                style={[styles.authBtn]}
-                onPress={() =>
-                  this.onSubmit(value.id, value.user_id, value.token)
-                }>
-                {this.btnName('Submit')}
-              </TouchableOpacity>
-              );
-            })}
+                  <TouchableOpacity
+                    style={[styles.authBtn]}
+                    onPress={() =>
+                      this.onSubmit(value.id, value.user_id, value.token)
+                    }>
+                    {this.btnName('Submit')}
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </ScrollView>
         </View>

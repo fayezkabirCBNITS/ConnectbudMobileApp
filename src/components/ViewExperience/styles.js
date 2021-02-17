@@ -54,4 +54,17 @@ export default {
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
   },
+  noData: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: deviceHeight - 470,
+    paddingHorizontal: 110
+  },
+  noDataText: {
+    marginTop: 15,
+    fontSize: 22,
+    fontFamily: 'Poppins-SemiBold',
+    color: '#71b85f',
+  },
 };
